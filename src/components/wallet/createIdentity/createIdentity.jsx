@@ -13,15 +13,7 @@ const ContainerContentStyled = styled.div`
     margin-right:5px;
   }
 `
-const Restore = styled.div`
-  position: absolute;
-  right: 0;
-  top:14px;
-  font-size: 16px;
-  color: #0051FF;
-  line-height: 20px;
-  cursor: pointer;
-`
+
 
 const ContentBox = styled.div`
     margin-top: 50px;
@@ -49,9 +41,6 @@ export default function CreateIdentity(){
         chrome.storage.local.set({identity});
         navigate('/mnemonics');
     }
-    const restore = () =>{
-        navigate('/restore');
-    }
 
     const handleInput = (e) =>{
         const { value } = e.target;
@@ -64,23 +53,21 @@ export default function CreateIdentity(){
             }
         >
             <ContainerContentStyled>
-                <Restore className="regular-font"  onClick={()=>restore()}>
-                    {t('install.create.create.restore')}
-                </Restore>
+
                 <ContainerTitle
                     title={t('install.create.create.create_title')}
                     subTitle=""
                 />
                 <ContentBox>
-                    <div className="liBox">
-                        <div className="titleTips regular-font">
-                            {t('install.create.create.walletName')}
-                        </div>
-                        <div className="inputBox">
-                            <input type="text" value={identity} placeholder={t('install.create.create.namePlaceholder')} onChange={(e) => handleInput(e)}/>
-                        </div>
+                    {/*<div className="liBox">*/}
+                    {/*    <div className="titleTips regular-font">*/}
+                    {/*        {t('install.create.create.walletName')}*/}
+                    {/*    </div>*/}
+                    {/*    <div className="inputBox">*/}
+                    {/*        <input type="text" value={identity} placeholder={t('install.create.create.namePlaceholder')} onChange={(e) => handleInput(e)}/>*/}
+                    {/*    </div>*/}
 
-                    </div>
+                    {/*</div>*/}
                     <div className="liBox">
                         <div className="titleTips regular-font">
                             {t('install.create.create.pwd')}

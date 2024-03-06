@@ -16,12 +16,23 @@ const ContainerContentStyled = styled.div`
 const Box = styled.div`
   .inputBox{
     margin: 20px 0;
-    padding: 20px 25px 20px;
-    min-height: 120px;
+      min-height: 120px;
+      textarea{
+          padding: 20px 25px 20px;
+          min-height: 120px;
+          width: 100%;
+          box-sizing: border-box;
+          background: transparent;
+          border: 0;
+          &:focus{
+              outline: none;
+          }
+      }
   }
   span{
     padding: 0 20px 10px 0;
   }
+    
 `
 const AlertTips = styled.div`
     display: flex;
@@ -56,8 +67,9 @@ export default function Restore(){
                 />
                 <Box>
                     <div className="inputBox">
-                        <span>personal</span>
-                        <span>personal</span>
+                        <textarea name=""  ></textarea>
+                        {/*<span>personal</span>*/}
+                        {/*<span>personal</span>*/}
                     </div>
                 </Box>
                 <AlertTips className="regular-font">

@@ -13,6 +13,7 @@ import {useTranslation} from "react-i18next";
 
 
 const ContainerContentStyled = styled.div`
+    position: relative;
   .title{
     margin-right: 51px;
   }
@@ -53,6 +54,16 @@ const SelectBox = styled.div`
     }
 `
 
+const Restore = styled.div`
+  position: absolute;
+  right: 0;
+  top:14px;
+  font-size: 16px;
+  color: #0051FF;
+  line-height: 20px;
+  cursor: pointer;
+`
+
 export default function Mnemonics(){
     const[checked,setChecked] = useState(false);
     const { t } = useTranslation();
@@ -69,6 +80,12 @@ export default function Mnemonics(){
     const handleSelected = () =>{
         setChecked(!checked)
     }
+
+    const restore = () =>{
+        navigate('/restore');
+    }
+
+
     return <DashboardLayout>
         <ContainerLayout
             button={
@@ -76,11 +93,15 @@ export default function Mnemonics(){
             }
         >
             <ContainerContentStyled>
+                <Restore className="regular-font"  onClick={()=>restore()}>
+                    {t('install.create.create.restore')}
+                </Restore>
                 <ContainerTitle
                     title={t('install.create.mnemonic.mnemonic_title')}
                     subTitle={t('install.create.mnemonic.mnemonic_tips')}
                 />
                 <ContentBox className="regular-font">
+
                     <div>
                         <div className="download" onClick={()=>download()} >
                             <img src={DownloadImg} alt=""/>
