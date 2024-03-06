@@ -3,7 +3,7 @@ import Logo from "../../assets/images/logoIcon.png";
 import More from "../../assets/images/more.png";
 import DropImg from "../../assets/images/drop.png"
 import {useNavigate} from "react-router-dom";
-// import NetworkList from "../network/networkList";
+import NetworkList from "../network/networkList";
 import {useEffect, useState} from "react";
 
 const HeaderBox = styled.div`
@@ -28,6 +28,7 @@ const InputBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
 `
 const MoreBox = styled.div`
   width: 24px;
@@ -45,9 +46,8 @@ export default function HeaderTop(){
         navigate('/setting')
     }
     const handleNetwork = (e) =>{
-        return;
-        stopPropagation(e);
-        setShowNetwork(!showNetwork)
+        e.nativeEvent.stopImmediatePropagation();
+        setShowNetwork(true)
     }
 
     useEffect(() => {
@@ -56,15 +56,11 @@ export default function HeaderTop(){
 
         });
     }, [])
-    const stopPropagation = (e) => {
-        e.nativeEvent.stopImmediatePropagation();
-    }
 
     return <HeaderBox>
-        {/*{*/}
-        {/*    showNetwork && <NetworkList />*/}
-        {/*}*/}
-
+        {
+            showNetwork && <NetworkList />
+        }
         <LogoImg>
             <img src={Logo} alt=""/>
         </LogoImg>
