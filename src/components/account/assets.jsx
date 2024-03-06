@@ -45,12 +45,12 @@ export default function Assets(){
 
     return <Box>
         <ul>
-            {/*{*/}
-            {/*    [...Array(8)].map((item,index)=>(<li key={index} onClick={()=>toDetail()}>*/}
-            {/*        <span className="medium-font">0.5654 ETH</span>*/}
-            {/*        <img src={Next} alt=""/>*/}
-            {/*    </li>))*/}
-            {/*}*/}
+            {
+                [...Array(8)].map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
+                    <span className="medium-font">0.5654 ETH</span>
+                    <img src={Next} alt=""/>
+                </li>))
+            }
         </ul>
         <AddToken onClick={()=>add()}>
             {t('popup.account.AddToken')}

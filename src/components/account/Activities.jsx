@@ -47,18 +47,18 @@ export default function Activities(){
     return <Box>
         <ul>
             {
-                // [...Array(8)].map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
-                //     <div className="item">
-                //         <div className="medium-font title">Approve Token spend…</div>
-                //         <div className="medium-font title">-0 TBNB</div>
-                //
-                //     </div>
-                //     <div className="item">
-                //         <div><span className="time">Apr28</span> <span className="web">localhost:3000</span></div>
-                //         <div><span className="web">-0 TBNB</span></div>
-                //     </div>
-                //
-                // </li>))
+                [...Array(8)].map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
+                    <div className="item">
+                        <div className="medium-font title">Approve Token spend…</div>
+                        <div className="medium-font title">-0 TBNB</div>
+
+                    </div>
+                    <div className="item">
+                        <div><span className="time">Apr28</span> <span className="web">localhost:3000</span></div>
+                        <div><span className="web">-0 TBNB</span></div>
+                    </div>
+
+                </li>))
             }
         </ul>
     </Box>

@@ -22,11 +22,12 @@ export default function WalletHome(){
 
     return <Box>
         <HeaderTop />
-        {
-            !!len && <Content><Account /></Content>
-        }
-        {
-            !len && <Content><NoWallet /></Content>
-        }
+        <Content><Account /></Content>
+        {/*{*/}
+        {/*    !!len && <Content><Account /></Content>*/}
+        {/*}*/}
+        {/*{*/}
+        {/*    !len && <Content><NoWallet /></Content>*/}
+        {/*}*/}
     </Box>
 }
