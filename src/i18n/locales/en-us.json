@@ -15,10 +15,15 @@
     },
     "create": {
       "create": {
-        "create_title": "Create Identity",
+        "create_title": "Create Wallet",
         "restore": "Restore",
         "create_tips": "You can create personal identities and connect to social accounts.",
-        "identity": "Identity",
+        "walletName": "Wallet name",
+        "namePlaceholder": "Please enter 1-12 characters",
+        "pwd": "Set payment password",
+        "pwdPlaceholder": "Please enter",
+        "confirmPwd": "Confirm payment password",
+        "confirmPlaceholder": "Please enter",
         "next": "NEXT"
       },
       "restore": {
@@ -32,7 +37,7 @@
         "Confirm": "Confirm"
       },
       "mnemonic": {
-        "mnemonic_title": "Identity mnemonics",
+        "mnemonic_title": "Account mnemonics",
         "mnemonic_tips": "Mnemonic words are the only proof to help you recover your wallet.",
         "mnemonic_label": "I have kept the above mnemonics properly.",
         "next": "NEXT"
@@ -43,7 +48,7 @@
         "download": "Download",
         "id": "Identity Name",
         "Web3graphID": "rgbpp ID",
-        "PrivateKey": "Private Key"
+        "walletAddress": "Wallet Address"
       },
       "social": {
         "title": "Connect to social platforms",
@@ -117,7 +122,7 @@
       "ExportAccount": "Export Account"
     },
     "export": {
-      "password": "Type your W3G password"
+      "password": "Type your  password"
     },
     "network": {
       "Networks": "Networks",
