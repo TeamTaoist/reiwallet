@@ -1,4 +1,6 @@
-
+// import CreateRestore from '../createIdentity/CreateRestore';
+import WalletHome from "../wallet/createWallet/walletHome";
+import Lock from "../lock/lock";
 import styled from "styled-components";
 import {useEffect, useState} from "react";
 
@@ -30,6 +32,16 @@ export default function Home(){
 
 
     return <Box>
-test
+        {/*<Lock />*/}
+        <WalletHome />
+        {/*{*/}
+        {/*    !showHome && Unlocked &&<WalletHome />*/}
+        {/*}*/}
+        {/*{*/}
+        {/*    !showHome && !Unlocked &&<Lock />*/}
+        {/*}*/}
+        {/*{*/}
+        {/*    showHome &&<CreateRestore />*/}
+        {/*}*/}
     </Box>
 }

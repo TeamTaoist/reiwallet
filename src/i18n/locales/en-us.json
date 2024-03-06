@@ -65,7 +65,7 @@
     "walletHome":{
       "createTips": "A new wallet account and account mnemonics will be created for you",
       "createBtn": "Create Wallet",
-      "importTips": "Use the mnemonics you backed up before, import them into w3g, restore the wallet and start using it.",
+      "importTips": "Use the mnemonics you backed up before, import them into wallet, restore the wallet and start using it.",
       "importBtn": "Import Wallet"
     },
     "createTitle":  "Create wallet",
@@ -100,14 +100,14 @@
       "title": "Import Accound",
       "subTitle": "Import Private Key",
       "textTitle": "Private Key",
-      "tips": "Imported accounts will not be associated with your originally created W3G account Secret Recovery Phrase.",
+      "tips": "Imported accounts will not be associated with your originally created wallet account Secret Recovery Phrase.",
       "Confirm": "Confirm"
     },
     "mnemonics": {
       "title": "Import Wallet",
       "subTitle": "Import",
       "textTitle": "Mnemonics",
-      "tips": "Imported accounts will not be associated with your originally created W3G account Secret Recovery Phrase.",
+      "tips": "Imported accounts will not be associated with your originally created wallet account Secret Recovery Phrase.",
       "Confirm": "Confirm",
       "inputTips": "Enter 12 mnemonic words in order and separate them with space."
     },
