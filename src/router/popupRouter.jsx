@@ -12,12 +12,20 @@ import Language from "../components/setting/language";
 import Security from "../components/setting/security";
 import AccountMnemonic from "../components/setting/AccountMnemonic";
 import AccountConfirm from "../components/setting/accountConfirm";
+import PrivateKey from "../components/wallet/importWallet/privateKey";
+import Success from "../components/wallet/createWallet/success";
+import Step1 from "../components/wallet/createWallet/step1";
+import Step2 from "../components/wallet/createWallet/step2";
+import Step3 from "../components/wallet/createWallet/step3";
 
 function PopupRouterLink() {
     return (
         <Routes>
             <Route path="/" element={<Navigate to="/home" />}/>
             <Route path="/home" element={<Home />}/>
+                <Route path="/step1" element={<Step1 />}/>
+                <Route path="/step2" element={<Step2 />}/>
+                <Route path="/step3" element={<Step3 />}/>
             <Route path="/detail" element={<AccountDetail />}/>
             <Route path="/export" element={<Export />}/>
             <Route path="/exportConfirm" element={<ExportConfirm />}/>
@@ -29,7 +37,8 @@ function PopupRouterLink() {
             <Route path="/security" element={<Security />}/>
             <Route path="/accountMnemonic" element={<AccountMnemonic />}/>
             <Route path="/accountConfirm" element={<AccountConfirm />}/>
-
+            <Route path="/privatekey" element={<PrivateKey />}/>
+            <Route path="/success" element={<Success />}/>
         </Routes>
    );
 }

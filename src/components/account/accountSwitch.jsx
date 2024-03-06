@@ -143,7 +143,7 @@ export default function AccountSwitch(){
         <ContentBox>
             <ul>
                 {
-                    accountlist.map((item,index)=>(<li key={index}>
+                    accountlist?.map((item,index)=>(<li key={index}>
                         <img src={CheckNor} alt="" className="decr"/>
                         <AccountBox>
                             <img src={Demo} alt="" className="avatar"/>

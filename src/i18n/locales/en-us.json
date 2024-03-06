@@ -150,7 +150,7 @@
       "unlock": "unlock"
     },
     "switch": {
-      "title": "Switch Wallet",
+      "title": "Switch Account",
       "Create": "Create",
       "Import": "Import",
       "Lock": "Lock"

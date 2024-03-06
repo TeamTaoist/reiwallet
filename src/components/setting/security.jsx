@@ -2,6 +2,7 @@ import TokenHeader from "../header/tokenHeader";
 import styled from "styled-components";
 import Next from "../../assets/images/into.png";
 import {useNavigate} from "react-router-dom";
+import LockImg from "../../assets/images/lock.png";
 
 const Content = styled.div`
     margin: 20px;
@@ -11,6 +12,11 @@ const Content = styled.div`
       align-items: center;
       border-bottom: 1px solid rgba(165, 172, 191, 0.3);
       height: 52px;
+    }
+    .lft{
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 `
 
@@ -26,8 +32,8 @@ export default function Security(){
         <Content>
             <ul>
                 <li onClick={()=>toGo('/accountMnemonic')}>
-                    <div>
-                        <img src="" alt=""/>
+                    <div className="lft">
+                        <img src={LockImg} alt=""/>
                         <span>Mnemonic</span>
                     </div>
                     <img src={Next} alt=""/>
