@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "rgbpp-wallet",
+  "short_name": "rgbpp",
+  "version": "1.0.0",
+  "description": "rgbpp-wallet",
+  "icons": {
+    "128": "logoIcon.png"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "logoIcon.png"
+    }
+  },
+  "background": {
+    "service_worker": "",
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [ "/images/logo.png" ]
+    }
+  ],
+  "content_scripts": [
+    {
+      "js": [],
+      "css": [],
+      "matches": ["*"]
+    }
+  ]
+}

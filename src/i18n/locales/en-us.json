@@ -1,0 +1,155 @@
+{
+  "install": {
+    "privacy": {
+      "privacy-title": "PRIVACY CLAUSE",
+      "privacy-content_p1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+      "privacy-content_p2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+      "privacy-check_li_1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+      "privacy-check_li_2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.  ",
+      "privacy-check_li_3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+      "privacy-check_li_4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+      "privacy_subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+      "privacy_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
+      "privacy-cancel": "Cancel",
+      "privacy-agree": "Agree"
+    },
+    "create": {
+      "create": {
+        "create_title": "Create Identity",
+        "restore": "Restore",
+        "create_tips": "You can create personal identities and connect to social accounts.",
+        "identity": "Identity",
+        "next": "NEXT"
+      },
+      "restore": {
+        "title":"Enter mnemonics",
+        "tips": "Please select words in order according to your mnemonic words.",
+        "enterTips": "Enter 12 mnemonic words in order and separate them with space."
+      },
+      "confirmation": {
+        "title": "Confirmation",
+        "tips": "Please select words in order according to your mnemonic words.",
+        "Confirm": "Confirm"
+      },
+      "mnemonic": {
+        "mnemonic_title": "Identity mnemonics",
+        "mnemonic_tips": "Mnemonic words are the only proof to help you recover your wallet.",
+        "mnemonic_label": "I have kept the above mnemonics properly.",
+        "next": "NEXT"
+      },
+      "download": {
+        "title": "Download Preview",
+        "tips": "Please keep the information on this page properly. ",
+        "download": "Download",
+        "id": "Identity Name",
+        "Web3graphID": "rgbpp ID",
+        "PrivateKey": "Private Key"
+      },
+      "social": {
+        "title": "Connect to social platforms",
+        "tips": "Connect to social platforms"
+      }
+    }
+  },
+  "popup": {
+    "create": {
+      "create": "Create Identity",
+      "tips": "Please create or restore your first and connect to social accounts.",
+      "Restore": "Restore"
+    },
+    "walletHome":{
+      "createTips": "A new wallet account and account mnemonics will be created for you",
+      "createBtn": "Create Wallet",
+      "importTips": "Use the mnemonics you backed up before, import them into w3g, restore the wallet and start using it.",
+      "importBtn": "Import Wallet"
+    },
+    "createTitle":  "Create wallet",
+    "step1": {
+      "subTitle": "Create wallet",
+      "walletName": "Wallet name",
+      "namePlaceholder": "Please enter 1-12 characters",
+      "pwd": "Set payment password",
+      "pwdPlaceholder": "Please enter",
+      "confirmPwd": "Confirm payment password",
+      "confirmPlaceholder": "Please enter",
+      "tips": "  The payment password must contain numbers, upper and lower case letters and special characters, with a length of 8-20 characters.",
+      "cancel": "Cancel",
+      "Confirm": "Confirm"
+    },
+    "step2": {
+      "subTitle": "Account mnemonics",
+      "tips": "Mnemonic words are the only proof to help you recover your wallet.",
+      "Next": "Next"
+    },
+    "step3": {
+      "subTitle": "Confirmation mnemonics",
+      "tips": "Please select words in order according to your mnemonic words.",
+      "Confirm": "Confirm"
+    },
+    "success": {
+      "title": "Verification successful",
+      "subTitle": "Your wallet address",
+      "Complete": "Complete"
+    },
+    "import": {
+      "title": "Import Accound",
+      "subTitle": "Import Private Key",
+      "textTitle": "Private Key",
+      "tips": "Imported accounts will not be associated with your originally created W3G account Secret Recovery Phrase.",
+      "Confirm": "Confirm"
+    },
+    "mnemonics": {
+      "title": "Import Wallet",
+      "subTitle": "Import",
+      "textTitle": "Mnemonics",
+      "tips": "Imported accounts will not be associated with your originally created W3G account Secret Recovery Phrase.",
+      "Confirm": "Confirm",
+      "inputTips": "Enter 12 mnemonic words in order and separate them with space."
+    },
+    "account": {
+      "send": "Send",
+      "Assets": "Assets",
+      "Activities": "Activities",
+      "Reward": "Reward",
+      "Wallet": "Wallet",
+      "AddToken": "Add token",
+      "details": "Account details",
+      "ExportAccount": "Export Account"
+    },
+    "export": {
+      "password": "Type your W3G password"
+    },
+    "network": {
+      "Networks": "Networks",
+      "AddNetwork": "Add Network",
+      "name": "Network Name",
+      "rpcUrl": "New RPC URL",
+      "id": "Chain ID",
+      "symbol": "Currency Symbol",
+      "explorerUrl": "Block Explorer URL（Optional）",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "send": {
+      "send": "Send",
+      "searchTips": "Please search",
+      "last": "Record last"
+    },
+    "assets": {
+      "Assets": "Assets"
+    },
+    "lock": {
+      "tips": "Welcome back ！Coming soon to the decentralized web !",
+      "password": "Password",
+      "placeholder": "Please enter",
+      "unlock": "unlock"
+    },
+    "switch": {
+      "title": "Switch Wallet",
+      "Create": "Create",
+      "Import": "Import",
+      "Lock": "Lock"
+    }
+  }
+
+}
