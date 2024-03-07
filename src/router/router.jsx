@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route,Routes,Navigate} from "react-router-dom";
 import Privacy from '../components/privacy/privacy';
-import CreateIdentity from "../components/wallet/createIdentity/createIdentity";
+import SetPassword from "../components/wallet/createIdentity/setPassword";
 import Mnemonics from "../components/wallet/createIdentity/mnemonics";
 import Download from "../components/wallet/createIdentity/download";
 import Restore from "../components/wallet/createIdentity/restore";
@@ -12,7 +12,7 @@ function RouterLink() {
         <Routes>
             <Route path="/" element={<Navigate to="/privacy" />}/>
             <Route path="/privacy" element={<Privacy />}/>
-            <Route path="/create" element={<CreateIdentity />}/>
+            <Route path="/create" element={<SetPassword />}/>
             <Route path="/mnemonics" element={<Mnemonics />}/>
             <Route path="/download" element={<Download />}/>
             <Route path="/restore" element={<Restore />}/>

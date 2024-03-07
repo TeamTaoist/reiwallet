@@ -16,6 +16,7 @@
     "create": {
       "create": {
         "create_title": "Set Password",
+        "start": "Let's start",
         "restore": "Restore",
         "create_tips": "You can create personal identities and connect to social accounts.",
         "walletName": "Wallet name",

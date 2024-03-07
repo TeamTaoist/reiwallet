@@ -5,6 +5,7 @@ import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
+import {useWeb3} from "../../../store/contracts";
 
 
 const ContainerContentStyled = styled.div`
@@ -31,25 +32,32 @@ const ContentBox = styled.div`
     }
 `
 
-export default function CreateIdentity(){
+export default function SetPassword(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [identity, setIdentity] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [cm_pwd, setCm_pwd] = useState('');
 
     const next = () =>{
+
         /*global chrome*/
-        chrome.storage.local.set({identity});
+        chrome.storage.session.set({ password: pwd });
+        // chrome.storage.local.set({isInit:true});
         navigate('/mnemonics');
     }
 
     const handleInput = (e) =>{
-        const { value } = e.target;
-        setIdentity(value);
+        const { value,name } = e.target;
+        if(name === "password"){
+            setPwd(value)
+        }else{
+            setCm_pwd(value)
+        }
     }
     return <DashboardLayout>
         <ContainerLayout
             button={
-                <Button primary fullWidth onClick={()=>next()} disabled={!identity.length}>{t('install.create.create.next')}</Button>
+                <Button primary fullWidth onClick={()=>next()} disabled={!pwd?.length || cm_pwd !== pwd }>{t('install.create.create.next')}</Button>
             }
         >
             <ContainerContentStyled>
@@ -73,7 +81,7 @@ export default function CreateIdentity(){
                             {t('install.create.create.pwd')}
                         </div>
                         <div className="inputBox">
-                            <input type="text" value={identity}  placeholder={t('install.create.create.pwdPlaceholder')} onChange={(e) => handleInput(e)}/>
+                            <input type="password" name="password" value={pwd}  placeholder={t('install.create.create.pwdPlaceholder')} onChange={(e) => handleInput(e)}/>
                         </div>
 
                     </div>
@@ -82,7 +90,7 @@ export default function CreateIdentity(){
                             {t('install.create.create.confirmPwd')}
                         </div>
                         <div className="inputBox">
-                            <input type="text" value={identity} placeholder={t('install.create.create.confirmPlaceholder')} onChange={(e) => handleInput(e)}/>
+                            <input type="password" name="confirm_password" value={cm_pwd} placeholder={t('install.create.create.confirmPlaceholder')} onChange={(e) => handleInput(e)}/>
                         </div>
 
                     </div>

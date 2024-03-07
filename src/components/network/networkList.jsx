@@ -86,8 +86,8 @@ export default function NetworkList(){
                 <img src={Close} alt=""/>
             </li>
         </UlBox>
-        {/*<BtnBox>*/}
-        {/*    <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>*/}
-        {/*</BtnBox>*/}
+        <BtnBox>
+            <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>
+        </BtnBox>
     </ModalBox>
 }

@@ -23,6 +23,8 @@ export default function WalletHome(){
     return <Box>
         <HeaderTop />
         <Content><Account /></Content>
+
+        {/*<Content><NoWallet /></Content>*/}
         {/*{*/}
         {/*    !!len && <Content><Account /></Content>*/}
         {/*}*/}

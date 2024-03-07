@@ -10,6 +10,7 @@ import DownloadImg from '../../../assets/images/create/download.png';
 import UncheckedImg from "../../../assets/images/create/unCheck.png";
 import CheckedImg from '../../../assets/images/create/unCheck02.png';
 import {useTranslation} from "react-i18next";
+import {useWeb3} from "../../../store/contracts";
 
 
 const ContainerContentStyled = styled.div`
@@ -69,7 +70,7 @@ export default function Mnemonics(){
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [ mnemonicStr, setMnemonicStr] = useState([]);
-
+    const {state:{password}} = useWeb3();
 
     const next = () =>{
         navigate('/confirmation');
