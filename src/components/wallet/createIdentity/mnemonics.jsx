@@ -11,6 +11,7 @@ import UncheckedImg from "../../../assets/images/create/unCheck.png";
 import CheckedImg from '../../../assets/images/create/unCheck02.png';
 import {useTranslation} from "react-i18next";
 import {useWeb3} from "../../../store/contracts";
+import Wallet from "../../../wallet/wallet";
 
 
 const ContainerContentStyled = styled.div`
@@ -70,7 +71,27 @@ export default function Mnemonics(){
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [ mnemonicStr, setMnemonicStr] = useState([]);
-    const {state:{password}} = useWeb3();
+    const {dispatch,state:{mnemonic}} = useWeb3();
+
+    useEffect(() => {
+        if ( mnemonic == null){
+            creatWallet(0)
+        }else{
+            setMnemonicStr(mnemonic)
+        }
+
+    }, [mnemonic]);
+
+    const creatWallet = async (index) =>{
+        const wallet = new Wallet(index,true,"");
+        let walletObj = await wallet.GenerateWallet();
+        const {address,mnemonic} = walletObj;
+        const mnemonicArr = mnemonic.split(' ');
+        setMnemonicStr(mnemonicArr);
+        dispatch({type:'SET_MNEMONIC',payload:mnemonicArr});
+        dispatch({type:"SET_ACCOUNT",payload:address});
+    }
+
 
     const next = () =>{
         navigate('/confirmation');

@@ -6,6 +6,7 @@ import Mnemonics from "../components/wallet/createIdentity/mnemonics";
 import Download from "../components/wallet/createIdentity/download";
 import Restore from "../components/wallet/createIdentity/restore";
 import Confirmation from '../components/wallet/createIdentity/Confirmation'
+import Success from "../components/wallet/createIdentity/success";
 
 function RouterLink() {
     return (
@@ -16,6 +17,7 @@ function RouterLink() {
             <Route path="/mnemonics" element={<Mnemonics />}/>
             <Route path="/download" element={<Download />}/>
             <Route path="/restore" element={<Restore />}/>
+            <Route path="/success" element={<Success />}/>
             <Route path="/confirmation" element={<Confirmation />}/>
         </Routes>
    );

@@ -4,8 +4,9 @@ import Button from "../../button/button";
 import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useWeb3} from "../../../store/contracts";
+import Keystore from "../../../wallet/keystore";
 
 
 const ContainerContentStyled = styled.div`
@@ -37,12 +38,17 @@ export default function SetPassword(){
     const { t } = useTranslation();
     const [pwd, setPwd] = useState('');
     const [cm_pwd, setCm_pwd] = useState('');
+    const {dispatch} = useWeb3();
+    //
+    // useEffect(() => {
+    //
+    //
+    //     const key =  Keystore.create("123456","0xD85c413dA833CeBD8338138CcEFA04979DF70E8e")
+    //     console.log(key)
+    // }, []);
 
     const next = () =>{
-
-        /*global chrome*/
-        chrome.storage.session.set({ password: pwd });
-        // chrome.storage.local.set({isInit:true});
+        dispatch({type:"SET_PASSWORD",payload:pwd});
         navigate('/mnemonics');
     }
 

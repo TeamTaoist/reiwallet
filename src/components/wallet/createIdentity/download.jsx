@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import CopyImg from '../../../assets/images/create/COPY.png';
 import html2canvas from "html2canvas";
 import {useEffect, useState} from "react";
+import {useWeb3} from "../../../store/contracts";
 
 const ContainerContentStyled = styled.div`
 `
@@ -57,9 +58,17 @@ const DownloadBox = styled.div`
 
 export default function Download(){
     const { t } = useTranslation();
-
+    const {state} = useWeb3();
+    const { mnemonic,account } = state;
 
     const [ mnemonicStr, setMnemonicStr] = useState([]);
+
+    useEffect(()=>{
+
+        if ( mnemonic == null) return;
+        setMnemonicStr(mnemonic);
+    },[mnemonic]);
+
 
     const download = () =>{
         html2canvas(document.getElementById("downloadBox"), {
@@ -72,7 +81,7 @@ export default function Download(){
             const alink = document.createElement("a");
             alink.href = dataImg.src;
             const time = (new Date()).valueOf();
-            alink.download = `TECHX_Mnemonic_${time}.jpg`;
+            alink.download = `Mnemonic_${time}.jpg`;
             alink.click();
         });
     }
@@ -92,7 +101,7 @@ export default function Download(){
                     <div className="top">
                         <dl>
                             <dt>{t('install.create.download.walletAddress')}</dt>
-                            <dd>0xfdagfdagfdagfdgdhfdshKzJPUWcOSGOyMm9uMk1mYnZLdV9pbkVMalNiUHVDQ<img src={CopyImg} alt=""/></dd>
+                            <dd>{account}<img src={CopyImg} alt=""/></dd>
                         </dl>
                         {/*<dl>*/}
                         {/*    <dt>{t('install.create.download.PrivateKey')}</dt>*/}

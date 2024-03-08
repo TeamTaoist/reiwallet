@@ -1,4 +1,6 @@
 module.exports = {
-    password:null
+    password:null,
+    account:null,
+    mnemonic:null
 
 };

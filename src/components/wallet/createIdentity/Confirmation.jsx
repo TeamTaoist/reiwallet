@@ -6,6 +6,8 @@ import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import ClearImg from '../../../assets/images/clear.png';
+import {useWeb3} from "../../../store/contracts";
+import PublicJs from "../../../utils/publicJS";
 
 const ContainerContentStyled = styled.div`
 
@@ -65,16 +67,50 @@ const ClearBox = styled.div`
 export default function Confirmation(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-
+    const {state} = useWeb3();
+    const { mnemonic,password,account } = state;
     const [list,setList] = useState([]);
     const [selectedArr,SetSelectedArr] = useState([]);
     const [activeArr, setActiveArr] = useState([]);
     const [disabled , setDisabled] = useState(true);
 
+    useEffect(()=>{
+        if(mnemonic == null )return;
+
+        const arr = PublicJs.randomSort(mnemonic);
+
+        setList(arr);
+        setActiveArr(Array(arr.length).fill(false))
+    },[mnemonic]);
+
+    useEffect(()=>{
+        if(mnemonic == null) return;
+
+        if(selectedArr.length !== mnemonic.length){
+            setDisabled(true);
+            return;
+        }
+        const SelectedStr = selectedArr.join(" ");
+        const MnemonicStr = mnemonic.join(" ");
+        if(SelectedStr !== MnemonicStr){
+            setDisabled(true);
+            return;
+        }
+        setDisabled(false);
+    },[selectedArr,mnemonic])
 
 
     const next = () =>{
-        window.close()
+
+        navigate('/success');
+        /*global chrome*/
+        chrome.storage.session.set({ password:password });
+        chrome.storage.local.set({isInit:true});
+        chrome.storage.local.set({walletlist:[{
+                account,
+                type:"create",
+                index:0
+            }]});
 
     }
     const chooseSelect = (selected,index,status)=>{
@@ -98,8 +134,7 @@ export default function Confirmation(){
     return <DashboardLayout>
         <ContainerLayout
             button={
-                // <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>
-                <Button primary fullWidth onClick={()=>next()}>{t('install.create.confirmation.Confirm')}</Button>
+                <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>
             }
         >
             <ContainerContentStyled>
