@@ -117,12 +117,12 @@ export default function AccountHeader(){
 
     const getAccount = () =>{
         /*global chrome*/
-        // chrome.storage.local.get(['current'],(result)=>{
-        //   console.log(result)
-        //     const accountInfo = result.current[0];
-        //     setAddress(accountInfo.address)
-        //     setWalletName(accountInfo.name)
-        // });
+        chrome.storage.local.get(['current'],(result)=>{
+          console.log(result)
+            const accountInfo = result.current[0];
+            setAddress(accountInfo.address)
+            setWalletName(accountInfo.name)
+        });
     }
 
     const stopPropagation = (e) => {

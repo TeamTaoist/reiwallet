@@ -6,7 +6,7 @@ import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {useWeb3} from "../../../store/contracts";
-import Keystore from "../../../wallet/keystore";
+// import Keystore from "../../../wallet/keystore";
 
 
 const ContainerContentStyled = styled.div`
@@ -39,13 +39,20 @@ export default function SetPassword(){
     const [pwd, setPwd] = useState('');
     const [cm_pwd, setCm_pwd] = useState('');
     const {dispatch} = useWeb3();
-    //
+
     // useEffect(() => {
     //
+    //     const keyAAA =  Keystore.create("0xD85c413dA833CeBD8338138CcEFA04979DF70E8e","123")
+    //     console.log(keyAAA)
     //
-    //     const key =  Keystore.create("123456","0xD85c413dA833CeBD8338138CcEFA04979DF70E8e")
-    //     console.log(key)
+    //
+    //     const afterKey =  Keystore.decrypt(keyAAA,"123")
+    //     console.log(afterKey)
+    //
+    //
     // }, []);
+
+
 
     const next = () =>{
         dispatch({type:"SET_PASSWORD",payload:pwd});

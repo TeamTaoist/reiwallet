@@ -4,6 +4,7 @@ import Close from "../../assets/images/close.png";
 import Button from "../button/button";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useState} from "react";
 
 const ModalBox = styled.div`
   position: absolute;
@@ -59,32 +60,36 @@ const BtnBox = styled.div`
     padding: 20px;
 `
 
-export default function NetworkList(){
+export default function NetworkList({netList,current}){
     const { t } = useTranslation();
     const navigate = useNavigate();
 
+
     const toGo = () =>{
         navigate('/addNetwork');
+    }
+
+    const handleSelect = (index) =>{
+        const value = netList[index].value;
+
+        /*global chrome*/
+        chrome.storage.local.set({network:value});
+
     }
 
     return <ModalBox>
         <Title className="medium-font">{t('popup.network.Networks')}</Title>
         <UlBox>
             {
-                [...Array(2)].map((item,index)=>( <li key={index} >
-                    <div className="lft">Ethereum Mainnet</div>
-                    <img src={Checked} alt=""/>
+                netList.map((item,index)=>(<li key={index} onClick={() => handleSelect(index)}>
+                    <div className="lft">{item.name}</div>
+                    <div className="img">
+                        {
+                            current === index && <img src={Checked} alt=""/>
+                        }
+                    </div>
                 </li>))
             }
-
-            <li>
-                <div className="lft">Ethereum Mainnet</div>
-                <div className="img" />
-            </li>
-            <li>
-            <div className="lft">Ethereum Mainnet</div>
-                <img src={Close} alt=""/>
-            </li>
         </UlBox>
         <BtnBox>
             <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>

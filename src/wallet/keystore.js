@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import { Keccak } from 'sha3'
 import { v4 as uuid } from 'uuid'
-
+import scrypt from 'scrypt-js';
 
 
 const CIPHER = 'aes-128-ctr'
@@ -9,7 +9,6 @@ const CKB_CLI_ORIGIN = 'ckb-cli'
 
 // Encrypt and save master extended private key.
 export default class Keystore {
-
 
   constructor(theCrypto, id) {
     this.crypto = theCrypto
@@ -58,35 +57,46 @@ export default class Keystore {
   }
 
   static create = (
-      extendedPrivateKey,
+      str,
       password,
       options = {}
   ) => {
     const salt = options.salt || crypto.randomBytes(32)
     const iv = options.iv || crypto.randomBytes(16)
+    // salt: salt.toString('hex'),
     const kdfparams = {
       dklen: 32,
-      salt: salt.toString('hex'),
+      salt,
       n: 2 ** 18,
       r: 8,
       p: 1,
     }
-    console.log(extendedPrivateKey,password)
-    // const derivedKey = crypto.scryptSync(password, salt, kdfparams.dklen, Keystore.scryptOptions(kdfparams))
-    const derivedKey = Buffer.from(password, 'hex')
-    console.log(derivedKey)
 
-    // const cipher = crypto.createCipheriv(CIPHER, derivedKey.slice(0, 16), iv)
-    const cipher = crypto.createCipheriv(CIPHER, derivedKey, iv)
+    const privateKeyBuffer = Buffer.from(str, 'utf8');
+
+    // const derivedKey = crypto.scryptSync(password, salt, kdfparams.dklen, Keystore.scryptOptions(kdfparams))
+    const derivedKey   =  scrypt.syncScrypt(
+        Buffer.from(password),
+        kdfparams.salt,
+        kdfparams.n,
+        kdfparams.r,
+        kdfparams.p,
+        kdfparams.dklen,
+        'sha256',
+    );
+
+    const cipher = crypto.createCipheriv(CIPHER, derivedKey.slice(0, 16), iv)
+
     if (!cipher) {
-      throw new Error("UnsupportedCipher")
+      throw new Error('Unsupported cipher');
     }
+
     const ciphertext = Buffer.concat([
-      cipher.update(Buffer.from(extendedPrivateKey, 'hex')),
+      cipher.update(privateKeyBuffer),
       cipher.final(),
     ])
 
-    return new Keystore(
+    return (
         {
           ciphertext: ciphertext.toString('hex'),
           cipherparams: {
@@ -94,10 +104,11 @@ export default class Keystore {
           },
           cipher: CIPHER,
           kdf: 'scrypt',
-          kdfparams,
+          kdfparams:kdfparams,
           mac: Keystore.mac(derivedKey, ciphertext),
-        },
-        uuid()
+          id:uuid()
+        }
+
     )
   }
 
@@ -107,18 +118,38 @@ export default class Keystore {
   }
 
   // Decrypt and return serialized extended private key.
-  decrypt(password) {
-    const derivedKey = this.derivedKey(password)
-    const ciphertext = Buffer.from(this.crypto.ciphertext, 'hex')
-    if (Keystore.mac(derivedKey, ciphertext) !== this.crypto.mac) {
-      throw new Error("IncorrectPassword")
+  static decrypt = (keyStr,password)  =>{
+    const {kdfparams} = keyStr;
+
+    const salt = kdfparams.salt?.data;
+
+    const derivedKey   =  scrypt.syncScrypt(
+        Buffer.from(password),
+        salt,
+        kdfparams.n,
+        kdfparams.r,
+        kdfparams.p,
+        kdfparams.dklen,
+        'sha256',
+    );
+    const ciphertext = Buffer.from(keyStr.ciphertext, 'hex');
+    const mac = new Keccak(256)
+        .update(Buffer.concat([derivedKey.slice(16, 32), Buffer.from(ciphertext)]))
+        .digest('hex');
+    if (mac !== keyStr.mac) {
+      throw new Error('Key derivation failed - possibly wrong passphrase');
     }
+
     const decipher = crypto.createDecipheriv(
-        this.crypto.cipher,
+        keyStr.cipher,
         derivedKey.slice(0, 16),
-        Buffer.from(this.crypto.cipherparams.iv, 'hex')
-    )
-    return Buffer.concat([decipher.update(ciphertext), decipher.final()]).toString('hex')
+        Buffer.from(keyStr.cipherparams.iv, 'hex'),
+    );
+
+    const seed =  Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+
+    return seed.toString('utf8');
+
   }
 
 

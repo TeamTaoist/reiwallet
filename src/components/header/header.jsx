@@ -41,6 +41,40 @@ export default function HeaderTop(){
 
     const navigate = useNavigate();
     const [showNetwork,setShowNetwork] = useState(false);
+    const [ current,setCurrent] = useState(0);
+    const [netList] = useState([
+        {
+            name:"Mainnet",
+            value:"mainnet"
+        },
+        {
+            name:"Testnet",
+            value:"testnet"
+        },
+        {
+            name:"Devnet",
+            value:"devnet"
+        }
+    ])
+    /*global chrome*/
+    chrome.storage.local.get(['network'],(result)=>{
+        console.error("==== result.network", result.network)
+
+        const networkIndex = netList.findIndex(item=>item.value === result.network);
+        setCurrent(networkIndex<0?0:networkIndex)
+
+    });
+
+    //
+    // useEffect(() => {
+    //
+    //
+    //     chrome.storage.local.get(['network'],(result)=>{
+    //         const networkIndex = netList.findIndex(item=>item.name === result.network);
+    //         setCurrent(networkIndex<0?0:networkIndex)
+    //     });
+    //
+    // }, []);
 
     const toSetting = () =>{
         navigate('/setting')
@@ -59,14 +93,14 @@ export default function HeaderTop(){
 
     return <HeaderBox>
         {
-            showNetwork && <NetworkList />
+            showNetwork && <NetworkList netList={netList} current={current} />
         }
         <LogoImg>
             <img src={Logo} alt=""/>
         </LogoImg>
 
         <InputBox onClick={(e)=>handleNetwork(e)}>
-            Ethereum Mainnet
+            {netList[current].name}
             <img src={DropImg} alt=""/>
         </InputBox>
         <MoreBox>

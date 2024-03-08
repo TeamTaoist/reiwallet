@@ -19,17 +19,26 @@ const Content = styled.div`
 export default function WalletHome(){
     const [len,setLen] = useState(0);
 
+    useEffect( ()=>{
+
+        /*global chrome*/
+         chrome.storage.local.get(['walletList'],(result)=>{
+            console.error(result.walletList)
+             setLen(result.walletList?.length)
+        });
+
+
+    },[]);
+
 
     return <Box>
         <HeaderTop />
-        <Content><Account /></Content>
 
-        {/*<Content><NoWallet /></Content>*/}
-        {/*{*/}
-        {/*    !!len && <Content><Account /></Content>*/}
-        {/*}*/}
-        {/*{*/}
-        {/*    !len && <Content><NoWallet /></Content>*/}
-        {/*}*/}
+        {
+            !!len && <Content><Account /></Content>
+        }
+        {
+            !len && <Content><NoWallet /></Content>
+        }
     </Box>
 }

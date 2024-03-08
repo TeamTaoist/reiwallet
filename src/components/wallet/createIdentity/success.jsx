@@ -100,7 +100,7 @@ export default function Success(){
                 <SubTitle className="medium-font">{t('popup.success.subTitle')}</SubTitle>
                 <AddressBox className="regular-font">
                     <Toast tips="copied" left="100" bottom="-40" show={copied}/>
-                    {account}
+                    {account.address_main}
                     <CopyToClipboard onCopy={()=>Copy()} text={account}>
                         <img src={CopyImg} alt=""/>
                     </CopyToClipboard>

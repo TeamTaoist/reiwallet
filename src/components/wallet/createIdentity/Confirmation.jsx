@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import ClearImg from '../../../assets/images/clear.png';
 import {useWeb3} from "../../../store/contracts";
 import PublicJs from "../../../utils/publicJS";
+import Keystore from "../../../wallet/keystore";
 
 const ContainerContentStyled = styled.div`
 
@@ -67,7 +68,7 @@ const ClearBox = styled.div`
 export default function Confirmation(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const {state} = useWeb3();
+    const {dispatch,state} = useWeb3();
     const { mnemonic,password,account } = state;
     const [list,setList] = useState([]);
     const [selectedArr,SetSelectedArr] = useState([]);
@@ -101,16 +102,35 @@ export default function Confirmation(){
 
 
     const next = () =>{
+        const MnemonicStr = mnemonic.join(" ");
+        let keyJSon = Keystore.create(MnemonicStr,password);
+        console.log(keyJSon)
+
 
         navigate('/success');
         /*global chrome*/
         chrome.storage.session.set({ password:password });
         chrome.storage.local.set({isInit:true});
-        chrome.storage.local.set({walletlist:[{
+        chrome.storage.local.set({walletList:[{
                 account,
                 type:"create",
-                index:0
+                name:"Account 1",
+                account_index:0
             }]});
+
+        chrome.storage.local.set({Mnemonic:JSON.stringify(keyJSon)});
+        chrome.storage.local.set({network:"mainnet"});
+
+        dispatch({type:'SET_MNEMONIC',payload:null});
+        // setTimeout(()=>{
+        //     chrome.storage.local.get(["Mnemonic"],(result)=>{
+        //         console.error("result",result.Mnemonic)
+        //         let key = JSON.parse(result.Mnemonic);
+        //         const afterKey =  Keystore.decrypt(key,password)
+        //         console.error("========afterKey",afterKey)
+        //     });
+        // },2000)
+
 
     }
     const chooseSelect = (selected,index,status)=>{
@@ -134,7 +154,8 @@ export default function Confirmation(){
     return <DashboardLayout>
         <ContainerLayout
             button={
-                <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>
+                // <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>
+                <Button primary fullWidth onClick={()=>next()}>{t('install.create.confirmation.Confirm')}</Button>
             }
         >
             <ContainerContentStyled>

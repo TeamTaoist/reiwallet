@@ -35,9 +35,11 @@ export default class Wallet{
 
         let publicKey = bytes.hexify(key.publicKey);
 
-        let address = this.publicKeyToAddress(publicKey,true)
+        let address_main = this.publicKeyToAddress(publicKey,true)
+        let address_test = this.publicKeyToAddress(publicKey,false)
             return {
-                address,
+                address_main,
+                address_test,
                 mnemonic:this.mnemonic
             }
         // return privateKey;
