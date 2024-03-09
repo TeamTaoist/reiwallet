@@ -10,6 +10,12 @@ const reducer = (state, action) => {
         case 'SET_ACCOUNT':
             return { ...state, account: action.payload};
 
+        case 'SET_REFRESH_NETWORK':
+            return { ...state, refresh_network: action.payload};
+
+        case 'SET_CURRENT_ACCOUNT':
+            return { ...state, refresh_current: action.payload};
+
 
         // case 'SET_ERROR':
         //     return { ...state, errorTips: action.payload };

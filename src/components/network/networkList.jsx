@@ -5,6 +5,7 @@ import Button from "../button/button";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
+import useNetwork from "../../useHook/useNetwork";
 
 const ModalBox = styled.div`
   position: absolute;
@@ -63,7 +64,7 @@ const BtnBox = styled.div`
 export default function NetworkList({netList,current}){
     const { t } = useTranslation();
     const navigate = useNavigate();
-
+    const {saveNetwork} = useNetwork();
 
     const toGo = () =>{
         navigate('/addNetwork');
@@ -71,8 +72,10 @@ export default function NetworkList({netList,current}){
 
     const handleSelect = (index) =>{
         const value = netList[index].value;
-        /*global chrome*/
-        chrome.storage.local.set({network:value});
+        // /*global chrome*/
+        // chrome.storage.local.set({network:value});
+        saveNetwork(value)
+
 
     }
 

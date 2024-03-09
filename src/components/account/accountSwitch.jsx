@@ -94,18 +94,11 @@ const AccountBox = styled.div`
 export default function AccountSwitch({walletList,network,currentAccount,handleCurrent}){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [ accountlist, setAccountlist] = useState([]);
+
 
     const toGo = (url) =>{
         navigate(url);
     }
-    useEffect(()=>{
-        /*global chrome*/
-        chrome.storage.local.get(['account'],(result)=>{
-            console.log("====result==",result.account);
-            setAccountlist(result.account)
-        });
-    },[]);
 
     const createNew = async() =>{
         // const primaryKeyring = keyringController.getKeyringsByType(
@@ -164,19 +157,7 @@ export default function AccountSwitch({walletList,network,currentAccount,handleC
                         {/*<img src={Del} alt="" className="decr"/>*/}
                     </li>))
                 }
-                {/*{*/}
-                {/*    accountlist.map((item,index)=>(<li key={index}>*/}
-                {/*        <img src={CheckNor} alt="" className="decr"/>*/}
-                {/*        <AccountBox>*/}
-                {/*            <img src={Demo} alt="" className="avatar"/>*/}
-                {/*            <div>*/}
-                {/*                <div className="medium-font">{item.name}</div>*/}
-                {/*                <div className="balance medium-font">0 ETH</div>*/}
-                {/*            </div>*/}
-                {/*        </AccountBox>*/}
-                {/*        <img src={Del} alt="" className="decr"/>*/}
-                {/*    </li>))*/}
-                {/*}*/}
+
 
             </ul>
         </ContentBox>

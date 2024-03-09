@@ -63,16 +63,7 @@ export default function HeaderTop(){
 
     });
 
-    //
-    // useEffect(() => {
-    //
-    //
-    //     chrome.storage.local.get(['network'],(result)=>{
-    //         const networkIndex = netList.findIndex(item=>item.name === result.network);
-    //         setCurrent(networkIndex<0?0:networkIndex)
-    //     });
-    //
-    // }, []);
+
 
     const toSetting = () =>{
         navigate('/setting')

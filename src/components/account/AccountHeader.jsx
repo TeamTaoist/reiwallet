@@ -3,15 +3,16 @@ import DemoImg from "../../assets/images/Avatar.png";
 import CopyImg from "../../assets/images/create/COPY.png";
 import MoreImg from "../../assets/images/more-dot.png";
 import EtherImg from "../../assets/images/ether.png";
-import { useState} from "react";
+import {useEffect, useState} from "react";
 import DetailsImg from "../../assets/images/Details.png";
 import AccountSwitch from "./accountSwitch";
-import {useEffect} from "react";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import PublicJs from "../../utils/publicJS";
 import Toast from "../modal/toast";
+import useNetwork from "../../useHook/useNetwork";
+import useCurrent from "../../useHook/useCurrent";
 
 const AccountBox = styled.div`
     display: flex;
@@ -98,15 +99,14 @@ const DropDown = styled.div`
 export default function AccountHeader(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-
+    const {network} = useNetwork();
+    const {currentAccount} = useCurrent();
 
     const[show,setShow] = useState(false);
     const [showAccount,setShowAccount] = useState(false);
     const [address,setAddress] = useState('');
     const [walletName,setWalletName] = useState('');
     const [copied,setCopied] = useState(false);
-    const [network,setNetwork] = useState('mainnet');
-    const [current_account,setCurrent_account] = useState(0);
 
     const [walletList,setWalletList] = useState([]);
 
@@ -120,28 +120,27 @@ export default function AccountHeader(){
             console.error(result.walletList)
             setWalletList(result.walletList)
         });
-        getAccount();
+
 
     },[]);
 
-    /*global chrome*/
-    chrome.storage.local.get(['network'],(result)=>{
-        setNetwork(result.network)
-    });
-    chrome.storage.local.get(['current_address'],(result)=>{
-        setCurrent_account(result.current_address)
-    });
 
+    useEffect(() => {
+        if(!walletList?.length)return;
+        getAccount();
+    }, [currentAccount,network,walletList]);
 
 
     const getAccount = () =>{
-        /*global chrome*/
-        chrome.storage.local.get(['current'],(result)=>{
-          console.log(result)
-            const accountInfo = result.current[0];
-            setAddress(accountInfo.address)
-            setWalletName(accountInfo.name)
-        });
+        let current = walletList[currentAccount];
+        let addr;
+        if(network === "mainnet"){
+            addr = current.account.address_main
+        }else{
+            addr = current.account.address_test
+        }
+        setAddress(addr)
+        setWalletName(current.name)
     }
 
     const stopPropagation = (e) => {
@@ -169,8 +168,10 @@ export default function AccountHeader(){
     }
 
     const handleCurrent = (index) =>{
+        /*global chrome*/
         chrome.storage.local.set({current_address:index});
     }
+
 
     return <AccountBox>
         {
@@ -190,7 +191,7 @@ export default function AccountHeader(){
             </DropDown>
         }
         {
-            showAccount && <AccountSwitch  walletList={walletList} network={network} currentAccount={current_account} handleCurrent={handleCurrent}  />
+            showAccount && <AccountSwitch  walletList={walletList} network={network} currentAccount={currentAccount} handleCurrent={handleCurrent}  />
         }
 
 
