@@ -19,18 +19,22 @@ export default function Home(){
     useEffect(()=>{
         /*global chrome*/
         chrome.storage.local.get(['isInit'],(result)=>{
-            console.log("=====result",result?.isInit)
             if(result?.isInit){
                 setShowHome(false);
             }else{
                 setShowHome(true);
             }
-
         });
+        getPassword()
 
     },[]);
 
-
+    const getPassword = async() =>{
+        /*global chrome*/
+        let result = await chrome.storage.session.get(["password"]);
+        console.log("result.password===",result.password)
+        setUnlocked(!!result.password)
+    }
 
 
     return <Box>

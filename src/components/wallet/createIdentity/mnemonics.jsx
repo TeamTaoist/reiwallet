@@ -83,7 +83,7 @@ export default function Mnemonics(){
     }, [mnemonic]);
 
     const creatWallet = async (index) =>{
-        const wallet = new Wallet(index,true,"");
+        const wallet = new Wallet(index,true,false);
         let walletObj = await wallet.GenerateWallet();
         const {address_main,address_test,mnemonic} = walletObj;
         const mnemonicArr = mnemonic.split(' ');

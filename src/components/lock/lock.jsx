@@ -4,6 +4,7 @@ import {useTranslation} from "react-i18next";
 import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import Keystore from "../../wallet/keystore";
 
 
 const Main = styled.div`
@@ -65,10 +66,16 @@ export default function Lock(){
     const handleInput = (e) =>{
         const { value } = e.target;
         setPassword(value);
+
     }
 
 
-    const submit = () =>{
+    const submit = async() =>{
+       let aa =  await Keystore.checkPassword(password)
+        console.log(aa)
+        return;
+        /*global chrome*/
+        chrome.storage.session.set({ password:password });
         navigate("/");
 
     }

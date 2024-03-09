@@ -14,6 +14,7 @@ import Toast from "../modal/toast";
 import useNetwork from "../../useHook/useNetwork";
 import useCurrent from "../../useHook/useCurrent";
 import useWalletList from "../../useHook/useWalletList";
+import AddAccount from "./addAccount";
 
 const AccountBox = styled.div`
     display: flex;
@@ -105,6 +106,7 @@ export default function AccountHeader(){
     const {walletList} = useWalletList();
 
     const[show,setShow] = useState(false);
+    const [showNew,setShowNew] = useState(false);
     const [showAccount,setShowAccount] = useState(false);
     const [address,setAddress] = useState('');
     const [walletName,setWalletName] = useState('');
@@ -164,6 +166,15 @@ export default function AccountHeader(){
         saveCurrent(index);
     }
 
+    const handleNew =()=>{
+        setShow(false);
+        setShowNew(true)
+    }
+
+    const handleCloseNew = () =>{
+        setShowNew(false)
+    }
+
 
     return <AccountBox>
         {
@@ -183,7 +194,10 @@ export default function AccountHeader(){
             </DropDown>
         }
         {
-            showAccount && <AccountSwitch  walletList={walletList} network={network} currentAccount={currentAccount} handleCurrent={handleCurrent}  />
+            showAccount && <AccountSwitch walletList={walletList} network={network} currentAccount={currentAccount} handleCurrent={handleCurrent} handleNew={handleNew}  />
+        }
+        {
+            showNew && <AddAccount handleCloseNew={handleCloseNew} />
         }
 
 

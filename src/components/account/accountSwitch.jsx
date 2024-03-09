@@ -32,7 +32,7 @@ const BtnGroup = styled.div`
     background: #fff;
     padding: 20px;
     button{
-      width: 30%;
+      width: 49%;
     }
 `
 const TitleBox = styled.div`
@@ -91,44 +91,12 @@ const AccountBox = styled.div`
   }
 `
 
-export default function AccountSwitch({walletList,network,currentAccount,handleCurrent}){
+export default function AccountSwitch({walletList,network,currentAccount,handleCurrent,handleNew}){
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-
     const toGo = (url) =>{
         navigate(url);
-    }
-
-    const createNew = async() =>{
-        // const primaryKeyring = keyringController.getKeyringsByType(
-        //     'HD Key Tree',
-        // )[0];
-        // if (!primaryKeyring) {
-        //     throw new Error('MetamaskController - No HD Key Tree found');
-        // }
-        //
-        // const keyState = await keyringController.addNewAccount(primaryKeyring);
-        //
-        // const accountArr = keyState.keyrings[0].accounts;
-        // const newAccount = accountArr[accountArr.length-1];
-        //
-        // const AddressBook = {
-        //     name:`Account${accountArr.length}`,
-        //     address:newAccount,
-        //     type:'generate',
-        //     pathIndex: accountArr.length
-        // }
-        // /*global chrome*/
-        // chrome.storage.local.get(['account'],(result)=>{
-        //     console.log(result)
-        //     const accountInfo = result.account;
-        //     const arr = [...accountInfo,AddressBook];
-        //
-        //     chrome.storage.local.set({account:arr});
-        //     setAccountlist(arr)
-        // });
-
     }
 
     const returnAccount = (account) =>{
@@ -162,9 +130,8 @@ export default function AccountSwitch({walletList,network,currentAccount,handleC
             </ul>
         </ContentBox>
         <BtnGroup>
-            <Button black onClick={()=>createNew()}>{t('popup.switch.Create')}</Button>
+            <Button black onClick={()=>handleNew()}>{t('popup.switch.Create')}</Button>
             <Button border onClick={()=>toGo('/privatekey')} >{t('popup.switch.Import')}</Button>
-            <Button border>{t('popup.switch.Lock')}</Button>
         </BtnGroup>
     </BgBox>
 }

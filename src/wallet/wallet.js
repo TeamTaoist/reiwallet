@@ -6,45 +6,68 @@ import { encodeToAddress } from '@ckb-lumos/helpers'
 
 const systemScriptsMainnet = predefined.LINA.SCRIPTS
 const systemScriptsTestnet = predefined.AGGRON4.SCRIPTS
+
 export default class Wallet{
-    constructor(index,isMainnet,mnemonic) {
+    constructor(index,isMainnet,hasMnemonic) {
         this.index = index;
         this.isMainnet = isMainnet;
-        this.mnemonic = mnemonic?mnemonic:this.createMnemonic();
+        this.hasMnemonic = hasMnemonic;
+        this.mnemonic = "";
     }
 
     createMnemonic () {
-        return bip39.generateMnemonic();
+        this.mnemonic = bip39.generateMnemonic();
+        // return bip39.generateMnemonic();
+    }
+
+    async useMnemonic () {
+        /*global chrome*/
+        let result = await chrome.storage.session.get(["password"]);
+        if(!result?.password){
+            throw new Error("no_password")
+        }
+
+        console.log("======useMnemon444ic==",result);
+        console.log("======useMnemonic---result==",result.password);
     }
 
 
     async GenerateSeed () {
         try{
-            return await hd.mnemonic.mnemonicToSeed(this.mnemonic, "");
+            if(this.hasMnemonic){
+                await this.useMnemonic()
+            }else{
+                this.createMnemonic()
+            }
+            return await hd.mnemonic.mnemonicToSeed(this.mnemonic);
         }catch (e) {
-            console.error("GenerateSeed",e)
+            throw e
         }
 
     }
     async GenerateWallet () {
-        const seed = await this.GenerateSeed();
-        const hdWallet = hd.Keychain.fromSeed(seed);
-        const path =`m/44'/309'/0'/0/${this.index}`;
+        try{
+            const seed = await this.GenerateSeed();
+            const hdWallet = hd.Keychain.fromSeed(seed);
+            const path =`m/44'/309'/0'/0/${this.index}`;
 
-        const key= hdWallet.derivePath(path);
+            const key= hdWallet.derivePath(path);
 
-        let publicKey = bytes.hexify(key.publicKey);
+            let publicKey = bytes.hexify(key.publicKey);
 
-        let address_main = this.publicKeyToAddress(publicKey,true)
-        let address_test = this.publicKeyToAddress(publicKey,false)
-        console.log("===address_main====",address_main)
-        console.log("===address_test====",address_test)
+            let address_main = this.publicKeyToAddress(publicKey,true)
+            let address_test = this.publicKeyToAddress(publicKey,false)
+
             return {
                 address_main,
                 address_test,
                 mnemonic:this.mnemonic
             }
-        // return privateKey;
+
+        }catch (e) {
+            throw e
+        }
+
     }
 
     publicKeyToAddress  (publicKey,isMainnet)  {

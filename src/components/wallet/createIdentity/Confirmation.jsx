@@ -84,13 +84,10 @@ export default function Confirmation(){
 
     useEffect(()=>{
         if(mnemonic == null )return;
-
         const arr = PublicJs.randomSort(mnemonic);
-
         setList(arr);
         setActiveArr(Array(arr.length).fill(false))
 
-  ;
     },[mnemonic]);
 
 

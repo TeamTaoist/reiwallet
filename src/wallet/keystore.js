@@ -154,15 +154,32 @@ export default class Keystore {
 
 
 
-checkPassword = (password) => {
-  const derivedKey = this.derivedKey(password)
-  const ciphertext = Buffer.from(this.crypto.ciphertext, 'hex')
-  return Keystore.mac(derivedKey, ciphertext) === this.crypto.mac
+  static checkPassword = async (password) => {
+  /*global chrome*/
+  let keyJson = await chrome.storage.local.get(['Mnemonic']);
+  let keyStr = JSON.parse(keyJson.Mnemonic);
+  console.error("=====",keyStr)
+    keyStr.kdfparams.salt = keyStr.kdfparams.salt?.data;
+
+  const {kdfparams} =keyStr;
+
+    console.error("====2222=",keyStr)
+  // const derivedKey = Keystore.derivedKey(password,keyStr.kdfparams)
+    const derivedKey   =  scrypt.syncScrypt(
+        Buffer.from(password),
+        kdfparams.salt,
+        kdfparams.n,
+        kdfparams.r,
+        kdfparams.p,
+        kdfparams.dklen,
+    );
+
+  const ciphertext = Buffer.from(keyStr.ciphertext, 'hex')
+  return Keystore.mac(derivedKey, ciphertext) === keyStr.mac
 }
 
-derivedKey = (password) => {
-  const { kdfparams } = this.crypto
-  return crypto.scryptSync(
+   static derivedKey = (password,kdfparams) => {
+  return scrypt.syncScrypt(
       password,
       Buffer.from(kdfparams.salt, 'hex'),
       kdfparams.dklen,
