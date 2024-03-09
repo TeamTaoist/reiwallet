@@ -9,6 +9,7 @@ import ClearImg from '../../../assets/images/clear.png';
 import {useWeb3} from "../../../store/contracts";
 import PublicJs from "../../../utils/publicJS";
 import Keystore from "../../../wallet/keystore";
+import Loading from "../../loading";
 
 const ContainerContentStyled = styled.div`
 
@@ -64,7 +65,6 @@ const ClearBox = styled.div`
       margin-left: 4px;
     }
 `
-
 export default function Confirmation(){
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -74,6 +74,7 @@ export default function Confirmation(){
     const [selectedArr,SetSelectedArr] = useState([]);
     const [activeArr, setActiveArr] = useState([]);
     const [disabled , setDisabled] = useState(true);
+    const [loading , setLoading] = useState(false);
 
     useEffect(()=>{
         if(mnemonic == null )return;
@@ -82,7 +83,11 @@ export default function Confirmation(){
 
         setList(arr);
         setActiveArr(Array(arr.length).fill(false))
+
+  ;
     },[mnemonic]);
+
+
 
     useEffect(()=>{
         if(mnemonic == null) return;
@@ -101,35 +106,31 @@ export default function Confirmation(){
     },[selectedArr,mnemonic])
 
 
-    const next = () =>{
-        const MnemonicStr = mnemonic.join(" ");
-        let keyJSon = Keystore.create(MnemonicStr,password);
-        console.log(keyJSon)
+    const next = async () =>{
+        setLoading(true)
+        setTimeout(()=>{
+            const MnemonicStr = mnemonic.join(" ");
+            let keyJSon = Keystore.create(MnemonicStr,password);
+            /*global chrome*/
+            chrome.storage.session.set({ password:password });
+            chrome.storage.local.set({isInit:true});
+            chrome.storage.local.set({walletList:[{
+                    account,
+                    type:"create",
+                    name:"Account 1",
+                    account_index:0
+                }]});
 
+            chrome.storage.local.set({Mnemonic:JSON.stringify(keyJSon)});
+            chrome.storage.local.set({network:"mainnet"});
+            chrome.storage.local.set({current_address:0});
 
-        navigate('/success');
-        /*global chrome*/
-        chrome.storage.session.set({ password:password });
-        chrome.storage.local.set({isInit:true});
-        chrome.storage.local.set({walletList:[{
-                account,
-                type:"create",
-                name:"Account 1",
-                account_index:0
-            }]});
+            dispatch({type:'SET_MNEMONIC',payload:null});
 
-        chrome.storage.local.set({Mnemonic:JSON.stringify(keyJSon)});
-        chrome.storage.local.set({network:"mainnet"});
+            navigate('/success');
+            setLoading(false)
+        },10)
 
-        dispatch({type:'SET_MNEMONIC',payload:null});
-        // setTimeout(()=>{
-        //     chrome.storage.local.get(["Mnemonic"],(result)=>{
-        //         console.error("result",result.Mnemonic)
-        //         let key = JSON.parse(result.Mnemonic);
-        //         const afterKey =  Keystore.decrypt(key,password)
-        //         console.error("========afterKey",afterKey)
-        //     });
-        // },2000)
 
 
     }
@@ -152,6 +153,10 @@ export default function Confirmation(){
     }
 
     return <DashboardLayout>
+        {
+            loading && <Loading />
+        }
+
         <ContainerLayout
             button={
                 // <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>

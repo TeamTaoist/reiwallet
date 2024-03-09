@@ -105,14 +105,33 @@ export default function AccountHeader(){
     const [address,setAddress] = useState('');
     const [walletName,setWalletName] = useState('');
     const [copied,setCopied] = useState(false);
+    const [network,setNetwork] = useState('mainnet');
+    const [current_account,setCurrent_account] = useState(0);
+
+    const [walletList,setWalletList] = useState([]);
 
     useEffect(() => {
         document.addEventListener("click", (e) =>{
             setShow(false);
             setShowAccount(false);
         });
+        /*global chrome*/
+        chrome.storage.local.get(['walletList'],(result)=>{
+            console.error(result.walletList)
+            setWalletList(result.walletList)
+        });
         getAccount();
-    }, []);
+
+    },[]);
+
+    /*global chrome*/
+    chrome.storage.local.get(['network'],(result)=>{
+        setNetwork(result.network)
+    });
+    chrome.storage.local.get(['current_address'],(result)=>{
+        setCurrent_account(result.current_address)
+    });
+
 
 
     const getAccount = () =>{
@@ -149,6 +168,10 @@ export default function AccountHeader(){
         setShowAccount(!showAccount);
     }
 
+    const handleCurrent = (index) =>{
+        chrome.storage.local.set({current_address:index});
+    }
+
     return <AccountBox>
         {
             show &&<DropDown>
@@ -167,7 +190,7 @@ export default function AccountHeader(){
             </DropDown>
         }
         {
-            showAccount && <AccountSwitch />
+            showAccount && <AccountSwitch  walletList={walletList} network={network} currentAccount={current_account} handleCurrent={handleCurrent}  />
         }
 
 

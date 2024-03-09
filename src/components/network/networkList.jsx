@@ -71,7 +71,6 @@ export default function NetworkList({netList,current}){
 
     const handleSelect = (index) =>{
         const value = netList[index].value;
-
         /*global chrome*/
         chrome.storage.local.set({network:value});
 

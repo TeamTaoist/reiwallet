@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CheckNor from "../../assets/images/Check01.png";
+import CheckAct from "../../assets/images/Check02.png";
 import Del from "../../assets/images/del.png";
 import Demo from '../../assets/images/demo/99592461.jpeg';
 import Button from "../button/button";
@@ -7,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {use} from "i18next";
+import PublicJs from "../../utils/publicJS";
 
 const BgBox = styled.div`
     position: absolute;
@@ -89,12 +91,10 @@ const AccountBox = styled.div`
   }
 `
 
-export default function AccountSwitch(){
+export default function AccountSwitch({walletList,network,currentAccount,handleCurrent}){
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [ accountlist, setAccountlist] = useState([]);
-    const [currentAccount,setCurrentAccount] = useState([]);
-
 
     const toGo = (url) =>{
         navigate(url);
@@ -138,18 +138,27 @@ export default function AccountSwitch(){
 
     }
 
+    const returnAccount = (account) =>{
+        if(network === "mainnet"){
+            return PublicJs.AddressToShow(account.address_main)
+        }else{
+            return PublicJs.AddressToShow(account.address_test)
+        }
+
+    }
+
     return <BgBox>
         <TitleBox className="medium-font">{t('popup.switch.title')}</TitleBox>
         <ContentBox>
             <ul>
                 {
-                    accountlist?.map((item,index)=>(<li key={index}>
-                        <img src={CheckNor} alt="" className="decr"/>
+                    walletList?.map((item,index)=>(<li key={index} onClick={()=>handleCurrent(index)}>
+                        <img src={currentAccount=== index ? CheckAct:CheckNor} alt="" className="decr"/>
                         <AccountBox>
                             <img src={Demo} alt="" className="avatar"/>
                             <div>
                                 <div className="medium-font">{item.name}</div>
-                                <div className="balance medium-font">0 ETH</div>
+                                <div className="balance medium-font">{returnAccount(item.account)}</div>
                             </div>
                         </AccountBox>
                         {/*<img src={Del} alt="" className="decr"/>*/}

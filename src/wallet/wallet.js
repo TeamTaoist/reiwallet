@@ -37,6 +37,8 @@ export default class Wallet{
 
         let address_main = this.publicKeyToAddress(publicKey,true)
         let address_test = this.publicKeyToAddress(publicKey,false)
+        console.log("===address_main====",address_main)
+        console.log("===address_test====",address_test)
             return {
                 address_main,
                 address_test,
@@ -45,7 +47,7 @@ export default class Wallet{
         // return privateKey;
     }
 
-    publicKeyToAddress  (publicKey)  {
+    publicKeyToAddress  (publicKey,isMainnet)  {
         const pubkey = publicKey.startsWith('0x') ? publicKey : `0x${publicKey}`
 
         return this.scriptToAddress(
@@ -53,11 +55,12 @@ export default class Wallet{
                 codeHash: systemScriptsMainnet.SECP256K1_BLAKE160.CODE_HASH,
                 hashType: systemScriptsMainnet.SECP256K1_BLAKE160.HASH_TYPE,
                 args: hd.key.publicKeyToBlake160(pubkey),
-            }
+            },
+            isMainnet
         )
     }
-    scriptToAddress  (script)  {
-        const lumosConfig = !this.isMainnet ? predefined.AGGRON4 : predefined.LINA;
+    scriptToAddress  (script,isMainnet)  {
+        const lumosConfig = !isMainnet ? predefined.AGGRON4 : predefined.LINA;
         return encodeToAddress(
             // omit keys other than codeHash, args and hashType
             {

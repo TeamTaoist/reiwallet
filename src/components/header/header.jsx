@@ -58,8 +58,6 @@ export default function HeaderTop(){
     ])
     /*global chrome*/
     chrome.storage.local.get(['network'],(result)=>{
-        console.error("==== result.network", result.network)
-
         const networkIndex = netList.findIndex(item=>item.value === result.network);
         setCurrent(networkIndex<0?0:networkIndex)
 
