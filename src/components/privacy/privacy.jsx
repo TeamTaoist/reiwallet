@@ -5,6 +5,7 @@ import Button from "../button/button";
 import Check from '../../assets/images/dashboard/check.svg';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
+import useWalletList from "../../useHook/useWalletList";
 
 const PrivacyPageStyled = styled.div`
   width: 762px;
@@ -73,38 +74,19 @@ const CheckItem = (props) => {
 const PrivacyDashboard = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const {walletList} = useWalletList();
   const clickCancel = useCallback(() => {
     window.close();
   }, [])
 
   const clickAgree =() => {
+    if(walletList?.length){
+      window.close();
+      return;
+    }
     /*global chrome*/
     chrome.storage.local.set({agreement:true})
     navigate('/create');
-
-    // /*global chrome*/
-    // chrome.windows.getCurrent((tabWindow) => {
-    //     var screenWidth =  window.screen.availWidth;
-    //     var screenHeight = window.screen.availHeight;
-    //   const width = 382;
-    //   const height = 680;
-    //   const leftOffset = screenWidth - width;
-    //   const topOffset =0;
-    //
-    //   var infoPopupUrl = "background.html";
-    //
-    //   chrome.windows.create(
-    //       {
-    //         'url': chrome.runtime.getURL(infoPopupUrl),
-    //         'type': "popup",
-    //         'width': width,
-    //         'height': height,
-    //         'left': leftOffset,
-    //         'top':topOffset,
-    //         'focused': true
-    //       }
-    //   );
-    // });
   }
 
   return (

@@ -16,6 +16,9 @@ const reducer = (state, action) => {
         case 'SET_CURRENT_ACCOUNT':
             return { ...state, refresh_current: action.payload};
 
+        case 'SET_WALLET_LIST':
+            return { ...state, refresh_wallet_list: action.payload};
+
 
         // case 'SET_ERROR':
         //     return { ...state, errorTips: action.payload };

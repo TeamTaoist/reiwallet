@@ -10,6 +10,9 @@ import {useWeb3} from "../../../store/contracts";
 import PublicJs from "../../../utils/publicJS";
 import Keystore from "../../../wallet/keystore";
 import Loading from "../../loading";
+import useNetwork from "../../../useHook/useNetwork";
+import useCurrent from "../../../useHook/useCurrent";
+import useWalletList from "../../../useHook/useWalletList";
 
 const ContainerContentStyled = styled.div`
 
@@ -75,6 +78,9 @@ export default function Confirmation(){
     const [activeArr, setActiveArr] = useState([]);
     const [disabled , setDisabled] = useState(true);
     const [loading , setLoading] = useState(false);
+    const {saveNetwork} = useNetwork();
+    const {saveCurrent} = useCurrent();
+    const {saveWallet} = useWalletList();
 
     useEffect(()=>{
         if(mnemonic == null )return;
@@ -114,17 +120,15 @@ export default function Confirmation(){
             /*global chrome*/
             chrome.storage.session.set({ password:password });
             chrome.storage.local.set({isInit:true});
-            chrome.storage.local.set({walletList:[{
-                    account,
-                    type:"create",
-                    name:"Account 1",
-                    account_index:0
-                }]});
-
+            saveWallet({
+                account,
+                type:"create",
+                name:"Account 1",
+                account_index:0
+            })
             chrome.storage.local.set({Mnemonic:JSON.stringify(keyJSon)});
-            chrome.storage.local.set({network:"mainnet"});
-            chrome.storage.local.set({current_address:0});
-
+            saveNetwork("mainnet")
+            saveCurrent(0)
             dispatch({type:'SET_MNEMONIC',payload:null});
 
             navigate('/success');

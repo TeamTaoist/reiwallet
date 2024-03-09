@@ -6,11 +6,7 @@ import Discord from "../../assets/images/setting/Discord.png";
 import Telegram from "../../assets/images/setting/Telegram.png";
 import Medium from "../../assets/images/setting/Medium.png";
 import Next from '../../assets/images/into.png'
-import DropImg from "../../assets/images/dropRht.png";
-import Photo from "../../assets/images/photo.png";
-import CopyImg from "../../assets/images/create/COPY.png";
-import Demo from "../../assets/images/demo/99592461.jpeg";
-import Checked from "../../assets/images/Check02.png";
+
 
 const Box = styled.div`
     width: 100%;
@@ -172,6 +168,13 @@ export default function Setting(){
     const toGo = (url) =>{
         navigate(url)
     }
+
+    const toPrivacy = () =>{
+        /*global chrome*/
+        chrome.tabs.create({
+            url: '/install.html#/privacy'
+        });
+    }
     return <Box>
         <TitleBox>
             <img src={CloseImg} alt="" onClick={()=>toGo('/')}/>
@@ -204,7 +207,7 @@ export default function Setting(){
                     <div>V 1.0</div>
                 </ItemBox2>
                 <ItemBox2>
-                    <LftTitle className="medium-font">Privacy clause</LftTitle>
+                    <LftTitle className="medium-font" onClick={()=>toPrivacy()}>Privacy clause</LftTitle>
                     <div>V 1.0</div>
                 </ItemBox2>
             </ContentBox2>

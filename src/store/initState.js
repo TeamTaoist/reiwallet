@@ -3,5 +3,6 @@ module.exports = {
     account:null,
     mnemonic:null,
     refresh_network:null,
+    refresh_wallet_list:null,
     refresh_current:null
 };

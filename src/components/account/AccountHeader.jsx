@@ -13,6 +13,7 @@ import PublicJs from "../../utils/publicJS";
 import Toast from "../modal/toast";
 import useNetwork from "../../useHook/useNetwork";
 import useCurrent from "../../useHook/useCurrent";
+import useWalletList from "../../useHook/useWalletList";
 
 const AccountBox = styled.div`
     display: flex;
@@ -100,7 +101,8 @@ export default function AccountHeader(){
     const navigate = useNavigate();
     const { t } = useTranslation();
     const {network} = useNetwork();
-    const {currentAccount} = useCurrent();
+    const {currentAccount,saveCurrent} = useCurrent();
+    const {walletList} = useWalletList();
 
     const[show,setShow] = useState(false);
     const [showAccount,setShowAccount] = useState(false);
@@ -108,20 +110,11 @@ export default function AccountHeader(){
     const [walletName,setWalletName] = useState('');
     const [copied,setCopied] = useState(false);
 
-    const [walletList,setWalletList] = useState([]);
-
     useEffect(() => {
         document.addEventListener("click", (e) =>{
             setShow(false);
             setShowAccount(false);
         });
-        /*global chrome*/
-        chrome.storage.local.get(['walletList'],(result)=>{
-            console.error(result.walletList)
-            setWalletList(result.walletList)
-        });
-
-
     },[]);
 
 
@@ -168,8 +161,7 @@ export default function AccountHeader(){
     }
 
     const handleCurrent = (index) =>{
-        /*global chrome*/
-        chrome.storage.local.set({current_address:index});
+        saveCurrent(index);
     }
 
 
