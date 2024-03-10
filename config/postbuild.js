@@ -29,9 +29,14 @@ const newManifest = {
     "type": "module"
   },
   content_scripts: [
-
-  ],
-  web_accessible_resources: [
+    {
+      ...manifest.content_scripts[0],
+      js: [
+        "/content_script/content.js",
+        "/content_script/inject.js"
+      ],
+      // css: [css],
+    }
   ]
 };
 

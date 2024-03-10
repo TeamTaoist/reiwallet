@@ -20,14 +20,18 @@
   },
   "web_accessible_resources": [
     {
-      "resources": [ "/images/logo.png" ]
+      "resources": [ "/content_script/inject.js","/images/logo.png" ],
+      "matches": ["<all_urls>"],
+      "all_frames": true
     }
   ],
   "content_scripts": [
     {
       "js": [],
       "css": [],
-      "matches": ["*"]
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "run_at": "document_start"
     }
   ]
 }
