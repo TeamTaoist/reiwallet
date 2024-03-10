@@ -5,6 +5,8 @@ import Button from "../button/button";
 import useWalletList from "../../useHook/useWalletList";
 import useNetwork from "../../useHook/useNetwork";
 import {useNavigate} from "react-router-dom";
+import {useWeb3} from "../../store/contracts";
+import BtnLoading from "../btnloading";
 
 const MaskBox = styled.div`
     background: rgba(0,0,0,0.4);
@@ -60,7 +62,15 @@ const BtnGroup = styled.div`
     box-sizing: border-box;
     button{
       width: 49%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:5px;
+        &:disabled{
+            opacity: 0.3;
+        }
     }
+    
 `
 
 export default function AddAccount({handleCloseNew}) {
@@ -69,6 +79,8 @@ export default function AddAccount({handleCloseNew}) {
     const [name, setName] = useState("");
     const {walletList} = useWalletList();
     const {network} = useNetwork();
+    const {state:{refresh_wallet_list},dispatch} = useWeb3();
+    const[loading,setLoading] = useState(false)
 
     useEffect(() => {
         let str = `Account ${walletList.length+1}`
@@ -88,23 +100,29 @@ export default function AddAccount({handleCloseNew}) {
     }, []);
 
     const listenerEvent = (message, sender, sendResponse) => {
-
-        if(message.type==="to_lock"){
-            console.error("===to_lock=")
+        const {type }= message
+        if(type==="to_lock"){
             navigate('/');
+        }else if(type ==="create_account_success"){
+            setLoading(false)
+            dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
+            handleCloseNew()
+
         }
         sendResponse({message})
     }
 
     const handleCreate = () =>{
+        setLoading(true)
         let obj ={
             index:walletList.length,
             network,
+            name,
             hasMnemonic:true
         }
         /*global chrome*/
         chrome.runtime.sendMessage({  data: obj ,type:"Create_Account"}, function (response) {
-            console.log("Create_Account success");
+            console.log("send Create_Account success");
         })
     }
 
@@ -125,7 +143,11 @@ export default function AddAccount({handleCloseNew}) {
                 </div>
             </ContentBox>
             <BtnGroup>
-                <Button black onClick={()=>handleCreate()}>{t('popup.switch.Create')}</Button>
+                <Button black onClick={()=>handleCreate()} disabled={!name?.length || loading}>{t('popup.switch.Create')}
+                    {
+                    loading && <BtnLoading/>
+                }
+                </Button>
                 <Button border onClick={()=>handleCloseNew()}>Cancel</Button>
             </BtnGroup>
         </BgBox>

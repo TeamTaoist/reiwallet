@@ -5,6 +5,7 @@ import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Keystore from "../../wallet/keystore";
+import BtnLoading from "../btnloading";
 
 
 const Main = styled.div`
@@ -17,6 +18,12 @@ const Main = styled.div`
     text-align: center;
     button{
       margin-top: 30px;
+    }
+    .line{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
     }
 `
 
@@ -62,6 +69,7 @@ export default function Lock(){
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [ password, setPassword ] = useState('');
+    const [loading,setLoading] = useState(false)
 
     const handleInput = (e) =>{
         const { value } = e.target;
@@ -71,12 +79,25 @@ export default function Lock(){
 
 
     const submit = async() =>{
-       let aa =  await Keystore.checkPassword(password)
-        console.log(aa)
-        return;
-        /*global chrome*/
-        chrome.storage.session.set({ password:password });
-        navigate("/");
+        setLoading(true)
+        try{
+            let pwdRt =  await Keystore.checkPassword(password)
+            if(pwdRt){
+                /*global chrome*/
+                chrome.storage.session.set({ password:password });
+                navigate("/");
+            }else{
+                setPassword('');
+            }
+
+        }catch (e) {
+            console.error("checkPassword",e)
+
+        }finally {
+            setLoading(false)
+        }
+
+
 
     }
     return <Main>
@@ -90,8 +111,20 @@ export default function Lock(){
                 <input type="text" placeholder={t('popup.lock.placeholder')} value={password} onChange={(e)=>handleInput(e,"walletName")} autoComplete="new-password"/>
             </dd>
         </Content>
-        <Button primary fullWidth disabled={!password.length} onClick={()=>submit()}>{t('popup.lock.unlock')}</Button>
-        <Forgot className="medium-font">Forgot password</Forgot>
+        <Button primary fullWidth disabled={!password.length || loading} onClick={()=>submit()}>
+            {
+                !loading &&      <>{t('popup.lock.unlock')}</>
+            }
+
+            {
+                loading &&  <div className="line">
+                    validating
+                    <BtnLoading />
+                </div>
+            }
+
+        </Button>
+        {/*<Forgot className="medium-font">Forgot password</Forgot>*/}
     </Main>
 
 }

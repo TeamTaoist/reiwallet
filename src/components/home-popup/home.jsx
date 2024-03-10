@@ -32,7 +32,6 @@ export default function Home(){
     const getPassword = async() =>{
         /*global chrome*/
         let result = await chrome.storage.session.get(["password"]);
-        console.log("result.password===",result.password)
         setUnlocked(!!result.password)
     }
 

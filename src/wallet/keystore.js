@@ -118,7 +118,10 @@ export default class Keystore {
   }
 
   // Decrypt and return serialized extended private key.
-  static decrypt = (keyStr,password)  =>{
+  static decrypt = async (password)  =>{
+    /*global chrome*/
+    let keyJson = await chrome.storage.local.get(['Mnemonic']);
+    let keyStr = JSON.parse(keyJson.Mnemonic);
     const {kdfparams} = keyStr;
 
     const salt = kdfparams.salt?.data;
@@ -158,13 +161,9 @@ export default class Keystore {
   /*global chrome*/
   let keyJson = await chrome.storage.local.get(['Mnemonic']);
   let keyStr = JSON.parse(keyJson.Mnemonic);
-  console.error("=====",keyStr)
     keyStr.kdfparams.salt = keyStr.kdfparams.salt?.data;
 
   const {kdfparams} =keyStr;
-
-    console.error("====2222=",keyStr)
-  // const derivedKey = Keystore.derivedKey(password,keyStr.kdfparams)
     const derivedKey   =  scrypt.syncScrypt(
         Buffer.from(password),
         kdfparams.salt,

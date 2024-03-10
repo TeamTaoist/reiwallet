@@ -15,6 +15,7 @@ import useNetwork from "../../useHook/useNetwork";
 import useCurrent from "../../useHook/useCurrent";
 import useWalletList from "../../useHook/useWalletList";
 import AddAccount from "./addAccount";
+import {useWeb3} from "../../store/contracts";
 
 const AccountBox = styled.div`
     display: flex;
@@ -104,6 +105,7 @@ export default function AccountHeader(){
     const {network} = useNetwork();
     const {currentAccount,saveCurrent} = useCurrent();
     const {walletList} = useWalletList();
+    const {state:{refresh_wallet_list}} = useWeb3();
 
     const[show,setShow] = useState(false);
     const [showNew,setShowNew] = useState(false);
@@ -123,7 +125,7 @@ export default function AccountHeader(){
     useEffect(() => {
         if(!walletList?.length)return;
         getAccount();
-    }, [currentAccount,network,walletList]);
+    }, [currentAccount,network,walletList,refresh_wallet_list]);
 
 
     const getAccount = () =>{

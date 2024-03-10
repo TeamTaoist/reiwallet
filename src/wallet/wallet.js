@@ -3,6 +3,7 @@ import { hd } from '@ckb-lumos/lumos';
 import { bytes } from '@ckb-lumos/codec';
 import { predefined } from '@ckb-lumos/config-manager'
 import { encodeToAddress } from '@ckb-lumos/helpers'
+import Keystore from "./keystore";
 
 const systemScriptsMainnet = predefined.LINA.SCRIPTS
 const systemScriptsTestnet = predefined.AGGRON4.SCRIPTS
@@ -26,9 +27,8 @@ export default class Wallet{
         if(!result?.password){
             throw new Error("no_password")
         }
+        this.mnemonic = await Keystore.decrypt(result?.password)
 
-        console.log("======useMnemon444ic==",result);
-        console.log("======useMnemonic---result==",result.password);
     }
 
 
@@ -61,7 +61,6 @@ export default class Wallet{
             return {
                 address_main,
                 address_test,
-                mnemonic:this.mnemonic
             }
 
         }catch (e) {

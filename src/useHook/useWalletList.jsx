@@ -12,13 +12,13 @@ export default function useWalletList(){
         });
     }, [refresh_wallet_list]);
 
-    const saveWallet = (item,isFresh) =>{
+    const saveWallet = (item) =>{
         /*global chrome*/
         chrome.storage.local.get(['walletList'],(result)=>{
           let list = result.walletList ?? [];
           let newList = [...list,item];
             chrome.storage.local.set({walletList:newList});
-            !isFresh && dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
+            dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
         });
 
     }
