@@ -9,6 +9,7 @@ import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {use} from "i18next";
 import PublicJs from "../../utils/publicJS";
+import useAccountAddress from "../../useHook/useAccountAddress";
 
 const BgBox = styled.div`
     position: absolute;
@@ -91,21 +92,13 @@ const AccountBox = styled.div`
   }
 `
 
-export default function AccountSwitch({walletList,network,currentAccount,handleCurrent,handleNew}){
+export default function AccountSwitch({currentAccount,handleCurrent,handleNew}){
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const {accountList} = useAccountAddress();
 
     const toGo = (url) =>{
         navigate(url);
-    }
-
-    const returnAccount = (account) =>{
-        if(network === "mainnet"){
-            return PublicJs.AddressToShow(account.address_main)
-        }else{
-            return PublicJs.AddressToShow(account.address_test)
-        }
-
     }
 
     return <BgBox>
@@ -113,13 +106,13 @@ export default function AccountSwitch({walletList,network,currentAccount,handleC
         <ContentBox>
             <ul>
                 {
-                    walletList?.map((item,index)=>(<li key={index} onClick={()=>handleCurrent(index)}>
+                    accountList?.map((item,index)=>(<li key={index} onClick={()=>handleCurrent(index)}>
                         <img src={currentAccount=== index ? CheckAct:CheckNor} alt="" className="decr"/>
                         <AccountBox>
                             <img src={Demo} alt="" className="avatar"/>
                             <div>
                                 <div className="medium-font">{item.name}</div>
-                                <div className="balance medium-font">{returnAccount(item.account)}</div>
+                                <div className="balance medium-font">{PublicJs.AddressToShow(item.address)}</div>
                             </div>
                         </AccountBox>
                         {/*<img src={Del} alt="" className="decr"/>*/}

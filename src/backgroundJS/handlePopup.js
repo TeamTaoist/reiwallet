@@ -1,6 +1,21 @@
-import Wallet from "../wallet/wallet";
-
 /*global chrome*/
+import Wallet from "../wallet/wallet";
+import RpcClient from "./rpc";
+
+export const handlePopUp = async (requestData) =>{
+    switch (requestData.method){
+        case "Create_Account":
+           create_new_wallet(requestData);
+            break;
+        case "get_capacity":
+            get_Capacity(requestData);
+            break;
+    }
+
+}
+
+
+
 export const create_new_wallet = async(obj) =>{
     const {index,network,hasMnemonic,name} = obj;
     try{
@@ -20,7 +35,6 @@ export const create_new_wallet = async(obj) =>{
             chrome.runtime.sendMessage({ type:"create_account_success"},  ()=> {})
         });
 
-        console.log("create_new_wallet====",walletObj)
     }catch (e) {
 
         if(e?.message.includes("no_password")){
@@ -29,6 +43,20 @@ export const create_new_wallet = async(obj) =>{
             chrome.runtime.sendMessage({ type:"error"},  ()=> {})
         }
 
+    }
+}
+
+const get_Capacity = async(obj) =>{
+    const {networkInfo,currentAccountInfo} = obj;
+
+    console.log("get_Capacity",obj)
+    try{
+        const client = new RpcClient(networkInfo);
+        let rt = await client.get_capacity(currentAccountInfo.address);
+        chrome.runtime.sendMessage({ type:"get_Capacity_success",data:rt},  ()=> {})
+
+    }catch (e){
+        chrome.runtime.sendMessage({ type:"error"},  ()=> {})
     }
 
 

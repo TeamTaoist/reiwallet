@@ -5,6 +5,8 @@ import DropImg from "../../assets/images/drop.png"
 import {useNavigate} from "react-router-dom";
 import NetworkList from "../network/networkList";
 import {useEffect, useState} from "react";
+import {networkList} from "../../constants/network";
+import useNetwork from "../../useHook/useNetwork";
 
 const HeaderBox = styled.div`
     display: flex;
@@ -42,27 +44,13 @@ export default function HeaderTop(){
     const navigate = useNavigate();
     const [showNetwork,setShowNetwork] = useState(false);
     const [ current,setCurrent] = useState(0);
-    const [netList] = useState([
-        {
-            name:"Mainnet",
-            value:"mainnet"
-        },
-        {
-            name:"Testnet",
-            value:"testnet"
-        },
-        {
-            name:"Devnet",
-            value:"devnet"
-        }
-    ])
-    /*global chrome*/
-    chrome.storage.local.get(['network'],(result)=>{
-        const networkIndex = netList.findIndex(item=>item.value === result.network);
+    const {network} = useNetwork();
+
+
+    useEffect(() => {
+        const networkIndex = networkList.findIndex(item=>item.value === network);
         setCurrent(networkIndex<0?0:networkIndex)
-
-    });
-
+    }, [network]);
 
 
     const toSetting = () =>{
@@ -82,14 +70,14 @@ export default function HeaderTop(){
 
     return <HeaderBox>
         {
-            showNetwork && <NetworkList netList={netList} current={current} />
+            showNetwork && <NetworkList netList={networkList} current={current} />
         }
         <LogoImg>
             <img src={Logo} alt=""/>
         </LogoImg>
 
         <InputBox onClick={(e)=>handleNetwork(e)}>
-            {netList[current].name}
+            {networkList[current].name}
             <img src={DropImg} alt=""/>
         </InputBox>
         <MoreBox>

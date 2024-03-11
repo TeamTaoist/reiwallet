@@ -2,7 +2,7 @@ import * as bip39 from 'bip39';
 import { hd } from '@ckb-lumos/lumos';
 import { bytes } from '@ckb-lumos/codec';
 import { predefined } from '@ckb-lumos/config-manager'
-import { encodeToAddress } from '@ckb-lumos/helpers'
+import { encodeToAddress,parseAddress } from '@ckb-lumos/helpers'
 import Keystore from "./keystore";
 
 const systemScriptsMainnet = predefined.LINA.SCRIPTS
@@ -94,6 +94,13 @@ export default class Wallet{
             { config: lumosConfig }
         )
     }
-
+    static addressToScript  (address) {
+        const prefix = address.slice(0, 3)
+        if (prefix !== 'ckt' && prefix !== 'ckb') {
+            throw new Error('Invalid address prefix')
+        }
+        const lumosConfig = prefix === 'ckt' ? predefined.AGGRON4 : predefined.LINA
+        return parseAddress(address, { config: lumosConfig })
+    }
 
 }

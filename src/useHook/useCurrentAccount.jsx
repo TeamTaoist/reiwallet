@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import {useWeb3} from "../store/contracts";
 
-export default function useCurrent(){
+
+export default function useCurrentAccount(){
     const [currentAccount,setCurrentAccount] = useState(0);
     const {dispatch,state:{refresh_current}} = useWeb3();
 

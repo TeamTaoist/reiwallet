@@ -1,5 +1,5 @@
-import {create_new_wallet} from "../../backgroundJS/createAccount";
 import {handleRequest} from "../../backgroundJS/handleRequest";
+import {handlePopUp} from "../../backgroundJS/handlePopup";
 
 /*global chrome*/
 function init() {
@@ -16,16 +16,15 @@ function init() {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         let requestType = message.type;
         switch (requestType) {
-            case "Create_Account":
-                create_new_wallet(message.data,sendResponse,message)
+            case "CKB_POPUP":
+                handlePopUp(message.data)
                 sendResponse({ "message":message});
                 break;
 
-                case "CKB_REQUEST_BACKGROUND":
-                    console.log("===CKB_REQUEST_BACKGROUND====",message.data)
-                    handleRequest(message.data)
-                    sendResponse({ "message":message});
-                break;
+            case "CKB_REQUEST_BACKGROUND":
+                handleRequest(message.data)
+                sendResponse({ "message":message});
+            break;
 
         }
     })

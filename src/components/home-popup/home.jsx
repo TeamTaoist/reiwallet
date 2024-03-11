@@ -5,6 +5,7 @@ import styled from "styled-components";
 import {useEffect, useState} from "react";
 
 import {useWeb3} from "../../store/contracts";
+import Wallet from "../../wallet/wallet";
 
 const Box = styled.div`
     height: 600px;
@@ -34,6 +35,8 @@ export default function Home(){
         let result = await chrome.storage.session.get(["password"]);
         setUnlocked(!!result.password)
     }
+
+
 
 
     return <Box>

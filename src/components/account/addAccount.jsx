@@ -118,10 +118,11 @@ export default function AddAccount({handleCloseNew}) {
             index:walletList.length,
             network,
             name,
-            hasMnemonic:true
+            hasMnemonic:true,
+            method:"Create_Account"
         }
         /*global chrome*/
-        chrome.runtime.sendMessage({  data: obj ,type:"Create_Account"}, function (response) {
+        chrome.runtime.sendMessage({  data: obj ,type:"CKB_POPUP"}, function (response) {
             console.log("send Create_Account success");
         })
     }

@@ -11,7 +11,7 @@ import PublicJs from "../../../utils/publicJS";
 import Keystore from "../../../wallet/keystore";
 import Loading from "../../loading";
 import useNetwork from "../../../useHook/useNetwork";
-import useCurrent from "../../../useHook/useCurrent";
+import useCurrentAccount from "../../../useHook/useCurrentAccount";
 import useWalletList from "../../../useHook/useWalletList";
 
 const ContainerContentStyled = styled.div`
@@ -79,7 +79,7 @@ export default function Confirmation(){
     const [disabled , setDisabled] = useState(true);
     const [loading , setLoading] = useState(false);
     const {saveNetwork} = useNetwork();
-    const {saveCurrent} = useCurrent();
+    const {saveCurrent} = useCurrentAccount();
     const {saveWallet} = useWalletList();
 
     useEffect(()=>{

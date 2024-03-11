@@ -11,11 +11,10 @@ import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import PublicJs from "../../utils/publicJS";
 import Toast from "../modal/toast";
-import useNetwork from "../../useHook/useNetwork";
-import useCurrent from "../../useHook/useCurrent";
-import useWalletList from "../../useHook/useWalletList";
+import useCurrentAccount from "../../useHook/useCurrentAccount";
 import AddAccount from "./addAccount";
-import {useWeb3} from "../../store/contracts";
+import useAccountAddress from "../../useHook/useAccountAddress";
+import useNetwork from "../../useHook/useNetwork";
 
 const AccountBox = styled.div`
     display: flex;
@@ -102,10 +101,9 @@ const DropDown = styled.div`
 export default function AccountHeader(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const {network} = useNetwork();
-    const {currentAccount,saveCurrent} = useCurrent();
-    const {walletList} = useWalletList();
-    const {state:{refresh_wallet_list}} = useWeb3();
+    const {currentAccount,saveCurrent} = useCurrentAccount();
+    const {currentAccountInfo} = useAccountAddress();
+    const {networkInfo} = useNetwork();
 
     const[show,setShow] = useState(false);
     const [showNew,setShowNew] = useState(false);
@@ -114,6 +112,7 @@ export default function AccountHeader(){
     const [walletName,setWalletName] = useState('');
     const [copied,setCopied] = useState(false);
 
+
     useEffect(() => {
         document.addEventListener("click", (e) =>{
             setShow(false);
@@ -121,24 +120,13 @@ export default function AccountHeader(){
         });
     },[]);
 
-
     useEffect(() => {
-        if(!walletList?.length)return;
-        getAccount();
-    }, [currentAccount,network,walletList,refresh_wallet_list]);
+        if(!currentAccountInfo)return;
+        const {address,name} = currentAccountInfo;
+            setAddress(address)
+            setWalletName(name)
+    }, [currentAccountInfo]);
 
-
-    const getAccount = () =>{
-        let current = walletList[currentAccount];
-        let addr;
-        if(network === "mainnet"){
-            addr = current.account.address_main
-        }else{
-            addr = current.account.address_test
-        }
-        setAddress(addr)
-        setWalletName(current.name)
-    }
 
     const stopPropagation = (e) => {
         e.nativeEvent.stopImmediatePropagation();
@@ -177,15 +165,21 @@ export default function AccountHeader(){
         setShowNew(false)
     }
 
+    const toExplorer = () =>{
+        /*global chrome*/
+        chrome.tabs.create({
+            url: `${networkInfo?.blockExplorerUrls}address/${address}`
+        });
+    }
 
     return <AccountBox>
         {
             show &&<DropDown>
-                <dl>
+                <dl onClick={()=>toExplorer()}>
                     <dt>
                         <img src={EtherImg} alt=""/>
                     </dt>
-                    <dd>Etherscan.com</dd>
+                    <dd>Explorer</dd>
                 </dl>
                 <dl onClick={()=>toDetail()}>
                     <dt>
@@ -196,7 +190,7 @@ export default function AccountHeader(){
             </DropDown>
         }
         {
-            showAccount && <AccountSwitch walletList={walletList} network={network} currentAccount={currentAccount} handleCurrent={handleCurrent} handleNew={handleNew}  />
+            showAccount && <AccountSwitch currentAccount={currentAccount} handleCurrent={handleCurrent} handleNew={handleNew}  />
         }
         {
             showNew && <AddAccount handleCloseNew={handleCloseNew} />

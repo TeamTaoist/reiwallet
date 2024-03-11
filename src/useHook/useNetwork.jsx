@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import {useWeb3} from "../store/contracts";
+import {networkList} from "../constants/network";
 
 export default function useNetwork(){
     const [network,setNetwork] = useState('mainnet');
+    const [networkInfo,setNetworkInfo] = useState(null);
     const {dispatch,state:{refresh_network}} = useWeb3();
 
     useEffect(() => {
@@ -12,6 +14,12 @@ export default function useNetwork(){
         });
     }, [refresh_network]);
 
+
+    useEffect(() => {
+        const networkArr = networkList.filter(item=>item.value === network);
+        setNetworkInfo(networkArr[0])
+    }, [network]);
+
     const saveNetwork = (value) =>{
         /*global chrome*/
         chrome.storage.local.set({network:value});
@@ -19,5 +27,5 @@ export default function useNetwork(){
         dispatch({type:'SET_REFRESH_NETWORK',payload:value});
     }
 
-    return {network, saveNetwork};
+    return {network, networkInfo,saveNetwork};
 }

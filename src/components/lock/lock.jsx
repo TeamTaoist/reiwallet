@@ -113,7 +113,7 @@ export default function Lock(){
         </Content>
         <Button primary fullWidth disabled={!password.length || loading} onClick={()=>submit()}>
             {
-                !loading &&      <>{t('popup.lock.unlock')}</>
+                !loading &&    <>{t('popup.lock.unlock')}</>
             }
 
             {
