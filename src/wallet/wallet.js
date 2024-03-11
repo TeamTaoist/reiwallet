@@ -61,6 +61,7 @@ export default class Wallet{
             return {
                 address_main,
                 address_test,
+                mnemonic:!this.hasMnemonic?this.mnemonic:""
             }
 
         }catch (e) {

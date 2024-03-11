@@ -3,7 +3,6 @@ let completer={};
 
 document.addEventListener('CKB_RESPONSE', function(event) {
     const {id,result} = event.detail.data;
-    console.log("=====event.detail.==",event.detail)
     completer[id]?.resolve(result)
     delete completer[id]
 });
@@ -14,7 +13,6 @@ document.addEventListener('CKB_RESPONSE', function(event) {
 const request = ({method, data}) =>{
 
     const id = new Date().valueOf()+ Math.random();
-    console.error(method,data)
 
     const request_event = new CustomEvent('CKB_REQUEST', { detail: {  method, data:{data,id}} });
 

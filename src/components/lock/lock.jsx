@@ -108,7 +108,7 @@ export default function Lock(){
         <Content>
             <dt className="titleTips regular-font">{t('popup.lock.password')}</dt>
             <dd className="inputBox">
-                <input type="text" placeholder={t('popup.lock.placeholder')} value={password} onChange={(e)=>handleInput(e,"walletName")} autoComplete="new-password"/>
+                <input type="password" placeholder={t('popup.lock.placeholder')} value={password} onChange={(e)=>handleInput(e,"walletName")} autoComplete="new-password"/>
             </dd>
         </Content>
         <Button primary fullWidth disabled={!password.length || loading} onClick={()=>submit()}>

@@ -47,15 +47,12 @@ function documentElementCheck() {
 
 document.addEventListener('CKB_REQUEST', function(event) {
 
-        console.log("addEventListener,CKB_REQUEST",event.detail)
-
         chrome.runtime.sendMessage({ type:'CKB_REQUEST_BACKGROUND',data:event.detail},  ()=> {})
 
 });
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let requestType = message.type;
 
-    console.error("====CKB_RESPONSE_BACKGROUND",message)
     switch (requestType) {
         case "CKB_RESPONSE_BACKGROUND":
                 var event = new CustomEvent('CKB_RESPONSE', { detail: { data:message.data} });
