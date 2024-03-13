@@ -7,6 +7,9 @@ import {useTranslation} from "react-i18next";
 import Open from  "../../assets/images/create/open.png";
 import Close from "../../assets/images/create/close.png";
 import {useEffect, useState} from "react";
+import Keystore from "../../wallet/keystore";
+import useAccountAddress from "../../useHook/useAccountAddress";
+import BtnLoading from "../loading/btnloading";
 
 const TitleBox = styled.div`
     display: flex;
@@ -62,6 +65,13 @@ const BtnGroup = styled.div`
       font-size: 12px;
       line-height: 34px;
       border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:5px;
+        &:disabled{
+            opacity: 0.4;
+        }
     }
 `
 
@@ -70,24 +80,44 @@ export default function Export(){
     const { t } = useTranslation();
     const [show,setShow] = useState(true);
     const [address,setAddress] = useState('')
+    const [password,setPassword] = useState('')
     const [walletName,setWalletName] = useState('');
+    const {currentAccountInfo} = useAccountAddress();
+    const[loading,setLoading] = useState(false)
 
     useEffect(() => {
-        getAccount();
-    }, []);
+        if(!currentAccountInfo)return;
+        const {address,name} = currentAccountInfo;
+        setWalletName(name)
+        setAddress(address)
+    }, [currentAccountInfo]);
 
-    const getAccount = () =>{
-        /*global chrome*/
-        chrome.storage.local.get(['account'],(result)=>{
-            console.log(result)
-            const accountInfo = result.account.filter(item=>item.Current);
-            setAddress(accountInfo[0].address)
-            setWalletName(accountInfo[0].name)
-        });
+
+    const handleInput = (e) =>{
+        const { value } = e.target;
+        setPassword(value);
+
     }
 
-    const toConfirm = () =>{
-        navigate('/exportConfirm');
+    const toConfirm = async() =>{
+        setLoading(true)
+        try{
+            let pwdRt =  await Keystore.checkPassword(password)
+            if(pwdRt){
+                navigate('/exportConfirm');
+            }else{
+                /*global chrome*/
+                chrome.storage.session.set({ password:null });
+                navigate('/');
+            }
+        }catch (e) {
+            console.error("checkPassword",e)
+
+        }finally {
+            setLoading(false)
+        }
+
+
     }
     const switchPwd = () =>{
         setShow(!show)
@@ -107,7 +137,7 @@ export default function Export(){
                         {t('popup.export.password')}
                     </div>
                     <div className="inputBox">
-                        <input type={show?"password":"text"}/>
+                        <input type={show?"password":"text"} value={password} onChange={(e)=>handleInput(e)}/>
                         {
                             !show &&  <img src={Close} alt="" onClick={()=>switchPwd()}/>
                         }
@@ -118,7 +148,10 @@ export default function Export(){
                 </div>
                 <BtnGroup>
                     <Button border>Cancel</Button>
-                    <Button black onClick={()=>toConfirm()}>Confirm</Button>
+                    <Button black onClick={()=>toConfirm()} disabled={!password.length || loading}>Confirm
+                        {
+                        loading && <BtnLoading/>
+                    }</Button>
                 </BtnGroup>
             </Content>
         </div>

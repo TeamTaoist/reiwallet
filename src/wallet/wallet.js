@@ -45,18 +45,46 @@ export default class Wallet{
         }
 
     }
-    async GenerateWallet () {
+    async ExportPrivateKey  () {
+        try{
+            const key = await this.GenerateKey();
+            return bytes.hexify(key.privateKey);
+
+        }catch (e) {
+            throw e
+        }
+    }
+    static privateToWallet (privateKey) {
+        let publicKey  = hd.key.privateToPublic(privateKey);
+        let address_main = Wallet.publicKeyToAddress(publicKey,true)
+        let address_test = Wallet.publicKeyToAddress(publicKey,false)
+
+        return {
+            address_main,
+            address_test,
+            mnemonic:!this.hasMnemonic?this.mnemonic:""
+        }
+
+    }
+
+    async GenerateKey () {
         try{
             const seed = await this.GenerateSeed();
             const hdWallet = hd.Keychain.fromSeed(seed);
             const path =`m/44'/309'/0'/0/${this.index}`;
+            return hdWallet.derivePath(path);
+        }catch (e) {
+            throw e
+        }
+    }
 
-            const key= hdWallet.derivePath(path);
-
+    async GenerateWallet () {
+        try{
+            const key = await this.GenerateKey();
             let publicKey = bytes.hexify(key.publicKey);
 
-            let address_main = this.publicKeyToAddress(publicKey,true)
-            let address_test = this.publicKeyToAddress(publicKey,false)
+            let address_main =Wallet.publicKeyToAddress(publicKey,true)
+            let address_test = Wallet.publicKeyToAddress(publicKey,false)
 
             return {
                 address_main,
@@ -70,10 +98,10 @@ export default class Wallet{
 
     }
 
-    publicKeyToAddress  (publicKey,isMainnet)  {
+    static publicKeyToAddress  (publicKey,isMainnet)  {
         const pubkey = publicKey.startsWith('0x') ? publicKey : `0x${publicKey}`
 
-        return this.scriptToAddress(
+        return Wallet.scriptToAddress(
             {
                 codeHash: systemScriptsMainnet.SECP256K1_BLAKE160.CODE_HASH,
                 hashType: systemScriptsMainnet.SECP256K1_BLAKE160.HASH_TYPE,
@@ -82,7 +110,7 @@ export default class Wallet{
             isMainnet
         )
     }
-    scriptToAddress  (script,isMainnet)  {
+    static scriptToAddress  (script,isMainnet)  {
         const lumosConfig = !isMainnet ? predefined.AGGRON4 : predefined.LINA;
         return encodeToAddress(
             // omit keys other than codeHash, args and hashType

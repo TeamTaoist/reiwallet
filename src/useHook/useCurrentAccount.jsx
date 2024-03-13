@@ -3,7 +3,7 @@ import {useWeb3} from "../store/contracts";
 
 
 export default function useCurrentAccount(){
-    const [currentAccount,setCurrentAccount] = useState(0);
+    const [currentAccount,setCurrentAccount] = useState('');
     const {dispatch,state:{refresh_current}} = useWeb3();
 
     useEffect(() => {

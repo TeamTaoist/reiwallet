@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Keystore from "../../wallet/keystore";
-import BtnLoading from "../btnloading";
+import BtnLoading from "../loading/btnloading";
 
 
 const Main = styled.div`

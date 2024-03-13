@@ -6,7 +6,7 @@ import useWalletList from "../../useHook/useWalletList";
 import useNetwork from "../../useHook/useNetwork";
 import {useNavigate} from "react-router-dom";
 import {useWeb3} from "../../store/contracts";
-import BtnLoading from "../btnloading";
+import BtnLoading from "../loading/btnloading";
 import useMessage from "../../useHook/useMessage";
 
 const MaskBox = styled.div`

@@ -10,6 +10,10 @@ import {useTranslation} from "react-i18next";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import Checked from "../../assets/images/Checked.png";
 import Toast from "../modal/toast";
+import useAccountAddress from "../../useHook/useAccountAddress";
+import useWalletList from "../../useHook/useWalletList";
+import useCurrentAccount from "../../useHook/useCurrentAccount";
+import QRCode from "react-qr-code";
 
 const TitleBox = styled.div`
     display: flex;
@@ -71,25 +75,22 @@ const Address = styled.div`
 export default function AccountDetail(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    // const [ username, setUsername ] = useState('Account');
+    const {currentAccountInfo} = useAccountAddress();
+    const {saveWallet} = useWalletList();
+    const {currentAccount} = useCurrentAccount();
+
     const [ showInput, setShowInput ] = useState(false);
     const [address,setAddress] = useState('')
     const [copied,setCopied] = useState(false);
     const [walletName,setWalletName] = useState('');
 
     useEffect(() => {
-        getAccount();
-    }, []);
+        if(!currentAccountInfo)return;
+        const {address,name} = currentAccountInfo;
+        setWalletName(name)
+        setAddress(address)
+    }, [currentAccountInfo]);
 
-    const getAccount = () =>{
-        /*global chrome*/
-        chrome.storage.local.get(['account'],(result)=>{
-            console.log(result)
-            const accountInfo = result.account.filter(item=>item.Current);
-            setAddress(accountInfo[0].address)
-            setWalletName(accountInfo[0].name)
-        });
-    }
 
     const goExport =() =>{
         navigate('/export');
@@ -109,6 +110,11 @@ export default function AccountDetail(){
 
     const Submit =( e )=>{
         setShowInput(false);
+        let obj={
+            ...currentAccountInfo,
+            name:walletName
+        }
+        saveWallet(obj,currentAccount)
     }
 
     return <AllModal title={t('popup.account.details')} link="/home">
@@ -129,9 +135,16 @@ export default function AccountDetail(){
                 }
 
             </TitleBox>
-            {/*<ImgBox>*/}
-            {/*    /!*<img src={Demo} alt=""/>*!/*/}
-            {/*</ImgBox>*/}
+            <ImgBox>
+                {/*<img src={Demo} alt=""/>*/}
+                <QRCode
+                    size={80}
+                    style={{ height: "auto", maxWidth: "140px", width: "140px" }}
+                    value={address}
+                    viewBox={`0 0 256 256`}
+                />
+            </ImgBox>
+
             <Address className="medium-font">
               <Toast tips="copied" left="100" bottom="-40" show={copied}/>
                 {address}

@@ -10,24 +10,9 @@ const CKB_CLI_ORIGIN = 'ckb-cli'
 // Encrypt and save master extended private key.
 export default class Keystore {
 
-  constructor(theCrypto, id) {
-    this.crypto = theCrypto
-    this.id = id
-  }
 
-  static fromJson = (json) => {
-    try {
-      const object = JSON.parse(json)
-      if (object.origin === CKB_CLI_ORIGIN) {
-        throw 'Keystore from CKB CLI is not supported'
-      }
-      if (!object.crypto || !object.id) {
-        throw new Error("InvalidKeystore")
-      }
-      return new Keystore(object.crypto, object.id)
-    } catch {
-      throw new Error("InvalidKeystore")
-    }
+  signMessage = async (payload)  =>{
+
   }
 
   // Create an empty keystore object that contains empty private key
@@ -112,10 +97,7 @@ export default class Keystore {
     )
   }
 
-  // Imported from xpub with empty private key.
-  isEmpty() {
-    return this.crypto.ciphertext === '' && this.crypto.mac === ''
-  }
+
 
   // Decrypt and return serialized extended private key.
   static decrypt = async (password)  =>{

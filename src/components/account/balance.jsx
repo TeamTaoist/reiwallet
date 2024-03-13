@@ -7,13 +7,14 @@ import useNetwork from "../../useHook/useNetwork";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import {formatUnit} from "@ckb-lumos/bi";
 import useMessage from "../../useHook/useMessage";
+import Loading from "../loading/loading";
 
 const BalanceBox = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 32px auto;
+    margin: 44px auto;
 `
 
 const Logo = styled.div`
@@ -29,7 +30,7 @@ const Title = styled.div`
   font-weight: 500;
   color: #000000;
   line-height: 40px;
-  margin: 12px auto;
+  margin: 0 auto 12px;
 `
 
 export default function Balance(){
@@ -69,9 +70,16 @@ export default function Balance(){
     }
 
     return <BalanceBox>
-        <Title className="medium-font">
-            {balance} {networkInfo?.nativeCurrency?.symbol}
-        </Title>
+        {
+            loading &&     <Loading showBg={false} />
+        }
+        {
+            !loading &&  <Title className="medium-font">
+                {balance} {networkInfo?.nativeCurrency?.symbol}
+            </Title>
+        }
+
+
         <Button primary onClick={()=>toSend()}>{t('popup.account.send')}</Button>
     </BalanceBox>
 }

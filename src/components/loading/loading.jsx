@@ -1,16 +1,19 @@
 import styled from "styled-components";
 
 const Mask = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.6);
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 9999;
+    .bg{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.6);
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 9999;
+    }
+    
 `
 
 const Box = styled.div`
@@ -47,19 +50,19 @@ const Box = styled.div`
         color: #fff;
     }
 `
-export default function Loading(){
+export default function Loading({showBg}){
     return <Mask>
-        <Box>
-            <div className="inner">
-                <div className="loader"/>
-                <div className="text">
-                    validating
+        <div className={showBg?"bg":""}>
+            <Box>
+                <div className="inner">
+                    <div className="loader"/>
+                    <div className="text">
+                        validating
+                    </div>
+
                 </div>
+            </Box>
+        </div>
 
-            </div>
-
-
-
-        </Box>
     </Mask>
 }

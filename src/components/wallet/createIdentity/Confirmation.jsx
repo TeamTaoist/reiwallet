@@ -9,7 +9,7 @@ import ClearImg from '../../../assets/images/clear.png';
 import {useWeb3} from "../../../store/contracts";
 import PublicJs from "../../../utils/publicJS";
 import Keystore from "../../../wallet/keystore";
-import Loading from "../../loading";
+import Loading from "../../loading/loading";
 import useNetwork from "../../../useHook/useNetwork";
 import useCurrentAccount from "../../../useHook/useCurrentAccount";
 import useWalletList from "../../../useHook/useWalletList";
@@ -122,7 +122,7 @@ export default function Confirmation(){
                 type:"create",
                 name:"Account 1",
                 account_index:0
-            })
+            },'new')
             chrome.storage.local.set({Mnemonic:JSON.stringify(keyJSon)});
             saveNetwork("mainnet")
             saveCurrent(0)

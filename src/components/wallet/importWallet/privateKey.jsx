@@ -4,6 +4,9 @@ import ImportHeader from "./ImportHeader";
 import styled from "styled-components";
 import Button from "../../button/button";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import Wallet from "../../../wallet/wallet";
+import useWalletList from "../../../useHook/useWalletList";
 
 const Box = styled.div`
     display: flex;
@@ -57,19 +60,33 @@ const BtmBox = styled.div`
 export default function PrivateKey(){
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const {saveWallet,walletList} = useWalletList();
+    const [privateKey, setPrivateKey ] = useState('')
+    const handleInput = (e) =>{
+        const { value } = e.target;
+        setPrivateKey(value);
+
+    }
 
     const submit = () =>{
-        navigate("/success");
+        const account = Wallet.privateToWallet(privateKey);
+        saveWallet({
+            account,
+            type:"import",
+            name:`Account ${walletList.length + 1}`,
+            account_index:""
+        },'new')
+
+        navigate("/");
     }
 
     return <Box>
         <NavHeader title={t('popup.import.title')} />
-
         <ContentBox>
             <ImportHeader title={t('popup.import.subTitle')} tips={t('popup.import.tips')} />
             <Title>{t('popup.import.textTitle')}</Title>
             <BoxText>
-                <textarea name=""  />
+                <textarea value={privateKey} onChange={(e)=>handleInput(e)}  />
             </BoxText>
             <BtmBox>
                 <Button fullWidth primary onClick={()=>submit()}>{t('popup.import.Confirm')}</Button>

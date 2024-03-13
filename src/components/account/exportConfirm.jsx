@@ -2,6 +2,10 @@ import AllModal from "../modal/AllModal";
 import styled from "styled-components";
 import Button from "../button/button";
 import TipImg from "../../assets/images/create/tip.png";
+import {useEffect, useState} from "react";
+import useCurrentAccount from "../../useHook/useCurrentAccount";
+import Wallet from "../../wallet/wallet";
+import useNetwork from "../../useHook/useNetwork";
 
 const Content = styled.div`
   .titleTips{
@@ -54,6 +58,23 @@ const TipsBox = styled.div`
 `
 
 export default function ExportConfirm(){
+
+    const {currentAccount} = useCurrentAccount();
+    const {network} = useNetwork();
+    const [py,setPy] = useState('');
+    useEffect(() => {
+        if(!network || currentAccount === '')return;
+        getPrivateKey()
+    }, [network,currentAccount]);
+
+    const getPrivateKey = async() =>{
+        console.log(currentAccount,network)
+
+        const wallet = new Wallet(currentAccount,network==="mainnet",true);
+        let walletStr = await wallet.ExportPrivateKey();
+        setPy(walletStr)
+
+    }
     const copy = () =>{
 
     }
@@ -65,7 +86,7 @@ export default function ExportConfirm(){
                     This is your private key
                 </div>
                 <BoxText >
-                    <textarea />
+                    <textarea  readOnly={true} value={py}/>
                 </BoxText>
             </div>
             <TipsBox>
