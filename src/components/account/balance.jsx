@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import DemoImg from "../../assets/images/demo/99592461.jpeg";
 import Button from "../button/button";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import useNetwork from "../../useHook/useNetwork";
 import useAccountAddress from "../../useHook/useAccountAddress";
+import {formatUnit} from "@ckb-lumos/bi";
 
 const BalanceBox = styled.div`
     display: flex;
@@ -36,13 +36,13 @@ export default function Balance(){
     const { t } = useTranslation();
     const [balance,setBalance] = useState(0);
     const {networkInfo} = useNetwork();
+
     const {currentAccountInfo} = useAccountAddress();
     const [loading,setLoading] = useState(false);
 
     useEffect(() => {
         if(!networkInfo || !currentAccountInfo) return;
         setLoading(true)
-
         let obj ={
             method:"get_capacity",
             networkInfo,
@@ -60,20 +60,18 @@ export default function Balance(){
         return () =>{
             chrome.runtime.onMessage.removeListener(listenerEvent)
         }
-    }, []);
+    }, [networkInfo]);
 
     const listenerEvent = (message, sender, sendResponse) => {
-        const {type }= message
+        const {type }= message;
+        sendResponse({message});
         if(type ==="get_Capacity_success"){
             setLoading(false)
-            console.log("====listenerEvent==",message.data)
-
+            const {capacity} = message.data;
+            let rt = formatUnit(capacity,"ckb")
+            setBalance(rt)
         }
-        sendResponse({message})
     }
-
-
-
     const toSend = () =>{
         navigate("/send");
     }

@@ -18,6 +18,9 @@ export default function useNetwork(){
     useEffect(() => {
         const networkArr = networkList.filter(item=>item.value === network);
         setNetworkInfo(networkArr[0])
+        let JsonStr = JSON.stringify(networkArr[0])
+        /*global chrome*/
+        chrome.storage.local.set({networkInfo:JsonStr});
     }, [network]);
 
     const saveNetwork = (value) =>{

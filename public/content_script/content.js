@@ -1,4 +1,4 @@
-
+/*global chrome*/
 function injectScript() {
     const script = document.createElement('script');
     script.async = false;

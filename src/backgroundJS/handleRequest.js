@@ -1,11 +1,18 @@
 /*global chrome*/
+import RpcClient from "./rpc";
+
 export const handleRequest = async (requestData) =>{
-    const {id} = requestData.data;
+    const {id,data} = requestData.data;
     let rt;
     try{
         switch (requestData.method){
             case "ckb_requestAccounts":
                 rt = await requestAccount();
+                break;
+
+            case "ckb_getBalance":
+
+                rt = await getBalance(data);
                 break;
         }
         if(rt){
@@ -38,5 +45,16 @@ const requestAccount = async() =>{
 
     }catch (e) {
         throw new Error(`requestAccount:${e}`)
+    }
+}
+const getBalance = async(params) =>{
+    let addr = params[0];
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_capacity(addr);
+        return rt?.capacity ?? 0;
+
+    }catch (e) {
+        throw new Error(`getBalance:${e}`)
     }
 }
