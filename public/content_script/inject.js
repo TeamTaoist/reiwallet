@@ -2,12 +2,15 @@
 let completer={};
 
 document.addEventListener('CKB_RESPONSE', function(event) {
-    const {id,result} = event.detail.data;
-    completer[id]?.resolve(result)
+    const {id,result,error} = event.detail.data;
+    if(error){
+        completer[id]?.reject(error)
+    }else{
+        completer[id]?.resolve(result)
+    }
+
     delete completer[id]
 });
-
-
 
 
 const request = ({method, data}) =>{

@@ -57,7 +57,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case "CKB_RESPONSE_BACKGROUND":
                 var event = new CustomEvent('CKB_RESPONSE', { detail: { data:message.data} });
                 document.dispatchEvent(event);
-            sendResponse({ "message":message});
+                sendResponse({ "message":message});
             break;
 
 

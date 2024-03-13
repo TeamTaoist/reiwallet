@@ -46,9 +46,7 @@ export default class RpcClient{
     get_capacity = async(address) =>{
         const hashObj = Wallet.addressToScript(address);
         const{codeHash,hashType,args} = hashObj;
-        const network = await this.getNetwork()
-
-        console.log(hashObj,network)
+        const network = await this.getNetwork();
 
         return await this._request({
             method:"get_cells_capacity",

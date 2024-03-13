@@ -7,6 +7,7 @@ import useNetwork from "../../useHook/useNetwork";
 import {useNavigate} from "react-router-dom";
 import {useWeb3} from "../../store/contracts";
 import BtnLoading from "../btnloading";
+import useMessage from "../../useHook/useMessage";
 
 const MaskBox = styled.div`
     background: rgba(0,0,0,0.4);
@@ -81,6 +82,18 @@ export default function AddAccount({handleCloseNew}) {
     const {network} = useNetwork();
     const {state:{refresh_wallet_list},dispatch} = useWeb3();
     const[loading,setLoading] = useState(false)
+    const handleEvent = (message) => {
+        const {type }= message
+        if(type==="to_lock"){
+            navigate('/');
+        }else if(type ==="create_account_success"){
+            setLoading(false)
+            dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
+            handleCloseNew()
+
+        }
+    }
+    const {sendMsg} = useMessage(handleEvent,[]);
 
     useEffect(() => {
         let str = `Account ${walletList.length+1}`
@@ -91,26 +104,6 @@ export default function AddAccount({handleCloseNew}) {
         setName(value)
     }
 
-    useEffect(() => {
-        /*global chrome*/
-        chrome.runtime.onMessage.addListener(listenerEvent)
-        return () =>{
-            chrome.runtime.onMessage.removeListener(listenerEvent)
-        }
-    }, []);
-
-    const listenerEvent = (message, sender, sendResponse) => {
-        const {type }= message
-        if(type==="to_lock"){
-            navigate('/');
-        }else if(type ==="create_account_success"){
-            setLoading(false)
-            dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
-            handleCloseNew()
-
-        }
-        sendResponse({message})
-    }
 
     const handleCreate = () =>{
         setLoading(true)
@@ -121,10 +114,7 @@ export default function AddAccount({handleCloseNew}) {
             hasMnemonic:true,
             method:"Create_Account"
         }
-        /*global chrome*/
-        chrome.runtime.sendMessage({  data: obj ,type:"CKB_POPUP"}, function (response) {
-            console.log("send Create_Account success");
-        })
+        sendMsg(obj)
     }
 
     return <MaskBox>

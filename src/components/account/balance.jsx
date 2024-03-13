@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import useNetwork from "../../useHook/useNetwork";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import {formatUnit} from "@ckb-lumos/bi";
+import useMessage from "../../useHook/useMessage";
 
 const BalanceBox = styled.div`
     display: flex;
@@ -34,11 +35,22 @@ const Title = styled.div`
 export default function Balance(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [balance,setBalance] = useState(0);
+    const [balance,setBalance] = useState("--");
     const {networkInfo} = useNetwork();
-
     const {currentAccountInfo} = useAccountAddress();
     const [loading,setLoading] = useState(false);
+
+    const handleEvent = (message) => {
+        const {type }= message;
+        if(type ==="get_Capacity_success"){
+            setLoading(false)
+            const {capacity} = message.data;
+            let rt = formatUnit(capacity,"ckb")
+            setBalance(rt)
+        }
+    }
+
+    const {sendMsg} = useMessage(handleEvent,[]);
 
     useEffect(() => {
         if(!networkInfo || !currentAccountInfo) return;
@@ -48,30 +60,10 @@ export default function Balance(){
             networkInfo,
             currentAccountInfo
         }
-        /*global chrome*/
-        chrome.runtime.sendMessage({  data: obj ,type:"CKB_POPUP"}, function () {
-            console.log("send get_capacity success");
-        })
+        sendMsg(obj)
     }, [currentAccountInfo,networkInfo]);
 
-    useEffect(() => {
-        /*global chrome*/
-        chrome.runtime.onMessage.addListener(listenerEvent)
-        return () =>{
-            chrome.runtime.onMessage.removeListener(listenerEvent)
-        }
-    }, [networkInfo]);
 
-    const listenerEvent = (message, sender, sendResponse) => {
-        const {type }= message;
-        sendResponse({message});
-        if(type ==="get_Capacity_success"){
-            setLoading(false)
-            const {capacity} = message.data;
-            let rt = formatUnit(capacity,"ckb")
-            setBalance(rt)
-        }
-    }
     const toSend = () =>{
         navigate("/send");
     }

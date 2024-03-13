@@ -14,7 +14,9 @@ export const handlePopUp = async (requestData) =>{
 
 }
 
-
+const sendMsg = (data) =>{
+    chrome.runtime.sendMessage(data,  ()=> {})
+}
 
 export const create_new_wallet = async(obj) =>{
     const {index,network,hasMnemonic,name} = obj;
@@ -32,32 +34,28 @@ export const create_new_wallet = async(obj) =>{
             }
             let newList = [...list,item];
             chrome.storage.local.set({walletList:newList});
-            chrome.runtime.sendMessage({ type:"create_account_success"},  ()=> {})
+            sendMsg({ type:"create_account_success"})
         });
 
     }catch (e) {
-
         if(e?.message.includes("no_password")){
-            chrome.runtime.sendMessage({ type:"to_lock"},  ()=> {})
+            sendMsg({ type:"to_lock",data:e.message})
         }else{
-            chrome.runtime.sendMessage({ type:"error"},  ()=> {})
+            sendMsg({ type:"error",data:e.message})
         }
 
     }
 }
 
 const get_Capacity = async(obj) =>{
-    const {networkInfo,currentAccountInfo} = obj;
-
-    console.log("get_Capacity",obj)
+    const {currentAccountInfo} = obj;
     try{
-        const client = new RpcClient(networkInfo);
+        const client = new RpcClient();
         let rt = await client.get_capacity(currentAccountInfo.address);
-        chrome.runtime.sendMessage({ type:"get_Capacity_success",data:rt},  ()=> {})
+        sendMsg({ type:"get_Capacity_success",data:rt})
 
     }catch (e){
-        chrome.runtime.sendMessage({ type:"error"},  ()=> {})
+        sendMsg({ type:"error",data:e.message})
     }
-
 
 }

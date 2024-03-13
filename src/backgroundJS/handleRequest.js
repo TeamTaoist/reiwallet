@@ -1,5 +1,11 @@
-/*global chrome*/
+
 import RpcClient from "./rpc";
+/*global chrome*/
+const toMessage = (data) =>{
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_RESPONSE_BACKGROUND",data});
+    });
+}
 
 export const handleRequest = async (requestData) =>{
     const {id,data} = requestData.data;
@@ -11,20 +17,23 @@ export const handleRequest = async (requestData) =>{
                 break;
 
             case "ckb_getBalance":
-
                 rt = await getBalance(data);
                 break;
         }
         if(rt){
-            chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-                chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_RESPONSE_BACKGROUND",data: {result:rt, id}});
-            });
+            let data = {
+                result:rt,
+                id
+            }
+            toMessage(data)
         }
 
     }catch (e) {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-            chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_RESPONSE_BACKGROUND",data:{error:e,id}});
-        });
+        let data = {
+            error:e.message,
+            id
+        }
+        toMessage(data)
     }
 }
 
@@ -55,6 +64,6 @@ const getBalance = async(params) =>{
         return rt?.capacity ?? 0;
 
     }catch (e) {
-        throw new Error(`getBalance:${e}`)
+        throw new Error(`getBalance:${e.message}`)
     }
 }
