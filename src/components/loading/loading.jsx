@@ -57,7 +57,7 @@ export default function Loading({showBg}){
                 <div className="inner">
                     <div className="loader"/>
                     <div className="text">
-                        validating
+                        Loading
                     </div>
 
                 </div>

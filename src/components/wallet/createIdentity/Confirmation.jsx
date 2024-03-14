@@ -155,7 +155,7 @@ export default function Confirmation(){
 
     return <DashboardLayout>
         {
-            loading && <Loading />
+            loading && <Loading showBg={true} />
         }
 
         <ContainerLayout

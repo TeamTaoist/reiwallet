@@ -16,6 +16,7 @@ export default function useNetwork(){
 
 
     useEffect(() => {
+        if(!network)return;
         const networkArr = networkList.filter(item=>item.value === network);
         setNetworkInfo(networkArr[0])
         let JsonStr = JSON.stringify(networkArr[0])

@@ -45,9 +45,10 @@ export default class Wallet{
         }
 
     }
-    async ExportPrivateKey  () {
+    async ExportPrivateKey  (account_index) {
         try{
-            const key = await this.GenerateKey();
+            /*global chrome*/
+            const key = await this.GenerateKey(account_index);
             return bytes.hexify(key.privateKey);
 
         }catch (e) {
@@ -67,11 +68,12 @@ export default class Wallet{
 
     }
 
-    async GenerateKey () {
+
+    async GenerateKey (accountIndex) {
         try{
             const seed = await this.GenerateSeed();
             const hdWallet = hd.Keychain.fromSeed(seed);
-            const path =`m/44'/309'/0'/0/${this.index}`;
+            const path =`m/44'/309'/0'/0/${accountIndex!==undefined?accountIndex:this.index}`;
             return hdWallet.derivePath(path);
         }catch (e) {
             throw e

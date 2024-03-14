@@ -23,7 +23,7 @@ export default function useWalletList(){
               arr[item.account_index] = item;
               newList = arr;
           }else{
-               newList = [...list,item];
+               newList = [...list,JSON.parse(JSON.stringify(item))];
           }
 
             chrome.storage.local.set({walletList:newList});

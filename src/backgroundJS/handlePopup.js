@@ -3,6 +3,7 @@ import Wallet from "../wallet/wallet";
 import RpcClient from "./rpc";
 
 export const handlePopUp = async (requestData) =>{
+    console.log("===handlePopUp=",requestData, Date.now())
     switch (requestData.method){
         case "Create_Account":
            create_new_wallet(requestData);
@@ -52,9 +53,11 @@ const get_Capacity = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.get_capacity(currentAccountInfo.address);
+        console.log("===get_Capacity=",rt, Date.now())
         sendMsg({ type:"get_Capacity_success",data:rt})
 
     }catch (e){
+        console.error("===get_Capacity=",e, Date.now())
         sendMsg({ type:"error",data:e.message})
     }
 

@@ -6,6 +6,10 @@ import {useEffect, useState} from "react";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
 import Wallet from "../../wallet/wallet";
 import useNetwork from "../../useHook/useNetwork";
+import Loading from "../loading/loading";
+import useAccountAddress from "../../useHook/useAccountAddress";
+import Keystore from "../../wallet/keystore";
+import {useNavigate} from "react-router-dom";
 
 const Content = styled.div`
   .titleTips{
@@ -61,18 +65,60 @@ export default function ExportConfirm(){
 
     const {currentAccount} = useCurrentAccount();
     const {network} = useNetwork();
+    const {currentAccountInfo} = useAccountAddress();
     const [py,setPy] = useState('');
+    const [loading , setLoading] = useState(true);
+    const navigate = useNavigate();
+
     useEffect(() => {
-        if(!network || currentAccount === '')return;
-        getPrivateKey()
-    }, [network,currentAccount]);
+        if(!network || currentAccount === '' || !currentAccountInfo)return;
+        handlePrivate()
+    }, [network,currentAccount,currentAccountInfo]);
 
-    const getPrivateKey = async() =>{
-        console.log(currentAccount,network)
+    useEffect(() => {
+        if(py) {
+            setLoading(false)
+        }
 
-        const wallet = new Wallet(currentAccount,network==="mainnet",true);
-        let walletStr = await wallet.ExportPrivateKey();
-        setPy(walletStr)
+    }, [py]);
+
+    const handlePrivate = () =>{
+        const {type,account_index,privateKey}= currentAccountInfo;
+        if(type === "create"){
+            getPrivateKey(account_index)
+        }else{
+            decryptPrivatekey(privateKey)
+        }
+    }
+
+    const decryptPrivatekey = async(privateKey) => {
+        try {
+            /*global chrome*/
+            let result = await chrome.storage.session.get(["password"]);
+            console.log(result?.password)
+            if (result?.password) {
+                let str = await Keystore.decrypt(result?.password,privateKey);
+                setPy(str)
+            } else {
+                chrome.storage.session.set({password: null});
+                navigate("/");
+            }
+        } catch (e) {
+            console.error(e)
+        }
+
+    }
+
+    const getPrivateKey = async(account_index) =>{
+        try{
+            const wallet = new Wallet(currentAccount,network==="mainnet",true);
+            let walletStr = await wallet.ExportPrivateKey(account_index);
+            setPy(walletStr)
+
+        }catch (e) {
+            console.error(e)
+
+        }
 
     }
     const copy = () =>{
@@ -80,6 +126,10 @@ export default function ExportConfirm(){
     }
 
     return <AllModal title="Export  Account" link="/home">
+        {
+            loading && <Loading showBg={true} />
+        }
+
         <Content>
             <div>
                 <div className="titleTips regular-font">

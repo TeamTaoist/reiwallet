@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import Wallet from "../../../wallet/wallet";
 import useWalletList from "../../../useHook/useWalletList";
+import Keystore from "../../../wallet/keystore";
+import BtnLoading from "../../loading/btnloading";
 
 const Box = styled.div`
     display: flex;
@@ -54,6 +56,15 @@ const BtmBox = styled.div`
   width: 100%;
   
   background: #FFFFFF;
+    button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:5px;
+        &:disabled{
+            opacity: 0.3;
+        }
+    }
 `
 
 
@@ -62,20 +73,35 @@ export default function PrivateKey(){
     const navigate = useNavigate();
     const {saveWallet,walletList} = useWalletList();
     const [privateKey, setPrivateKey ] = useState('')
+    const [loading, setLoading ] = useState(false)
     const handleInput = (e) =>{
         const { value } = e.target;
         setPrivateKey(value);
 
     }
 
-    const submit = () =>{
+    const submit = async() =>{
+        setLoading(true)
         const account = Wallet.privateToWallet(privateKey);
-        saveWallet({
-            account,
-            type:"import",
-            name:`Account ${walletList.length + 1}`,
-            account_index:""
-        },'new')
+        /*global chrome*/
+        let result = await chrome.storage.session.get(["password"]);
+        if(result?.password){
+            const privateKeyCrypt = Keystore.create(privateKey,result?.password)
+            saveWallet({
+                account,
+                type:"import",
+                name:`Account ${walletList.length + 1}`,
+                account_index:"",
+                privateKey:privateKeyCrypt
+            },'new')
+            setLoading(false);
+            navigate("/");
+        }else{
+            chrome.storage.session.set({ password:null });
+            navigate("/");
+        }
+
+
 
         navigate("/");
     }
@@ -89,7 +115,12 @@ export default function PrivateKey(){
                 <textarea value={privateKey} onChange={(e)=>handleInput(e)}  />
             </BoxText>
             <BtmBox>
-                <Button fullWidth primary onClick={()=>submit()}>{t('popup.import.Confirm')}</Button>
+                <Button fullWidth primary disabled={!privateKey?.length || loading} onClick={()=>submit()}>
+                    {t('popup.import.Confirm')}
+                    {
+                        loading && <BtnLoading/>
+                    }
+                </Button>
             </BtmBox>
         </ContentBox>
     </Box>
