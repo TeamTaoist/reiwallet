@@ -37,8 +37,6 @@ export default function Home(){
     }
 
 
-
-
     return <Box>
         {
             !showHome && Unlocked &&<WalletHome />

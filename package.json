@@ -39,6 +39,8 @@
     "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
+    "json-rpc-2.0": "^1.7.0",
+    "lodash.omit": "^4.5.0",
     "mini-css-extract-plugin": "^2.4.5",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.4",
@@ -184,6 +186,7 @@
     "styled-components": "^5.3.5",
     "terser-webpack-plugin": "^5.3.3",
     "url": "^0.11.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "webextension-polyfill": "^0.10.0"
   }
 }

@@ -25,6 +25,9 @@ const request = ({method, data}) =>{
             reject
         }
         document.dispatchEvent(request_event);
+        let arr = ["test"]
+        if(arr.includes(method)) return;
+
         setTimeout(()=>{
             reject("Time Out");
             delete completer[id];

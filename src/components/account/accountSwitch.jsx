@@ -90,6 +90,14 @@ const AccountBox = styled.div`
     color: #A6ACBD;
     line-height: 20px;
   }
+    .tagBox{
+        margin-left: 10px;
+        background: #00ff9d;
+        color: #000;
+        border-radius: 8px;
+        font-size: 10px;
+        padding: 0 10px;
+    }
 `
 
 export default function AccountSwitch({currentAccount,handleCurrent,handleNew}){
@@ -111,7 +119,8 @@ export default function AccountSwitch({currentAccount,handleCurrent,handleNew}){
                         <AccountBox>
                             <img src={Demo} alt="" className="avatar"/>
                             <div>
-                                <div className="medium-font">{item.name}</div>
+                                <div className="medium-font">{item.name}
+                                    {item.type === "import" && <span className="tagBox">{item.type}</span>}</div>
                                 <div className="balance medium-font">{PublicJs.AddressToShow(item.address)}</div>
                             </div>
                         </AccountBox>

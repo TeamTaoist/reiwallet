@@ -1,5 +1,7 @@
 
 import RpcClient from "./rpc";
+import { NotificationManager } from './notification';
+import browser from 'webextension-polyfill';
 /*global chrome*/
 const toMessage = (data) =>{
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
@@ -19,7 +21,14 @@ export const handleRequest = async (requestData) =>{
             case "ckb_getBalance":
                 rt = await getBalance(data);
                 break;
+            case "test":
+                rt = await testNotification();
+                break;
+            case "test2":
+                rt = await testNotificatio2n();
+                break;
         }
+        console.log("====test==",rt,id)
         if(rt){
             let data = {
                 result:rt,
@@ -33,6 +42,7 @@ export const handleRequest = async (requestData) =>{
             error:e.message,
             id
         }
+        console.log("==handleRequest=",e)
         toMessage(data)
     }
 }
@@ -66,4 +76,64 @@ const getBalance = async(params) =>{
     }catch (e) {
         throw new Error(`getBalance:${e.message}`)
     }
+}
+
+const notificationManager = new NotificationManager();
+const testNotification = async() =>{
+
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'password',
+            metadata: { host: "http://localhost:5173/" },
+        },
+        { preventDuplicate: false },
+    );
+    return new Promise((resolve, reject) => {
+        // messenger.register('session_getRequesterAppInfo', () => {
+        //     return { url:"http://localhost:5173/" };
+        // });
+
+
+        // messenger.register('session_approveEnableWallet', () => {
+        //     messenger.destroy();
+        //     resolve("session_approveEnableWallet");
+        // });
+
+
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("ApproveRejected");
+            }
+        });
+    });
+
+
+}
+const testNotificatio2n = async() =>{
+
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'password',
+            metadata: { host: "http://localhost:5173/" },
+        },
+        { preventDuplicate: false },
+    );
+    return new Promise((resolve, reject) => {
+        // messenger.register('session_getRequesterAppInfo222', () => {
+        //     return { url:"http://localhost:5173/" };
+        // });
+        messenger.register('session_getRequesterAppInfo222', () => {
+            messenger.destroy();
+            resolve("session_getRequesterAppInfo222");
+        });
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("ApproveRejected");
+            }
+        });
+    });
+
+
 }
