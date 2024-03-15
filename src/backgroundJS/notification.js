@@ -23,7 +23,6 @@ class NotificationManager {
     async createNotificationWindow(_notification, options,) {
     // assign sessionId to the notification
     const notification = { ..._notification, sessionId: uuid() };
-    console.log("=====notification===",notification)
     // prevent duplicate notification
     if (
         options?.preventDuplicate &&
@@ -35,7 +34,6 @@ class NotificationManager {
     if (!this.isCurrentNotificationActive()) {
         return this._createNotificationWindow(notification);
     } else {
-        console.log("=====addNotificationToQueue===",notification)
         this.addNotificationToQueue(notification);
         return new Promise((resolve) => {
             this.eventEmitter.on('finish', ({ nextSessionId }) => {
@@ -88,7 +86,6 @@ class NotificationManager {
     async updateBadge() {
     let label = '';
     const count = this.getNotificationCount();
-    console.error("==updateBadge==count",count)
     if (count) {
         label = String(count);
     }
@@ -102,13 +99,11 @@ class NotificationManager {
 
      openCurrentNotification(notification) {
         this.currentNotification = notification;
-        console.log("===openCurrentNotification======",this.currentNotification)
         void this.updateBadge();
     }
 
      closeCurrentNotification() {
         this.currentNotification = undefined;
-         console.log("===closeCurrentNotification======",this.currentNotification)
         void this.updateBadge();
     }
 
@@ -117,7 +112,6 @@ class NotificationManager {
     }
 
     addNotificationToQueue(notification) {
-        console.error("==this.notificationInfoQueue====",this.notificationInfoQueue)
         this.notificationInfoQueue.push(notification);
         void this.updateBadge();
     }

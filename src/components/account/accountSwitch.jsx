@@ -10,6 +10,7 @@ import {useEffect, useState} from "react";
 import {use} from "i18next";
 import PublicJs from "../../utils/publicJS";
 import useAccountAddress from "../../useHook/useAccountAddress";
+import Avatar from "../svg/avatar/avatar";
 
 const BgBox = styled.div`
     position: absolute;
@@ -117,7 +118,9 @@ export default function AccountSwitch({currentAccount,handleCurrent,handleNew}){
                     accountList?.map((item,index)=>(<li key={index} onClick={()=>handleCurrent(index)}>
                         <img src={currentAccount=== index ? CheckAct:CheckNor} alt="" className="decr"/>
                         <AccountBox>
-                            <img src={Demo} alt="" className="avatar"/>
+                            <div className="avatar">
+                                <Avatar size={24} address={item.address} />
+                            </div>
                             <div>
                                 <div className="medium-font">{item.name}
                                     {item.type === "import" && <span className="tagBox">{item.type}</span>}</div>

@@ -18,21 +18,11 @@ const MainBox = styled.div`
 
 
 export default function Account(){
-    // const {currentAccount} = useCurrentAccount();
-    // const signMsg = () =>{
-    //     console.log(currentAccount)
-    //
-    // }
-
-
     return <Box>
-        {/*<button onClick={()=>signMsg()}>test</button>*/}
         <AccountHeader />
-    <MainBox>
-                <Balance />
-                <AccountTabs />
-            </MainBox>
-
-
+         <MainBox>
+            <Balance />
+            <AccountTabs />
+        </MainBox>
     </Box>
 }

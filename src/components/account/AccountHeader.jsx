@@ -15,6 +15,7 @@ import useCurrentAccount from "../../useHook/useCurrentAccount";
 import AddAccount from "./addAccount";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import useNetwork from "../../useHook/useNetwork";
+import Avatar from "../svg/avatar/avatar";
 
 const AccountBox = styled.div`
     display: flex;
@@ -196,9 +197,12 @@ export default function AccountHeader(){
             showNew && <AddAccount handleCloseNew={handleCloseNew} />
         }
 
-
         <Lft>
-            <img src={DemoImg} alt="" className="avatar" onClick={(e)=>handleAccount(e)}/>
+            {/*<img src={DemoImg} alt="" className="avatar"/>*/}
+            <div className="avatar" onClick={(e)=>handleAccount(e)}>
+                <Avatar size={36} address={address} />
+            </div>
+
             <div>
                 <div className="account">{walletName}</div>
                 <Tips>

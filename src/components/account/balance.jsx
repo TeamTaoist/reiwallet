@@ -47,22 +47,37 @@ export default function Balance(){
             setLoading(false)
             const {capacity} = message.data;
             let rt = formatUnit(capacity,"ckb")
+            console.error("======rt",rt)
             setBalance(rt)
         }
     }
 
     const {sendMsg} = useMessage(handleEvent,[]);
 
+
     useEffect(() => {
         if(!networkInfo || !currentAccountInfo) return;
         setLoading(true)
+        toBackground()
+         const timer = setInterval(()=>{
+            toBackground()
+        },1000)
+
+        return () =>{
+            clearInterval(timer)
+        }
+
+    }, [currentAccountInfo,networkInfo]);
+
+    const toBackground = () =>{
         let obj ={
             method:"get_capacity",
             networkInfo,
             currentAccountInfo
         }
         sendMsg(obj)
-    }, [currentAccountInfo,networkInfo]);
+    }
+
 
 
     const toSend = () =>{
@@ -78,7 +93,6 @@ export default function Balance(){
                 {balance} {networkInfo?.nativeCurrency?.symbol}
             </Title>
         }
-
 
         <Button primary onClick={()=>toSend()}>{t('popup.account.send')}</Button>
     </BalanceBox>
