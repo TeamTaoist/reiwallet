@@ -2,7 +2,6 @@ import styled from "styled-components";
 import AccountHeader from "./AccountHeader";
 import Balance from "./balance";
 import AccountTabs from "./AccountTabs";
-import useCurrentAccount from "../../useHook/useCurrentAccount";
 
 const Box = styled.div`
   display: flex;

@@ -2,7 +2,7 @@ import React from 'react';
 import {Route,Routes,Navigate} from "react-router-dom";
 import Home from '../components/home-popup/home';
 import Send from "../components/token/send";
-import SendConfirm from "../components/token/sendConfirm";
+import SendStep1 from "../components/token/sendStep1";
 import AccountDetail from "../components/account/Detail";
 import Export from "../components/account/export";
 import ExportConfirm from "../components/account/exportConfirm";
@@ -35,7 +35,7 @@ function PopupRouterLink() {
             <Route path="/exportConfirm" element={<ExportConfirm />}/>
             <Route path="/addToken" element={<AddToken />}/>
             <Route path="/send" element={<Send />}/>
-            <Route path="/sendConfirm" element={<SendConfirm />}/>
+            <Route path="/sendStep1" element={<SendStep1 />}/>
             <Route path="/setting" element={<Setting />}/>
             <Route path="/language" element={<Language />}/>
             <Route path="/security" element={<Security />}/>

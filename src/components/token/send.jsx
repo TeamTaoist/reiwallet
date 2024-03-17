@@ -1,13 +1,13 @@
 import TokenHeader from "../header/tokenHeader";
 import styled from "styled-components";
-import SearchImg from '../../assets/images/search.png';
-import Demo from "../../assets/images/demo/99592461.jpeg";
-import QRcode from "../../assets/images/QRcode.png";
+import WalletImg from '../../assets/images/account/Wallet01.png';
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import PublicJs from "../../utils/publicJS";
-import {use} from "i18next";
+import Avatar from "../svg/avatar/avatar";
+import useWalletList from "../../useHook/useWalletList";
+import useNetwork from "../../useHook/useNetwork";
 
 const Box = styled.div`
     height: 100%;
@@ -41,15 +41,22 @@ const SearchBox = styled.div`
 `
 const Content = styled.div`
     flex-grow: 1;
-    margin:10px 20px 20px;
+    margin:10px 0 20px;
     dl{
       display: flex;
       align-items: center;
       height: 68px;
       cursor: pointer;
+        padding: 0 20px;
       &:hover{
         background: #F1FCF1;
       }
+    }
+    .title{
+        font-size: 16px;
+        overflow:hidden; 
+        text-overflow:ellipsis;
+        width: 295px;
     }
     dt{
       margin-right: 12px;
@@ -77,46 +84,47 @@ const LastTitle = styled.div`
 export default function Send(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    // const [ address] = useState('0xddAaee7F2BB6764733f43F51B406349456826662');
     const [ keyword, setKeyword] = useState('');
+    const {network} = useNetwork();
+    const {walletList} = useWalletList();
 
-    const [ last, setLast] = useState([{
-        address:"0xddAaee7F2BB6764733f43F51B406349456826662"
-    }]);
-    const [searchList,setSearchList] = useState([]);
+    const [ last, setLast] = useState([]);
+
+    useEffect(() => {
+        if(!walletList?.length)return;
+        setLast(walletList??[])
+    }, [walletList]);
 
     const handleInput = (e) =>{
         setKeyword(e.target.value);
+
     }
 
-    const toSearch = () =>{
-        navigate("/sendConfirm");
+    const toSendPage = (str) =>{
+        navigate(`/sendStep1?sendTo=${str}`);
         // setKeyword(address)
     }
+
     return <Box>
-        <TokenHeader title={t('popup.send.send')} />
+        <TokenHeader title={t('popup.send.sendTo')} />
         <SearchBox>
-            <img src={SearchImg} alt=""/>
-            <input type="text" placeholder={t('popup.send.searchTips')} value={keyword} onChange={()=>handleInput()} />
+            <img src={WalletImg} alt=""/>
+            <input type="text" placeholder={t('popup.send.enterTips')} value={keyword} onChange={()=>handleInput()} />
             {/*<img src={QRcode} alt=""/>*/}
         </SearchBox>
 
         <LastTitle>{t('popup.send.last')}</LastTitle>
         <Content>
         {
-            !searchList.length && last.map((item,index)=>( <dl onClick={()=>toSearch()} key={`last_${index}`}>
+            last.map((item,index)=>( <dl onClick={()=>toSendPage(item.address)} key={`last_${index}`}>
                 <dt>
-                    <img src={Demo} alt=""/>
+                    <Avatar size={36} address={item?.account?.address_main} />
                 </dt>
-                <dd className="medium-font">{PublicJs.AddressToShow(item.address)}</dd>
-            </dl>))
-        }
-        {
-            !! searchList.length && searchList.map((item,index)=>( <dl onClick={()=>toSearch()} key={`search_${index}`}>
-                <dt>
-                    <img src={Demo} alt=""/>
-                </dt>
-                <dd className="medium-font">{PublicJs.AddressToShow(item.address)}</dd>
+
+                <dd className="medium-font">
+                    <div className="title">{item?.name}</div>
+                    <div>{PublicJs.AddressToShow(item.address)}</div>
+                </dd>
             </dl>))
         }
 

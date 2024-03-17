@@ -1,4 +1,4 @@
-import browser, { Windows }  from "webextension-polyfill";
+import browser from "webextension-polyfill";
 import {v4 as uuid} from "uuid";
 import isEqual from 'lodash.isequal';
 import omit from 'lodash.omit';

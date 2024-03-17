@@ -114,6 +114,7 @@ export default function AccountDetail(){
             ...currentAccountInfo,
             name:walletName
         }
+
         saveWallet(obj,currentAccount)
     }
 

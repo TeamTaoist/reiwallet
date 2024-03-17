@@ -9,7 +9,7 @@ const Box = styled.div`
         padding:5px;
         aspect-ratio: 1;
         border-radius: 50%;
-        background: #fff;
+        background: ${props => props.color?props.color:"#fff"};
         --_m:
                 conic-gradient(#0000 10%,#000),
                 linear-gradient(#000 0 0) content-box;
@@ -21,8 +21,8 @@ const Box = styled.div`
     }
     @keyframes l3 {to{transform: rotate(1turn)}}
 `
-export default function BtnLoading(){
-    return <Box>
+export default function BtnLoading({color}){
+    return <Box color={color}>
         <div className="loader"/>
     </Box>
 

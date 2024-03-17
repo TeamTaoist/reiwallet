@@ -138,8 +138,9 @@
     },
     "send": {
       "send": "Send",
-      "searchTips": "Please search",
-      "last": "Record last"
+      "sendTo": "Send To",
+      "enterTips": "Please enter address",
+      "last": "Your accounts"
     },
     "assets": {
       "Assets": "Assets"

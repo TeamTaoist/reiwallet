@@ -1,5 +1,6 @@
 import {handleRequest} from "../../backgroundJS/handleRequest";
 import {handlePopUp} from "../../backgroundJS/handlePopup";
+const fetch = global.fetch.bind(global);
 
 /*global chrome*/
 function init() {

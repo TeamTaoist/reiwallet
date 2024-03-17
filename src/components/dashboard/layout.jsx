@@ -1,14 +1,11 @@
 // dashboard layout
-import React, {useEffect, useState} from "react";
+import React from "react";
 import styled from "styled-components";
 import TwitterSvg from "../svg/social/twitter"
 import DiscordSvg from "../svg/social/discord"
 import TelegramSvg from "../svg/social/telegram"
 import MediumSvg from "../svg/social/medium";
 import Logo from '../../assets/images/dashboard/logo.png';
-
-import {Route, useLocation, useNavigate} from "react-router-dom";
-
 
 const DashboardLayoutStyled = styled.div`
   padding-top: 70px;

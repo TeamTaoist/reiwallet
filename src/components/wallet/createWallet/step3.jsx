@@ -4,8 +4,7 @@ import {useTranslation} from "react-i18next";
 import styled from "styled-components";
 import Button from "../../button/button";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import PublicJs from "../../../utils/publicJS";
+import { useState} from "react";
 import ClearImg from "../../../assets/images/clear.png";
 
 const Box = styled.div`
@@ -117,14 +116,6 @@ export default function Step3(){
     const submit = async() =>{
 
         navigate('/success');
-
-        // passworder
-        //     .encrypt(password, accountMnemonic)
-        //     .then(function (blob) {
-        //         /*global chrome*/
-        //         chrome.storage.local.set({WalletMnemonic:blob});
-        //         navigate('/success');
-        //     });
     }
 
     return  <Box>

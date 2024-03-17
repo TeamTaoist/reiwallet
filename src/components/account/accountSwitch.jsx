@@ -1,13 +1,9 @@
 import styled from "styled-components";
 import CheckNor from "../../assets/images/Check01.png";
 import CheckAct from "../../assets/images/Check02.png";
-import Del from "../../assets/images/del.png";
-import Demo from '../../assets/images/demo/99592461.jpeg';
 import Button from "../button/button";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useEffect, useState} from "react";
-import {use} from "i18next";
 import PublicJs from "../../utils/publicJS";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import Avatar from "../svg/avatar/avatar";

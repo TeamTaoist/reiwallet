@@ -3,13 +3,18 @@ import Wallet from "../wallet/wallet";
 import RpcClient from "./rpc";
 
 export const handlePopUp = async (requestData) =>{
-    console.log("===handlePopUp=",requestData, Date.now())
     switch (requestData.method){
         case "Create_Account":
            create_new_wallet(requestData);
             break;
         case "get_capacity":
             get_Capacity(requestData);
+            break;
+        case "get_feeRate":
+            get_feeRate(requestData);
+            break;
+        case "send_transaction":
+            send_transaction(requestData);
             break;
     }
 
@@ -53,11 +58,36 @@ const get_Capacity = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.get_capacity(currentAccountInfo.address);
-        console.log("===get_Capacity=",rt, Date.now())
         sendMsg({ type:"get_Capacity_success",data:rt})
 
     }catch (e){
-        console.error("===get_Capacity=",e, Date.now())
+        sendMsg({ type:"error",data:e.message})
+    }
+}
+
+const get_feeRate = async() =>{
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_feeRate();
+        sendMsg({ type:"get_feeRate_success",data:rt})
+
+    }catch (e){
+        sendMsg({ type:"error",data:e.message})
+    }
+}
+
+const send_transaction = async (obj) =>{
+    const {to,amount,fee} = obj;
+    console.error("===send_transaction==",obj)
+    try{
+        const client = new RpcClient();
+        let rt = await client.send_transaction(to,amount,fee);
+        console.error("%c ====send_transaction_success="+rt, 'color: #0f0')
+        sendMsg({ type:"send_transaction_success",data:rt})
+
+    }catch (e){
+        console.error("===send_transaction failed=",e)
         sendMsg({ type:"error",data:e.message})
     }
 

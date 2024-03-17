@@ -95,7 +95,6 @@ export default function ExportConfirm(){
         try {
             /*global chrome*/
             let result = await chrome.storage.session.get(["password"]);
-            console.log(result?.password)
             if (result?.password) {
                 let str = await Keystore.decrypt(result?.password,privateKey);
                 setPy(str)

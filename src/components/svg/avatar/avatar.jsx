@@ -3,7 +3,7 @@ export default function ({size,address}){
     return <Avatar
         size={size}
         name={address}
-        variant="marble"
-        colors={['#47CDFF', '#47FF98', '#F0AB3D', '#FF8747', '#FF59D4']}
+        variant="pixel"
+        colors={['#4216FF', '#47FF98', '#F0AB3D', '#FF6047', '#F600FF']}
     />
 }

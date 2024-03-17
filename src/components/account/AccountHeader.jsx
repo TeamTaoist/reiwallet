@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import DemoImg from "../../assets/images/Avatar.png";
 import CopyImg from "../../assets/images/create/COPY.png";
 import MoreImg from "../../assets/images/more-dot.png";
 import EtherImg from "../../assets/images/ether.png";
