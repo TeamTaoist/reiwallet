@@ -184,14 +184,16 @@ export default function Setting(){
         <div>
             <Titles className="medium-font">General</Titles>
             <ContentBox2>
-                <ItemBox2  onClick={()=>toGo('/language')}>
+                {/*<ItemBox2  onClick={()=>toGo('/language')}>*/}
+                <ItemBox2 >
                     <LftTitle className="medium-font">Language switching</LftTitle>
                     <div className="rht">
                         <span>English</span>
                         <img src={Next} alt=""/>
                     </div>
                 </ItemBox2>
-                <ItemBox2  onClick={()=>toGo('/security')}>
+                {/*<ItemBox2  onClick={()=>toGo('/security')}>*/}
+                <ItemBox2 >
                     <LftTitle className="medium-font">Security and privacy</LftTitle>
                     <div className="rht">
                         <img src={Next} alt=""/>
@@ -206,9 +208,11 @@ export default function Setting(){
                     <LftTitle className="medium-font">Version number</LftTitle>
                     <div>V 1.0</div>
                 </ItemBox2>
-                <ItemBox2>
-                    <LftTitle className="medium-font" onClick={()=>toPrivacy()}>Privacy clause</LftTitle>
-                    <div>V 1.0</div>
+                <ItemBox2 onClick={() => toPrivacy()}>
+                    <LftTitle className="medium-font">Privacy clause</LftTitle>
+                    <div className="rht">
+                        <img src={Next} alt=""/>
+                    </div>
                 </ItemBox2>
             </ContentBox2>
         </div>

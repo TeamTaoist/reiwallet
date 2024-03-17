@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Next from "../../assets/images/into.png"
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useState} from "react";
 
 const Box = styled.div`
   padding: 23px 20px;
@@ -36,6 +37,7 @@ const AddToken = styled.div`
 export default function Assets(){
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const [list,setList] = useState([])
     const add = () =>{
         navigate("/addToken");
     }
@@ -46,14 +48,14 @@ export default function Assets(){
     return <Box>
         <ul>
             {
-                [...Array(8)].map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
+                list.map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
                     <span className="medium-font">0.5654 ETH</span>
                     <img src={Next} alt=""/>
                 </li>))
             }
         </ul>
-        <AddToken onClick={()=>add()}>
-            {t('popup.account.AddToken')}
-        </AddToken>
+        {/*<AddToken onClick={()=>add()}>*/}
+        {/*    {t('popup.account.AddToken')}*/}
+        {/*</AddToken>*/}
     </Box>
 }

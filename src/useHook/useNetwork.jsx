@@ -3,7 +3,7 @@ import {useWeb3} from "../store/contracts";
 import {networkList} from "../constants/network";
 
 export default function useNetwork(){
-    const [network,setNetwork] = useState('mainnet');
+    const [network,setNetwork] = useState('');
     const [networkInfo,setNetworkInfo] = useState(null);
     const {dispatch,state:{refresh_network}} = useWeb3();
 

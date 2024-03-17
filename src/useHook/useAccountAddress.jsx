@@ -17,7 +17,7 @@ export default function useAccountAddress(){
     }, [network,walletList]);
 
     useEffect(() => {
-        if(!walletList?.length)return;
+        if(!walletList?.length || currentAccount==="")return;
         get_Address()
     }, [network,currentAccount,walletList]);
 

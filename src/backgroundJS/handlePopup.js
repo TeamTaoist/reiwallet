@@ -16,6 +16,9 @@ export const handlePopUp = async (requestData) =>{
         case "send_transaction":
             send_transaction(requestData);
             break;
+        case "transaction_confirm":
+            transaction_confirm(requestData);
+            break;
     }
 
 }
@@ -79,11 +82,9 @@ const get_feeRate = async() =>{
 
 const send_transaction = async (obj) =>{
     const {to,amount,fee} = obj;
-    console.error("===send_transaction==",obj)
     try{
         const client = new RpcClient();
         let rt = await client.send_transaction(to,amount,fee);
-        console.error("%c ====send_transaction_success="+rt, 'color: #0f0')
         sendMsg({ type:"send_transaction_success",data:rt})
 
     }catch (e){
@@ -91,4 +92,18 @@ const send_transaction = async (obj) =>{
         sendMsg({ type:"error",data:e.message})
     }
 
+}
+
+const transaction_confirm = async(obj) =>{
+    const {tx} = obj;
+    try{
+        const client = new RpcClient();
+        let rt = await client.transaction_confirm(tx);
+        console.log("===transaction_confirm_success=",rt)
+        sendMsg({ type:"transaction_confirm_success",data:rt})
+
+    }catch (e){
+        console.error("===transaction_confirm failed=",e)
+        sendMsg({ type:"error",data:e.message})
+    }
 }

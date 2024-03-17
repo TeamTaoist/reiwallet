@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const Box = styled.div`
   padding: 23px 20px 0;
@@ -39,6 +40,7 @@ const Box = styled.div`
 
 export default function Activities(){
     const navigate = useNavigate();
+    const [list,setList] = useState([])
 
     const toDetail = () =>{
         navigate('/sendDetail')
@@ -47,7 +49,7 @@ export default function Activities(){
     return <Box>
         <ul>
             {
-                [...Array(8)].map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
+                list.map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
                     <div className="item">
                         <div className="medium-font title">Approve Token spend…</div>
                         <div className="medium-font title">-0 TBNB</div>

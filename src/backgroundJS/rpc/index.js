@@ -1,6 +1,6 @@
 import Wallet from "../../wallet/wallet";
 import {networkList} from "../../constants/network";
-import {commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
+import {BI, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
 import Keystore from "../../wallet/keystore";
 import {formatter} from "./formatParamas";
@@ -16,7 +16,6 @@ export default class RpcClient{
 
     async getNetwork(){
         if(this.network) return this.network;
-
         let rt = await chrome.storage.local.get(["networkInfo"]);
         if(rt){
             this.network =  JSON.parse(rt.networkInfo);
@@ -51,7 +50,6 @@ export default class RpcClient{
     }
 
     async  _request(obj) {
-
         ++jsonRpcId;
         const {method,params,url} = obj;
 
@@ -101,72 +99,64 @@ export default class RpcClient{
         return await this._request({
             method:"get_fee_rate_statistics",
             url:network.rpcUrl.node,
-            params:[]
+            params:['0x65']
         })
 
     }
     send_transaction = async (to,amt,fee) =>{
-        console.log("=====global",global)
         const network = await this.getNetwork();
         const currentAccount = await this.currentInfo();
         const {address,privatekey_show} = currentAccount;
-        console.log("====send_transaction---------amt--------------",amt)
         let amount = parseUnit(amt,"ckb");
-
-        console.log("====send_transaction---------amount--------------",amount,amt,amount.toNumber())
-
         if(network.value === "mainnet"){
             config.initializeConfig(config.predefined.LINA);
         }else{
             config.initializeConfig(config.predefined.AGGRON4);
         }
-
-        console.log("====indexer==")
-
         const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
-
-        console.log("====indexer==",indexer)
         let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
-        console.log("====txSkeleton==",txSkeleton)
         txSkeleton = await commons.common.transfer(txSkeleton, [address], to, amount);
-        console.log("====txSkeleton== transfer",fee)
         txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [address], fee /*fee_rate*/);
-        let aa =await commons.common.payFeeByFeeRate(txSkeleton, [address], fee);
-        console.log("====txSkeleton== payFeeByFeeRate",txSkeleton,txSkeleton.toJSON())
-        console.log("====txSkeleton== payFeeByFeeRat22222e",aa)
         txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
-        console.log("====txSkeleton== prepareSigningEntries",privatekey_show)
-
-
         const signatures = txSkeleton
             .get("signingEntries")
             .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
             .toArray();
-
-        console.log("======signatures==",signatures)
         const signedTx = helpers.sealTransaction(txSkeleton, signatures);
+        const newTx = formatter.toRawTransaction(signedTx);
+        // const {inputs,outputs} = txSkeleton.toJSON();
+        console.error("=txSkeleton==",txSkeleton.toJSON())
 
+        let outputs = txSkeleton.get("outputs").toArray();
+        const outputArr= outputs.map((item)=>{
+            return {
+                capacity:item.cellOutput.capacity,
+                address:Wallet.scriptToAddress(item.cellOutput.lock,network.value === "mainnet")
+            }
+        })
 
-        console.log("======signedTx==",signedTx)
+        let inputs = txSkeleton.get("inputs").toArray();
+        const inputArr= inputs.map((item)=>{
+            return {
+                capacity:item.cellOutput.capacity,
+                address:Wallet.scriptToAddress(item.cellOutput.lock,network.value === "mainnet")
+            }
+        })
+        return {
+            signedTx:newTx,
+            inputs:inputArr,
+            outputs:outputArr
+        }
 
-        const newTx = formatter.toRawTransaction(signedTx)
-        console.error("======newTx==",newTx)
-
-        console.log("==network.rpcUrl.node====",network.rpcUrl.node)
-
-
-        // const rpc = new RPC(network.rpcUrl.node);
-        // console.log("==rpc====",rpc)
-        // return await rpc.sendTransaction(signedTx);
+    }
+    transaction_confirm = async (tx) =>{
+        const network = await this.getNetwork();
         return await this._request({
             method:"send_transaction",
             url:network.rpcUrl.node,
             params:[
-                newTx
+                tx
             ]
         })
     }
 }
-
-
-
