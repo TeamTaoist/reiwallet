@@ -4,6 +4,7 @@ import {BI, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
 import Keystore from "../../wallet/keystore";
 import {formatter} from "./formatParamas";
+import {blockchain} from "@ckb-lumos/base";
 
 
 
@@ -103,7 +104,7 @@ export default class RpcClient{
         })
 
     }
-    send_transaction = async (to,amt,fee) =>{
+    send_transaction = async (to,amt,fee,isMax) =>{
         const network = await this.getNetwork();
         const currentAccount = await this.currentInfo();
         const {address,privatekey_show} = currentAccount;
@@ -116,16 +117,40 @@ export default class RpcClient{
         const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
         let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
         txSkeleton = await commons.common.transfer(txSkeleton, [address], to, amount);
-        txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [address], fee /*fee_rate*/);
+        if(isMax){
+            txSkeleton = await commons.common.payFee(txSkeleton, [address] ,0);
+        }else{
+            txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [address], fee /*fee_rate*/);
+        }
         txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
-        const signatures = txSkeleton
+        let signatures = txSkeleton
             .get("signingEntries")
             .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
             .toArray();
-        const signedTx = helpers.sealTransaction(txSkeleton, signatures);
+
+        let signedTx = helpers.sealTransaction(txSkeleton, signatures);
+
+        if(isMax){
+           const size =  getTransactionSizeByTx(signedTx)
+            const newFee = calculateFeeCompatible(size,fee);
+            let outputs = txSkeleton.get("outputs").toArray();
+           let item =outputs[0];
+            item.cellOutput.capacity = BI.from(amount).sub(newFee).toHexString();
+            console.log(item)
+
+            txSkeleton = txSkeleton.update("outputs", (outputs) => {
+                outputs[0] =item
+                return outputs;
+            });
+            txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
+             signatures = txSkeleton
+                .get("signingEntries")
+                .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
+                .toArray();
+            signedTx = helpers.sealTransaction(txSkeleton, signatures);
+        }
+
         const newTx = formatter.toRawTransaction(signedTx);
-        // const {inputs,outputs} = txSkeleton.toJSON();
-        console.error("=txSkeleton==",txSkeleton.toJSON())
 
         let outputs = txSkeleton.get("outputs").toArray();
         const outputArr= outputs.map((item)=>{
@@ -159,4 +184,21 @@ export default class RpcClient{
             ]
         })
     }
+}
+
+const getTransactionSizeByTx = (tx) => {
+    const serializedTx = blockchain.Transaction.pack(tx);
+    // 4 is serialized offset bytesize
+    const size = serializedTx.byteLength + 4;
+    return size;
+}
+
+const calculateFeeCompatible = (size, feeRate)=> {
+    const ratio = BI.from(1000);
+    const base = BI.from(size).mul(feeRate);
+    const fee = base.div(ratio);
+    if (fee.mul(ratio).lt(base)) {
+        return fee.add(1);
+    }
+    return BI.from(fee);
 }

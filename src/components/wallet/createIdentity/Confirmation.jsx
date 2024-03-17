@@ -161,7 +161,6 @@ export default function Confirmation(){
         <ContainerLayout
             button={
                 <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>
-                // <Button primary fullWidth onClick={()=>next()}>{t('install.create.confirmation.Confirm')}</Button>
             }
         >
             <ContainerContentStyled>

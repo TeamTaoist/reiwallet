@@ -26,6 +26,7 @@ export default function SendAction(){
     const [address,setAddress] = useState('')
     const [result,setResult] = useState(null);
     const [loading,setLoading] = useState(false)
+    const [isMax,setIsMax] = useState(false)
 
     const handleEvent = (message) => {
         const {type }= message;
@@ -83,15 +84,17 @@ export default function SendAction(){
             method:"send_transaction",
             to:address,
             amount,
+            isMax,
             fee
         }
         sendMsg(obj)
     }
 
-    const toDetail = (address,amount) =>{
+    const toDetail = (address,amount,isMax) =>{
         setAddress(address)
         setAmount(amount)
         setLoading(true)
+        setIsMax(isMax)
         setStep(1)
     }
 
@@ -114,7 +117,7 @@ export default function SendAction(){
         }
 
         {
-            step === 1 && <SendStep2 address={address} amount={amount} result={result} sendConfirm={sendConfirm}/>
+            step === 1 && <SendStep2 address={address} amt={amount} result={result} sendConfirm={sendConfirm} isMax={isMax}/>
         }
     </Box>
 }

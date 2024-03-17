@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import useBalance from "../../useHook/useBalance";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
+import {blockchain} from "@ckb-lumos/base";
 
 const ContentBox = styled.div`
     flex-grow: 1;
@@ -131,7 +132,6 @@ const AmountBox = styled.div`
     line-height: 24px;
     text-align: center;
     margin-bottom: 6px;
-      cursor: not-allowed;
   }
   .balance{
     font-size: 12px;
@@ -162,6 +162,7 @@ export default function SendStep1({toDetail,fee}){
     const [ amount, setAmount] = useState('');
     const {balance,balanceLoading,symbol} = useBalance();
     const [ address,setAddress] = useState('');
+    const [ isMax,setIsMax] = useState(false);
     const [search] = useSearchParams();
     const sendTo = search.get("sendTo");
     const navigate = useNavigate();
@@ -171,10 +172,9 @@ export default function SendStep1({toDetail,fee}){
     }, [sendTo]);
 
     const chooseMax = () =>{
-        return;
-        // setAmount(balance)
+        setAmount(balance)
+        setIsMax(true)
     }
-
     const handleInput = (e)=>{
         setAddress(e.target.value)
     }
@@ -222,7 +222,7 @@ export default function SendStep1({toDetail,fee}){
         </Tips>
         <BtnGroup>
             <Button border onClick={()=>navigate("/")}>Cancel</Button>
-            <Button primary disabled={amount<61 || !address?.length}  onClick={()=>toDetail(address,amount)}>Next</Button>
+            <Button primary disabled={amount<61 || !address?.length}  onClick={()=>toDetail(address,amount,isMax)}>Next</Button>
         </BtnGroup>
     </ContentBox>
 }

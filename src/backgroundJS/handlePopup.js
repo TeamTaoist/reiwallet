@@ -81,10 +81,10 @@ const get_feeRate = async() =>{
 }
 
 const send_transaction = async (obj) =>{
-    const {to,amount,fee} = obj;
+    const {to,amount,fee,isMax} = obj;
     try{
         const client = new RpcClient();
-        let rt = await client.send_transaction(to,amount,fee);
+        let rt = await client.send_transaction(to,amount,fee,isMax);
         sendMsg({ type:"send_transaction_success",data:rt})
 
     }catch (e){

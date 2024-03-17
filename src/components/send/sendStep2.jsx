@@ -91,8 +91,9 @@ const BtnGroup = styled.div`
     }
 `
 
-export default function SendStep2({amount,address,result,sendConfirm}){
+export default function SendStep2({address,result,sendConfirm,isMax,amt}){
     const {symbol} = useBalance();
+    const [amount,setAmount] = useState(0)
     const {currentAccountInfo} = useAccountAddress();
     const [fee,setFee] = useState(0);
     const navigate = useNavigate();
@@ -113,10 +114,17 @@ export default function SendStep2({amount,address,result,sendConfirm}){
             outputsSum = outputsSum.add(capacity)
 
         })
+        if(isMax){
+            let outputsFormat = formatUnit(outputsSum,'ckb')
+            setAmount(outputsFormat);
+        }else{
+            setAmount(amt)
+        }
+
         let gas = inputsSum.sub(outputsSum);
         let gasFormat = formatUnit(gas,'ckb');
         setFee(gasFormat)
-    }, [result]);
+    }, [result,isMax]);
 
 
     return <ContentBox>
