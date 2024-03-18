@@ -106,7 +106,6 @@ export default class RpcClient{
 
     }
     send_transaction = async (to,amt,fee,isMax) =>{
-        console.error("=====isMax==",to,amt,fee,isMax)
         const network = await this.getNetwork();
         const currentAccount = await this.currentInfo();
         const {address,privatekey_show} = currentAccount;
@@ -136,7 +135,6 @@ export default class RpcClient{
         if(isMax){
            const size =  getTransactionSizeByTx(signedTx)
             const newFee = calculateFeeCompatible(size,fee);
-           console.error("===newFee==",newFee,size)
             let outputs = txSkeleton.get("outputs").toArray();
            let item = outputs[0];
             item.cellOutput.capacity = BI.from(amount).sub(newFee).toHexString();
@@ -153,9 +151,6 @@ export default class RpcClient{
                 .toArray();
             signedTx = helpers.sealTransaction(txSkeleton, signatures);
         }
-
-        console.error("===outputs==",txSkeleton.get("outputs").toArray())
-        console.error("===inputs==",txSkeleton.get("inputs").toArray())
         const newTx = formatter.toRawTransaction(signedTx);
         let outputs = txSkeleton.get("outputs").toArray();
         const outputArr= outputs.map((item)=>{

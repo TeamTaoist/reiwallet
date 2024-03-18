@@ -18,7 +18,7 @@ export const handleRequest = async (requestData) =>{
                 rt = await requestAccount();
                 break;
 
-            case "ckb_getBalance":
+            case "ckb_getCapacity":
                 rt = await getBalance(data);
                 break;
             case "test":
