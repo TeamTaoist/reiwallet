@@ -101,7 +101,7 @@ export default function Success(){
                 <AddressBox className="regular-font">
                     <Toast tips="copied" left="100" bottom="-40" show={copied}/>
                     {account.address_main}
-                    <CopyToClipboard onCopy={()=>Copy()} text={account}>
+                    <CopyToClipboard onCopy={()=>Copy()} text={account.address_main}>
                         <img src={CopyImg} alt=""/>
                     </CopyToClipboard>
                 </AddressBox>

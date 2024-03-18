@@ -7,6 +7,8 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
 import {blockchain} from "@ckb-lumos/base";
 import {useTranslation} from "react-i18next";
+import {BI} from "@ckb-lumos/lumos";
+import {parseUnit} from "@ckb-lumos/bi";
 
 const ContentBox = styled.div`
     flex-grow: 1;
@@ -111,6 +113,12 @@ const AmountBox = styled.div`
     font-weight: 500;
     color: #34332E;
     line-height: 66px;
+  -moz-appearance: textfield; 
+     &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
     &:focus{
       outline: none;
     }
@@ -174,7 +182,16 @@ export default function SendStep1({toDetail,fee}){
         setAddress(sendTo)
     }, [sendTo]);
 
+    useEffect(() => {
+        if(amount === '' || balance === "--" ) return;
+
+        let bl = parseUnit(balance,"ckb")
+        let amt = parseUnit(amount,"ckb")
+        setIsMax(bl.eq(amt))
+    }, [amount,balance]);
+
     const chooseMax = () =>{
+        if(balanceLoading)return;
         setAmount(balance)
         setIsMax(true)
     }
@@ -188,6 +205,7 @@ export default function SendStep1({toDetail,fee}){
     }
     const handleAmount = (e) =>{
         setAmount(e.target.value);
+
     }
     return <ContentBox>
         <div>
@@ -202,7 +220,7 @@ export default function SendStep1({toDetail,fee}){
         <div>
             <TitleBox>{t('popup.send.payAmount')}</TitleBox>
             <AmountBox>
-                <input type="text" value={amount} onChange={(e)=>handleAmount(e)}/>
+                <input type="number" value={amount} onChange={(e)=>handleAmount(e)}/>
                 <div className="rht">
                     <div className="max" onClick={()=>chooseMax()}>{t('popup.send.MAX')}</div>
                     <div className="balance">{t('popup.send.Capacity')}: <span>

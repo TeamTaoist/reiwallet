@@ -101,7 +101,8 @@ export default function Download(){
                     <div className="top">
                         <dl>
                             <dt>{t('install.create.download.walletAddress')}</dt>
-                            <dd>{account.address_main}<img src={CopyImg} alt=""/></dd>
+                            {/*<dd>{account.address_main}<img src={CopyImg} alt=""/></dd>*/}
+                            <dd>{account.address_main}</dd>
                         </dl>
                         {/*<dl>*/}
                         {/*    <dt>{t('install.create.download.PrivateKey')}</dt>*/}

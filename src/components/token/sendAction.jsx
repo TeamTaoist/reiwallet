@@ -9,6 +9,7 @@ import useMessage from "../../useHook/useMessage";
 import SendStep1 from "../send/sendStep1";
 import SendStep2 from "../send/sendStep2";
 import Loading from "../loading/loading";
+import Toast from "../modal/toast";
 
 const Box = styled.div`
     display: flex;
@@ -27,6 +28,7 @@ export default function SendAction(){
     const [result,setResult] = useState(null);
     const [loading,setLoading] = useState(false)
     const [isMax,setIsMax] = useState(false)
+    const [error,setError] = useState(false)
 
     const handleEvent = (message) => {
         const {type }= message;
@@ -48,6 +50,18 @@ export default function SendAction(){
             case "transaction_confirm_success":
                 {
                     navigate("/")
+                }
+                break;
+            case "send_transaction_error":
+            case "transaction_confirm_error":
+                {
+                    setError(true)
+                    setLoading(false)
+                    setTimeout(()=>{
+                        setError(false)
+                        navigate("/send")
+                    },2000)
+
                 }
                 break;
 
@@ -108,6 +122,7 @@ export default function SendAction(){
 
     return <Box>
         <TokenHeader title={t('popup.send.send')} />
+        <Toast tips="Send failed" left="100" top="400" show={error}/>
         {
             loading &&   <Loading showBg={true} />
         }

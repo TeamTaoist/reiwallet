@@ -39,7 +39,8 @@ export default class RpcClient{
 
         let privatekey_show;
         if (type === "create") {
-            privatekey_show = await Keystore.decrypt(result?.password,privateKey);
+            const wallet = new Wallet(currentAccount,network==="mainnet",true);
+            privatekey_show = await wallet.ExportPrivateKey(account_index);
         } else {
             privatekey_show = await Keystore.decrypt(result?.password,privateKey);
         }
@@ -118,10 +119,11 @@ export default class RpcClient{
         let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
         txSkeleton = await commons.common.transfer(txSkeleton, [address], to, amount);
         if(isMax){
-            txSkeleton = await commons.common.payFee(txSkeleton, [address] ,0);
+            txSkeleton = await commons.common.payFee(txSkeleton, [address] ,1);
         }else{
             txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [address], fee /*fee_rate*/);
         }
+
         txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
         let signatures = txSkeleton
             .get("signingEntries")
@@ -134,10 +136,8 @@ export default class RpcClient{
            const size =  getTransactionSizeByTx(signedTx)
             const newFee = calculateFeeCompatible(size,fee);
             let outputs = txSkeleton.get("outputs").toArray();
-           let item =outputs[0];
+           let item = outputs[0];
             item.cellOutput.capacity = BI.from(amount).sub(newFee).toHexString();
-            console.log(item)
-
             txSkeleton = txSkeleton.update("outputs", (outputs) => {
                 outputs[0] =item
                 return outputs;
@@ -151,7 +151,6 @@ export default class RpcClient{
         }
 
         const newTx = formatter.toRawTransaction(signedTx);
-
         let outputs = txSkeleton.get("outputs").toArray();
         const outputArr= outputs.map((item)=>{
             return {

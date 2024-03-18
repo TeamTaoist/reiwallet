@@ -28,7 +28,7 @@ const sendMsg = (data) =>{
 }
 
 export const create_new_wallet = async(obj) =>{
-    const {index,network,hasMnemonic,name} = obj;
+    const {index,network,hasMnemonic,name,id,method} = obj;
     try{
         const wallet = new Wallet(index,network==="mainnet",hasMnemonic);
         let walletObj = await wallet.GenerateWallet();
@@ -43,14 +43,14 @@ export const create_new_wallet = async(obj) =>{
             }
             let newList = [...list,item];
             chrome.storage.local.set({walletList:newList});
-            sendMsg({ type:"create_account_success"})
+            sendMsg({ type:"create_account_success",data:{id}})
         });
 
     }catch (e) {
         if(e?.message.includes("no_password")){
-            sendMsg({ type:"to_lock",data:e.message})
+            sendMsg({ type:"to_lock",data: {id}})
         }else{
-            sendMsg({ type:"error",data:e.message})
+            sendMsg({ type:`${method}_error`,data: {message:"error",id}})
         }
 
     }
@@ -64,19 +64,18 @@ const get_Capacity = async(obj) =>{
         sendMsg({ type:"get_Capacity_success",data:rt})
 
     }catch (e){
-        sendMsg({ type:"error",data:e.message})
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }
 
-const get_feeRate = async() =>{
-
+const get_feeRate = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.get_feeRate();
         sendMsg({ type:"get_feeRate_success",data:rt})
 
     }catch (e){
-        sendMsg({ type:"error",data:e.message})
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }
 
@@ -88,10 +87,8 @@ const send_transaction = async (obj) =>{
         sendMsg({ type:"send_transaction_success",data:rt})
 
     }catch (e){
-        console.error("===send_transaction failed=",e)
-        sendMsg({ type:"error",data:e.message})
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
-
 }
 
 const transaction_confirm = async(obj) =>{
@@ -99,11 +96,9 @@ const transaction_confirm = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.transaction_confirm(tx);
-        console.log("===transaction_confirm_success=",rt)
         sendMsg({ type:"transaction_confirm_success",data:rt})
 
     }catch (e){
-        console.error("===transaction_confirm failed=",e)
-        sendMsg({ type:"error",data:e.message})
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }

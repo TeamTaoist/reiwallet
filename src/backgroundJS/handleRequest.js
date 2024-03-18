@@ -28,7 +28,6 @@ export const handleRequest = async (requestData) =>{
                 rt = await testNotificatio2n();
                 break;
         }
-        console.log("====test==",rt,id)
         if(rt){
             let data = {
                 result:rt,
@@ -42,7 +41,6 @@ export const handleRequest = async (requestData) =>{
             error:e.message,
             id
         }
-        console.log("==handleRequest=",e)
         toMessage(data)
     }
 }

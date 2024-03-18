@@ -8,6 +8,8 @@ import {useNavigate} from "react-router-dom";
 import {useWeb3} from "../../store/contracts";
 import BtnLoading from "../loading/btnloading";
 import useMessage from "../../useHook/useMessage";
+import {v4 as uuid} from "uuid";
+import Toast from "../modal/toast";
 
 const MaskBox = styled.div`
     background: rgba(0,0,0,0.4);
@@ -82,15 +84,25 @@ export default function AddAccount({handleCloseNew}) {
     const {network} = useNetwork();
     const {state:{refresh_wallet_list},dispatch} = useWeb3();
     const[loading,setLoading] = useState(false)
+    const [error,setError] = useState(false)
     const handleEvent = (message) => {
-        const {type }= message
-        if(type==="to_lock"){
-            navigate('/');
-        }else if(type ==="create_account_success"){
-            setLoading(false)
-            dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
-            handleCloseNew()
-
+        const {type }= message;
+        switch(type){
+            case "to_lock":
+                navigate("/")
+                break;
+            case "create_account_success":
+                setLoading(false)
+                dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
+                handleCloseNew()
+                break;
+            case "Create_Account_error":
+                setError(true)
+                setLoading(false)
+                setTimeout(()=>{
+                    setError(false)
+                },2000)
+                break;
         }
     }
     const {sendMsg} = useMessage(handleEvent,[]);
@@ -109,6 +121,7 @@ export default function AddAccount({handleCloseNew}) {
         setLoading(true)
         let obj ={
             index:walletList.length,
+            id:uuid(),
             network,
             name,
             hasMnemonic:true,
@@ -118,6 +131,7 @@ export default function AddAccount({handleCloseNew}) {
     }
 
     return <MaskBox>
+        <Toast tips="create account error" left="100" bottom="400" show={error}/>
         <BgBox>
             <TitleBox className="medium-font">Add Account</TitleBox>
             <ContentBox>
