@@ -106,6 +106,7 @@ export default class RpcClient{
 
     }
     send_transaction = async (to,amt,fee,isMax) =>{
+        console.error("=====isMax==",to,amt,fee,isMax)
         const network = await this.getNetwork();
         const currentAccount = await this.currentInfo();
         const {address,privatekey_show} = currentAccount;
@@ -119,7 +120,7 @@ export default class RpcClient{
         let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
         txSkeleton = await commons.common.transfer(txSkeleton, [address], to, amount);
         if(isMax){
-            txSkeleton = await commons.common.payFee(txSkeleton, [address] ,1);
+            txSkeleton = await commons.common.payFee(txSkeleton, [address] ,0);
         }else{
             txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [address], fee /*fee_rate*/);
         }
@@ -135,6 +136,7 @@ export default class RpcClient{
         if(isMax){
            const size =  getTransactionSizeByTx(signedTx)
             const newFee = calculateFeeCompatible(size,fee);
+           console.error("===newFee==",newFee,size)
             let outputs = txSkeleton.get("outputs").toArray();
            let item = outputs[0];
             item.cellOutput.capacity = BI.from(amount).sub(newFee).toHexString();
@@ -142,6 +144,8 @@ export default class RpcClient{
                 outputs[0] =item
                 return outputs;
             });
+
+
             txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
              signatures = txSkeleton
                 .get("signingEntries")
@@ -150,6 +154,8 @@ export default class RpcClient{
             signedTx = helpers.sealTransaction(txSkeleton, signatures);
         }
 
+        console.error("===outputs==",txSkeleton.get("outputs").toArray())
+        console.error("===inputs==",txSkeleton.get("inputs").toArray())
         const newTx = formatter.toRawTransaction(signedTx);
         let outputs = txSkeleton.get("outputs").toArray();
         const outputArr= outputs.map((item)=>{

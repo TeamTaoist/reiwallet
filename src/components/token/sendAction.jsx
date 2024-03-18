@@ -29,6 +29,7 @@ export default function SendAction(){
     const [loading,setLoading] = useState(false)
     const [isMax,setIsMax] = useState(false)
     const [error,setError] = useState(false)
+    const [tips,setTips] = useState('')
 
     const handleEvent = (message) => {
         const {type }= message;
@@ -50,11 +51,17 @@ export default function SendAction(){
             case "transaction_confirm_success":
                 {
                     navigate("/")
+                    setError(true)
+                    setTips('Send Success')
+                    setTimeout(()=>{
+                        setError(false)
+                    },2000)
                 }
                 break;
             case "send_transaction_error":
             case "transaction_confirm_error":
                 {
+                    setTips('Send Failed')
                     setError(true)
                     setLoading(false)
                     setTimeout(()=>{
@@ -122,7 +129,7 @@ export default function SendAction(){
 
     return <Box>
         <TokenHeader title={t('popup.send.send')} />
-        <Toast tips="Send failed" left="100" top="400" show={error}/>
+        <Toast tips={tips} left="80" top="400" show={error}/>
         {
             loading &&   <Loading showBg={true} />
         }

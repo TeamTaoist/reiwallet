@@ -87,6 +87,7 @@ const send_transaction = async (obj) =>{
         sendMsg({ type:"send_transaction_success",data:rt})
 
     }catch (e){
+        console.error(`${obj.method}_error`,e.message)
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }
@@ -99,6 +100,7 @@ const transaction_confirm = async(obj) =>{
         sendMsg({ type:"transaction_confirm_success",data:rt})
 
     }catch (e){
+        console.error(`${obj.method}_error`,e.message)
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }

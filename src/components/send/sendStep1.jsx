@@ -9,6 +9,7 @@ import {blockchain} from "@ckb-lumos/base";
 import {useTranslation} from "react-i18next";
 import {BI} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
+import useAccountAddress from "../../useHook/useAccountAddress";
 
 const ContentBox = styled.div`
     flex-grow: 1;
@@ -142,6 +143,11 @@ const AmountBox = styled.div`
     text-align: center;
     margin-bottom: 6px;
     cursor: pointer;
+      border: 0;
+      &:disabled{
+          opacity: 0.4;
+      }
+      
   }
   .balance{
     font-size: 12px;
@@ -177,6 +183,7 @@ export default function SendStep1({toDetail,fee}){
     const [search] = useSearchParams();
     const sendTo = search.get("sendTo");
     const navigate = useNavigate();
+    const {currentAccountInfo} = useAccountAddress();
 
     useEffect(() => {
         setAddress(sendTo)
@@ -222,7 +229,7 @@ export default function SendStep1({toDetail,fee}){
             <AmountBox>
                 <input type="number" value={amount} onChange={(e)=>handleAmount(e)}/>
                 <div className="rht">
-                    <div className="max" onClick={()=>chooseMax()}>{t('popup.send.MAX')}</div>
+                    <Button className="max" disabled={address === currentAccountInfo.address} onClick={()=>chooseMax()}>{t('popup.send.MAX')}</Button>
                     <div className="balance">{t('popup.send.Capacity')}: <span>
                             {
                                 balanceLoading && <BtnLoading color="#00FF9D" />
