@@ -147,8 +147,8 @@ export default function Export(){
                     </div>
                 </div>
                 <BtnGroup>
-                    <Button border>Cancel</Button>
-                    <Button black onClick={()=>toConfirm()} disabled={!password.length || loading}>Confirm
+                    <Button border>{t('popup.export.cancel')}</Button>
+                    <Button black onClick={()=>toConfirm()} disabled={!password.length || loading}>{t('popup.export.Confirm')}
                         {
                         loading && <BtnLoading/>
                     }</Button>

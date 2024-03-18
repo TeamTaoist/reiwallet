@@ -85,7 +85,6 @@ export default function Send(){
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [ keyword, setKeyword] = useState('');
-    const {network} = useNetwork();
     const {walletList} = useWalletList();
 
     const [ last, setLast] = useState([]);
@@ -102,14 +101,19 @@ export default function Send(){
 
     const toSendPage = (str) =>{
         navigate(`/sendStep1?sendTo=${str}`);
-        // setKeyword(address)
+    }
+
+    const handleKeyPress = (event) =>{
+        if (event.key === 'Enter') {
+            navigate(`/sendStep1?sendTo=${keyword}`);
+        }
     }
 
     return <Box>
         <TokenHeader title={t('popup.send.sendTo')} />
         <SearchBox>
             <img src={WalletImg} alt=""/>
-            <input type="text" placeholder={t('popup.send.enterTips')} value={keyword} onChange={()=>handleInput()} />
+            <input type="text" placeholder={t('popup.send.enterTips')} value={keyword} onChange={(e)=>handleInput(e)} onKeyPress={(e)=>handleKeyPress(e)} />
             {/*<img src={QRcode} alt=""/>*/}
         </SearchBox>
 

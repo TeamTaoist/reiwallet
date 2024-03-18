@@ -6,6 +6,7 @@ import Discord from "../../assets/images/setting/Discord.png";
 import Telegram from "../../assets/images/setting/Telegram.png";
 import Medium from "../../assets/images/setting/Medium.png";
 import Next from '../../assets/images/into.png'
+import {useTranslation} from "react-i18next";
 
 
 const Box = styled.div`
@@ -164,6 +165,7 @@ const SocialBox = styled.ul`
 
 export default function Setting(){
     const navigate = useNavigate()
+    const { t } = useTranslation();
 
     const toGo = (url) =>{
         navigate(url)
@@ -178,15 +180,15 @@ export default function Setting(){
     return <Box>
         <TitleBox>
             <img src={CloseImg} alt="" onClick={()=>toGo('/')}/>
-            <div className="title medium-font">More</div>
+            <div className="title medium-font">{t('popup.Settings.More')}</div>
         </TitleBox>
 
         <div>
-            <Titles className="medium-font">General</Titles>
+            <Titles className="medium-font">{t('popup.Settings.General')}</Titles>
             <ContentBox2>
                 {/*<ItemBox2  onClick={()=>toGo('/language')}>*/}
                 <ItemBox2 >
-                    <LftTitle className="medium-font">Language switching</LftTitle>
+                    <LftTitle className="medium-font">{t('popup.Settings.Language')}</LftTitle>
                     <div className="rht">
                         <span>English</span>
                         <img src={Next} alt=""/>
@@ -194,7 +196,7 @@ export default function Setting(){
                 </ItemBox2>
                 {/*<ItemBox2  onClick={()=>toGo('/security')}>*/}
                 <ItemBox2 >
-                    <LftTitle className="medium-font">Security and privacy</LftTitle>
+                    <LftTitle className="medium-font">{t('popup.Settings.Security')}</LftTitle>
                     <div className="rht">
                         <img src={Next} alt=""/>
                     </div>
@@ -202,14 +204,14 @@ export default function Setting(){
             </ContentBox2>
         </div>
         <div>
-            <Titles className="medium-font">About</Titles>
+            <Titles className="medium-font">{t('popup.Settings.About')}</Titles>
             <ContentBox2>
                 <ItemBox2>
-                    <LftTitle className="medium-font">Version number</LftTitle>
+                    <LftTitle className="medium-font">{t('popup.Settings.Version')}</LftTitle>
                     <div>V 1.0</div>
                 </ItemBox2>
                 <ItemBox2 onClick={() => toPrivacy()}>
-                    <LftTitle className="medium-font">Privacy clause</LftTitle>
+                    <LftTitle className="medium-font">{t('popup.Settings.Privacy')}</LftTitle>
                     <div className="rht">
                         <img src={Next} alt=""/>
                     </div>
@@ -217,7 +219,7 @@ export default function Setting(){
             </ContentBox2>
         </div>
         <div>
-            <Titles className="medium-font">Contact US</Titles>
+            <Titles className="medium-font">{t('popup.Settings.Contact')}</Titles>
             <LinkBox>
                 <img src={Twitter} alt=""/>
                 <img src={Discord} alt=""/>

@@ -6,6 +6,7 @@ import useBalance from "../../useHook/useBalance";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
 import {blockchain} from "@ckb-lumos/base";
+import {useTranslation} from "react-i18next";
 
 const ContentBox = styled.div`
     flex-grow: 1;
@@ -132,6 +133,7 @@ const AmountBox = styled.div`
     line-height: 24px;
     text-align: center;
     margin-bottom: 6px;
+    cursor: pointer;
   }
   .balance{
     font-size: 12px;
@@ -160,6 +162,7 @@ const Tips = styled.div`
 
 export default function SendStep1({toDetail,fee}){
     const [ amount, setAmount] = useState('');
+    const { t } = useTranslation();
     const {balance,balanceLoading,symbol} = useBalance();
     const [ address,setAddress] = useState('');
     const [ isMax,setIsMax] = useState(false);
@@ -177,9 +180,11 @@ export default function SendStep1({toDetail,fee}){
     }
     const handleInput = (e)=>{
         setAddress(e.target.value)
+        setIsMax(false)
     }
     const ClearInput = () =>{
         setAddress('')
+        setIsMax(false)
     }
     const handleAmount = (e) =>{
         setAmount(e.target.value);
@@ -195,12 +200,12 @@ export default function SendStep1({toDetail,fee}){
             </SendInput>
         </div>
         <div>
-            <TitleBox>Payment amount</TitleBox>
+            <TitleBox>{t('popup.send.payAmount')}</TitleBox>
             <AmountBox>
                 <input type="text" value={amount} onChange={(e)=>handleAmount(e)}/>
                 <div className="rht">
-                    <div className="max" onClick={()=>chooseMax()}>MAX</div>
-                    <div className="balance">Capacity: <span>
+                    <div className="max" onClick={()=>chooseMax()}>{t('popup.send.MAX')}</div>
+                    <div className="balance">{t('popup.send.Capacity')}: <span>
                             {
                                 balanceLoading && <BtnLoading color="#00FF9D" />
                             }
@@ -212,17 +217,17 @@ export default function SendStep1({toDetail,fee}){
         <Gas>
             <div className="item">
                 <WhiteInput>
-                    <div className="title">Estimated Fee Rate</div>
-                    <div className="num"><span>{fee}</span> shannons/kB</div>
+                    <div className="title">{t('popup.send.feeRate')}</div>
+                    <div className="num"><span>{fee}</span> Shannons/kB</div>
                 </WhiteInput>
             </div>
         </Gas>
         <Tips>
-            Note: The wallet must have a minimum of <span>61 CKBs</span> for a transfer operation.
+            {t('popup.send.tips')}
         </Tips>
         <BtnGroup>
-            <Button border onClick={()=>navigate("/")}>Cancel</Button>
-            <Button primary disabled={amount<61 || !address?.length}  onClick={()=>toDetail(address,amount,isMax)}>Next</Button>
+            <Button border onClick={()=>navigate("/")}>{t('popup.send.cancel')}</Button>
+            <Button primary disabled={amount<61 || !address?.length}  onClick={()=>toDetail(address,amount,isMax)}>{t('popup.send.Next')}</Button>
         </BtnGroup>
     </ContentBox>
 }

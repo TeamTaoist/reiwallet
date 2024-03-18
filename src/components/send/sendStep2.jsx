@@ -9,6 +9,8 @@ import {formatUnit} from "@ckb-lumos/bi";
 import {useEffect, useState} from "react";
 import {BI} from "@ckb-lumos/lumos";
 import {useNavigate} from "react-router-dom";
+import BtnLoading from "../loading/btnloading";
+import {useTranslation} from "react-i18next";
 
 const ContentBox = styled.div`
     flex-grow: 1;
@@ -88,6 +90,10 @@ const BtnGroup = styled.div`
     padding-bottom: 20px;
     button{
       width: 47%;
+      display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:10px;
     }
 `
 
@@ -97,6 +103,8 @@ export default function SendStep2({address,result,sendConfirm,isMax,amt}){
     const {currentAccountInfo} = useAccountAddress();
     const [fee,setFee] = useState(0);
     const navigate = useNavigate();
+    const [loading,setLoading] = useState(false)
+    const { t } = useTranslation();
 
     useEffect(() => {
 
@@ -126,6 +134,11 @@ export default function SendStep2({address,result,sendConfirm,isMax,amt}){
         setFee(gasFormat)
     }, [result,isMax]);
 
+    const handleSubmit = () =>{
+        sendConfirm(result?.signedTx)
+        setLoading(true)
+    }
+
 
     return <ContentBox>
         <FirstLine>
@@ -143,13 +156,13 @@ export default function SendStep2({address,result,sendConfirm,isMax,amt}){
         </FirstLine>
         <SendBox>
             <div>
-                <div className="tit">Sending</div>
+                <div className="tit">{t('popup.send.Sending')}</div>
                 <div className="number">{amount}</div>
             </div>
             <SymbolBox>{symbol}</SymbolBox>
         </SendBox>
         <FeeBox>
-            <TitleBox>Inputs</TitleBox>
+            <TitleBox>{t('popup.send.Inputs')}</TitleBox>
             {
                 result?.inputs?.map((item)=>(<AddressBox>
                     <div>{PublicJS.AddressToShow(item.address)}</div>
@@ -159,7 +172,7 @@ export default function SendStep2({address,result,sendConfirm,isMax,amt}){
 
         </FeeBox>
         <FeeBox>
-            <TitleBox>Outputs</TitleBox>
+            <TitleBox>{t('popup.send.Outputs')}</TitleBox>
             {
                 result?.outputs?.map((item)=>(<AddressBox>
                     <div>{PublicJS.AddressToShow(item.address)}</div>
@@ -168,14 +181,18 @@ export default function SendStep2({address,result,sendConfirm,isMax,amt}){
             }
         </FeeBox>
 
-        <TitleBox>Transaction Fee</TitleBox>
+        <TitleBox>{t('popup.send.TransactionFee')}</TitleBox>
         <SendBox>
             <div> </div>
             <div>{fee} {symbol} </div>
         </SendBox>
         <BtnGroup>
-            <Button border onClick={()=>navigate("/")}>Reject</Button>
-            <Button primary onClick={()=>sendConfirm(result?.signedTx)}>Confirm</Button>
+            <Button border onClick={()=>navigate("/")}>{t('popup.send.Reject')}</Button>
+            <Button primary disabled={loading} onClick={()=>handleSubmit()}>{t('popup.send.Confirm')}
+                {
+                    loading &&  <BtnLoading />
+                }
+            </Button>
         </BtnGroup>
     </ContentBox>
 }

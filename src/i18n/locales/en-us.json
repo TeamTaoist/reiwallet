@@ -120,10 +120,14 @@
       "Wallet": "Wallet",
       "AddToken": "Add token",
       "details": "Account details",
-      "ExportAccount": "Export Account"
+      "ExportAccount": "Export Account",
+      "Explorer": "Explorer"
     },
     "export": {
-      "password": "Type your  password"
+      "password": "Type your  password",
+      "Confirm": "Confirm",
+      "cancel": "Cancel",
+      "Copy": "Copy"
     },
     "network": {
       "Networks": "Networks",
@@ -136,11 +140,34 @@
       "cancel": "Cancel",
       "save": "Save"
     },
+    "Settings": {
+      "More": "More",
+      "General": "General",
+      "Language": "Language",
+      "Security": "Security and privacy",
+      "About": "About",
+      "Version": "Version",
+      "Privacy": "Privacy clause",
+      "Contact": "Contact"
+    },
     "send": {
       "send": "Send",
       "sendTo": "Send To",
       "enterTips": "Please enter address",
-      "last": "Your accounts"
+      "last": "Your accounts",
+      "payAmount": "Payment amount",
+      "MAX": "MAX",
+      "Capacity": "Capacity",
+      "feeRate": "Estimated Fee Rate",
+      "tips": "Note: The wallet must have a minimum of 61 CKBs for a transfer operation.",
+      "cancel": "Cancel",
+      "Next": "Next",
+      "Sending": "Sending",
+      "Inputs": "Inputs",
+      "Outputs": "Outputs",
+      "TransactionFee": "Transaction Fee",
+      "Reject": "Reject",
+      "Confirm": "Confirm"
     },
     "assets": {
       "Assets": "Assets"

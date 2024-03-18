@@ -10,6 +10,9 @@ import Loading from "../loading/loading";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import Keystore from "../../wallet/keystore";
 import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+import Toast from "../modal/toast";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
 const Content = styled.div`
   .titleTips{
@@ -62,13 +65,14 @@ const TipsBox = styled.div`
 `
 
 export default function ExportConfirm(){
-
+    const { t } = useTranslation();
     const {currentAccount} = useCurrentAccount();
     const {network} = useNetwork();
     const {currentAccountInfo} = useAccountAddress();
     const [py,setPy] = useState('');
     const [loading , setLoading] = useState(true);
     const navigate = useNavigate();
+    const [copied,setCopied] = useState(false);
 
     useEffect(() => {
         if(!network || currentAccount === '' || !currentAccountInfo)return;
@@ -120,15 +124,18 @@ export default function ExportConfirm(){
         }
 
     }
-    const copy = () =>{
-
+    const Copy = () =>{
+        setCopied(true);
+        setTimeout(()=>{
+            setCopied(false);
+        },1500);
     }
 
     return <AllModal title="Export  Account" link="/home">
         {
             loading && <Loading showBg={true} />
         }
-
+        <Toast tips="copied" left="140" top="400" show={copied}/>
         <Content>
             <div>
                 <div className="titleTips regular-font">
@@ -144,8 +151,11 @@ export default function ExportConfirm(){
                     Never disclose this key. Anyone with your private keys can steal any assets held in your account.
                 </div>
             </TipsBox>
+
             <BtnGroup>
-                <Button fullWidth black onClick={()=>copy()}>Copy</Button>
+                <CopyToClipboard onCopy={()=>Copy()} text={py}>
+                <Button fullWidth black >{t('popup.export.Copy')}</Button>
+                </CopyToClipboard>
             </BtnGroup>
         </Content>
     </AllModal>

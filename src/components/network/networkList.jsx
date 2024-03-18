@@ -9,7 +9,7 @@ import useNetwork from "../../useHook/useNetwork";
 
 const ModalBox = styled.div`
   position: absolute;
-  height: 297px;
+  //height: 297px;
   width: 296px;
   background: #FFFFFF;
   box-shadow: 0px 0px 8px 0px #EDEDED;
@@ -32,8 +32,8 @@ const Title = styled.div`
 `
 
 const UlBox = styled.ul`
-  overflow-y: auto;
-  height: 147px;
+  //overflow-y: auto;
+  height: 100px;
     .lft{
       flex-grow: 1;
       text-align: center;
@@ -89,8 +89,8 @@ export default function NetworkList({netList,current}){
                 </li>))
             }
         </UlBox>
-        <BtnBox>
-            <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>
-        </BtnBox>
+        {/*<BtnBox>*/}
+        {/*    <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>*/}
+        {/*</BtnBox>*/}
     </ModalBox>
 }
