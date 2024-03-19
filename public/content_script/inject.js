@@ -3,6 +3,7 @@ let completer={};
 
 document.addEventListener('CKB_RESPONSE', function(event) {
     const {id,result,error} = event.detail.data;
+    console.log("----CKB_RESPONSE---",event.detail.data)
     if(error){
         completer[id]?.reject(error)
     }else{
@@ -25,8 +26,8 @@ const request = ({method, data}) =>{
             reject
         }
         document.dispatchEvent(request_event);
-        let arr = ["test"]
-        if(arr.includes(method)) return;
+        let noTimeout = ["ckb_sign"]
+        if(noTimeout.includes(method)) return;
 
         setTimeout(()=>{
             reject("Time Out");

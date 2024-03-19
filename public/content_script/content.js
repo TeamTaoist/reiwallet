@@ -1,4 +1,5 @@
 /*global chrome*/
+
 function injectScript() {
     const script = document.createElement('script');
     script.async = false;
@@ -46,12 +47,12 @@ function documentElementCheck() {
 // document.dispatchEvent(event);
 
 document.addEventListener('CKB_REQUEST', function(event) {
-
         chrome.runtime.sendMessage({ type:'CKB_REQUEST_BACKGROUND',data:event.detail},  ()=> {})
 
 });
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let requestType = message.type;
+    console.log("====requestType==",requestType,message.data)
 
     switch (requestType) {
         case "CKB_RESPONSE_BACKGROUND":

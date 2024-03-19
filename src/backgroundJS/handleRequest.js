@@ -5,6 +5,7 @@ import browser from 'webextension-polyfill';
 /*global chrome*/
 const toMessage = (data) =>{
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        console.log("====data=currentWindow",tabs,data.result)
         chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_RESPONSE_BACKGROUND",data});
     });
 }
@@ -21,11 +22,9 @@ export const handleRequest = async (requestData) =>{
             case "ckb_getCapacity":
                 rt = await getBalance(data);
                 break;
-            case "test":
-                rt = await testNotification();
-                break;
-            case "test2":
-                rt = await testNotificatio2n();
+            case "ckb_sign":
+                rt = await signData(data);
+                console.error("==signData==",rt,id)
                 break;
         }
         if(rt){
@@ -77,7 +76,9 @@ const getBalance = async(params) =>{
 }
 
 const notificationManager = new NotificationManager();
-const testNotification = async() =>{
+const signData = async(data) =>{
+    console.log("====data",data)
+    const {message} = data
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
         {
@@ -92,39 +93,13 @@ const testNotification = async() =>{
         // });
 
 
-        // messenger.register('session_approveEnableWallet', () => {
-        //     messenger.destroy();
-        //     resolve("session_approveEnableWallet");
-        // });
-
-
-        browser.windows.onRemoved.addListener((windowId) => {
-            if (windowId === notificationWindow.id) {
-                messenger.destroy();
-                reject("ApproveRejected");
-            }
-        });
-    });
-
-
-}
-const testNotificatio2n = async() =>{
-
-    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
-        {
-            path: 'password',
-            metadata: { host: "http://localhost:5173/" },
-        },
-        { preventDuplicate: false },
-    );
-    return new Promise((resolve, reject) => {
-        // messenger.register('session_getRequesterAppInfo222', () => {
-        //     return { url:"http://localhost:5173/" };
-        // });
-        messenger.register('session_getRequesterAppInfo222', () => {
+        messenger.register('session_approveEnableWallet', () => {
+            console.log("=====session_approveEnableWallet==")
             messenger.destroy();
-            resolve("session_getRequesterAppInfo222");
+            resolve({message:"session_approveEnableWallet", wId:notificationWindow.id});
         });
+
+
         browser.windows.onRemoved.addListener((windowId) => {
             if (windowId === notificationWindow.id) {
                 messenger.destroy();
@@ -135,3 +110,4 @@ const testNotificatio2n = async() =>{
 
 
 }
+
