@@ -1,13 +1,13 @@
 import React from 'react';
 import {Route,Routes,Navigate} from "react-router-dom";
-import Password from "../notification/password";
-
+import Home from "../notification/home";
 
 function RouterLink() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/password" />}/>
-            <Route path="/password" element={<Password />}/>
+            <Route path="/" element={<Navigate to="/home" />}/>
+            <Route path="/home" element={<Home />}/>
+
         </Routes>
     );
 }

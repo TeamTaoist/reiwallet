@@ -4,14 +4,21 @@ import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
 /*global chrome*/
 const toMessage = (data) =>{
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        console.log("====data=currentWindow",tabs,data.result)
+    const {windowID} = data;
+    chrome.tabs.query({active:true,windowId: windowID}, function(tabs){
+
+        console.log("====data=currentWindow",tabs[0].id,windowID)
         chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_RESPONSE_BACKGROUND",data});
     });
+
+    // chrome.tabs.sendMessage(windowID, { type:"CKB_RESPONSE_BACKGROUND",data});
 }
 
 export const handleRequest = async (requestData) =>{
     const {id,data} = requestData.data;
+    let windowObj =  await chrome.windows.getCurrent();
+    const windowID = windowObj.id;
+
     let rt;
     try{
         switch (requestData.method){
@@ -24,13 +31,14 @@ export const handleRequest = async (requestData) =>{
                 break;
             case "ckb_sign":
                 rt = await signData(data);
-                console.error("==signData==",rt,id)
+                console.log("=====ckb_sign===",rt)
                 break;
         }
         if(rt){
             let data = {
                 result:rt,
-                id
+                id,
+                windowID
             }
             toMessage(data)
         }
@@ -38,7 +46,8 @@ export const handleRequest = async (requestData) =>{
     }catch (e) {
         let data = {
             error:e.message,
-            id
+            id,
+            windowID
         }
         toMessage(data)
     }
@@ -82,17 +91,16 @@ const signData = async(data) =>{
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
         {
-            path: 'password',
-            metadata: { host: "http://localhost:5173/" },
+            path: 'home',
+            // metadata: { host: "http://localhost:5173/" },
         },
         { preventDuplicate: false },
     );
     return new Promise((resolve, reject) => {
-        // messenger.register('session_getRequesterAppInfo', () => {
-        //     return { url:"http://localhost:5173/" };
-        // });
 
-
+        messenger.register('test', () => {
+            return message;
+        });
         messenger.register('session_approveEnableWallet', () => {
             console.log("=====session_approveEnableWallet==")
             messenger.destroy();

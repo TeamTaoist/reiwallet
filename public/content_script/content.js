@@ -52,8 +52,6 @@ document.addEventListener('CKB_REQUEST', function(event) {
 });
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let requestType = message.type;
-    console.log("====requestType==",requestType,message.data)
-
     switch (requestType) {
         case "CKB_RESPONSE_BACKGROUND":
                 var event = new CustomEvent('CKB_RESPONSE', { detail: { data:message.data} });

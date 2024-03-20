@@ -2,7 +2,7 @@ import LogoV from "../assets/images/logo-V.png";
 import Button from "../components/button/button";
 import {useTranslation} from "react-i18next";
 import styled from "styled-components";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import BtnLoading from "../components/loading/btnloading";
 import {useSessionMessenger} from "../useHook/useSessionMessenger";
@@ -65,9 +65,14 @@ const Forgot = styled.div`
   margin-top: 10px;
 `
 
-export default function Lock(){
+export default function Password(){
     const { t } = useTranslation();
     const messenger = useSessionMessenger();
+
+
+
+
+
     const navigate = useNavigate();
     const [ password, setPassword ] = useState('');
     const [loading,setLoading] = useState(false)
@@ -77,6 +82,17 @@ export default function Lock(){
         setPassword(value);
 
     }
+
+    useEffect(() => {
+        const getTest = async() =>{
+            if(messenger){
+                let rt = await messenger.send("test")
+                console.log( rt)
+
+            }
+        }
+        getTest()
+    }, []);
 
 
     const submit = async() =>{
@@ -114,7 +130,6 @@ export default function Lock(){
         <img src={LogoV} alt=""/>
         <TipsBox className="regular-font">
             {t('popup.lock.tips')}
-            -----test notification------
         </TipsBox>
         <Content>
             <dt className="titleTips regular-font">{t('popup.lock.password')}</dt>
@@ -122,7 +137,8 @@ export default function Lock(){
                 <input type="password" placeholder={t('popup.lock.placeholder')} value={password} onChange={(e)=>handleInput(e,"walletName")} autoComplete="new-password"/>
             </dd>
         </Content>
-        <Button primary fullWidth disabled={!password.length || loading} onClick={()=>submit()}>
+        {/*<Button primary fullWidth disabled={!password.length || loading} onClick={()=>submit()}>*/}
+        <Button primary fullWidth  onClick={()=>submit()}>
             {
                 !loading &&    <>{t('popup.lock.unlock')}</>
             }
