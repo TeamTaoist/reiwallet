@@ -2,9 +2,9 @@ import Wallet from "../../wallet/wallet";
 import {networkList} from "../../constants/network";
 import {BI, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
-import Keystore from "../../wallet/keystore";
 import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
+import {currentInfo} from "../../wallet/getCurrent";
 
 
 
@@ -27,29 +27,7 @@ export default class RpcClient{
         return this.network;
     }
 
-    async currentInfo() {
-        const currentObj = await chrome.storage.local.get(['current_address']);
-        const current = currentObj.current_address;
-        const walletListArr = await chrome.storage.local.get(['walletList'])
-        const walletList = walletListArr.walletList
-        const currentAccount = walletList[current];
-        const result = await chrome.storage.session.get(["password"]);
-        const {type,account_index,privateKey}= currentAccount;
-        const network = await this.getNetwork();
 
-        let privatekey_show;
-        if (type === "create") {
-            const wallet = new Wallet(currentAccount,network==="mainnet",true);
-            privatekey_show = await wallet.ExportPrivateKey(account_index);
-        } else {
-            privatekey_show = await Keystore.decrypt(result?.password,privateKey);
-        }
-        return {
-            ...currentAccount,
-            privatekey_show,
-            address:network.value === "mainnet"? currentAccount.account.address_main : currentAccount.account.address_test
-        }
-    }
 
     async  _request(obj) {
         ++jsonRpcId;
@@ -64,9 +42,9 @@ export default class RpcClient{
             },
         });
         // Abort retrying if the resource doesn't exist
-        if (res.status >= 300) {
+        if (res.error) {
             /* istanbul ignore next */
-            throw new Error(res.status);
+            throw new Error(res.error);
         }
         const rt = await res.json();
         return rt?.result;
@@ -107,7 +85,7 @@ export default class RpcClient{
     }
     send_transaction = async (to,amt,fee,isMax) =>{
         const network = await this.getNetwork();
-        const currentAccount = await this.currentInfo();
+        const currentAccount = await currentInfo();
         const {address,privatekey_show} = currentAccount;
         let amount = parseUnit(amt,"ckb");
         if(network.value === "mainnet"){
@@ -125,6 +103,7 @@ export default class RpcClient{
         }
 
         txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
+
         let signatures = txSkeleton
             .get("signingEntries")
             .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))

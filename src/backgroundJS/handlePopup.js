@@ -97,6 +97,7 @@ const transaction_confirm = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.transaction_confirm(tx);
+        console.log("====transaction_confirm====",rt)
         sendMsg({ type:"transaction_confirm_success",data:rt})
 
     }catch (e){

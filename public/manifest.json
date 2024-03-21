@@ -7,7 +7,7 @@
   "icons": {
     "128": "logoIcon.png"
   },
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["storage", "activeTab", "scripting","tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

@@ -65,7 +65,7 @@ const Forgot = styled.div`
   margin-top: 10px;
 `
 
-export default function Lock(){
+export default function Lock({isNav,handleLock}){
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [ password, setPassword ] = useState('');
@@ -85,9 +85,11 @@ export default function Lock(){
             if(pwdRt){
                 /*global chrome*/
                 chrome.storage.session.set({ password:password });
-                navigate("/");
+                !isNav && navigate("/");
+                isNav && handleLock(true);
             }else{
                 setPassword('');
+                handleLock(false);
             }
 
         }catch (e) {

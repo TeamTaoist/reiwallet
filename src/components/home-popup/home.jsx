@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 
 import {useWeb3} from "../../store/contracts";
 import Wallet from "../../wallet/wallet";
+import useLock from "../../useHook/useLock";
 
 const Box = styled.div`
     height: 600px;
@@ -13,7 +14,7 @@ const Box = styled.div`
 
 export default function Home(){
     const [showHome, setShowHome] = useState(false);
-    const [Unlocked,setUnlocked] = useState(true);
+    const Unlocked = useLock();
 
     useEffect(()=>{
         /*global chrome*/
@@ -24,15 +25,10 @@ export default function Home(){
                 setShowHome(true);
             }
         });
-        getPassword()
+
 
     },[]);
 
-    const getPassword = async() =>{
-        /*global chrome*/
-        let result = await chrome.storage.session.get(["password"]);
-        setUnlocked(!!result.password)
-    }
 
 
     return <Box>

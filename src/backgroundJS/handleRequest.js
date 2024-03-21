@@ -2,22 +2,21 @@
 import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
+import {formatUnit} from "@ckb-lumos/bi";
 /*global chrome*/
 const toMessage = (data) =>{
     const {windowID} = data;
     chrome.tabs.query({active:true,windowId: windowID}, function(tabs){
-
-        console.log("====data=currentWindow",tabs[0].id,windowID)
         chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_RESPONSE_BACKGROUND",data});
     });
-
-    // chrome.tabs.sendMessage(windowID, { type:"CKB_RESPONSE_BACKGROUND",data});
 }
 
 export const handleRequest = async (requestData) =>{
     const {id,data} = requestData.data;
-    let windowObj =  await chrome.windows.getCurrent();
+    const windowObj =  await chrome.windows.getCurrent();
     const windowID = windowObj.id;
+    const tabs = await chrome.tabs.query({active:true,windowId: windowID});
+    const url = tabs[0].url;
 
     let rt;
     try{
@@ -29,9 +28,12 @@ export const handleRequest = async (requestData) =>{
             case "ckb_getCapacity":
                 rt = await getBalance(data);
                 break;
-            case "ckb_sign":
-                rt = await signData(data);
-                console.log("=====ckb_sign===",rt)
+            case "ckb_signMessage":
+                rt = await signData(data,windowID,url);
+                break;
+
+            case "ckb_sendTransaction":
+                rt = await sendTx(data,windowID,url);
                 break;
         }
         if(rt){
@@ -44,8 +46,9 @@ export const handleRequest = async (requestData) =>{
         }
 
     }catch (e) {
+
         let data = {
-            error:e.message,
+            error:e?.message || e,
             id,
             windowID
         }
@@ -85,37 +88,78 @@ const getBalance = async(params) =>{
 }
 
 const notificationManager = new NotificationManager();
-const signData = async(data) =>{
-    console.log("====data",data)
+const signData = async(data,windowId,url) =>{
     const {message} = data
-
+    if(!message) {
+        throw new Error("Message is required")
+        return;
+    }
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
         {
             path: 'home',
-            // metadata: { host: "http://localhost:5173/" },
         },
         { preventDuplicate: false },
     );
     return new Promise((resolve, reject) => {
 
-        messenger.register('test', () => {
-            return message;
+
+        messenger.register('get_signMessage', () => {
+            return {message,url};
         });
-        messenger.register('session_approveEnableWallet', () => {
-            console.log("=====session_approveEnableWallet==")
+        messenger.register('signMessage_result', (result) => {
+            const {data,status} =result;
+            if(status === "success"){
+                resolve(data);
+            }else{
+                reject(data);
+            }
             messenger.destroy();
-            resolve({message:"session_approveEnableWallet", wId:notificationWindow.id});
+
         });
-
-
         browser.windows.onRemoved.addListener((windowId) => {
             if (windowId === notificationWindow.id) {
                 messenger.destroy();
-                reject("ApproveRejected");
+                reject("Sign Message Rejected");
             }
         });
     });
 
+}
+
+const sendTx = async(data,windowId,url) =>{
+    const {amount,to} = data
+    if(!amount || !to) {
+        throw new Error("Amount or Address is required")
+    }
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'send',
+        },
+        { preventDuplicate: false },
+    );
+
+    return new Promise((resolve, reject) => {
+        messenger.register('get_Transaction', () => {
+            return {rt:{amount,to},url};
+        });
+
+        messenger.register('transaction_result', (result) => {
+            const {data,status} =result;
+            if(status === "success"){
+                resolve(data);
+            }else{
+                reject(data);
+            }
+            messenger.destroy();
+
+        });
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("Sign transaction Rejected");
+            }
+        });
+    });
 
 }
 
