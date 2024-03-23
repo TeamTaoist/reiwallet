@@ -82,28 +82,32 @@ export default function PrivateKey(){
 
     const submit = async() =>{
         setLoading(true)
-        const account = Wallet.privateToWallet(privateKey);
-        /*global chrome*/
-        let result = await chrome.storage.session.get(["password"]);
-        if(result?.password){
-            const privateKeyCrypt = Keystore.create(privateKey,result?.password)
-            saveWallet({
-                account,
-                type:"import",
-                name:`Account ${walletList.length + 1}`,
-                account_index:"",
-                privateKey:privateKeyCrypt
-            },'new')
+        try{
+            const account = Wallet.privateToWallet(privateKey);
+            /*global chrome*/
+            let result = await chrome.storage.session.get(["password"]);
+            if(result?.password){
+                const privateKeyCrypt = Keystore.create(privateKey,result?.password)
+                saveWallet({
+                    account,
+                    type:"import",
+                    name:`Account ${walletList.length + 1}`,
+                    account_index:"",
+                    privateKey:privateKeyCrypt
+                },'new')
+                setLoading(false);
+                navigate("/");
+            }else{
+                chrome.storage.session.set({ password:null });
+                navigate("/");
+            }
+        }catch (e) {
+            console.error(e)
             setLoading(false);
-            navigate("/");
-        }else{
-            chrome.storage.session.set({ password:null });
-            navigate("/");
+            setPrivateKey("");
         }
 
 
-
-        navigate("/");
     }
 
     return <Box>
