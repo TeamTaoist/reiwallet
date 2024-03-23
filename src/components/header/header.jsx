@@ -5,8 +5,8 @@ import DropImg from "../../assets/images/drop.png"
 import {useNavigate} from "react-router-dom";
 import NetworkList from "../network/networkList";
 import {useEffect, useState} from "react";
-import {networkList} from "../../constants/network";
 import useNetwork from "../../useHook/useNetwork";
+import Loading from "../loading/loading";
 
 const HeaderBox = styled.div`
     display: flex;
@@ -44,13 +44,14 @@ export default function HeaderTop(){
     const navigate = useNavigate();
     const [showNetwork,setShowNetwork] = useState(false);
     const [ current,setCurrent] = useState(0);
-    const {network} = useNetwork();
-
+    const {network,netList} = useNetwork();
+    const [loading , setLoading] = useState(false);
 
     useEffect(() => {
-        const networkIndex = networkList.findIndex(item=>item.value === network);
+        if(!netList.length)return;
+        const networkIndex = netList.findIndex(item=>item.value === network);
         setCurrent(networkIndex<0?0:networkIndex)
-    }, [network]);
+    }, [network,netList]);
 
 
     const toSetting = () =>{
@@ -68,16 +69,26 @@ export default function HeaderTop(){
         });
     }, [])
 
+    const handleLoading = () =>{
+        setLoading(true)
+    }
+    const closeLoading = () =>{
+        setLoading(false)
+    }
+
     return <HeaderBox>
         {
-            showNetwork && <NetworkList netList={networkList} current={current} />
+            showNetwork && <NetworkList current={current} handleLoading={handleLoading} closeLoading={closeLoading} />
+        }
+        {
+            loading && <Loading showBg={true} />
         }
         <LogoImg>
             <img src={Logo} alt=""/>
         </LogoImg>
 
         <InputBox onClick={(e)=>handleNetwork(e)}>
-            {networkList[current].name}
+            {netList[current]?.name}
             <img src={DropImg} alt=""/>
         </InputBox>
         <MoreBox>

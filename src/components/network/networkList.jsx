@@ -32,7 +32,7 @@ const Title = styled.div`
 `
 
 const UlBox = styled.ul`
-  //overflow-y: auto;
+  overflow-y: auto;
   height: 100px;
     .lft{
       flex-grow: 1;
@@ -47,9 +47,22 @@ const UlBox = styled.ul`
       &:hover{
         background: #F1FCF1;
       }
+        .flex{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-grow: 1;
+        }
         .img{
-            width: 24px;
             height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap:10px;
+            width:24px;
+            &:last-child img{
+                cursor:pointer
+            }
         }
     }
 `
@@ -61,36 +74,56 @@ const BtnBox = styled.div`
     padding: 20px;
 `
 
-export default function NetworkList({netList,current}){
+export default function NetworkList({current,handleLoading,closeLoading}){
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const {saveNetwork} = useNetwork();
+    const {saveNetwork,netList} = useNetwork();
 
     const toGo = () =>{
         navigate('/addNetwork');
     }
 
-    const handleSelect = (index) =>{
+    const handleSelect = async (index) =>{
         const value = netList[index].value;
         saveNetwork(value)
+    }
+    const handleRemove = async (index) =>{
+        handleLoading()
+        let arr = [...netList]
+        arr.splice(index,1)
+
+        /*global chrome*/
+        chrome.storage.local.set({networkList:arr})
+        closeLoading()
     }
 
     return <ModalBox>
         <Title className="medium-font">{t('popup.network.Networks')}</Title>
         <UlBox>
             {
-                netList.map((item,index)=>(<li key={index} onClick={() => handleSelect(index)}>
-                    <div className="lft">{item.name}</div>
+                netList.map((item,index)=>(<li key={index}>
+
+                    <div className="flex" onClick={() => handleSelect(index)}>
+                        <div className="lft">{item.name}</div>
+                        <div className="img">
+                            {
+                                current === index && <img src={Checked} alt=""/>
+                            }
+                        </div>
+                    </div>
+
                     <div className="img">
                         {
-                            current === index && <img src={Checked} alt=""/>
+                            index > 1 && current !== index &&
+                            <img src={Close} alt="" onClick={() => handleRemove(index)}/>
                         }
                     </div>
+
                 </li>))
             }
         </UlBox>
-        {/*<BtnBox>*/}
-        {/*    <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>*/}
-        {/*</BtnBox>*/}
+        <BtnBox>
+            <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>
+        </BtnBox>
     </ModalBox>
 }

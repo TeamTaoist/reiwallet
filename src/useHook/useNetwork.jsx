@@ -4,6 +4,7 @@ import {networkList} from "../constants/network";
 
 export default function useNetwork(){
     const [network,setNetwork] = useState('');
+    const [netList,setNetList] = useState([]);
     const [networkInfo,setNetworkInfo] = useState(null);
     const {dispatch,state:{refresh_network}} = useWeb3();
 
@@ -17,12 +18,31 @@ export default function useNetwork(){
 
     useEffect(() => {
         if(!network)return;
-        const networkArr = networkList.filter(item=>item.value === network);
+        getNetWork()
+    }, [network]);
+
+    useEffect(() => {
+        getList()
+    }, []);
+
+    const getList = async() =>{
+        /*global chrome*/
+        let netArr = await chrome.storage.local.get(["networkList"]);
+        let netArrFormat= netArr?.networkList ?? networkList
+        setNetList(netArrFormat)
+
+    }
+
+    const getNetWork = async() =>{
+        const networkArr = netList.filter(item=>item.value === network);
         setNetworkInfo(networkArr[0])
         let JsonStr = JSON.stringify(networkArr[0])
         /*global chrome*/
         chrome.storage.local.set({networkInfo:JsonStr});
-    }, [network]);
+
+    }
+
+
 
     const saveNetwork = (value) =>{
         /*global chrome*/
@@ -31,5 +51,5 @@ export default function useNetwork(){
         dispatch({type:'SET_REFRESH_NETWORK',payload:value});
     }
 
-    return {network, networkInfo,saveNetwork};
+    return {network, networkInfo,saveNetwork,netList};
 }

@@ -3,9 +3,13 @@ import styled from "styled-components";
 import Button from "../button/button";
 import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import Loading from "../loading/loading";
+import useNetwork from "../../useHook/useNetwork";
 
 const Box = styled.div`
   background: #F9FAFA;
+    padding-bottom: 20px;
 `
 
 const ContentBox = styled.div`
@@ -22,6 +26,9 @@ const BtnGroup = styled.div`
 
 const InputBox = styled.div`
     margin-top: 29px;
+    span{
+        color: #C9233A;
+    }
   .titleTips{
     font-size: 12px;
     color: #97A0C3;
@@ -43,47 +50,110 @@ const InputBox = styled.div`
 export default function AddNetwork(){
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const [name,setName] = useState("")
+    const [decimals,setDecimals] = useState("")
+    const [symbol,setSymbol] = useState("")
+    const [explorer,setExplorer] = useState("")
+    const [node,setNode] = useState("")
+    const [indexer,setIndexer] = useState("")
+    const [loading , setLoading] = useState(false);
+    const {netList} = useNetwork();
 
     const toGo = () =>{
         navigate('/');
     }
-    const submit =()=>{
+    const submit = async()=>{
+        setLoading(true)
+        let obj={
+            name,
+            value:netList.length ?? 2,
+            nativeCurrency: {
+                symbol,
+                decimals
+            },
+            rpcUrl:{
+                node,
+                indexer
+            },
+            blockExplorerUrls:explorer
+        }
+
+        /*global chrome*/
+
+        let arr = [...netList,obj]
+        chrome.storage.local.set({networkList:arr})
+
         navigate('/');
     }
 
+    const handleInput = (e) =>{
+        const { name,value } = e.target;
+        switch (name) {
+            case 'name':
+                setName(value);
+                break;
+            case 'decimals':
+                setDecimals(value);
+                break;
+            case 'symbol':
+                setSymbol(value);
+                break;
+            case 'explorer':
+                setExplorer(value);
+                break;
+            case 'node':
+                setNode(value);
+                break;
+            case 'indexer':
+                setIndexer(value);
+                break;
+        }
+
+    }
+
     return <Box>
+        {
+            loading && <Loading showBg={true} />
+        }
         <TokenHeader title={t('popup.network.AddNetwork')} />
         <ContentBox>
             <InputBox>
-                <div className="titleTips regular-font">{t('popup.network.name')}</div>
+                <div className="titleTips regular-font">{t('popup.network.name')}<span>*</span></div>
                 <div className="inputBox">
-                    <input type="text" />
+                    <input type="text" name="name" value={name} onChange={(e)=>handleInput(e)} />
                 </div>
             </InputBox>
             <InputBox>
-                <div className="titleTips regular-font">{t('popup.network.rpcUrl')}</div>
+                <div className="titleTips regular-font">{t('popup.network.rpcURlNode')}<span>*</span></div>
                 <div className="inputBox">
-                    <input type="text"  />
+                    <input type="text" name="node" value={node} onChange={(e)=>handleInput(e)}   />
                 </div>
             </InputBox>
             <InputBox>
-                <div className="titleTips regular-font">{t('popup.network.id')}</div>
+                <div className="titleTips regular-font">{t('popup.network.rpcURlIndexer')}<span>*</span></div>
                 <div className="inputBox">
-                    <input type="text"  />
+                    <input type="text" name="indexer" value={indexer} onChange={(e)=>handleInput(e)}   />
+                </div>
+            </InputBox>
+            <InputBox>
+                <div className="titleTips regular-font">{t('popup.network.decimals')}</div>
+                <div className="inputBox">
+                    <input type="text" name="decimals" value={decimals} onChange={(e)=>handleInput(e)}  />
                 </div>
             </InputBox>
             <InputBox>
                 <div className="titleTips regular-font">{t('popup.network.symbol')}</div>
                 <div className="inputBox">
-                    <input type="text"  />
+                    <input type="text" name="symbol" value={symbol} onChange={(e)=>handleInput(e)}   />
                 </div>
             </InputBox>
             <InputBox>
                 <div className="titleTips regular-font">{t('popup.network.explorerUrl')}</div>
                 <div className="inputBox">
-                    <input type="text"  />
+                    <input type="text" name="explorer" value={explorer} onChange={(e)=>handleInput(e)}  />
                 </div>
             </InputBox>
+
         </ContentBox>
         <BtnGroup>
             <Button border onClick={()=>toGo()}>{t('popup.network.cancel')}</Button>

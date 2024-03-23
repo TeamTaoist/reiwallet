@@ -3,7 +3,6 @@ export const  networkList = [
         name:"Mainnet",
         value:"mainnet",
         nativeCurrency: {
-            name: 'Mainnet token',
             symbol: 'CKB',
             decimals: 8
         },
@@ -17,7 +16,6 @@ export const  networkList = [
         name:"Testnet",
         value:"testnet",
         nativeCurrency: {
-            name: 'Testnet token',
             symbol: 'tCKB',
             decimals: 8
         },
@@ -27,8 +25,4 @@ export const  networkList = [
         },
         blockExplorerUrls:"https://pudge.explorer.nervos.org/"
     },
-    // {
-    //     name:"Devnet",
-    //     value:"devnet"
-    // }
 ]

@@ -146,8 +146,11 @@
       "name": "Network Name",
       "rpcUrl": "New RPC URL",
       "id": "Chain ID",
+      "decimals": "Decimals",
       "symbol": "Currency Symbol",
-      "explorerUrl": "Block Explorer URL（Optional）",
+      "explorerUrl": "Block Explorer URL",
+      "rpcURlNode": "Node RPC URL",
+      "rpcURlIndexer": "Indexer RPC URL",
       "cancel": "Cancel",
       "save": "Save"
     },
