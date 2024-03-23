@@ -35,7 +35,7 @@ export const create_new_wallet = async(obj) =>{
             let list = result.walletList ?? [];
             const sumArr = list.filter(item=>item.type === "create")??[]
             console.log(sumArr)
-            
+
             let walletObj = await wallet.GenerateWallet(sumArr.length);
 
             let item = {

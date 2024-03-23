@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Next from "../../assets/images/into.png";
 import {useNavigate} from "react-router-dom";
 import LockImg from "../../assets/images/lock.png";
+import {useTranslation} from "react-i18next";
 
 const Content = styled.div`
     margin: 20px;
@@ -22,19 +23,20 @@ const Content = styled.div`
 
 export default function Security(){
     const navigate = useNavigate()
+    const { t } = useTranslation();
 
     const toGo = (url) =>{
         navigate(url)
     }
 
     return <div>
-        <TokenHeader title="Security and privacy" />
+        <TokenHeader title={t('popup.Settings.Security')} />
         <Content>
             <ul>
                 <li onClick={()=>toGo('/accountMnemonic')}>
                     <div className="lft">
                         <img src={LockImg} alt=""/>
-                        <span>Mnemonic</span>
+                        <span>{t('popup.Settings.Mnemonic')}</span>
                     </div>
                     <img src={Next} alt=""/>
                 </li>

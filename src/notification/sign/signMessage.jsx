@@ -99,10 +99,10 @@ export default function SignMessage(){
     return <Box>
         <div>
             <UrlBox>{detail?.url}</UrlBox>
-            <TitleBox>Signature request</TitleBox>
-            <TipsBox>Only sign this message if you fully understand the content and trust the requesting site.</TipsBox>
+            <TitleBox>{t('notification.sign.title')}</TitleBox>
+            <TipsBox>{t('notification.sign.tips')}</TipsBox>
             <SubTitle>
-                You are signing:
+                {t('notification.sign.signing')}:
             </SubTitle>
             <MsgBox>
                 {detail?.message}

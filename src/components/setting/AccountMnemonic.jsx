@@ -9,6 +9,7 @@ import Open from "../../assets/images/create/open.png";
 import {useState} from "react";
 import Keystore from "../../wallet/keystore";
 import BtnLoading from "../loading/btnloading";
+import {useTranslation} from "react-i18next";
 
 const Box = styled.div`
     display: flex;
@@ -71,6 +72,7 @@ export default function AccountMnemonic(){
     const [show,setShow] = useState(true);
     const[loading,setLoading] = useState(false)
     const [password,setPassword] = useState('')
+    const { t } = useTranslation();
 
     const submit = async() =>{
         setLoading(true)
@@ -104,11 +106,11 @@ export default function AccountMnemonic(){
     return <Box>
         <TokenHeader  />
         <ContentBox>
-            <ImportHeader title="Account mnemonic" tips="If you ever change browsers or move computers, you will need this Secret Recovery Phrase to access your accounts. Save them somewhere safe and secret." />
+            <ImportHeader title={t('popup.Settings.MnemonicTit')} tips={t('popup.Settings.MnemonicTips')} />
             <InputBox>
-                <div className="titleTips regular-font">Enter password to continue</div>
+                <div className="titleTips regular-font">{t('popup.Settings.password')}</div>
                 <div className="inputBox">
-                    <input type={show?"password":"text"}  value={password} placeholder="Please enter "  onChange={(e)=>handleInput(e)}  />
+                    <input type={show?"password":"text"}  value={password} placeholder="Please enter"  onChange={(e)=>handleInput(e)}  />
                     {
                         !show &&  <img src={Close} alt="" onClick={()=>switchPwd()}/>
                     }
@@ -118,8 +120,8 @@ export default function AccountMnemonic(){
                 </div>
             </InputBox>
             <BtmBox>
-                <Button  border onClick={()=>navigate("/")}>Cancel</Button>
-                <Button  primary onClick={()=>submit()} disabled={!password.length || loading}>Next   {
+                <Button  border onClick={()=>navigate("/")}>{t('popup.Settings.Cancel')} </Button>
+                <Button  primary onClick={()=>submit()} disabled={!password.length || loading}>{t('popup.Settings.Next')}    {
                     loading && <BtnLoading/>
                 } </Button>
             </BtmBox>

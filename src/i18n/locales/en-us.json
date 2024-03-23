@@ -110,10 +110,18 @@
       "textTitle": "Mnemonics",
       "tips": "Imported accounts will not be associated with your originally created wallet account Secret Recovery Phrase.",
       "Confirm": "Confirm",
-      "inputTips": "Enter 12 mnemonic words in order and separate them with space."
+      "inputTips": "Enter 12 mnemonic words in order and separate them with space.",
+      "mnemonicTitle": "Account mnemonic",
+      "mnemonicTips": "If you ever change browsers or move computers, you will need this Secret Recovery Phrase to access your accounts. Save them somewhere safe and secret.",
+      "mnemonicTips2": " DO NOT share this phrase with anyone!\nThese words can be used to steal all your accounts.",
+      "Cancel": "Cancel",
+      "Copy": "Copy Mnemonic"
     },
     "account": {
       "send": "Send",
+      "cancel": "Cancel",
+      "name": "Account Name",
+      "add": "Add Account",
       "Assets": "Assets",
       "Activities": "Activities",
       "Reward": "Reward",
@@ -127,7 +135,10 @@
       "password": "Type your  password",
       "Confirm": "Confirm",
       "cancel": "Cancel",
-      "Copy": "Copy"
+      "Copy": "Copy",
+      "Export": "Export Account",
+      "privateTips": "This is your private key",
+      "passwordTips": "Never disclose this key. Anyone with your private keys can steal any assets held in your account."
     },
     "network": {
       "Networks": "Networks",
@@ -148,7 +159,13 @@
       "About": "About",
       "Version": "Version",
       "Privacy": "Privacy clause",
-      "Contact": "Contact"
+      "Contact": "Contact",
+      "Mnemonic": "Mnemonic",
+      "MnemonicTit": "Account mnemonic",
+      "MnemonicTips": "If you ever change browsers or move computers, you will need this Secret Recovery Phrase to access your accounts. Save them somewhere safe and secret.",
+      "password": "Enter password to continue",
+      "Cancel": "Cancel",
+      "Next": "Next"
     },
     "send": {
       "send": "Send",
@@ -183,6 +200,16 @@
       "Create": "Create",
       "Import": "Import",
       "Lock": "Lock"
+    },
+    "sign": {
+      "title": "Signature request"
+    }
+  },
+  "notification": {
+    "sign": {
+      "title": "Signature request",
+      "tips": "Only sign this message if you fully understand the content and trust the requesting site.",
+      "signing": "You are signing"
     }
   }
 

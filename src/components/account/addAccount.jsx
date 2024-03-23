@@ -133,11 +133,11 @@ export default function AddAccount({handleCloseNew}) {
     return <MaskBox>
         <Toast tips="create account error" left="100" bottom="400" show={error}/>
         <BgBox>
-            <TitleBox className="medium-font">Add Account</TitleBox>
+            <TitleBox className="medium-font">{t('popup.account.add')}</TitleBox>
             <ContentBox>
                 <div className="liBox">
                     <div className="titleTips regular-font">
-                        Account Name
+                        {t('popup.account.name')}
                     </div>
                     <div className="inputBox">
                         <input type="text" value={name}
@@ -153,7 +153,7 @@ export default function AddAccount({handleCloseNew}) {
                     loading && <BtnLoading/>
                 }
                 </Button>
-                <Button border onClick={()=>handleCloseNew()}>Cancel</Button>
+                <Button border onClick={()=>handleCloseNew()}>{t('popup.account.cancel')}</Button>
             </BtnGroup>
         </BgBox>
 

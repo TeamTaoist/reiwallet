@@ -122,7 +122,7 @@ export default function Export(){
     const switchPwd = () =>{
         setShow(!show)
     }
-    return <AllModal title="Export  Account" link="/home">
+    return <AllModal title={t('popup.export.Export')} link="/home">
         <div>
             <TitleBox>
                 <img src={Avatar} alt="" className="demo"/>

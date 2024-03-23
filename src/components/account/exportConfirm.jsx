@@ -131,7 +131,7 @@ export default function ExportConfirm(){
         },1500);
     }
 
-    return <AllModal title="Export  Account" link="/home">
+    return <AllModal title={t('popup.export.Export')} link="/home">
         {
             loading && <Loading showBg={true} />
         }
@@ -139,7 +139,7 @@ export default function ExportConfirm(){
         <Content>
             <div>
                 <div className="titleTips regular-font">
-                    This is your private key
+                    {t('popup.export.privateTips')}
                 </div>
                 <BoxText >
                     <textarea  readOnly={true} value={py}/>
@@ -148,7 +148,7 @@ export default function ExportConfirm(){
             <TipsBox>
                 <img src={TipImg} alt=""/>
                 <div className="regular-font">
-                    Never disclose this key. Anyone with your private keys can steal any assets held in your account.
+                    {t('popup.export.passwordTips')}
                 </div>
             </TipsBox>
 

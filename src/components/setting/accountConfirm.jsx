@@ -11,6 +11,7 @@ import useNetwork from "../../useHook/useNetwork";
 import Loading from "../loading/loading";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import Toast from "../modal/toast";
+import {useTranslation} from "react-i18next";
 
 const Box = styled.div`
     display: flex;
@@ -82,6 +83,7 @@ export default function AccountConfirm(){
     const [mnemonic,setMnemonic] = useState([]);
     const [loading , setLoading] = useState(true);
     const [copied,setCopied] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if(currentAccount==="" || network === "")return;
@@ -121,7 +123,7 @@ export default function AccountConfirm(){
         <Toast tips="copied" left="140" bottom="400" show={copied}/>
         <TokenHeader  />
         <ContentBox>
-            <ImportHeader title="Account mnemonic" tips="If you ever change browsers or move computers, you will need this Secret Recovery Phrase to access your accounts. Save them somewhere safe and secret." />
+            <ImportHeader title={t('popup.mnemonics.mnemonicTitle')} tips={t('popup.mnemonics.mnemonicTips')} />
             <TextBox className="regular-font">
                 {
                     mnemonic.map((item,index)=>(<span key={index}>{item}</span>))
@@ -130,16 +132,15 @@ export default function AccountConfirm(){
             <TipsBox>
                 <img src={Info} alt=""/>
                 <div className="regular-font">
-                    DO NOT share this phrase with anyone!
-                    These words can be used to steal all your accounts.
+                    {t('popup.mnemonics.mnemonicTips2')}
                 </div>
             </TipsBox>
             <BtmBox>
 
-                <Button  border  onClick={()=>navigate("/")}>Cancel</Button>
+                <Button  border  onClick={()=>navigate("/")}>{t('popup.mnemonics.Cancel')} </Button>
 
             <CopyToClipboard onCopy={()=>Copy()} text={mnemonic.join(" ")}>
-                <Button  primary onClick={()=>Copy()}>Copy Mnemonic</Button>
+                <Button  primary onClick={()=>Copy()}>{t('popup.mnemonics.Copy')}</Button>
             </CopyToClipboard>
             </BtmBox>
         </ContentBox>

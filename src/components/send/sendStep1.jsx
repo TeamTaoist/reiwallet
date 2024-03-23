@@ -216,7 +216,7 @@ export default function SendStep1({toDetail,fee}){
     }
     return <ContentBox>
         <div>
-            <TitleBox>Send to</TitleBox>
+            <TitleBox>{t('popup.send.sendTo')}</TitleBox>
             <SendInput>
                 <textarea name="" value={address} onChange={(e)=>handleInput(e)} />
                 {
