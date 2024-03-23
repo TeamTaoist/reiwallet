@@ -102,6 +102,7 @@ export default function AccountSwitch({currentAccount,handleCurrent,handleNew}){
     const { t } = useTranslation();
     const {accountList} = useAccountAddress();
 
+
     const toGo = (url) =>{
         navigate(url);
     }

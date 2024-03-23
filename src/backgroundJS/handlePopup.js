@@ -29,17 +29,20 @@ const sendMsg = (data) =>{
 
 export const create_new_wallet = async(obj) =>{
     const {index,network,hasMnemonic,name,id,method} = obj;
+    const wallet = new Wallet(index,network==="mainnet",hasMnemonic);
     try{
-        const wallet = new Wallet(index,network==="mainnet",hasMnemonic);
-        let walletObj = await wallet.GenerateWallet();
-
-        chrome.storage.local.get(['walletList'],(result)=>{
+        chrome.storage.local.get(['walletList'],async (result)=>{
             let list = result.walletList ?? [];
+            const sumArr = list.filter(item=>item.type === "create")??[]
+            console.log(sumArr)
+            
+            let walletObj = await wallet.GenerateWallet(sumArr.length);
+
             let item = {
                 account:walletObj,
                 type:"create",
                 name,
-                account_index:list.length
+                account_index:sumArr.length
             }
             let newList = [...list,item];
             chrome.storage.local.set({walletList:newList});

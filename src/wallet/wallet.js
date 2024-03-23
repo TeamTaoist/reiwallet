@@ -55,7 +55,7 @@ export default class Wallet{
        return this.mnemonic;
     }
 
-    async ExportPrivateKey  (account_index) {
+    async ExportPrivateKey (account_index) {
         try{
             /*global chrome*/
             const key = await this.GenerateKey(account_index);
@@ -90,9 +90,9 @@ export default class Wallet{
         }
     }
 
-    async GenerateWallet () {
+    async GenerateWallet (accountIndex) {
         try{
-            const key = await this.GenerateKey();
+            const key = await this.GenerateKey(accountIndex);
             let publicKey = bytes.hexify(key.publicKey);
 
             let address_main =Wallet.publicKeyToAddress(publicKey,true)
