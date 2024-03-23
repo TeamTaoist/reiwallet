@@ -19,6 +19,9 @@ const reducer = (state, action) => {
         case 'SET_WALLET_LIST':
             return { ...state, refresh_wallet_list: action.payload};
 
+        case 'SET_IMPORT_MNEMONIC':
+            return { ...state, importMnemonic: action.payload};
+
 
         // case 'SET_ERROR':
         //     return { ...state, errorTips: action.payload };

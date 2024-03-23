@@ -72,7 +72,7 @@ export default function Confirmation(){
     const navigate = useNavigate();
     const { t } = useTranslation();
     const {dispatch,state} = useWeb3();
-    const { mnemonic,password,account } = state;
+    const { mnemonic,password,account,importMnemonic } = state;
     const [list,setList] = useState([]);
     const [selectedArr,SetSelectedArr] = useState([]);
     const [activeArr, setActiveArr] = useState([]);
@@ -87,8 +87,11 @@ export default function Confirmation(){
         const arr = PublicJs.randomSort(mnemonic);
         setList(arr);
         setActiveArr(Array(arr.length).fill(false))
+        if(importMnemonic === "importMnemonic"){
+            next()
+        }
+    },[mnemonic,importMnemonic]);
 
-    },[mnemonic]);
 
 
 
@@ -131,8 +134,6 @@ export default function Confirmation(){
             navigate('/success');
             setLoading(false)
         },10)
-
-
 
     }
     const chooseSelect = (selected,index,status)=>{

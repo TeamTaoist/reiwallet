@@ -194,8 +194,7 @@ export default function Setting(){
                         <img src={Next} alt=""/>
                     </div>
                 </ItemBox2>
-                {/*<ItemBox2  onClick={()=>toGo('/security')}>*/}
-                <ItemBox2 >
+                <ItemBox2  onClick={()=>toGo('/security')}>
                     <LftTitle className="medium-font">{t('popup.Settings.Security')}</LftTitle>
                     <div className="rht">
                         <img src={Next} alt=""/>

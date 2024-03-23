@@ -115,9 +115,9 @@ export default function Mnemonics(){
             }
         >
             <ContainerContentStyled>
-                {/*<Restore className="regular-font"  onClick={()=>restore()}>*/}
-                {/*    {t('install.create.create.restore')}*/}
-                {/*</Restore>*/}
+                <Restore className="regular-font"  onClick={()=>restore()}>
+                    {t('install.create.create.restore')}
+                </Restore>
                 <ContainerTitle
                     title={t('install.create.mnemonic.mnemonic_title')}
                     subTitle={t('install.create.mnemonic.mnemonic_tips')}

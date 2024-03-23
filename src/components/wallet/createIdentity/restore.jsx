@@ -5,7 +5,10 @@ import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import TipImg from '../../../assets/images/create/tip.png';
-
+import {useState} from "react";
+import Wallet from "../../../wallet/wallet";
+import {useWeb3} from "../../../store/contracts";
+import BtnLoading from "../../loading/btnloading";
 
 const ContainerContentStyled = styled.div`
   .title{
@@ -24,6 +27,8 @@ const Box = styled.div`
           box-sizing: border-box;
           background: transparent;
           border: 0;
+          line-height: 2em;
+          color: #666;
           &:focus{
               outline: none;
           }
@@ -51,13 +56,35 @@ const AlertTips = styled.div`
 export default function Restore(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const next = () =>{
-        navigate('/social');
+    const [mnemonicImport,setMnemonicImport] = useState("")
+    const {dispatch} = useWeb3();
+
+    const [loading , setLoading] = useState(false);
+
+    const handleInput = (e) =>{
+        const {value} = e.target;
+        setMnemonicImport(value)
     }
+
+    const confirm = async() =>{
+        setLoading(true)
+        const wallet = new Wallet(0,true,false,mnemonicImport);
+        let walletObj = await wallet.GenerateWallet();
+        const {address_main,address_test} = walletObj;
+        dispatch({type:'SET_MNEMONIC',payload:mnemonicImport.split(" ")});
+        dispatch({type:"SET_IMPORT_MNEMONIC",payload:"importMnemonic"});
+        dispatch({type:"SET_ACCOUNT",payload:{address_main,address_test}});
+        setLoading(false)
+        navigate('/confirmation');
+    }
+
+
     return <DashboardLayout>
         <ContainerLayout
             button={
-                <Button primary fullWidth onClick={()=>next()}>Confirm</Button>
+                <Button className="import" primary fullWidth onClick={()=>confirm()}>Confirm {
+                    loading && <BtnLoading/>
+                }</Button>
             }
         >
             <ContainerContentStyled>
@@ -67,9 +94,7 @@ export default function Restore(){
                 />
                 <Box>
                     <div className="inputBox">
-                        <textarea name=""  ></textarea>
-                        {/*<span>personal</span>*/}
-                        {/*<span>personal</span>*/}
+                        <textarea name="" value={mnemonicImport} onChange={(e)=>handleInput(e)}></textarea>
                     </div>
                 </Box>
                 <AlertTips className="regular-font">

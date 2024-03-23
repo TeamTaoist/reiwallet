@@ -61,6 +61,16 @@ const ButtonStyled = styled.button`
     color: #000000;
     border: 2px solid #34332D;
   }
+  &.import{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap:10px;
+    width: 100%;
+    background: rgba(0, 255, 157, 1);
+    color: #000;
+  }
+
 `;
 const Button = (props) => {
   const { fullWidth, primary,border,black,primaryBorder } = props;

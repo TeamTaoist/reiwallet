@@ -4,6 +4,13 @@ import Info from "../../assets/images/info.png";
 import Button from "../button/button";
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import Wallet from "../../wallet/wallet";
+import useCurrentAccount from "../../useHook/useCurrentAccount";
+import useNetwork from "../../useHook/useNetwork";
+import Loading from "../loading/loading";
+import {CopyToClipboard} from "react-copy-to-clipboard";
+import Toast from "../modal/toast";
 
 const Box = styled.div`
     display: flex;
@@ -70,18 +77,54 @@ const TipsBox = styled.div`
 
 export default function AccountConfirm(){
     const navigate = useNavigate();
-    const submit = () =>{
-        navigate("/accountConfirm");
+    const {currentAccount} = useCurrentAccount();
+    const {network} = useNetwork();
+    const [mnemonic,setMnemonic] = useState([]);
+    const [loading , setLoading] = useState(true);
+    const [copied,setCopied] = useState(false);
+
+    useEffect(() => {
+        if(currentAccount==="" || network === "")return;
+        getMnemonic()
+
+    }, [currentAccount]);
+
+    useEffect(() => {
+        if(mnemonic?.length) {
+            setLoading(false)
+        }
+
+    }, [mnemonic]);
+
+    const getMnemonic = async() =>{
+        /*global chrome*/
+        const wallet = new Wallet(currentAccount,network ==="mainnet",true);
+        let result = await  wallet.exportMnemonic();
+        const str = result.split(" ")
+        setMnemonic(str);
+    }
+
+
+    const Copy = () =>{
+        setCopied(true);
+        setTimeout(()=>{
+            setCopied(false);
+        },1500);
     }
 
 
     return <Box>
+
+        {
+            loading && <Loading showBg={true} />
+        }
+        <Toast tips="copied" left="140" bottom="400" show={copied}/>
         <TokenHeader  />
         <ContentBox>
             <ImportHeader title="Account mnemonic" tips="If you ever change browsers or move computers, you will need this Secret Recovery Phrase to access your accounts. Save them somewhere safe and secret." />
             <TextBox className="regular-font">
                 {
-                    [...Array(12)].map((item,index)=>(<span key={index}>test</span>))
+                    mnemonic.map((item,index)=>(<span key={index}>{item}</span>))
                 }
             </TextBox>
             <TipsBox>
@@ -92,8 +135,12 @@ export default function AccountConfirm(){
                 </div>
             </TipsBox>
             <BtmBox>
-                <Button  border>Cancel</Button>
-                <Button  primary onClick={()=>submit()}>Copy Mnemonic</Button>
+
+                <Button  border  onClick={()=>navigate("/")}>Cancel</Button>
+
+            <CopyToClipboard onCopy={()=>Copy()} text={mnemonic.join(" ")}>
+                <Button  primary onClick={()=>Copy()}>Copy Mnemonic</Button>
+            </CopyToClipboard>
             </BtmBox>
         </ContentBox>
     </Box>

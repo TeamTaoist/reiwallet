@@ -4,6 +4,11 @@ import Info from "../../assets/images/create/tip.png";
 import Button from "../button/button";
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
+import Close from "../../assets/images/create/close.png";
+import Open from "../../assets/images/create/open.png";
+import {useState} from "react";
+import Keystore from "../../wallet/keystore";
+import BtnLoading from "../loading/btnloading";
 
 const Box = styled.div`
     display: flex;
@@ -28,6 +33,10 @@ const BtmBox = styled.div`
   background: #FFFFFF;
   button{
     width: 47%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap:5px;
   }
 `
 const InputBox = styled.div`
@@ -59,10 +68,38 @@ const InputBox = styled.div`
 
 export default function AccountMnemonic(){
     const navigate = useNavigate();
-    const submit = () =>{
-        navigate("/accountConfirm");
+    const [show,setShow] = useState(true);
+    const[loading,setLoading] = useState(false)
+    const [password,setPassword] = useState('')
+
+    const submit = async() =>{
+        setLoading(true)
+        try{
+            let pwdRt =  await Keystore.checkPassword(password)
+            if(pwdRt){
+                navigate("/accountConfirm");
+            }else{
+                /*global chrome*/
+                chrome.storage.session.set({ password:null });
+                navigate('/');
+            }
+        }catch (e) {
+            console.error("checkPassword",e)
+
+        }finally {
+            setLoading(false)
+        }
+
     }
 
+    const handleInput = (e) =>{
+        const { value } = e.target;
+        setPassword(value);
+
+    }
+    const switchPwd = () =>{
+        setShow(!show)
+    }
 
     return <Box>
         <TokenHeader  />
@@ -71,12 +108,20 @@ export default function AccountMnemonic(){
             <InputBox>
                 <div className="titleTips regular-font">Enter password to continue</div>
                 <div className="inputBox">
-                    <input type="text" placeholder="Please enter " />
+                    <input type={show?"password":"text"}  value={password} placeholder="Please enter "  onChange={(e)=>handleInput(e)}  />
+                    {
+                        !show &&  <img src={Close} alt="" onClick={()=>switchPwd()}/>
+                    }
+                    {
+                        show && <img src={Open} alt="" onClick={()=>switchPwd()}/>
+                    }
                 </div>
             </InputBox>
             <BtmBox>
-                <Button  border>Cancel</Button>
-                <Button  primary onClick={()=>submit()}>Next</Button>
+                <Button  border onClick={()=>navigate("/")}>Cancel</Button>
+                <Button  primary onClick={()=>submit()} disabled={!password.length || loading}>Next   {
+                    loading && <BtnLoading/>
+                } </Button>
             </BtmBox>
         </ContentBox>
     </Box>

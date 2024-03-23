@@ -9,16 +9,16 @@ const systemScriptsMainnet = predefined.LINA.SCRIPTS
 const systemScriptsTestnet = predefined.AGGRON4.SCRIPTS
 
 export default class Wallet{
-    constructor(index,isMainnet,hasMnemonic) {
+    constructor(index,isMainnet,hasMnemonic,importMnemonic="create") {
         this.index = index;
         this.isMainnet = isMainnet;
         this.hasMnemonic = hasMnemonic;
+        this.importMnemonic = importMnemonic;
         this.mnemonic = "";
     }
 
     createMnemonic () {
         this.mnemonic = bip39.generateMnemonic();
-        // return bip39.generateMnemonic();
     }
 
     async useMnemonic () {
@@ -37,7 +37,11 @@ export default class Wallet{
             if(this.hasMnemonic){
                 await this.useMnemonic()
             }else{
-                this.createMnemonic()
+                if(this.importMnemonic !== "create"){
+                    this.mnemonic = this.importMnemonic;
+                }else{
+                    this.createMnemonic()
+                }
             }
             return await hd.mnemonic.mnemonicToSeed(this.mnemonic);
         }catch (e) {
@@ -45,6 +49,12 @@ export default class Wallet{
         }
 
     }
+
+    async exportMnemonic  () {
+        await this.useMnemonic()
+       return this.mnemonic;
+    }
+
     async ExportPrivateKey  (account_index) {
         try{
             /*global chrome*/

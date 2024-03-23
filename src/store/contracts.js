@@ -6,9 +6,6 @@ const initState = {...INIT_STATE};
 
 const Web3Context = React.createContext();
 
-
-
-
 const Web3ContextProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, initState);
     console.log("=====state=====",state);

@@ -4,5 +4,6 @@ module.exports = {
     mnemonic:null,
     refresh_network:null,
     refresh_wallet_list:null,
-    refresh_current:null
+    refresh_current:null,
+    importMnemonic:null,
 };

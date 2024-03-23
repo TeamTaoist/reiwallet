@@ -18,7 +18,6 @@ const Box = styled.div`
   height: 100vh;
 `
 const ContainerContentStyled = styled.div`
-  padding: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
