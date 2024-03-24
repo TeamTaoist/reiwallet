@@ -11,10 +11,6 @@ const CKB_CLI_ORIGIN = 'ckb-cli'
 export default class Keystore {
 
 
-  signMessage = async (payload)  =>{
-
-  }
-
   // Create an empty keystore object that contains empty private key
   static createEmpty = () => {
     const salt = crypto.randomBytes(32)

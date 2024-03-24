@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react";
+import {getPassword} from "../wallet/password";
 
 export default function useLock(){
     const [Unlocked,setUnlocked] = useState(false);
 
     useEffect(()=>{
-        getPassword()
+        getLocalPassword()
     },[]);
 
-    const getPassword = async() =>{
-        /*global chrome*/
-        let result = await chrome.storage.session.get(["password"]);
-        setUnlocked(!!result?.password)
+    const getLocalPassword = async() =>{
+        let result = await getPassword();
+        setUnlocked(!!result)
     }
 
 

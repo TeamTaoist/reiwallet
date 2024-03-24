@@ -87,7 +87,6 @@ export default function Success(){
     useEffect(()=>{
         /*global chrome*/
         chrome.storage.local.get(['account'],(result)=>{
-            console.log(result)
             const accountInfo = result.account[0];
             setAddress(accountInfo.address);
         });

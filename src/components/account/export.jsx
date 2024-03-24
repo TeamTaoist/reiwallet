@@ -10,6 +10,7 @@ import {useEffect, useState} from "react";
 import Keystore from "../../wallet/keystore";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import BtnLoading from "../loading/btnloading";
+import {clearPassword, switchPassword} from "../../wallet/password";
 
 const TitleBox = styled.div`
     display: flex;
@@ -102,12 +103,12 @@ export default function Export(){
     const toConfirm = async() =>{
         setLoading(true)
         try{
-            let pwdRt =  await Keystore.checkPassword(password)
+            let newPassword = await switchPassword(password)
+            let pwdRt =  await Keystore.checkPassword(newPassword)
             if(pwdRt){
                 navigate('/exportConfirm');
             }else{
-                /*global chrome*/
-                chrome.storage.session.set({ password:null });
+                clearPassword()
                 navigate('/');
             }
         }catch (e) {

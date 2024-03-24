@@ -10,6 +10,7 @@ import {useState} from "react";
 import Keystore from "../../wallet/keystore";
 import BtnLoading from "../loading/btnloading";
 import {useTranslation} from "react-i18next";
+import {clearPassword, getPassword, switchPassword} from "../../wallet/password";
 
 const Box = styled.div`
     display: flex;
@@ -77,12 +78,12 @@ export default function AccountMnemonic(){
     const submit = async() =>{
         setLoading(true)
         try{
-            let pwdRt =  await Keystore.checkPassword(password)
+            let newPassword = await switchPassword(password)
+            let pwdRt =  await Keystore.checkPassword(newPassword)
             if(pwdRt){
                 navigate("/accountConfirm");
             }else{
-                /*global chrome*/
-                chrome.storage.session.set({ password:null });
+                clearPassword()
                 navigate('/');
             }
         }catch (e) {

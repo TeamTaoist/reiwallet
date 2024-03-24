@@ -13,6 +13,7 @@ import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
+import {clearPassword, getPassword} from "../../wallet/password";
 
 const Content = styled.div`
   .titleTips{
@@ -98,12 +99,12 @@ export default function ExportConfirm(){
     const decryptPrivatekey = async(privateKey) => {
         try {
             /*global chrome*/
-            let result = await chrome.storage.session.get(["password"]);
-            if (result?.password) {
-                let str = await Keystore.decrypt(result?.password,privateKey);
+            let result = await getPassword();
+            if (result) {
+                let str = await Keystore.decrypt(result,privateKey);
                 setPy(str)
             } else {
-                chrome.storage.session.set({password: null});
+                clearPassword()
                 navigate("/");
             }
         } catch (e) {

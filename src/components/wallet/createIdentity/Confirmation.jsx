@@ -13,6 +13,7 @@ import Loading from "../../loading/loading";
 import useNetwork from "../../../useHook/useNetwork";
 import useCurrentAccount from "../../../useHook/useCurrentAccount";
 import useWalletList from "../../../useHook/useWalletList";
+import {savePassword} from "../../../wallet/password";
 
 const ContainerContentStyled = styled.div`
 
@@ -114,11 +115,11 @@ export default function Confirmation(){
 
     const next = async () =>{
         setLoading(true)
-        setTimeout(()=>{
+        setTimeout(async()=>{
             const MnemonicStr = mnemonic.join(" ");
-            let keyJSon = Keystore.create(MnemonicStr,password);
+            let newPassword = await savePassword(password)
+            let keyJSon = Keystore.create(MnemonicStr,newPassword);
             /*global chrome*/
-            chrome.storage.session.set({ password:password });
             chrome.storage.local.set({isInit:true});
             saveWallet({
                 account,
@@ -129,7 +130,9 @@ export default function Confirmation(){
             chrome.storage.local.set({Mnemonic:JSON.stringify(keyJSon)});
             saveNetwork("mainnet")
             saveCurrent(0)
+
             dispatch({type:'SET_MNEMONIC',payload:null});
+            dispatch({type:'SET_PASSWORD',payload:null});
 
             navigate('/success');
             setLoading(false)
@@ -161,7 +164,8 @@ export default function Confirmation(){
 
         <ContainerLayout
             button={
-                <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>
+                // <Button primary fullWidth onClick={()=>next()} disabled={disabled}>{t('install.create.confirmation.Confirm')}</Button>
+                <Button primary fullWidth onClick={()=>next()}>{t('install.create.confirmation.Confirm')}</Button>
             }
         >
             <ContainerContentStyled>

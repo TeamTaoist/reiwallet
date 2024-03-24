@@ -34,8 +34,6 @@ export const create_new_wallet = async(obj) =>{
         chrome.storage.local.get(['walletList'],async (result)=>{
             let list = result.walletList ?? [];
             const sumArr = list.filter(item=>item.type === "create")??[]
-            console.log(sumArr)
-
             let walletObj = await wallet.GenerateWallet(sumArr.length);
 
             let item = {
@@ -100,7 +98,6 @@ const transaction_confirm = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.transaction_confirm(tx);
-        console.log("====transaction_confirm====",rt)
         sendMsg({ type:"transaction_confirm_success",data:rt})
 
     }catch (e){

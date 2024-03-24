@@ -87,9 +87,8 @@ export default function NetworkList({current,handleLoading,closeLoading}){
         const value = netList[index].value;
         saveNetwork(value)
 
-        let net = netList[index];
+        let net = JSON.parse(JSON.stringify(netList[index]));
         delete net.value
-
         /*global chrome*/
         chrome.runtime.sendMessage({  data:net,method:"chainChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
 

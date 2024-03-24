@@ -40,20 +40,6 @@ export default function SetPassword(){
     const [cm_pwd, setCm_pwd] = useState('');
     const {dispatch} = useWeb3();
 
-    // useEffect(() => {
-    //
-    //     const keyAAA =  Keystore.create("0xD85c413dA833CeBD8338138CcEFA04979DF70E8e","123")
-    //     console.log(keyAAA)
-    //
-    //
-    //     const afterKey =  Keystore.decrypt(keyAAA,"123")
-    //     console.log(afterKey)
-    //
-    //
-    // }, []);
-
-
-
     const next = () =>{
         dispatch({type:"SET_PASSWORD",payload:pwd});
         navigate('/mnemonics');
@@ -80,15 +66,6 @@ export default function SetPassword(){
                     subTitle=""
                 />
                 <ContentBox>
-                    {/*<div className="liBox">*/}
-                    {/*    <div className="titleTips regular-font">*/}
-                    {/*        {t('install.create.create.walletName')}*/}
-                    {/*    </div>*/}
-                    {/*    <div className="inputBox">*/}
-                    {/*        <input type="text" value={identity} placeholder={t('install.create.create.namePlaceholder')} onChange={(e) => handleInput(e)}/>*/}
-                    {/*    </div>*/}
-
-                    {/*</div>*/}
                     <div className="liBox">
                         <div className="titleTips regular-font">
                             {t('install.create.create.pwd')}

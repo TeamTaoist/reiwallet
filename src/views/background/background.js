@@ -18,18 +18,16 @@ function init() {
         switch (requestType) {
             case "CKB_POPUP":
                 handlePopUp(message.data)
-                sendResponse({ "message":message});
                 break;
 
             case "CKB_REQUEST_BACKGROUND":
                 handleRequest(message.data)
-                sendResponse({ "message":message});
             break;
             case "CKB_ON_BACKGROUND":
                 handleON(message.data,message.method)
-                sendResponse({ "message":message});
             break;
         }
+        sendResponse({ "message":message});
     })
 
 
@@ -41,6 +39,6 @@ const handleON = async(data,method) =>{
     const windowObj =  await chrome.windows.getCurrent();
     const windowID = windowObj.id;
     chrome.tabs.query({active:true,windowId: windowID}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_ON_INJECT",result:data,method});
+        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_ON_INJECT",result:data,method},()=>{});
     });
 }

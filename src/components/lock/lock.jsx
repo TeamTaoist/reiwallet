@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Keystore from "../../wallet/keystore";
 import BtnLoading from "../loading/btnloading";
+import {savePassword, switchPassword} from "../../wallet/password";
 
 
 const Main = styled.div`
@@ -81,10 +82,10 @@ export default function Lock({isNav,handleLock}){
     const submit = async() =>{
         setLoading(true)
         try{
-            let pwdRt =  await Keystore.checkPassword(password)
+            let newPassword = await switchPassword(password)
+            let pwdRt =  await Keystore.checkPassword(newPassword)
             if(pwdRt){
-                /*global chrome*/
-                chrome.storage.session.set({ password:password });
+                await savePassword(password)
                 !isNav && navigate("/");
                 isNav && handleLock(true);
             }else{

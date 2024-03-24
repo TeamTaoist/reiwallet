@@ -3,9 +3,6 @@ import WalletHome from "../wallet/createWallet/walletHome";
 import Lock from "../lock/lock";
 import styled from "styled-components";
 import {useEffect, useState} from "react";
-
-import {useWeb3} from "../../store/contracts";
-import Wallet from "../../wallet/wallet";
 import useLock from "../../useHook/useLock";
 
 const Box = styled.div`

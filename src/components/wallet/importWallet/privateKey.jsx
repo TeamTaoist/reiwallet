@@ -9,6 +9,7 @@ import Wallet from "../../../wallet/wallet";
 import useWalletList from "../../../useHook/useWalletList";
 import Keystore from "../../../wallet/keystore";
 import BtnLoading from "../../loading/btnloading";
+import {clearPassword, getPassword} from "../../../wallet/password";
 
 const Box = styled.div`
     display: flex;
@@ -84,10 +85,9 @@ export default function PrivateKey(){
         setLoading(true)
         try{
             const account = Wallet.privateToWallet(privateKey);
-            /*global chrome*/
-            let result = await chrome.storage.session.get(["password"]);
-            if(result?.password){
-                const privateKeyCrypt = Keystore.create(privateKey,result?.password)
+            let result = await getPassword()
+            if(result){
+                const privateKeyCrypt = Keystore.create(privateKey,result)
                 saveWallet({
                     account,
                     type:"import",
@@ -98,7 +98,7 @@ export default function PrivateKey(){
                 setLoading(false);
                 navigate("/");
             }else{
-                chrome.storage.session.set({ password:null });
+                clearPassword()
                 navigate("/");
             }
         }catch (e) {

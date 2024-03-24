@@ -4,6 +4,7 @@ import { bytes } from '@ckb-lumos/codec';
 import { predefined } from '@ckb-lumos/config-manager'
 import { encodeToAddress,parseAddress } from '@ckb-lumos/helpers'
 import Keystore from "./keystore";
+import {getPassword} from "./password";
 
 const systemScriptsMainnet = predefined.LINA.SCRIPTS
 const systemScriptsTestnet = predefined.AGGRON4.SCRIPTS
@@ -23,11 +24,11 @@ export default class Wallet{
 
     async useMnemonic () {
         /*global chrome*/
-        let result = await chrome.storage.session.get(["password"]);
-        if(!result?.password){
+        let result = await getPassword();
+        if(!result){
             throw new Error("no_password")
         }
-        this.mnemonic = await Keystore.decrypt(result?.password)
+        this.mnemonic = await Keystore.decrypt(result)
 
     }
 

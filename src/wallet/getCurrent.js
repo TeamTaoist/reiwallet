@@ -1,6 +1,7 @@
 import Wallet from "./wallet";
 import Keystore from "./keystore";
 import {networkList} from "../constants/network";
+import {getPassword} from "./password";
 /*global chrome*/
 
 export const getNetwork = async() =>{
@@ -21,7 +22,7 @@ export const currentInfo = async() => {
     const walletListArr = await chrome.storage.local.get(['walletList'])
     const walletList = walletListArr.walletList
     const currentAccount = walletList[current];
-    const result = await chrome.storage.session.get(["password"]);
+    const result = await getPassword();
     const {type,account_index,privateKey}= currentAccount;
     const network = await getNetwork();
 

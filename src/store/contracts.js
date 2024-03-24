@@ -8,13 +8,6 @@ const Web3Context = React.createContext();
 
 const Web3ContextProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, initState);
-    console.log("=====state=====",state);
-    // saveLocalStorage(state)
-
-    const saveLocalStorage = (initState) =>{
-        /*global chrome*/
-        chrome.storage.local.set({initState});
-    }
 
     return <Web3Context.Provider value={{state,dispatch}}>
         {props.children}
