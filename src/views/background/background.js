@@ -29,7 +29,6 @@ function init() {
                 handleON(message.data,message.method)
                 sendResponse({ "message":message});
             break;
-
         }
     })
 

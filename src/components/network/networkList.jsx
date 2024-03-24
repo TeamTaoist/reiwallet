@@ -86,6 +86,13 @@ export default function NetworkList({current,handleLoading,closeLoading}){
     const handleSelect = async (index) =>{
         const value = netList[index].value;
         saveNetwork(value)
+
+        let net = netList[index];
+        delete net.value
+
+        /*global chrome*/
+        chrome.runtime.sendMessage({  data:net,method:"chainChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
+
     }
     const handleRemove = async (index) =>{
         handleLoading()
