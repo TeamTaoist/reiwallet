@@ -34,11 +34,34 @@ const request = ({method, data}) =>{
         },60 * 1000)
     });
 
+}
 
+
+const nextCall = {} ;
+
+document.addEventListener('CKB_ON_RESPONSE', function(event) {
+    const {result,method} = event.detail;
+    if(!method)return;
+    let arr = nextCall[method] ??[];
+    arr.map((item) =>{
+        item(result)
+    })
+});
+
+
+
+const on = (method, callback) =>{
+    if(!callback)return;
+
+    if(!nextCall[method]){
+        nextCall[method] = [];
+    }
+    nextCall[method].push(callback)
 }
 
 let injectedCkb ={
     version:"0.0.1",
-    request
+    request,
+    on
 }
 window.ckb = Object.freeze(injectedCkb);

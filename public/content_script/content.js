@@ -42,10 +42,6 @@ function documentElementCheck() {
     return true;
 }
 
-
-// var event = new CustomEvent('CKB_RESPONSE', { detail: { action: action, result: "------",id} });
-// document.dispatchEvent(event);
-
 document.addEventListener('CKB_REQUEST', function(event) {
         chrome.runtime.sendMessage({ type:'CKB_REQUEST_BACKGROUND',data:event.detail},  ()=> {})
 
@@ -54,8 +50,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let requestType = message.type;
     switch (requestType) {
         case "CKB_RESPONSE_BACKGROUND":
-                var event = new CustomEvent('CKB_RESPONSE', { detail: { data:message.data} });
+                const event = new CustomEvent('CKB_RESPONSE', { detail: { data:message.data} });
                 document.dispatchEvent(event);
+                sendResponse({ "message":message});
+            break;
+            case "CKB_ON_INJECT":
+                const on_event = new CustomEvent('CKB_ON_RESPONSE', { detail: { result:message.result,method:message.method} });
+                document.dispatchEvent(on_event);
                 sendResponse({ "message":message});
             break;
 

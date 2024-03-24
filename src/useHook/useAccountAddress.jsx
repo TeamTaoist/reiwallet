@@ -21,10 +21,11 @@ export default function useAccountAddress(){
         get_Address()
     }, [network,currentAccount,walletList]);
 
-    const get_Address = () =>{
-        const current = walletList[currentAccount];
+    const get_Address = (index) =>{
+        const current = walletList[index?index:currentAccount];
         current.address = network === "mainnet"?current.account.address_main:current.account.address_test;
         setCurrentAccountInfo({...current});
+        return current.address
     }
 
     const get_Address_list = () =>{
@@ -37,5 +38,5 @@ export default function useAccountAddress(){
         setAccountList(addrList);
     }
 
-    return {accountList,currentAccountInfo};
+    return {accountList,currentAccountInfo,get_Address};
 }

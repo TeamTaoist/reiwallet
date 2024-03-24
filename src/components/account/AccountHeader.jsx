@@ -102,7 +102,7 @@ export default function AccountHeader(){
     const navigate = useNavigate();
     const { t } = useTranslation();
     const {currentAccount,saveCurrent} = useCurrentAccount();
-    const {currentAccountInfo} = useAccountAddress();
+    const {currentAccountInfo,get_Address} = useAccountAddress();
     const {networkInfo} = useNetwork();
 
     const[show,setShow] = useState(false);
@@ -154,6 +154,9 @@ export default function AccountHeader(){
 
     const handleCurrent = (index) =>{
         saveCurrent(index);
+        let currentUser = get_Address(index);
+        /*global chrome*/
+        chrome.runtime.sendMessage({  data:currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
     }
 
     const handleNew =()=>{
