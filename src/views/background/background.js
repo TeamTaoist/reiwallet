@@ -4,6 +4,9 @@ import {handlePopUp} from "../../backgroundJS/handlePopup";
 /*global chrome*/
 function init() {
 
+    var dbName = "DatabaseName";
+    var open = indexedDB.open(dbName, 1);
+
     chrome.runtime.onInstalled.addListener((e) => {
         console.log("onInstalled", e)
         if (e && e.reason && e.reason === "install") {
@@ -13,6 +16,8 @@ function init() {
             });
         }
     })
+
+
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         let requestType = message.type;
         switch (requestType) {

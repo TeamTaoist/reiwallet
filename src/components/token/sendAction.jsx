@@ -50,7 +50,7 @@ export default function SendAction(){
                 break;
             case "transaction_confirm_success":
                 {
-                    navigate("/")
+                    navigate(`/home?tab=0`)
                     setError(true)
                     setTips('Send Success')
                     setTimeout(()=>{
@@ -61,12 +61,12 @@ export default function SendAction(){
             case "send_transaction_error":
             case "transaction_confirm_error":
                 {
-                    setTips('Send Failed')
+                    setTips('Send Failed:'+message.data)
                     setError(true)
                     setLoading(false)
                     setTimeout(()=>{
                         setError(false)
-                        navigate("/send")
+                        navigate("/home")
                     },2000)
 
                 }

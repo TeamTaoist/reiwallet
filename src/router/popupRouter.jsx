@@ -18,7 +18,6 @@ import Step1 from "../components/wallet/createWallet/step1";
 import Step2 from "../components/wallet/createWallet/step2";
 import Step3 from "../components/wallet/createWallet/step3";
 import Mnemonics from "../components/wallet/importWallet/Mnemonics";
-import SendDetail from "../components/token/sendDetail";
 import AssetDetail from "../components/token/assetDetail";
 import AddNetwork from "../components/network/addNetwork";
 
@@ -44,7 +43,6 @@ function PopupRouterLink() {
             <Route path="/privatekey" element={<PrivateKey />}/>
             <Route path="/success" element={<Success />}/>
             <Route path="/mnemonics" element={<Mnemonics />}/>
-            <Route path="/sendDetail" element={<SendDetail />}/>
             <Route path="/assetDetail" element={<AssetDetail />}/>
             <Route path="/addNetwork" element={<AddNetwork />}/>
         </Routes>

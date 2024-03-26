@@ -6,6 +6,8 @@ const NavBox = styled.div`
     display: flex;
   align-items: center;
   padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
   img{
     width: 18px;
     cursor: pointer;

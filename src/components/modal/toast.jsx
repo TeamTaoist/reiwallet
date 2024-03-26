@@ -1,35 +1,42 @@
 import styled from "styled-components";
-import {useEffect} from "react";
+
+const MashBox = styled.div`
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 9999999;
+`
 
 const ToastBox = styled.div`
-  position: absolute;
-  left: ${ props => props.left+'px'};
-  bottom:${ props => props.bottom+'px'};;
   background: #040404;
   border-radius: 4px;
+    max-width: 80vw;
+    box-sizing: border-box;
   border: 1px solid #040404;
   font-size: 14px;
   font-family: "AvenirNext-Medium";
   font-weight: 500;
   color: #FDFEFD;
-  line-height: 40px;
-  padding: 0 36px;
+  line-height: 1.5em;
+  padding: 36px;
   text-align: center;
-  z-index: 9999999;
-  white-space: nowrap;
 `
 
 export default function Toast(props){
 
-    const { left, bottom, tips,show} = props;
+    const { tips,show} = props;
 
 
-    return <div>
+    return <>
         {
-            show && <ToastBox left={left} bottom={bottom}>
+            show &&<MashBox><ToastBox >
                 {tips}
             </ToastBox>
+            </MashBox>
         }
 
-    </div>
+    </>
 }

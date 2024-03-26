@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Assets from "./assets";
 import Activities from "./Activities";
 import {useTranslation} from "react-i18next";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import SendDetail from "../token/sendDetail";
 
 const Tabs = styled.div`
     display: flex;
@@ -37,14 +39,36 @@ const Content = styled.div`
 
 export default function AccountTabs(){
     const { t } = useTranslation();
-    const [list] = useState([t('popup.account.Assets'),t('popup.account.Activities')])
+    // const [list] = useState([t('popup.account.Activities'),t('popup.account.Assets'),"SUDT"])
+    const [list] = useState([t('popup.account.Activities')])
     const [ current, setCurrent] = useState(0);
+    const [searchParams] = useSearchParams();
+    const tab = searchParams.get('tab');
+    const navigate = useNavigate();
+    const [show,setShow] = useState(false);
+
+    useEffect(() => {
+        let newTab = tab ??0;
+        setCurrent(Number(newTab))
+
+    }, [tab]);
 
     const chooseCurrent = (index) =>{
-        setCurrent(index);
+        navigate(`?tab=${index}`)
     }
 
+    // const handleShow = () =>{
+    //     setShow(true)
+    // }
+    // const handleShowClose = () =>{
+    //     setShow(false)
+    // }
+
     return <div>
+
+        {/*{*/}
+        {/*    show && <SendDetail handleShow={handleShow} handleShowClose={handleShowClose} />*/}
+        {/*}*/}
         <Tabs>
             {
                 list.map((item,index)=>(<div key={index} className={current===index ? "active item" :"item"} onClick={()=>chooseCurrent(index)}>
@@ -54,11 +78,11 @@ export default function AccountTabs(){
             }
         </Tabs>
         <Content>
+            {/*{*/}
+            {/*    current === 1 && <Assets />*/}
+            {/*}*/}
             {
-                current === 0 && <Assets />
-            }
-            {
-                current === 1 && <Activities />
+                current === 0 && <Activities />
             }
         </Content>
     </div>

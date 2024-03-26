@@ -11,6 +11,17 @@ const toMessage = (data) =>{
     });
 }
 
+const recordToTxList = async(txhash)=>{
+
+    if(!txhash)return;
+    let list = await chrome.storage.local.get(["txList"]);
+    let arr = list.txList ? list.txList : [];
+    chrome.storage.local.set({txList:[ {
+            txhash,
+            created:new Date().valueOf()
+        },...arr]});
+}
+
 export const handleRequest = async (requestData) =>{
     const {id,data} = requestData.data;
     const windowObj =  await chrome.windows.getCurrent();

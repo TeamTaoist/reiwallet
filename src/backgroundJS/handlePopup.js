@@ -2,6 +2,29 @@
 import Wallet from "../wallet/wallet";
 import RpcClient from "./rpc";
 
+const recordToTxList = async(txhash)=>{
+
+    if(!txhash)return;
+    let list = await chrome.storage.local.get(["txList"]);
+    let arr = list.txList ? list.txList : [];
+    chrome.storage.local.set({txList:[ {
+            txhash,
+            created:new Date().valueOf()
+        },...arr]});
+}
+
+const RemoveRecord = async (txhash,result) =>{
+    let list = await chrome.storage.local.get(["txList"]);
+    let arr = list.txList ? list.txList : [];
+    if(!arr.length)return;
+    let resultIndex = arr.findIndex((item) =>item === txhash);
+    // let item = arr[resultIndex]
+    arr.splice(resultIndex,1);
+    chrome.storage.local.set({txList:arr});
+    // insertPR({...result,...item})
+}
+
+
 export const handlePopUp = async (requestData) =>{
     switch (requestData.method){
         case "Create_Account":
@@ -9,6 +32,12 @@ export const handlePopUp = async (requestData) =>{
             break;
         case "get_capacity":
             get_Capacity(requestData);
+            break;
+        case "get_transaction":
+            get_transaction(requestData);
+            break;
+        case "get_transaction_history":
+            get_transaction_history(requestData);
             break;
         case "get_feeRate":
             get_feeRate(requestData);
@@ -69,6 +98,37 @@ const get_Capacity = async(obj) =>{
     }
 }
 
+const get_transaction = async (obj) =>{
+    const {txHash} = obj
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_transaction(txHash);
+        const {transaction:{hash},tx_status} = rt;
+        if(tx_status.status !== "pending" && tx_status.status !== "proposed"){
+            await RemoveRecord(hash,rt)
+
+        }else{
+            sendMsg({ type:"get_transaction_success",data:rt})
+        }
+
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+const get_transaction_history = async (obj) =>{
+    const {currentAccountInfo} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_transaction_list(currentAccountInfo.address);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
 const get_feeRate = async(obj) =>{
     try{
         const client = new RpcClient();
@@ -93,11 +153,13 @@ const send_transaction = async (obj) =>{
     }
 }
 
+
 const transaction_confirm = async(obj) =>{
     const {tx} = obj;
     try{
         const client = new RpcClient();
         let rt = await client.transaction_confirm(tx);
+        await recordToTxList(rt);
         sendMsg({ type:"transaction_confirm_success",data:rt})
 
     }catch (e){
@@ -105,3 +167,5 @@ const transaction_confirm = async(obj) =>{
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }
+
+

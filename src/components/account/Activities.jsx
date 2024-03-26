@@ -1,26 +1,47 @@
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import ActivitiesItem from "./activitiesItem";
+import PendingItem from "./pendingItem";
+import useNetwork from "../../useHook/useNetwork";
+import useAccountAddress from "../../useHook/useAccountAddress";
+import useHistoryList from "../../useHook/useHistory";
+import Loading from "../loading/loading";
+// import {getHistoryList, getPRList} from "../../utils/indexdb";
 
 const Box = styled.div`
   padding: 23px 20px 0;
   li{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+      display: flex;
     height: 78px;
     border-radius: 14px;
     padding: 0 22px;
     cursor: pointer;
+      box-sizing: border-box;
+      background: #fafafa;
+      margin-bottom: 20px;
     &:hover{
       background: #F1FCF1;
     }
+      .inner{
+          
+          width: 100%;
+          height: 78px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
     .title{
       font-weight: 500;
+        font-size: 16px;
     }
+      .titleRht{
+          font-weight: 500;
+          font-size: 16px;
+          text-transform: capitalize;
+      }
     .time{
-      font-size: 14px;
+      font-size: 12px;
       color: #00A554;
       line-height: 20px;
       margin-right: 7px;
@@ -31,37 +52,78 @@ const Box = styled.div`
       line-height: 20px;
     }
     .item{
-      width: 100%;
       display: flex;
-      justify-content: space-between;
+        flex-direction: column;
     }
+      .innerLoading{
+          width: 100%;
+          height: 78px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
   }
 `
 
-export default function Activities(){
-    const navigate = useNavigate();
-    const [list,setList] = useState([])
+const MoreBox = styled.div`
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+`
 
-    const toDetail = () =>{
-        navigate('/sendDetail')
+export default function Activities(){
+    const [pendingList,setPendingList] = useState([])
+    const {networkInfo} = useNetwork();
+    const {list,loading} = useHistoryList();
+    const {currentAccountInfo} = useAccountAddress();
+
+    useEffect(() => {
+        getPendingList()
+    }, []);
+
+
+    useEffect(() => {
+        if(!pendingList.length) return;
+        const timer = setInterval(()=>{
+            getPendingList()
+        }, 1000)
+        return () =>{
+            clearInterval(timer)
+        }
+    }, [pendingList,list]);
+
+
+    const getPendingList = async() =>{
+        /*global chrome*/
+        let rt = await chrome.storage.local.get(['txList']);
+        setPendingList(rt?.txList ?? [])
+    }
+    const toExplorer = () =>{
+        /*global chrome*/
+        chrome.tabs.create({
+            url: `${networkInfo?.blockExplorerUrls}address/${currentAccountInfo.address}`
+        });
     }
 
     return <Box>
-        <ul>
-            {
-                list.map((item,index)=>(<li key={index} onClick={()=>toDetail()}>
-                    <div className="item">
-                        <div className="medium-font title">Approve Token spend…</div>
-                        <div className="medium-font title">-0 TBNB</div>
+        {
+            loading && !pendingList?.length && !list?.length && <Loading showBg={false} />
+        }
+        {
+            !(loading && !pendingList?.length && !list?.length) && <ul>
 
-                    </div>
-                    <div className="item">
-                        <div><span className="time">Apr28</span> <span className="web">localhost:3000</span></div>
-                        <div><span className="web">-0 TBNB</span></div>
-                    </div>
+                {
+                    pendingList?.map((item, index) => (<PendingItem key={`pending_${index}`} txItem={item}/>))
+                }
 
-                </li>))
-            }
-        </ul>
+                {
+                    list?.map((item, index) => (<ActivitiesItem key={`confirmed_${index}`} item={item}/>))
+                }
+                {
+                    list?.length === 30 && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
+                }
+            </ul>
+        }
+
     </Box>
 }

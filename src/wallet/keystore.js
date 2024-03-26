@@ -5,7 +5,6 @@ import scrypt from 'scrypt-js';
 
 
 const CIPHER = 'aes-128-ctr'
-const CKB_CLI_ORIGIN = 'ckb-cli'
 
 // Encrypt and save master extended private key.
 export default class Keystore {

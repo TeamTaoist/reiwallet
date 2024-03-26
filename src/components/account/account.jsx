@@ -12,7 +12,7 @@ const Box = styled.div`
 
 const MainBox = styled.div`
     flex-grow: 1;
-    padding-bottom: 100px;
+    padding-bottom: 20px;
 `
 
 

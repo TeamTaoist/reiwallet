@@ -1,14 +1,29 @@
-import TokenHeader from "../header/tokenHeader";
+
 import styled from "styled-components";
 import Demo from "../../assets/images/demo/99592461.jpeg";
 import From from "../../assets/images/fromTo.png";
+import Button from "../button/button";
 
 const Box = styled.div`
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.3);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9999;
 `
 
 const Content = styled.div`
-  margin: 20px;
+    box-sizing: border-box;
+    padding:20px;
+    background: #fff;
+    border-radius: 14px;
+    width: 90vw;
     dl{
       height: 46px;
       display: flex;
@@ -32,7 +47,7 @@ const FromTo = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 30px 0;
+    margin: 20px 0;
     .avatar{
       width: 35px;
       height: 35px;
@@ -45,14 +60,18 @@ const FromTo = styled.div`
     }
 `
 const TitleBox = styled.div`
-    margin-top: 30px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
 `
+const BtnBox = styled.div`
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+`
 
-export default function SendDetail(){
+export default function SendDetail({handleShowClose}){
     return <Box>
-        <TokenHeader title="Send details" />
         <Content>
             <dl>
                 <dt className="medium-font">Trading time</dt>
@@ -79,29 +98,22 @@ export default function SendDetail(){
 
             </FromTo>
             <dl>
-                <dt className="medium-font">Noce</dt>
-                <dd>1</dd>
-            </dl>
-            <dl>
                 <dt className="medium-font">Amount</dt>
                 <dd>1</dd>
             </dl>
             <dl>
-                <dt className="medium-font">Gas Limit(Units)</dt>
-                <dd>1</dd>
-            </dl>
-            <dl>
-                <dt className="medium-font">Gas Used(Units)</dt>
-                <dd>1</dd>
-            </dl>
-            <dl>
-                <dt className="medium-font">Gas price</dt>
+                <dt className="medium-font">Gas</dt>
                 <dd>1</dd>
             </dl>
             <dl>
                 <dt className="medium-font">Total</dt>
                 <dd>1</dd>
             </dl>
+            <BtnBox>
+                <Button primary fullWidth onClick={()=>handleShowClose()} >Close</Button>
+            </BtnBox>
         </Content>
+
+
     </Box>
 }

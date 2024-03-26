@@ -41,12 +41,13 @@ export default class RpcClient{
                 'Content-Type': 'application/json',
             },
         });
-        // Abort retrying if the resource doesn't exist
-        if (res.error) {
-            /* istanbul ignore next */
-            throw new Error(res.error);
-        }
         const rt = await res.json();
+        // Abort retrying if the resource doesn't exist
+        if (rt.error) {
+            /* istanbul ignore next */
+            return Promise.reject(rt.error);
+        }
+
         return rt?.result;
 
     }
@@ -71,6 +72,37 @@ export default class RpcClient{
                 }
             ]
         })
+    }
+    get_transaction_list = async(address) =>{
+        const hashObj = Wallet.addressToScript(address);
+        const{codeHash,hashType,args} = hashObj;
+        const network = await this.getNetwork();
+
+        return await this._request({
+            method:"get_transactions",
+            url:network.rpcUrl.indexer,
+            params:[
+                {
+                    "script": {
+                        "code_hash": codeHash,
+                        "hash_type":hashType,
+                        args
+                    },
+                    "script_type": "lock",
+                    "group_by_transaction": true
+                },
+                "desc",
+                "0x1E"
+            ]
+        })
+    }
+    get_transaction = async(txHash) =>{
+        const network = await this.getNetwork();
+        return await this._request({
+            method:"get_transaction",
+            url:network.rpcUrl.node,
+            params:[txHash]
+        })
 
     }
 
@@ -85,7 +117,9 @@ export default class RpcClient{
     }
     send_transaction = async (to,amt,fee,isMax) =>{
         const network = await this.getNetwork();
+
         const currentAccount = await currentInfo();
+
         const {address,privatekey_show} = currentAccount;
         let amount = parseUnit(amt,"ckb");
         if(network.value === "mainnet"){

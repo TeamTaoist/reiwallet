@@ -1,30 +1,25 @@
-import useNetwork from "./useNetwork";
-import useAccountAddress from "./useAccountAddress";
 import {useEffect, useState} from "react";
-import {formatUnit} from "@ckb-lumos/bi";
 import useMessage from "./useMessage";
+import useAccountAddress from "./useAccountAddress";
 
-export default function useBalance(){
-    const {networkInfo} = useNetwork();
+export default function useHistoryList(){
     const {currentAccountInfo} = useAccountAddress();
     const [loading,setLoading] = useState(false);
-    const [balance,setBalance] = useState("--");
+    const [list,setList] = useState([]);
 
     const handleEvent = (message) => {
         const {type }= message;
-        if(type ==="get_Capacity_success"){
+        if(type ==="get_transaction_history_success"){
+            setList(message.data?.objects ?? [])
             setLoading(false)
-            const {capacity} = message.data;
-            let rt = formatUnit(capacity,"ckb")
-            setBalance(rt)
         }
     }
 
     const {sendMsg} = useMessage(handleEvent,[]);
 
-
     useEffect(() => {
-        if(!networkInfo || !currentAccountInfo) return;
+        if(!currentAccountInfo)return;
+
         setLoading(true)
         toBackground()
         const timer = setInterval(()=>{
@@ -35,15 +30,14 @@ export default function useBalance(){
             clearInterval(timer)
         }
 
-    }, [currentAccountInfo,networkInfo]);
+    }, [currentAccountInfo]);
 
     const toBackground = () =>{
         let obj ={
-            method:"get_capacity",
-            networkInfo,
+            method:"get_transaction_history",
             currentAccountInfo
         }
         sendMsg(obj)
     }
-    return {balance,balanceLoading:loading,symbol:networkInfo?.nativeCurrency?.symbol}
+    return {list,loading}
 }
