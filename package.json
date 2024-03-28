@@ -9,7 +9,9 @@
     "@ckb-lumos/codec": "^0.21.1",
     "@ckb-lumos/hd": "^0.21.1",
     "@ckb-lumos/lumos": "^0.21.1",
+    "@nervina-labs/ckb-dex": "^0.2.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@spore-sdk/core": "^0.2.0-beta.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -199,6 +201,9 @@
       "cross-fetch": "^4.0.0"
     },
     "@ckb-lumos/lumos": {
+      "cross-fetch": "^4.0.0"
+    },
+    "@ckb-lumos/rpc": {
       "cross-fetch": "^4.0.0"
     }
   }

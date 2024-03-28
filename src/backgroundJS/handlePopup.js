@@ -1,6 +1,8 @@
 /*global chrome*/
 import Wallet from "../wallet/wallet";
 import RpcClient from "./rpc";
+import { getSporeById, transferSpore } from '@spore-sdk/core';
+import { predefinedSporeConfigs } from '@spore-sdk/core';
 
 const recordToTxList = async(txhash)=>{
 
@@ -47,6 +49,12 @@ export const handlePopUp = async (requestData) =>{
             break;
         case "transaction_confirm":
             transaction_confirm(requestData);
+            break;
+        case "get_SUDT":
+            getSUDT(requestData);
+            break;
+        case "send_DOB":
+            sendDOB(requestData);
             break;
     }
 
@@ -168,4 +176,56 @@ const transaction_confirm = async(obj) =>{
     }
 }
 
+
+const getSUDT = async (obj) =>{
+    const {currentAccountInfo} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_SUDT(currentAccountInfo.address);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const sendDOB = async (obj) =>{
+
+
+    const {currentAccountInfo,outPoint,toAddress,id} = obj;
+    console.log("==sendDOB==",currentAccountInfo,outPoint,toAddress,id)
+
+    try{
+        // const client = new RpcClient();
+        // let rt = await client.get_SUDT(currentAccountInfo.address);
+
+        const sporeCell = await getSporeById(id, predefinedSporeConfigs.Testnet);
+        console.log("sporeCell---",sporeCell)
+
+        const addr =  Wallet.addressToScript(toAddress);
+        console.error(addr)
+
+        console.log("=================",{
+            outPoint:outPoint,
+            fromInfos: [currentAccountInfo?.address],
+            toLock: addr,
+            config:predefinedSporeConfigs.Testnet,
+        })
+
+        const { txSkeleton, outputIndex } = await transferSpore({
+            outPoint:sporeCell.outPoint,
+            fromInfos: [currentAccountInfo?.address],
+            toLock: addr,
+            config:predefinedSporeConfigs.Testnet,
+            });
+
+        console.error("=======sendDOB===txSkeleton=",txSkeleton)
+        sendMsg({ type:`${obj.method}_success`,data:txSkeleton})
+
+    }catch (e){
+        console.error(`${obj.method}_error00000000`, e.message)
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
 

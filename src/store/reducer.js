@@ -22,6 +22,9 @@ const reducer = (state, action) => {
         case 'SET_IMPORT_MNEMONIC':
             return { ...state, importMnemonic: action.payload};
 
+        case 'SET_SUDT_DETAIL':
+            return { ...state, sudt: action.payload};
+
 
         // case 'SET_ERROR':
         //     return { ...state, errorTips: action.payload };

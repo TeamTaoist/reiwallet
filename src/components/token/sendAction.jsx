@@ -50,11 +50,11 @@ export default function SendAction(){
                 break;
             case "transaction_confirm_success":
                 {
-                    navigate(`/home?tab=0`)
                     setError(true)
-                    setTips('Send Success')
+                    setTips('Send Finished')
                     setTimeout(()=>{
                         setError(false)
+                        navigate(`/home?tab=0`)
                     },2000)
                 }
                 break;

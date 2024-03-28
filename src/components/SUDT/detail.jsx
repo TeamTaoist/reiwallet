@@ -1,0 +1,271 @@
+import TokenHeader from "../header/tokenHeader";
+import styled from "styled-components";
+import {useTranslation} from "react-i18next";
+import Button from "../button/button";
+import {useWeb3} from "../../store/contracts";
+import {useState} from "react";
+import {formatUnit} from "@ckb-lumos/bi";
+import useBalance from "../../useHook/useBalance";
+import PublicJs from "../../utils/publicJS";
+import CopyImg from "../../assets/images/create/COPY.png";
+import Toast from "../modal/toast";
+import {CopyToClipboard} from "react-copy-to-clipboard";
+import {useNavigate} from "react-router-dom";
+import useMessage from "../../useHook/useMessage";
+import { TransactionSkeleton } from '@ckb-lumos/helpers';
+import useAccountAddress from "../../useHook/useAccountAddress";
+import {getSporeById, predefinedSporeConfigs, transferSpore} from "@spore-sdk/core";
+import Wallet from "../../wallet/wallet";
+
+
+const Box = styled.div`
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+`
+const Content = styled.div`
+    flex-grow: 1;
+    margin:20px 0;
+`
+
+const TextBox = styled.div`
+        display: flex !important;
+        overflow: hidden;
+        .aspect {
+            padding-bottom: 100%;
+            height: 0;
+            flex-grow: 1 !important;
+        }
+        .content {
+            width: 100%;
+            margin-left: -100% !important;
+            max-width: 100% !important;
+            flex-grow: 1 !important;
+            position: relative;
+        }
+        .inner{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+            font-size: 16px;
+            font-family: "AvenirNext-Medium";
+            font-weight: 500;
+        }
+    
+`
+
+const ImageBox = styled.div`
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .imgbr{
+        width: 80vw;
+        height: 80vw;
+        border: 1px solid #eee;
+        border-radius: 10px;
+    }
+    .photo{
+
+        display: flex !important;
+        overflow: hidden;
+        .aspect {
+            padding-bottom: 100%;
+            height: 0;
+            flex-grow: 1 !important;
+        }
+        .content {
+            width: 100%;
+            margin-left: -100% !important;
+            max-width: 100% !important;
+            flex-grow: 1 !important;
+            position: relative;
+        }
+        .innerImg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            img{
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+                object-position: center;
+                object-fit: cover;
+            }
+        }
+    }
+    .line{
+        background: #f8f8f8;
+        width: 100%;
+        height: 10px;
+        margin-top: 20px;
+    }
+    button{
+        width: 80vw;
+        margin-top: 20px;
+    }
+`
+const DlBox = styled.div`
+    width: 80vw;
+    margin: 0 auto;
+    padding: 30px 0 ;
+    dl{
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+    }
+    dt{
+        opacity: 0.6;
+    }
+    dd{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        img{
+            cursor: pointer;
+        }
+    }
+`
+
+
+
+export default function DOB_detail(){
+    const { t } = useTranslation();
+    const {state:{sudt}} = useWeb3();
+    const {symbol} = useBalance();
+    const [copied,setCopied] = useState(false);
+    const navigate = useNavigate();
+    const {currentAccountInfo} = useAccountAddress();
+
+    const handleEvent = (message) => {
+        const {type }= message;
+        switch(type){
+            case "send_DOB_success":
+            {
+                console.log(message.data)
+            }
+                break;
+
+
+        }
+    }
+
+    const {sendMsg} = useMessage(handleEvent,[]);
+
+
+    const toBackground = async() =>{
+
+        let obj ={
+            method:"send_DOB",
+            outPoint:sudt.out_point,
+            currentAccountInfo,
+            id:sudt?.output?.type?.args,
+            toAddress:"ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqf5kmkgn25z8xajscwkw88ew3hagjfd5uqttnscm"
+        }
+        //
+        // const sporeCell = await getSporeById(sudt?.output?.type?.args, predefinedSporeConfigs.Testnet);
+        // console.log("sporeCell---",sporeCell)
+        //
+        // const addr =  Wallet.addressToScript("ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqf5kmkgn25z8xajscwkw88ew3hagjfd5uqttnscm");
+        //
+        //
+        // const { txSkeleton, outputIndex } = await transferSpore({
+        //     outPoint:sporeCell?.outPoint,
+        //     fromInfos: [currentAccountInfo?.address],
+        //     toLock: addr,
+        //     config:predefinedSporeConfigs.Testnet,
+        // });
+        //
+        // console.log("===txSkeleton=====",txSkeleton)
+        sendMsg(obj)
+    }
+
+    const Copy = () =>{
+        setCopied(true);
+        setTimeout(()=>{
+            setCopied(false);
+        },1500);
+    }
+
+    const toGo = () =>{
+        // navigate("/sendDOB")
+
+        toBackground()
+        // let aa =  TransactionSkeleton({})
+        // console.log(aa)
+        // console.log(aa.toJSON())
+    }
+
+
+    return <Box>
+        <Toast tips="copied" size={20} show={copied}/>
+        <TokenHeader title="DOB Detail" />
+        <Content>
+            <ImageBox>
+                <div className="imgbr">
+                    {
+                        sudt?.type.indexOf("text") === -1 && <div className="photo">
+                            <div className="aspect"/>
+                            <div className="content">
+                                <div className="innerImg">
+                                    <img src={sudt.image} alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    {
+                        sudt?.type.indexOf("text") > -1 && <TextBox>
+                            <div className="aspect"/>
+                            <div className="content">
+                                <div className="inner">
+                                    Text
+                                </div>
+                            </div>
+                        </TextBox>
+                    }
+                </div>
+                <Button primary onClick={()=>toGo()}>Send</Button>
+                <div className="line" />
+            </ImageBox>
+            <DlBox>
+                <dl>
+                    <dt>Type</dt>
+                    <dd className="medium-font">{sudt?.clusterId ? "Spore Cluster" : "DOB"}</dd>
+                </dl>
+                {
+                    !!sudt.clusterId && <dl>
+                        <dt>Cluster Id</dt>
+                        <dd className="medium-font">
+                            <span>{PublicJs.AddressToShow(sudt?.clusterId)}</span>
+                            <CopyToClipboard onCopy={()=>Copy()} text={sudt?.clusterId}>
+                                <img src={CopyImg} alt=""/>
+                            </CopyToClipboard>
+                        </dd>
+                    </dl>
+                }
+
+                <dl>
+                    <dt>Token ID</dt>
+                    <dd className="medium-font">
+                        <span>{PublicJs.AddressToShow(sudt?.output?.type?.args)}</span>
+                        <CopyToClipboard onCopy={()=>Copy()} text={sudt?.output?.type?.args}>
+                        <img src={CopyImg} alt=""/>
+                        </CopyToClipboard>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Occupied</dt>
+                    <dd className="medium-font">{formatUnit(sudt?.output?.capacity, "ckb")} {symbol}</dd>
+                </dl>
+            </DlBox>
+        </Content>
+    </Box>
+}

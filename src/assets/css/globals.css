@@ -22,6 +22,10 @@ a {
 
 * {
   box-sizing: border-box;
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
 }
 
 /* define the var */

@@ -1,13 +1,12 @@
 import TokenHeader from "../header/tokenHeader";
 import styled from "styled-components";
 import WalletImg from '../../assets/images/account/Wallet01.png';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 import PublicJs from "../../utils/publicJS";
 import Avatar from "../svg/avatar/avatar";
 import useWalletList from "../../useHook/useWalletList";
-import useNetwork from "../../useHook/useNetwork";
 
 const Box = styled.div`
     height: 100%;
@@ -86,6 +85,9 @@ export default function Send(){
     const { t } = useTranslation();
     const [ keyword, setKeyword] = useState('');
     const {walletList} = useWalletList();
+    const { pathname } = useLocation();
+
+    console.log(pathname)
 
     const [ last, setLast] = useState([]);
 

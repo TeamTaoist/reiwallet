@@ -6,6 +6,8 @@ import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 
+import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
+
 
 
 /*global chrome*/
@@ -194,6 +196,41 @@ export default class RpcClient{
             url:network.rpcUrl.node,
             params:[
                 tx
+            ]
+        })
+    }
+
+    get_SUDT = async(address) =>{
+        const hashObj = Wallet.addressToScript(address);
+        const{codeHash,hashType,args} = hashObj;
+        const network = await this.getNetwork();
+
+        const sporeType = getSporeTypeScript(network.value === "mainnet");
+
+        return await this._request({
+            method:"get_cells",
+            url:network.rpcUrl.indexer,
+            params:[
+                {
+                    script: {
+                        code_hash: codeHash,
+                        hash_type:hashType,
+                        args
+                    },
+                    "script_type": "lock",
+                    script_search_mode: "exact",
+                    filter: {
+                        script: {
+                            code_hash: sporeType.codeHash,
+                            hash_type: sporeType.hashType,
+                            args: "0x",
+                        },
+                        script_search_mode: 'prefix',
+                        script_type: 'type',
+                    },
+                },
+                "desc",
+                "0x1E"
             ]
         })
     }

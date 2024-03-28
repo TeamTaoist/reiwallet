@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import Loading from "../loading/loading";
 import useNetwork from "../../useHook/useNetwork";
+import Toast from "../modal/toast";
 
 const Box = styled.div`
   background: #F9FAFA;
@@ -58,6 +59,7 @@ export default function AddNetwork(){
     const [indexer,setIndexer] = useState("")
     const [loading , setLoading] = useState(false);
     const {netList} = useNetwork();
+    const [show,setShow] = useState(false);
 
     const toGo = () =>{
         navigate('/');
@@ -83,8 +85,10 @@ export default function AddNetwork(){
         let arr = [...netList,obj]
         chrome.storage.local.set({networkList:arr})
 
+
         navigate('/');
     }
+
 
     const handleInput = (e) =>{
         const { name,value } = e.target;
@@ -115,6 +119,9 @@ export default function AddNetwork(){
         {
             loading && <Loading showBg={true} />
         }
+
+        <Toast tips="Success" size={20} show={show}/>
+
         <TokenHeader title={t('popup.network.AddNetwork')} />
         <ContentBox>
             <InputBox>

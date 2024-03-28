@@ -4,6 +4,7 @@ import Next from "../../assets/images/into.png";
 import {useNavigate} from "react-router-dom";
 import LockImg from "../../assets/images/lock.png";
 import {useTranslation} from "react-i18next";
+import {clearPassword} from "../../wallet/password";
 
 const Content = styled.div`
     margin: 20px;
@@ -29,6 +30,11 @@ export default function Security(){
         navigate(url)
     }
 
+    const goLock = () =>{
+        clearPassword()
+        navigate("/")
+    }
+
     return <div>
         <TokenHeader title={t('popup.Settings.Security')} />
         <Content>
@@ -37,6 +43,13 @@ export default function Security(){
                     <div className="lft">
                         <img src={LockImg} alt=""/>
                         <span>{t('popup.Settings.Mnemonic')}</span>
+                    </div>
+                    <img src={Next} alt=""/>
+                </li>
+                <li onClick={()=>goLock()}>
+                    <div className="lft">
+                        <img src={LockImg} alt=""/>
+                        <span>{t('popup.Settings.Lock')}</span>
                     </div>
                     <img src={Next} alt=""/>
                 </li>

@@ -198,6 +198,7 @@ export default function AccountHeader(){
         {
             showNew && <AddAccount handleCloseNew={handleCloseNew} />
         }
+        <Toast tips="copied" size={20} show={copied}/>
 
         <Lft>
             {/*<img src={DemoImg} alt="" className="avatar"/>*/}
@@ -208,7 +209,7 @@ export default function AccountHeader(){
             <div>
                 <div className="account">{walletName}</div>
                 <Tips>
-                    <Toast tips="copied" left="100" bottom="-40" show={copied}/>
+
                     <div className="address">{PublicJs.AddressToShow(address)}</div>
                     <CopyToClipboard onCopy={()=>Copy()} text={address}>
                         <img src={CopyImg} alt=""/>

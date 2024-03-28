@@ -4,7 +4,7 @@ import Assets from "./assets";
 import Activities from "./Activities";
 import {useTranslation} from "react-i18next";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import SendDetail from "../token/sendDetail";
+import SUDT from "../SUDT/sudt";
 
 const Tabs = styled.div`
     display: flex;
@@ -40,7 +40,7 @@ const Content = styled.div`
 export default function AccountTabs(){
     const { t } = useTranslation();
     // const [list] = useState([t('popup.account.Activities'),t('popup.account.Assets'),"SUDT"])
-    const [list] = useState([t('popup.account.Activities')])
+    const [list] = useState([t('popup.account.Activities'),"DOB"])
     const [ current, setCurrent] = useState(0);
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab');
@@ -78,12 +78,16 @@ export default function AccountTabs(){
             }
         </Tabs>
         <Content>
-            {/*{*/}
-            {/*    current === 1 && <Assets />*/}
-            {/*}*/}
             {
                 current === 0 && <Activities />
             }
+            {
+                current === 1 && <SUDT />
+            }
+            {
+                current === 2 && <Assets />
+            }
+
         </Content>
     </div>
 }

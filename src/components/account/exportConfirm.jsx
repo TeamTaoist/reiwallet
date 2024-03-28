@@ -136,7 +136,7 @@ export default function ExportConfirm(){
         {
             loading && <Loading showBg={true} />
         }
-        <Toast tips="copied" left="140" top="400" show={copied}/>
+        <Toast tips="copied" size={20} show={copied}/>
         <Content>
             <div>
                 <div className="titleTips regular-font">

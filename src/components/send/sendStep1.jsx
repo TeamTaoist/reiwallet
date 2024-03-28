@@ -5,9 +5,7 @@ import {useEffect, useState} from "react";
 import useBalance from "../../useHook/useBalance";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import styled from "styled-components";
-import {blockchain} from "@ckb-lumos/base";
 import {useTranslation} from "react-i18next";
-import {BI} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
 import useAccountAddress from "../../useHook/useAccountAddress";
 
