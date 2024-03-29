@@ -97,7 +97,6 @@ export default function Send(){
 
     },[pathname])
 
-    console.log(pathname)
 
     const [ last, setLast] = useState([]);
 
