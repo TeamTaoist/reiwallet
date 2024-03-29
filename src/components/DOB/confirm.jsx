@@ -205,6 +205,17 @@ export default function DOBConfirm(){
                 },2000)
             }
                 break;
+            case "send_DOB_error":
+            {
+                setTips('Send Failed:'+message.data)
+                setError(true)
+                setLoading(false)
+                setTimeout(()=>{
+                    setError(false)
+                    navigate("/home")
+                },2000)
+            }
+                break;
 
 
         }

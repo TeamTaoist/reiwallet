@@ -23,6 +23,9 @@ const Box = styled.div`
     &:hover{
       background: #F1FCF1;
     }
+      &.op40{
+          opacity: 0.4;
+      }
       .inner{
           
           width: 100%;
@@ -78,19 +81,20 @@ export default function Activities(){
     const {currentAccountInfo} = useAccountAddress();
 
     useEffect(() => {
+        if(!networkInfo)return;
         getPendingList()
-    }, []);
+    }, [networkInfo]);
 
 
     useEffect(() => {
-        if(!pendingList.length) return;
+        if(!pendingList.length || !networkInfo) return;
         const timer = setInterval(()=>{
             getPendingList()
         }, 1000)
         return () =>{
             clearInterval(timer)
         }
-    }, [pendingList,list]);
+    }, [pendingList,list,networkInfo]);
 
 
     const getPendingList = async() =>{
@@ -113,11 +117,11 @@ export default function Activities(){
             !(loading && !pendingList?.length && !list?.length) && <ul>
 
                 {
-                    pendingList?.map((item, index) => (<PendingItem key={`pending_${index}`} txItem={item}/>))
+                    pendingList?.map((item, index) => (<PendingItem key={`pending_${index}`} txItem={item} networkInfo={networkInfo}/>))
                 }
 
                 {
-                    list?.map((item, index) => (<ActivitiesItem key={`confirmed_${index}`} item={item}/>))
+                    list?.map((item, index) => (<ActivitiesItem key={`confirmed_${index}`} item={item} networkInfo={networkInfo} />))
                 }
                 {
                     list?.length === 30 && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>

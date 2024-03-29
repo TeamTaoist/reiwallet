@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
 import useMessage from "./useMessage";
 import useAccountAddress from "./useAccountAddress";
+import useNetwork from "./useNetwork";
 
 export default function useHistoryList(){
     const {currentAccountInfo} = useAccountAddress();
     const [loading,setLoading] = useState(false);
     const [list,setList] = useState([]);
+    const {networkInfo} = useNetwork();
 
     const handleEvent = (message) => {
         const {type }= message;
@@ -18,7 +20,7 @@ export default function useHistoryList(){
     const {sendMsg} = useMessage(handleEvent,[]);
 
     useEffect(() => {
-        if(!currentAccountInfo)return;
+        if(!currentAccountInfo || !networkInfo)return;
 
         setLoading(true)
         toBackground()
@@ -30,7 +32,7 @@ export default function useHistoryList(){
             clearInterval(timer)
         }
 
-    }, [currentAccountInfo]);
+    }, [currentAccountInfo,networkInfo]);
 
     const toBackground = () =>{
         let obj ={

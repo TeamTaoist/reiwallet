@@ -30,7 +30,6 @@ export default function useNetwork(){
         let netArr = await chrome.storage.local.get(["networkList"]);
         let netArrFormat= netArr?.networkList ?? networkList
         setNetList(netArrFormat)
-
     }
 
     const getNetWork = async() =>{
@@ -41,9 +40,6 @@ export default function useNetwork(){
         chrome.storage.local.set({networkInfo:JsonStr});
 
     }
-
-
-
     const saveNetwork = (value) =>{
         /*global chrome*/
         chrome.storage.local.set({network:value});

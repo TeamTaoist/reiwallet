@@ -11,13 +11,7 @@ import CopyImg from "../../assets/images/create/COPY.png";
 import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {useNavigate} from "react-router-dom";
-import useMessage from "../../useHook/useMessage";
-import { TransactionSkeleton } from '@ckb-lumos/helpers';
-import useAccountAddress from "../../useHook/useAccountAddress";
-import {getSporeById, predefinedSporeConfigs,transferSpore} from "@spore-sdk/core";
-import Wallet from "../../wallet/wallet";
-// import {transferSpore} from  "../../utils/transferSpore"
-
+import Melt from "./melt";
 
 const Box = styled.div`
     min-height: 100%;
@@ -147,6 +141,13 @@ const DlBox = styled.div`
         }
     }
 `
+const MeltBox = styled.div`
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+    cursor: pointer;
+`
 
 
 
@@ -156,6 +157,7 @@ export default function DOB_detail(){
     const {symbol} = useBalance();
     const [copied,setCopied] = useState(false);
     const navigate = useNavigate();
+    const [show,setShow]= useState(false)
 
 
     const Copy = () =>{
@@ -171,9 +173,19 @@ export default function DOB_detail(){
         // toBackground()
     }
 
+    const handleClose = () =>{
+        setShow(false)
+    }
+    const handleShow = () =>{
+        setShow(true)
+    }
 
     return <Box>
         <Toast tips="copied" size={20} show={copied}/>
+        {
+            show &&  <Melt handleClose={handleClose} dob={dob} />
+        }
+
         <TokenHeader title="DOB Detail" />
         <Content>
             <ImageBox>
@@ -200,6 +212,7 @@ export default function DOB_detail(){
                     }
                 </div>
                 <Button primary onClick={()=>toGo()}>Send</Button>
+                <MeltBox onClick={()=>handleShow()}>Melt DOB</MeltBox>
                 <div className="line" />
             </ImageBox>
             <DlBox>

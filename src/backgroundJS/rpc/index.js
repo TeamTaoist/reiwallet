@@ -7,9 +7,7 @@ import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 
 import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
-import {getSporeById, predefinedSporeConfigs, transferSpore} from "@spore-sdk/core";
-
-
+import { predefinedSporeConfigs, transferSpore,meltSpore} from "@spore-sdk/core";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -267,6 +265,26 @@ export default class RpcClient{
         });
         let signHash = await signAndSendTransaction(txSkeleton);
 
+        const newTx = formatter.toRawTransaction(signHash);
+
+        return await this.transaction_confirm(newTx);
+    }
+
+    melt_DOB = async(currentAccountInfo,outPoint) => {
+        const network = await this.getNetwork();
+
+        const {index,tx_hash} = outPoint
+
+        const { txSkeleton } = await meltSpore({
+            // outPoint:sporeCell.outPoint,
+            outPoint:{
+                index,
+                txHash:tx_hash
+            },
+            fromInfos: [currentAccountInfo?.address],
+            config:network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
+        });
+        let signHash = await signAndSendTransaction(txSkeleton);
         const newTx = formatter.toRawTransaction(signHash);
 
         return await this.transaction_confirm(newTx);

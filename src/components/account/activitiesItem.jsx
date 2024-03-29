@@ -2,10 +2,10 @@ import PublicJs from "../../utils/publicJS";
 import useNetwork from "../../useHook/useNetwork";
 import dayjs from "dayjs";
 
-export default function ActivitiesItem({item}) {
+export default function ActivitiesItem({item,networkInfo}) {
 
-    const {networkInfo} = useNetwork();
     const toDetail = (tx) =>{
+        if(!networkInfo || !networkInfo?.blockExplorerUrls)return;
         /*global chrome*/
         chrome.tabs.create({
             url: `${networkInfo?.blockExplorerUrls}transaction/${tx}`
@@ -15,7 +15,7 @@ export default function ActivitiesItem({item}) {
         return dayjs(dateTime).format("YYYY-MM-DD HH:mm")
     }
 
-    return <li onClick={() => toDetail(item.tx_hash)}>
+    return <li onClick={() => toDetail(item.tx_hash)} >
         {
            <div className="inner">
                 <div className="item">

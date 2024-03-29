@@ -56,6 +56,9 @@ export const handlePopUp = async (requestData) =>{
         case "send_DOB":
             sendDOB(requestData);
             break;
+        case "Melt_DOB":
+            melt_dob(requestData);
+            break;
     }
 
 }
@@ -196,6 +199,21 @@ const sendDOB = async (obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress,id,useCapacityMarginAsFee);
+        await recordToTxList(rt);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        console.error(`${obj.method}_error`, e.message)
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const melt_dob = async (obj) =>{
+    const {currentAccountInfo,outPoint} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.melt_DOB(currentAccountInfo,outPoint);
         await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 

@@ -6,10 +6,10 @@ import useNetwork from "../../useHook/useNetwork";
 import BtnLoading from "../loading/btnloading";
 
 
-export default function PendingItem({ txItem}) {
+export default function PendingItem({ txItem,networkInfo}) {
     const [tx,setTx] = useState('')
     const {loading,item}=usePendingDetail(tx);
-    const {networkInfo} = useNetwork();
+
 
     useEffect(() => {
         if(!txItem)return;
@@ -43,7 +43,7 @@ export default function PendingItem({ txItem}) {
             </div>
         }
         {
-            (loading || !networkInfo?.blockExplorerUrls) && <div className="innerLoading">
+            loading && <div className="innerLoading">
                 <BtnLoading color="#00FF9D" />
             </div>
         }
