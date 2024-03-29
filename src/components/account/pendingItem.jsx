@@ -21,7 +21,7 @@ export default function PendingItem({ txItem}) {
     }
 
     const toDetail = (tx) =>{
-        // handleShow(item)
+        if(!networkInfo || !networkInfo?.blockExplorerUrls)return;
         /*global chrome*/
         chrome.tabs.create({
             url: `${networkInfo?.blockExplorerUrls}transaction/${tx}`
@@ -43,7 +43,7 @@ export default function PendingItem({ txItem}) {
             </div>
         }
         {
-            loading && <div className="innerLoading">
+            (loading || !networkInfo?.blockExplorerUrls) && <div className="innerLoading">
                 <BtnLoading color="#00FF9D" />
             </div>
         }

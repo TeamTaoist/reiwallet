@@ -243,7 +243,7 @@ export default class RpcClient{
                     },
                 },
                 "desc",
-                "0x1E"
+                "0x64"
             ]
         })
     }

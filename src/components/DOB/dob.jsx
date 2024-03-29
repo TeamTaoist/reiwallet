@@ -64,10 +64,11 @@ const UlBox = styled.ul`
         }
         .title{
             position: absolute;
-            left: 20px;
+            white-space: nowrap;
+            left:10px;
             bottom:5px;
-            font-size: 12px;
-            width: calc(100% - 40px);
+            font-size: 10px;
+            width: calc(100% - 20px);
             color: #fff;
             background: rgba(0,0,0,0.8);
             border-radius: 5px;
@@ -111,12 +112,21 @@ const TextBox = styled.div`
     
 `
 
+const MoreBox = styled.div`
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 20px;
+`
+
 export default function Dob(){
     const {list,loading} = useDOB();
     const [sList,setSList] = useState([])
     const navigate = useNavigate()
     const {dispatch} = useWeb3();
     const {currentAccount} = useCurrentAccount();
+    const {networkInfo} = useNetwork();
+    const {currentAccountInfo} = useAccountAddress();
 
     useEffect(() => {
         if(list === '')return;
@@ -141,6 +151,13 @@ export default function Dob(){
     const toDetail = (item) =>{
         dispatch({type:'SET_DOB_DETAIL',payload:item});
         navigate("/dobDetail")
+    }
+
+    const toExplorer = () =>{
+        /*global chrome*/
+        chrome.tabs.create({
+            url: `${networkInfo?.blockExplorerUrls}address/${currentAccountInfo.address}`
+        });
     }
 
     return <Box>
@@ -174,7 +191,7 @@ export default function Dob(){
                         }
 
                         {
-                            !!item.clusterId && < div className="title">cluster</div>
+                            !!item.clusterId && < div className="title">Cluster Item </div>
                         }
 
                     </li>))
@@ -183,6 +200,6 @@ export default function Dob(){
             </UlBox>
         }
 
-
+        <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
     </Box>
 }

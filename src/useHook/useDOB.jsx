@@ -19,17 +19,8 @@ export default function useDOB(){
 
     useEffect(() => {
         if(!currentAccountInfo)return;
-
         setLoading(true)
         toBackground()
-        const timer = setInterval(()=>{
-            toBackground()
-        },10 * 1000)
-
-        return () =>{
-            clearInterval(timer)
-        }
-
     }, [currentAccountInfo]);
 
     const toBackground = () =>{

@@ -6,7 +6,6 @@ export default function ActivitiesItem({item}) {
 
     const {networkInfo} = useNetwork();
     const toDetail = (tx) =>{
-        // handleShow(item)
         /*global chrome*/
         chrome.tabs.create({
             url: `${networkInfo?.blockExplorerUrls}transaction/${tx}`

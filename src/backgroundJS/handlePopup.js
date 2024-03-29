@@ -191,10 +191,7 @@ const getSUDT = async (obj) =>{
 }
 
 const sendDOB = async (obj) =>{
-
-
     const {currentAccountInfo,outPoint,toAddress,id} = obj;
-
 
     try{
         const client = new RpcClient();
