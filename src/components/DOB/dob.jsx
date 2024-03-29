@@ -105,9 +105,19 @@ const TextBox = styled.div`
             align-items: center;
             justify-content: center;
             background: #f8f8f8;
-            font-size: 16px;
+            font-size: 10px;
             font-family: "AvenirNext-Medium";
             font-weight: 500;
+            line-height: 17px;
+            box-sizing: border-box;
+            padding: 10px;
+            
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
         }
     
 `
@@ -141,7 +151,12 @@ export default function Dob(){
             const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
             const base64 = Buffer.from(buffer, "binary" ).toString("base64");
             item.type = spore.contentType;
-            item.image = `data:${spore.contentType};base64,${base64}`;
+            if( item.type.indexOf("text") > -1){
+                item.text =  Buffer.from(buffer, "binary" ).toString()
+            }else{
+                item.image = `data:${spore.contentType};base64,${base64}`;
+            }
+
             item.clusterId =  spore.clusterId;
             return item
         })
@@ -184,7 +199,7 @@ export default function Dob(){
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="inner">
-                                            Text
+                                        {item.text}
                                     </div>
                                 </div>
                             </TextBox>
@@ -199,7 +214,9 @@ export default function Dob(){
 
             </UlBox>
         }
+        {
+            sList.length >= 100  && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
+        }
 
-        <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
     </Box>
 }

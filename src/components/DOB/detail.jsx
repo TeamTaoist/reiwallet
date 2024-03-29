@@ -52,9 +52,21 @@ const TextBox = styled.div`
             align-items: center;
             justify-content: center;
             background: #f8f8f8;
-            font-size: 16px;
+            font-size: 14px;
             font-family: "AvenirNext-Medium";
             font-weight: 500;
+
+
+            line-height: 28px;
+            box-sizing: border-box;
+            padding: 20px;
+
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 10;
+            overflow: hidden;
         }
     
 `
@@ -181,7 +193,7 @@ export default function DOB_detail(){
                             <div className="aspect"/>
                             <div className="content">
                                 <div className="inner">
-                                    Text
+                                    {dob.text}
                                 </div>
                             </div>
                         </TextBox>

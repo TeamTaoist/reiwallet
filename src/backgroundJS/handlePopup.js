@@ -191,11 +191,11 @@ const getSUDT = async (obj) =>{
 }
 
 const sendDOB = async (obj) =>{
-    const {currentAccountInfo,outPoint,toAddress,id} = obj;
+    const {currentAccountInfo,outPoint,toAddress,id,useCapacityMarginAsFee} = obj;
 
     try{
         const client = new RpcClient();
-        let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress,id);
+        let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress,id,useCapacityMarginAsFee);
         await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 

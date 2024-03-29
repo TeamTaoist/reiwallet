@@ -240,7 +240,8 @@ export default function DOBConfirm(){
             outPoint:dob.out_point,
             currentAccountInfo,
             id:dob?.output?.type?.args,
-            toAddress:address
+            toAddress:address,
+            useCapacityMarginAsFee:false
         }
 
         sendMsg(obj)

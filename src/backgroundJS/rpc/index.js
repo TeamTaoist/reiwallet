@@ -248,7 +248,7 @@ export default class RpcClient{
         })
     }
 
-    send_DOB = async(currentAccountInfo,outPoint,toAddress) => {
+    send_DOB = async(currentAccountInfo,outPoint,toAddress,useCapacityMarginAsFee) => {
         const network = await this.getNetwork();
         const addr =  Wallet.addressToScript(toAddress);
 
@@ -262,6 +262,7 @@ export default class RpcClient{
             },
             fromInfos: [currentAccountInfo?.address],
             toLock: addr,
+            useCapacityMarginAsFee,
             config:network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
         });
         let signHash = await signAndSendTransaction(txSkeleton);
