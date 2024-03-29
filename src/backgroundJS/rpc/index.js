@@ -71,7 +71,19 @@ export default class RpcClient{
                         "hash_type":hashType,
                         args
                     },
-                    "script_type": "lock"
+                    "script_type": "lock",
+                    script_search_mode: "exact",
+                    filter: {
+                        output_data:"0x",
+                        output_data_filter_mode: "exact"
+                        // script: {
+                        //     code_hash: sporeType.codeHash,
+                        //     hash_type: sporeType.hashType,
+                        //     args: "0x",
+                        // },
+                        // script_search_mode: 'prefix',
+                        // script_type: 'type',
+                    },
                 }
             ]
         })
