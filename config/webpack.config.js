@@ -588,6 +588,10 @@ module.exports = function (webpackEnv) {
         Buffer: ['buffer', 'Buffer'],
         process: 'process/browser',
       }),
+      new webpack.NormalModuleReplacementPlugin(
+          /cross-fetch/,
+          require.resolve('./my-cross-fetch.js'),
+      ),
       ...tools.htmlPlugin(isEnvProduction, isEnvDevelopment),
       // new HtmlWebpackPlugin(
       //   Object.assign(

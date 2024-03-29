@@ -11,6 +11,7 @@ import Avatar from "../svg/avatar/avatar";
 const BgBox = styled.div`
     position: absolute;
   height: 346px;
+z-index: 99999;
   top:80px;
   width:90%;
   background: #FFFFFF;

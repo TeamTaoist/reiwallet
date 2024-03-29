@@ -4,7 +4,7 @@ import Assets from "./assets";
 import Activities from "./Activities";
 import {useTranslation} from "react-i18next";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import SUDT from "../SUDT/sudt";
+import Dob from "../DOB/dob";
 
 const Tabs = styled.div`
     display: flex;
@@ -39,7 +39,7 @@ const Content = styled.div`
 
 export default function AccountTabs(){
     const { t } = useTranslation();
-    // const [list] = useState([t('popup.account.Activities'),t('popup.account.Assets'),"SUDT"])
+    // const [list] = useState([t('popup.account.Activities'),t('popup.account.Assets'),"DOB"])
     const [list] = useState([t('popup.account.Activities'),"DOB"])
     const [ current, setCurrent] = useState(0);
     const [searchParams] = useSearchParams();
@@ -82,7 +82,7 @@ export default function AccountTabs(){
                 current === 0 && <Activities />
             }
             {
-                current === 1 && <SUDT />
+                current === 1 && <Dob />
             }
             {
                 current === 2 && <Assets />

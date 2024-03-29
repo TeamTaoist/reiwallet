@@ -194,37 +194,16 @@ const sendDOB = async (obj) =>{
 
 
     const {currentAccountInfo,outPoint,toAddress,id} = obj;
-    console.log("==sendDOB==",currentAccountInfo,outPoint,toAddress,id)
+
 
     try{
-        // const client = new RpcClient();
-        // let rt = await client.get_SUDT(currentAccountInfo.address);
-
-        const sporeCell = await getSporeById(id, predefinedSporeConfigs.Testnet);
-        console.log("sporeCell---",sporeCell)
-
-        const addr =  Wallet.addressToScript(toAddress);
-        console.error(addr)
-
-        console.log("=================",{
-            outPoint:outPoint,
-            fromInfos: [currentAccountInfo?.address],
-            toLock: addr,
-            config:predefinedSporeConfigs.Testnet,
-        })
-
-        const { txSkeleton, outputIndex } = await transferSpore({
-            outPoint:sporeCell.outPoint,
-            fromInfos: [currentAccountInfo?.address],
-            toLock: addr,
-            config:predefinedSporeConfigs.Testnet,
-            });
-
-        console.error("=======sendDOB===txSkeleton=",txSkeleton)
-        sendMsg({ type:`${obj.method}_success`,data:txSkeleton})
+        const client = new RpcClient();
+        let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress,id);
+        await recordToTxList(rt);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
 
     }catch (e){
-        console.error(`${obj.method}_error00000000`, e.message)
+        console.error(`${obj.method}_error`, e.message)
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }

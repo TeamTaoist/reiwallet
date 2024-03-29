@@ -20,7 +20,8 @@ import Step3 from "../components/wallet/createWallet/step3";
 import Mnemonics from "../components/wallet/importWallet/Mnemonics";
 import AssetDetail from "../components/token/assetDetail";
 import AddNetwork from "../components/network/addNetwork";
-import DOB_detail from "../components/SUDT/detail";
+import DOB_detail from "../components/DOB/detail";
+import DOBConfirm from "../components/DOB/confirm";
 
 function PopupRouterLink() {
     return (
@@ -49,6 +50,7 @@ function PopupRouterLink() {
             <Route path="/addNetwork" element={<AddNetwork />}/>
 
             <Route path="/dobDetail" element={<DOB_detail />}/>
+            <Route path="/dobConfirm" element={<DOBConfirm />}/>
 
         </Routes>
    );

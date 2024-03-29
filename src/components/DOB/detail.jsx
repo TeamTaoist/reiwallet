@@ -14,8 +14,9 @@ import {useNavigate} from "react-router-dom";
 import useMessage from "../../useHook/useMessage";
 import { TransactionSkeleton } from '@ckb-lumos/helpers';
 import useAccountAddress from "../../useHook/useAccountAddress";
-import {getSporeById, predefinedSporeConfigs, transferSpore} from "@spore-sdk/core";
+import {getSporeById, predefinedSporeConfigs,transferSpore} from "@spore-sdk/core";
 import Wallet from "../../wallet/wallet";
+// import {transferSpore} from  "../../utils/transferSpore"
 
 
 const Box = styled.div`
@@ -139,54 +140,11 @@ const DlBox = styled.div`
 
 export default function DOB_detail(){
     const { t } = useTranslation();
-    const {state:{sudt}} = useWeb3();
+    const {state:{dob}} = useWeb3();
     const {symbol} = useBalance();
     const [copied,setCopied] = useState(false);
     const navigate = useNavigate();
-    const {currentAccountInfo} = useAccountAddress();
 
-    const handleEvent = (message) => {
-        const {type }= message;
-        switch(type){
-            case "send_DOB_success":
-            {
-                console.log(message.data)
-            }
-                break;
-
-
-        }
-    }
-
-    const {sendMsg} = useMessage(handleEvent,[]);
-
-
-    const toBackground = async() =>{
-
-        let obj ={
-            method:"send_DOB",
-            outPoint:sudt.out_point,
-            currentAccountInfo,
-            id:sudt?.output?.type?.args,
-            toAddress:"ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqf5kmkgn25z8xajscwkw88ew3hagjfd5uqttnscm"
-        }
-        //
-        // const sporeCell = await getSporeById(sudt?.output?.type?.args, predefinedSporeConfigs.Testnet);
-        // console.log("sporeCell---",sporeCell)
-        //
-        // const addr =  Wallet.addressToScript("ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqf5kmkgn25z8xajscwkw88ew3hagjfd5uqttnscm");
-        //
-        //
-        // const { txSkeleton, outputIndex } = await transferSpore({
-        //     outPoint:sporeCell?.outPoint,
-        //     fromInfos: [currentAccountInfo?.address],
-        //     toLock: addr,
-        //     config:predefinedSporeConfigs.Testnet,
-        // });
-        //
-        // console.log("===txSkeleton=====",txSkeleton)
-        sendMsg(obj)
-    }
 
     const Copy = () =>{
         setCopied(true);
@@ -196,12 +154,9 @@ export default function DOB_detail(){
     }
 
     const toGo = () =>{
-        // navigate("/sendDOB")
+        navigate("/sendDOB")
 
-        toBackground()
-        // let aa =  TransactionSkeleton({})
-        // console.log(aa)
-        // console.log(aa.toJSON())
+        // toBackground()
     }
 
 
@@ -212,17 +167,17 @@ export default function DOB_detail(){
             <ImageBox>
                 <div className="imgbr">
                     {
-                        sudt?.type.indexOf("text") === -1 && <div className="photo">
+                        dob?.type.indexOf("text") === -1 && <div className="photo">
                             <div className="aspect"/>
                             <div className="content">
                                 <div className="innerImg">
-                                    <img src={sudt.image} alt=""/>
+                                    <img src={dob.image} alt=""/>
                                 </div>
                             </div>
                         </div>
                     }
                     {
-                        sudt?.type.indexOf("text") > -1 && <TextBox>
+                        dob?.type.indexOf("text") > -1 && <TextBox>
                             <div className="aspect"/>
                             <div className="content">
                                 <div className="inner">
@@ -236,16 +191,16 @@ export default function DOB_detail(){
                 <div className="line" />
             </ImageBox>
             <DlBox>
-                <dl>
-                    <dt>Type</dt>
-                    <dd className="medium-font">{sudt?.clusterId ? "Spore Cluster" : "DOB"}</dd>
-                </dl>
+                {/*<dl>*/}
+                {/*    <dt>Type</dt>*/}
+                {/*    <dd className="medium-font">{dob?.clusterId ? "Spore Cluster" : "DOB"}</dd>*/}
+                {/*</dl>*/}
                 {
-                    !!sudt.clusterId && <dl>
+                    !!dob?.clusterId && <dl>
                         <dt>Cluster Id</dt>
                         <dd className="medium-font">
-                            <span>{PublicJs.AddressToShow(sudt?.clusterId)}</span>
-                            <CopyToClipboard onCopy={()=>Copy()} text={sudt?.clusterId}>
+                            <span>{PublicJs.AddressToShow(dob?.clusterId)}</span>
+                            <CopyToClipboard onCopy={()=>Copy()} text={dob?.clusterId}>
                                 <img src={CopyImg} alt=""/>
                             </CopyToClipboard>
                         </dd>
@@ -255,15 +210,15 @@ export default function DOB_detail(){
                 <dl>
                     <dt>Token ID</dt>
                     <dd className="medium-font">
-                        <span>{PublicJs.AddressToShow(sudt?.output?.type?.args)}</span>
-                        <CopyToClipboard onCopy={()=>Copy()} text={sudt?.output?.type?.args}>
+                        <span>{PublicJs.AddressToShow(dob?.output?.type?.args)}</span>
+                        <CopyToClipboard onCopy={()=>Copy()} text={dob?.output?.type?.args}>
                         <img src={CopyImg} alt=""/>
                         </CopyToClipboard>
                     </dd>
                 </dl>
                 <dl>
                     <dt>Occupied</dt>
-                    <dd className="medium-font">{formatUnit(sudt?.output?.capacity, "ckb")} {symbol}</dd>
+                    <dd className="medium-font">{formatUnit(dob?.output?.capacity, "ckb")} {symbol}</dd>
                 </dl>
             </DlBox>
         </Content>

@@ -86,6 +86,16 @@ export default function Send(){
     const [ keyword, setKeyword] = useState('');
     const {walletList} = useWalletList();
     const { pathname } = useLocation();
+    const [url,setUrl] = useState()
+
+    useEffect(()=>{
+        if(pathname.indexOf("/sendDOB")>-1){
+            setUrl("/dobConfirm")
+        }else{
+            setUrl("/sendStep1")
+        }
+
+    },[pathname])
 
     console.log(pathname)
 
@@ -102,12 +112,12 @@ export default function Send(){
     }
 
     const toSendPage = (str) =>{
-        navigate(`/sendStep1?sendTo=${str}`);
+        navigate(`${url}?sendTo=${str}`);
     }
 
     const handleKeyPress = (event) =>{
         if (event.key === 'Enter') {
-            navigate(`/sendStep1?sendTo=${keyword}`);
+            navigate(`${url}?sendTo=${keyword}`);
         }
     }
 

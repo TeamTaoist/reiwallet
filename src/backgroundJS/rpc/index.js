@@ -7,6 +7,7 @@ import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 
 import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
+import {getSporeById, predefinedSporeConfigs, transferSpore} from "@spore-sdk/core";
 
 
 
@@ -234,7 +235,48 @@ export default class RpcClient{
             ]
         })
     }
+
+    send_DOB = async(currentAccountInfo,outPoint,toAddress) => {
+        const network = await this.getNetwork();
+        const addr =  Wallet.addressToScript(toAddress);
+
+        const {index,tx_hash} = outPoint
+
+        const { txSkeleton, outputIndex } = await transferSpore({
+            // outPoint:sporeCell.outPoint,
+            outPoint:{
+                index,
+                txHash:tx_hash
+            },
+            fromInfos: [currentAccountInfo?.address],
+            toLock: addr,
+            config:network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
+        });
+        let signHash = await signAndSendTransaction(txSkeleton);
+
+        const newTx = formatter.toRawTransaction(signHash);
+
+        return await this.transaction_confirm(newTx);
+    }
 }
+
+
+async function signAndSendTransaction(txSkeleton) {
+
+    const currentAccount = await currentInfo();
+
+    const {privatekey_show} = currentAccount;
+
+    txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
+
+    let signatures = txSkeleton
+        .get("signingEntries")
+        .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
+        .toArray();
+
+    return helpers.sealTransaction(txSkeleton, signatures);
+}
+
 
 const getTransactionSizeByTx = (tx) => {
     const serializedTx = blockchain.Transaction.pack(tx);

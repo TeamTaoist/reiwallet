@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import useMessage from "./useMessage";
 import useAccountAddress from "./useAccountAddress";
 
-export default function useSUDT(){
+export default function useDOB(){
     const {currentAccountInfo} = useAccountAddress();
     const [loading,setLoading] = useState(false);
     const [list,setList] = useState('');

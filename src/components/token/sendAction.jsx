@@ -129,7 +129,7 @@ export default function SendAction(){
 
     return <Box>
         <TokenHeader title={t('popup.send.send')} />
-        <Toast tips={tips} left="80" top="400" show={error}/>
+        <Toast tips={tips}  show={error}/>
         {
             loading &&   <Loading showBg={true} />
         }

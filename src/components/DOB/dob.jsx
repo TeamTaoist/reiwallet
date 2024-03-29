@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useSUDT from "../../useHook/useSUDT";
+import useDOB from "../../useHook/useDOB";
 import {useEffect, useState} from "react";
 
 import { unpackToRawSporeData } from '@spore-sdk/core';
@@ -7,6 +7,8 @@ import useNetwork from "../../useHook/useNetwork";
 import {useNavigate} from "react-router-dom";
 import {useWeb3} from "../../store/contracts";
 import Loading from "../loading/loading";
+import useAccountAddress from "../../useHook/useAccountAddress";
+import useCurrentAccount from "../../useHook/useCurrentAccount";
 
 
 const Box = styled.div`
@@ -109,17 +111,17 @@ const TextBox = styled.div`
     
 `
 
-export default function SUDT(){
-    const {list,loading} = useSUDT();
+export default function Dob(){
+    const {list,loading} = useDOB();
     const [sList,setSList] = useState([])
     const navigate = useNavigate()
     const {dispatch} = useWeb3();
+    const {currentAccount} = useCurrentAccount();
 
     useEffect(() => {
-        if(!list?.length)return;
+        if(list === '')return;
         formatList()
-
-    }, [list]);
+    }, [list,currentAccount]);
 
 
     const formatList =  () =>{
@@ -137,13 +139,13 @@ export default function SUDT(){
     }
 
     const toDetail = (item) =>{
-        dispatch({type:'SET_SUDT_DETAIL',payload:item});
+        dispatch({type:'SET_DOB_DETAIL',payload:item});
         navigate("/dobDetail")
     }
 
     return <Box>
         {
-            loading && list === '' &&  <LoadingBox><Loading showBg={false} /></LoadingBox>
+            loading && <LoadingBox><Loading showBg={false} /></LoadingBox>
         }
         {
             !loading  && <UlBox>
