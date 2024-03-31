@@ -288,7 +288,7 @@ export default function SendConfirm(){
 
     useEffect(() => {
         if(!sudt) return;
-        setBalance(sudt?.amount)
+        setBalance(sudt?.sum.toString())
 
 
     }, [sudt]);

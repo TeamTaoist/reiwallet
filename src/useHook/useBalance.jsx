@@ -3,25 +3,32 @@ import useAccountAddress from "./useAccountAddress";
 import {useEffect, useState} from "react";
 import {formatUnit} from "@ckb-lumos/bi";
 import useMessage from "./useMessage";
+import {BI} from "@ckb-lumos/lumos";
 
 export default function useBalance(){
     const {networkInfo} = useNetwork();
     const {currentAccountInfo} = useAccountAddress();
     const [loading,setLoading] = useState(false);
     const [balance,setBalance] = useState("--");
+    const [occupied,setOccupied] = useState("--");
+    const [available,setAvailable] = useState("--");
 
     const handleEvent = (message) => {
         const {type }= message;
         if(type ==="get_Capacity_success"){
             setLoading(false)
-            const {capacity} = message.data;
+            const {capacity,OcCapacity} = message.data;
             let rt = formatUnit(capacity,"ckb")
+            let occ = formatUnit(OcCapacity,"ckb");
+
+            let av = BI.from(capacity).sub(OcCapacity);
             setBalance(rt)
+            setAvailable(formatUnit(av,"ckb"))
+            setOccupied(occ)
         }
     }
 
     const {sendMsg} = useMessage(handleEvent,[]);
-
 
     useEffect(() => {
         if(!networkInfo || !currentAccountInfo) return;
@@ -45,5 +52,5 @@ export default function useBalance(){
         }
         sendMsg(obj)
     }
-    return {balance,balanceLoading:loading,symbol:networkInfo?.nativeCurrency?.symbol}
+    return {balance,occupied,available,balanceLoading:loading,symbol:networkInfo?.nativeCurrency?.symbol}
 }

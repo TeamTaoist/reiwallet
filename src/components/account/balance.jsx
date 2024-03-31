@@ -10,21 +10,41 @@ const BalanceBox = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 44px auto;
+    margin: 20px auto 44px;
 `
 
 const Title = styled.div`
-  font-size: 28px;
-  font-weight: 500;
-  color: #000000;
-  line-height: 40px;
+
   margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .total{
+        font-size: 28px;
+        font-weight: 500;
+        color: #000000;
+        line-height: 40px;
+    }
+ 
+    .subTitle,.titletop{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:10px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #000000;
+        line-height: 1.5em;
+        opacity: 0.4;
+    }
 `
+
 
 export default function Balance(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const {balance,balanceLoading,symbol} = useBalance();
+    const {balance,balanceLoading,symbol,occupied} = useBalance();
 
 
     const toSend = () =>{
@@ -37,7 +57,15 @@ export default function Balance(){
         }
         {
             !balanceLoading &&  <Title className="medium-font">
-                {balance} {symbol}
+            <div className="titletop">Total</div>
+                <div className="total">
+                    {balance} {symbol}
+                </div>
+            <div className="subTitle">
+                <span>Occupied</span>
+                {occupied} {symbol}
+            </div>
+
             </Title>
         }
 

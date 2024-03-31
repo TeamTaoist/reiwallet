@@ -12,6 +12,7 @@ import {unpackAmount,ownerForSudt} from "@ckb-lumos/common-scripts/lib/sudt";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import {useWeb3} from "../../store/contracts";
 import Loading from "../loading/loading";
+import {BI} from "@ckb-lumos/lumos";
 
 
 const Box = styled.div`
@@ -105,14 +106,26 @@ export default function Assets(){
 
     const formatList =  () =>{
         let arr = [...list];
-        arr.map(async(item)=>{
+        let arrFormat =  arr.map((item)=>{
             item.amount = unpackAmount(item.output_data)?.toString();
             const prefix = currentAccountInfo?.address.slice(0, 3)
             const config = prefix === 'ckt' ? predefined.AGGRON4 : predefined.LINA
             item.argAddress = ownerForSudt(currentAccountInfo?.address, {config})
             return item
         })
-        setSList(arr)
+
+
+        const groupedData = arrFormat.reduce((acc, obj) => {
+            const key = obj.argAddress;
+            if (!acc[key]) {
+                acc[key] = { category: key, sum: BI.from(0),...obj };
+            }
+            acc[key].sum = acc[key].sum.add(obj.amount);
+
+            return acc;
+        }, {});
+        const result = Object.values(groupedData);
+        setSList(result)
     }
 
 
@@ -131,7 +144,7 @@ export default function Assets(){
                     <div className="flex">
                         <div>
                             <div className="flexInner">
-                                <span className="medium-font">{item?.amount} </span>
+                                <span className="medium-font">{item?.sum?.toString()} </span>
                                 {
                                     item?.argAddress === item.output.type.args && <div className="owner">owner</div>
                                 }

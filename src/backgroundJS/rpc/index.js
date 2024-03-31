@@ -56,11 +56,8 @@ export default class RpcClient{
 
 
     get_capacity = async(address) =>{
-        const hashObj = Wallet.addressToScript(address);
-        const{codeHash,hashType,args} = hashObj;
-        const network = await this.getNetwork();
 
-        console.log("=====network====",network)
+        const network = await this.getNetwork();
 
         if(network.value === "mainnet"){
             config.initializeConfig(config.predefined.LINA);
@@ -72,57 +69,19 @@ export default class RpcClient{
 
         let totalCapacity = BI.from(0);
         let OcCapacity = BI.from(0);
-
-        console.log("=====totalCapacity====",totalCapacity)
         const addressScript = helpers.parseAddress(address);
 
-        // A collector for collecting Alice's cells one by one
         const collector = indexer.collector({ lock: addressScript});
 
-        console.log("=====collector====",collector)
-
-        // AsyncGenerator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncGenerator
         for await (const cell of collector.collect()) {
-            console.log(cell);
             totalCapacity = totalCapacity.add(cell.cellOutput.capacity);
             if(cell.data !== "0x"){
                 OcCapacity = OcCapacity.add(cell.cellOutput.capacity)
             }
         }
 
-        console.log(`Alice's CKB:`, `${formatUnit(totalCapacity, 'ckb')} CKB`);
-        console.log(`OcCapacity CKB:`, `${formatUnit(OcCapacity, 'ckb')} CKB`);
-        console.log(`> tips: 1 CKB = 10 ^ 8 shannon`);
+        return {capacity:totalCapacity.toHexString(),OcCapacity:OcCapacity.toHexString()};
 
-        return {capacity:totalCapacity.toHexString()};
-
-        // return await this._request({
-        //     method:"get_cells_capacity",
-        //     url:network.rpcUrl.indexer,
-        //     params:[
-        //         {
-        //             "script": {
-        //                 "code_hash": codeHash,
-        //                 "hash_type":hashType,
-        //                 args
-        //             },
-        //             "script_type": "lock",
-        //             script_search_mode: "exact",
-        //             filter: {
-        //                 // output_data:"0x",
-        //                 // output_data_filter_mode: "exact"
-        //
-        //                 // script: {
-        //                 //     code_hash: sporeType.codeHash ,
-        //                 //     hash_type: sporeType.hashType,
-        //                 //     args: "0x",
-        //                 // },
-        //                 // script_search_mode: 'prefix',
-        //                 // script_type: 'type',
-        //             },
-        //         }
-        //     ]
-        // })
     }
     get_transaction_list = async(address) =>{
         const hashObj = Wallet.addressToScript(address);

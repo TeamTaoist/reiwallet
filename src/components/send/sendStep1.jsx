@@ -175,7 +175,7 @@ const Tips = styled.div`
 export default function SendStep1({toDetail,fee}){
     const [ amount, setAmount] = useState('');
     const { t } = useTranslation();
-    const {balance,balanceLoading,symbol} = useBalance();
+    const {balance,available,balanceLoading,symbol} = useBalance();
     const [ address,setAddress] = useState('');
     const [ isMax,setIsMax] = useState(false);
     const [search] = useSearchParams();
@@ -188,16 +188,16 @@ export default function SendStep1({toDetail,fee}){
     }, [sendTo]);
 
     useEffect(() => {
-        if(amount === '' || balance === "--" ) return;
+        if(amount === '' || available === "--" ) return;
 
-        let bl = parseUnit(balance,"ckb")
+        let bl = parseUnit(available,"ckb")
         let amt = parseUnit(amount,"ckb")
         setIsMax(bl.eq(amt))
-    }, [amount,balance]);
+    }, [amount,available]);
 
     const chooseMax = () =>{
         if(balanceLoading)return;
-        setAmount(balance)
+        setAmount(available)
         setIsMax(true)
     }
     const handleInput = (e)=>{
@@ -232,7 +232,7 @@ export default function SendStep1({toDetail,fee}){
                             {
                                 balanceLoading && <BtnLoading color="#00FF9D" />
                             }
-                        {balance} {symbol}</span></div>
+                        {available} {symbol}</span></div>
                 </div>
             </AmountBox>
         </div>
