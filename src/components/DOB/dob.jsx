@@ -2,7 +2,7 @@ import styled from "styled-components";
 import useDOB from "../../useHook/useDOB";
 import {useEffect, useState} from "react";
 
-import { unpackToRawSporeData } from '@spore-sdk/core';
+import {unpackToRawSporeData, unpackToRawClusterData, getClusterById, predefinedSporeConfigs} from '@spore-sdk/core';
 import useNetwork from "../../useHook/useNetwork";
 import {useNavigate} from "react-router-dom";
 import {useWeb3} from "../../store/contracts";
@@ -32,7 +32,6 @@ const UlBox = styled.ul`
         &:nth-child(4n){
             margin-right: 0;
         }
-
         .photo{
 
             display: flex !important;
@@ -78,6 +77,11 @@ const UlBox = styled.ul`
         }
     }
 `
+const ClusterUl = styled(UlBox)`
+    border-bottom: 1px solid #eee;
+    padding-bottom:5px;
+    margin-bottom:10px;
+`
 const LoadingBox = styled.div`
     margin-top: 30px;
 `
@@ -121,6 +125,43 @@ const TextBox = styled.div`
         }
     
 `
+const Cls = styled(TextBox)`
+    .inner{
+        padding: 0;
+    }
+    .cluster{
+        width: 100%;
+        font-size: 12px;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 10px;
+        text-transform: uppercase;
+    }
+    .titleBtm{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 5px;
+        background: #00FF9D;
+        width: 100%;
+        height: 50%;
+        text-align: center;
+        font-size: 12px;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        line-height: 1.4em;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+`
 
 const MoreBox = styled.div`
     width: 100%;
@@ -130,8 +171,9 @@ const MoreBox = styled.div`
 `
 
 export default function Dob(){
-    const {list,loading} = useDOB();
+    const {list,loading,clusterList} = useDOB();
     const [sList,setSList] = useState([])
+    const [cList,setCList] = useState([])
     const navigate = useNavigate()
     const {dispatch} = useWeb3();
     const {currentAccount} = useCurrentAccount();
@@ -139,9 +181,9 @@ export default function Dob(){
     const {currentAccountInfo} = useAccountAddress();
 
     useEffect(() => {
-        if(list === '')return;
+        if(list === '' || clusterList === '')return;
         formatList()
-    }, [list,currentAccount]);
+    }, [list,currentAccount,clusterList]);
 
 
     const formatList =  () =>{
@@ -161,7 +203,22 @@ export default function Dob(){
             return item
         })
         setSList(arr)
+
+        let clArr = [...clusterList];
+        clArr.map(async(item)=>{
+            item.cluster = unpackToRawClusterData(item.output_data,"v2");
+            console.log(item.cluster)
+            item.clusterId = item.output.type.args;
+            return item
+        })
+
+        setCList(clArr)
     }
+    const toCluster = (item) =>{
+        dispatch({type:'SET_CLUSTER_DETAIL',payload:item});
+        navigate("/sendCluster")
+    }
+
 
     const toDetail = (item) =>{
         dispatch({type:'SET_DOB_DETAIL',payload:item});
@@ -180,15 +237,37 @@ export default function Dob(){
             loading && <LoadingBox><Loading showBg={false} /></LoadingBox>
         }
         {
-            !loading  && <UlBox>
+            !!cList?.length &&   <ClusterUl>
                 {
-                    sList?.map((item,index)=> (<li key={index} onClick={() => toDetail(item)}>
+                    cList?.map((item,index)=>(<li key={`cluster_${index}`} className="item"  onClick={() => toCluster(item)}>
+                        <Cls>
+                            <div className="aspect"/>
+                            <div className="content">
+                                <div className="inner">
+                                    <div className="cluster">cluster</div>
+                                    <div className="titleBtm">
+                                        {item?.cluster?.name}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </Cls>
+                    </li>))
+                }
+            </ClusterUl>
+        }
+
+        {
+            !loading  && <UlBox>
+
+                {
+                    sList?.map((item, index) => (<li key={index} onClick={() => toDetail(item)}>
 
                         {
                             item.type.indexOf("text") === -1 && <div className="photo">
                                 <div className="aspect"/>
                                 <div className="content">
-                                    <div className="innerImg">
+                                <div className="innerImg">
                                         <img src={item.image} alt=""/>
                                     </div>
                                 </div>
@@ -205,9 +284,9 @@ export default function Dob(){
                             </TextBox>
                         }
 
-                        {
-                            !!item.clusterId && < div className="title">Cluster Item </div>
-                        }
+                        {/*{*/}
+                        {/*    !!item.clusterId && < div className="title">Cluster Item </div>*/}
+                        {/*}*/}
 
                     </li>))
                 }
@@ -215,7 +294,7 @@ export default function Dob(){
             </UlBox>
         }
         {
-            sList.length >= 100  && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
+           ( sList.length >= 100 || cList.length >= 100) && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
         }
 
     </Box>

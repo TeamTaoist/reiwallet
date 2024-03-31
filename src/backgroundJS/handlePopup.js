@@ -3,14 +3,17 @@ import Wallet from "../wallet/wallet";
 import RpcClient from "./rpc";
 import { getSporeById, transferSpore } from '@spore-sdk/core';
 import { predefinedSporeConfigs } from '@spore-sdk/core';
+import {currentInfo} from "../wallet/getCurrent";
 
 const recordToTxList = async(txhash)=>{
-
     if(!txhash)return;
+    const currentAccount = await currentInfo();
+
     let list = await chrome.storage.local.get(["txList"]);
     let arr = list.txList ? list.txList : [];
     chrome.storage.local.set({txList:[ {
             txhash,
+            address:currentAccount?.address,
             created:new Date().valueOf()
         },...arr]});
 }
@@ -20,10 +23,8 @@ const RemoveRecord = async (txhash,result) =>{
     let arr = list.txList ? list.txList : [];
     if(!arr.length)return;
     let resultIndex = arr.findIndex((item) =>item === txhash);
-    // let item = arr[resultIndex]
     arr.splice(resultIndex,1);
     chrome.storage.local.set({txList:arr});
-    // insertPR({...result,...item})
 }
 
 
@@ -53,8 +54,14 @@ export const handlePopUp = async (requestData) =>{
         case "get_DOB":
             getDOB(requestData);
             break;
+        case "get_Cluster":
+            getCLuster(requestData);
+            break;
         case "send_DOB":
             sendDOB(requestData);
+            break;
+        case "send_Cluster":
+            sendCluster(requestData);
             break;
         case "Melt_DOB":
             melt_dob(requestData);
@@ -251,6 +258,33 @@ const sendSUDT = async (obj) =>{
         sendMsg({ type:`${obj.method}_success`,data:rt})
 
     }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const getCLuster = async (obj) =>{
+    const {currentAccountInfo} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_Cluster(currentAccountInfo.address);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const sendCluster = async (obj) =>{
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.send_Cluster(obj);
+        await recordToTxList(rt);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        console.error(`${obj.method}_error`, e.message)
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }

@@ -28,6 +28,9 @@ const reducer = (state, action) => {
         case 'SET_SUDT_DETAIL':
             return { ...state, sudt: action.payload};
 
+        case 'SET_CLUSTER_DETAIL':
+            return { ...state, cluster: action.payload};
+
 
         // case 'SET_ERROR':
         //     return { ...state, errorTips: action.payload };

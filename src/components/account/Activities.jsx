@@ -84,9 +84,9 @@ export default function Activities(){
     const {currentAccountInfo} = useAccountAddress();
 
     useEffect(() => {
-        if(!networkInfo)return;
+        if(!networkInfo || !currentAccountInfo)return;
         getPendingList()
-    }, [networkInfo]);
+    }, [networkInfo,currentAccountInfo]);
 
 
     useEffect(() => {
@@ -103,7 +103,9 @@ export default function Activities(){
     const getPendingList = async() =>{
         /*global chrome*/
         let rt = await chrome.storage.local.get(['txList']);
-        setPendingList(rt?.txList ?? [])
+        const arr = rt?.txList ?? [];
+        let arrMy = arr.filter((item)=>item.address === currentAccountInfo.address);
+        setPendingList(arrMy ?? [])
     }
     const toExplorer = () =>{
         /*global chrome*/

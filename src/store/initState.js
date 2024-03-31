@@ -7,5 +7,6 @@ module.exports = {
     refresh_current:null,
     importMnemonic:null,
     dob:null,
-    sudt:null
+    sudt:null,
+    cluster:null
 };

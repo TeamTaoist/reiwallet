@@ -38,13 +38,20 @@ const Title = styled.div`
         line-height: 1.5em;
         opacity: 0.4;
     }
+    .subTitle{
+        font-size: 12px;
+    }
+`
+
+const LoadingBox = styled.div`
+    margin-top: 20px;
 `
 
 
 export default function Balance(){
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const {balance,balanceLoading,symbol,occupied} = useBalance();
+    const {balance,balanceLoading,available,symbol,occupied} = useBalance();
 
 
     const toSend = () =>{
@@ -53,22 +60,32 @@ export default function Balance(){
 
     return <BalanceBox>
         {
-            balanceLoading &&     <Loading showBg={false} />
+            balanceLoading &&     <LoadingBox><Loading showBg={false} /></LoadingBox>
         }
         {
-            !balanceLoading &&  <Title className="medium-font">
-            <div className="titletop">Total</div>
+            !balanceLoading && <Title className="medium-font">
+                <div className="titletop">Total</div>
                 <div className="total">
                     {balance} {symbol}
                 </div>
-            <div className="subTitle">
-                <span>Occupied</span>
-                {occupied} {symbol}
-            </div>
+                {
+                    !!Number(occupied)&& <>
+                        <div className="subTitle">
+                            <span>Available</span>
+                            {available} {symbol}
+                        </div>
+                        <div className="subTitle">
+                            <span>Occupied</span>
+                            {occupied} {symbol}
+                        </div>
+
+                    </>
+                }
+
 
             </Title>
         }
 
-        <Button primary onClick={()=>toSend()}>{t('popup.account.send')}</Button>
+        <Button primary onClick={() => toSend()}>{t('popup.account.send')}</Button>
     </BalanceBox>
 }

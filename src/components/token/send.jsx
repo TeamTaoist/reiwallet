@@ -89,13 +89,21 @@ export default function Send(){
     const [url,setUrl] = useState()
 
     useEffect(()=>{
-        if(pathname.indexOf("/sendDOB")>-1){
-            setUrl("/dobConfirm")
-        }else if(pathname.indexOf("/sendSUDT")>-1){
-            setUrl("/sudtConfirm")
-        }else{
-            setUrl("/sendStep1")
+        switch (true){
+            case pathname.indexOf("/sendDOB")>-1:
+                setUrl("/dobConfirm")
+                break;
+            case pathname.indexOf("/sendSUDT")>-1:
+                setUrl("/sudtConfirm")
+                break;
+            case pathname.indexOf("/sendCluster")>-1:
+                setUrl("/ClusterConfirm")
+                break;
+            default:
+                setUrl("/sendStep1")
+                break;
         }
+
 
     },[pathname])
 

@@ -88,7 +88,7 @@ const DlBox = styled.div`
     dl{
         margin-bottom: 10px;
         display: flex;
-        align-items: flex-end;
+        align-items: flex-start;
         justify-content: space-between;
         
     }
@@ -103,85 +103,14 @@ const DlBox = styled.div`
             cursor: pointer;
         }
     }
-`
-
-const ImageBox = styled.div`
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .imgbr{
-        width: 50px;
-        height: 50px;
-        border: 1px solid #eee;
-        border-radius: 4px;
-    }
-    .photo{
-
-        display: flex !important;
-        overflow: hidden;
-        .aspect {
-            padding-bottom: 100%;
-            height: 0;
-            flex-grow: 1 !important;
-        }
-        .content {
-            width: 100%;
-            margin-left: -100% !important;
-            max-width: 100% !important;
-            flex-grow: 1 !important;
-            position: relative;
-        }
-        .innerImg{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            img{
-                width: 100%;
-                height: 100%;
-                border-radius: 4px;
-                object-position: center;
-                object-fit: cover;
-            }
-        }
+    .desc{
+        margin-left: 20px;
     }
 `
 
-const TextBox = styled.div`
-        display: flex !important;
-        overflow: hidden;
-        .aspect {
-            padding-bottom: 100%;
-            height: 0;
-            flex-grow: 1 !important;
-        }
-        .content {
-            width: 100%;
-            margin-left: -100% !important;
-            max-width: 100% !important;
-            flex-grow: 1 !important;
-            position: relative;
-        }
-        .inner{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f8f8;
-            font-size: 12px;
-            font-family: "AvenirNext-Medium";
-            font-weight: 500;
-        }
-    
-`
-
-export default function DOBConfirm(){
+export default function ClusterConfirm(){
     const {currentAccountInfo} = useAccountAddress();
-    const {state:{dob}} = useWeb3();
+    const {state:{cluster}} = useWeb3();
     const {symbol} = useBalance();
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -192,10 +121,11 @@ export default function DOBConfirm(){
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
 
+
     const handleEvent = (message) => {
         const {type }= message;
         switch(type){
-            case "send_DOB_success":
+            case "send_Cluster_success":
             {
                 setError(true)
                 setTips('Send Finished')
@@ -205,7 +135,7 @@ export default function DOBConfirm(){
                 },2000)
             }
                 break;
-            case "send_DOB_error":
+            case "send_Cluster_error":
             {
                 setTips('Send Failed:'+message.data)
                 setError(true)
@@ -247,11 +177,11 @@ export default function DOBConfirm(){
     const submit =() =>{
         setLoading(true)
         let obj ={
-            method:"send_DOB",
-            outPoint:dob.out_point,
+            method:"send_Cluster",
+            outPoint:cluster.out_point,
             currentAccountInfo,
-            id:dob?.output?.type?.args,
-            toAddress:address
+            id:cluster?.output?.type?.args,
+            toAddress:address,
         }
 
         sendMsg(obj)
@@ -276,63 +206,27 @@ export default function DOBConfirm(){
         </div>
 
         <DlBox>
-            {/*<dl>*/}
-            {/*    <dt>Type</dt>*/}
-            {/*    <dd className="medium-font">{dob?.clusterId ? "Spore Cluster" : "DOB"}</dd>*/}
-            {/*</dl>*/}
-            <dl>
-                <dt>Assets</dt>
-                <dd>
-                    <ImageBox>
-                        <div className="imgbr">
-                            {
-                                dob?.type.indexOf("text") === -1 && <div className="photo">
-                                    <div className="aspect"/>
-                                    <div className="content">
-                                        <div className="innerImg">
-                                            <img src={dob.image} alt=""/>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            {
-                                dob?.type.indexOf("text") > -1 && <TextBox>
-                                    <div className="aspect"/>
-                                    <div className="content">
-                                        <div className="inner">
-                                            Text
-                                        </div>
-                                    </div>
-                                </TextBox>
-                            }
-                        </div>
-                    </ImageBox>
-                </dd>
-            </dl>
-            {
-                !!dob?.clusterId && <dl>
-                    <dt>Cluster Id</dt>
-                    <dd className="medium-font">
-                        <span>{PublicJs.AddressToShow(dob?.clusterId)}</span>
-                        <CopyToClipboard onCopy={()=>Copy()} text={dob?.clusterId}>
-                            <img src={CopyImg} alt=""/>
-                        </CopyToClipboard>
-                    </dd>
-                </dl>
-            }
+        <dl>
+            <dt>Cluster Id</dt>
+            <dd className="medium-font">
+                <span>{cluster?.clusterId ? PublicJs.AddressToShow(cluster?.clusterId):""}</span>
+                <CopyToClipboard onCopy={()=>Copy()} text={cluster?.clusterId}>
+                    <img src={CopyImg} alt=""/>
+                </CopyToClipboard>
+            </dd>
+        </dl>
 
             <dl>
-                <dt>Token ID</dt>
-                <dd className="medium-font">
-                    <span>{PublicJs.AddressToShow(dob?.output?.type?.args)}</span>
-                    <CopyToClipboard onCopy={()=>Copy()} text={dob?.output?.type?.args}>
-                        <img src={CopyImg} alt=""/>
-                    </CopyToClipboard>
-                </dd>
+                <dt>Cluster Name</dt>
+                <dd className="medium-font">{cluster?.cluster?.name}</dd>
             </dl>
             <dl>
                 <dt>Occupied</dt>
-                <dd className="medium-font">{formatUnit(dob?.output?.capacity, "ckb")} {symbol}</dd>
+                <dd className="medium-font">{formatUnit(cluster?.output?.capacity, "ckb")} {symbol}</dd>
+            </dl>
+            <dl>
+                <dt>Description</dt>
+                <dd className="medium-font desc">{cluster?.cluster?.description}</dd>
             </dl>
         </DlBox>
         <BtnGroup>
