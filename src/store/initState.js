@@ -6,5 +6,6 @@ module.exports = {
     refresh_wallet_list:null,
     refresh_current:null,
     importMnemonic:null,
-    dob:null
+    dob:null,
+    sudt:null
 };

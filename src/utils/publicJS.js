@@ -1,6 +1,6 @@
-const AddressToShow = (address) => {
-    let frontStr = address.substring(0, 5);
-    let afterStr = address.substring(address.length - 5, address.length);
+const AddressToShow = (address,num = 5) => {
+    let frontStr = address.substring(0, num);
+    let afterStr = address.substring(address.length - num, address.length);
     return `${frontStr}...${afterStr}`
 }
 

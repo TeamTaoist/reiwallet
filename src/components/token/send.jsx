@@ -91,6 +91,8 @@ export default function Send(){
     useEffect(()=>{
         if(pathname.indexOf("/sendDOB")>-1){
             setUrl("/dobConfirm")
+        }else if(pathname.indexOf("/sendSUDT")>-1){
+            setUrl("/sudtConfirm")
         }else{
             setUrl("/sendStep1")
         }

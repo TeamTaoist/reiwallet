@@ -43,6 +43,9 @@ const Box = styled.div`
           font-size: 16px;
           text-transform: capitalize;
       }
+      .pending{
+          color: #00A554;   
+      }
     .time{
       font-size: 12px;
       color: #00A554;

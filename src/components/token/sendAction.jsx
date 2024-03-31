@@ -78,7 +78,7 @@ export default function SendAction(){
         toBackground()
         const timer = setInterval(()=>{
             toBackground()
-        },20000)
+        },10 * 1000)
 
         return () =>{
             clearInterval(timer)

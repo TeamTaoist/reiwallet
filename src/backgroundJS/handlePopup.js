@@ -50,14 +50,20 @@ export const handlePopUp = async (requestData) =>{
         case "transaction_confirm":
             transaction_confirm(requestData);
             break;
-        case "get_SUDT":
-            getSUDT(requestData);
+        case "get_DOB":
+            getDOB(requestData);
             break;
         case "send_DOB":
             sendDOB(requestData);
             break;
         case "Melt_DOB":
             melt_dob(requestData);
+            break;
+        case "get_SUDT":
+            getSUDT(requestData);
+            break;
+        case "send_SUDT":
+            sendSUDT(requestData);
             break;
     }
 
@@ -180,12 +186,12 @@ const transaction_confirm = async(obj) =>{
 }
 
 
-const getSUDT = async (obj) =>{
+const getDOB = async (obj) =>{
     const {currentAccountInfo} = obj;
 
     try{
         const client = new RpcClient();
-        let rt = await client.get_SUDT(currentAccountInfo.address);
+        let rt = await client.get_DOB(currentAccountInfo.address);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 
     }catch (e){
@@ -223,3 +229,28 @@ const melt_dob = async (obj) =>{
     }
 }
 
+const getSUDT = async (obj) =>{
+    const {currentAccountInfo} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_SUDT(currentAccountInfo.address);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const sendSUDT = async (obj) =>{
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.send_SUDT(obj);
+        await recordToTxList(rt);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}

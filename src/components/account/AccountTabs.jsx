@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
-import Assets from "./assets";
+import Assets from "../SUDT/assets";
 import Activities from "./Activities";
 import {useTranslation} from "react-i18next";
 import {useNavigate, useSearchParams} from "react-router-dom";
@@ -40,7 +40,7 @@ const Content = styled.div`
 export default function AccountTabs(){
     const { t } = useTranslation();
     // const [list] = useState([t('popup.account.Activities'),t('popup.account.Assets'),"DOB"])
-    const [list] = useState([t('popup.account.Activities'),"DOB"])
+    const [list] = useState([t('popup.account.Activities'),"DOB","SUDT"])
     const [ current, setCurrent] = useState(0);
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab');

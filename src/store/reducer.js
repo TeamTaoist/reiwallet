@@ -25,6 +25,9 @@ const reducer = (state, action) => {
         case 'SET_DOB_DETAIL':
             return { ...state, dob: action.payload};
 
+        case 'SET_SUDT_DETAIL':
+            return { ...state, sudt: action.payload};
+
 
         // case 'SET_ERROR':
         //     return { ...state, errorTips: action.payload };

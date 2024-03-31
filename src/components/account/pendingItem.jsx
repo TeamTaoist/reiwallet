@@ -38,7 +38,7 @@ export default function PendingItem({ txItem,networkInfo}) {
                     <div><span className="time">View on block explorer</span></div>
                 </div>
                 <div className="item">
-                    <div className="medium-font titleRht">{item?.tx_status?.status ?? ""}</div>
+                    <div className="medium-font titleRht pending">{item?.tx_status?.status ?? ""}</div>
                 </div>
             </div>
         }

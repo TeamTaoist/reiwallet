@@ -1,13 +1,14 @@
 import Wallet from "../../wallet/wallet";
 import {networkList} from "../../constants/network";
-import {BI, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
+import {BI, commons, config, hd, helpers, Indexer,utils} from "@ckb-lumos/lumos";
+import {formatUnit} from "@ckb-lumos/bi";
 import {parseUnit} from "@ckb-lumos/bi";
 import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
-
 import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
 import { predefinedSporeConfigs, transferSpore,meltSpore} from "@spore-sdk/core";
+import {getSudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -59,32 +60,69 @@ export default class RpcClient{
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
 
-        return await this._request({
-            method:"get_cells_capacity",
-            url:network.rpcUrl.indexer,
-            params:[
-                {
-                    "script": {
-                        "code_hash": codeHash,
-                        "hash_type":hashType,
-                        args
-                    },
-                    "script_type": "lock",
-                    script_search_mode: "exact",
-                    filter: {
-                        output_data:"0x",
-                        output_data_filter_mode: "exact"
-                        // script: {
-                        //     code_hash: sporeType.codeHash,
-                        //     hash_type: sporeType.hashType,
-                        //     args: "0x",
-                        // },
-                        // script_search_mode: 'prefix',
-                        // script_type: 'type',
-                    },
-                }
-            ]
-        })
+        console.log("=====network====",network)
+
+        if(network.value === "mainnet"){
+            config.initializeConfig(config.predefined.LINA);
+        }else{
+            config.initializeConfig(config.predefined.AGGRON4);
+        }
+        const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
+
+
+        let totalCapacity = BI.from(0);
+        let OcCapacity = BI.from(0);
+
+        console.log("=====totalCapacity====",totalCapacity)
+        const addressScript = helpers.parseAddress(address);
+
+        // A collector for collecting Alice's cells one by one
+        const collector = indexer.collector({ lock: addressScript});
+
+        console.log("=====collector====",collector)
+
+        // AsyncGenerator: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncGenerator
+        for await (const cell of collector.collect()) {
+            console.log(cell);
+            totalCapacity = totalCapacity.add(cell.cellOutput.capacity);
+            if(cell.data !== "0x"){
+                OcCapacity = OcCapacity.add(cell.cellOutput.capacity)
+            }
+        }
+
+        console.log(`Alice's CKB:`, `${formatUnit(totalCapacity, 'ckb')} CKB`);
+        console.log(`OcCapacity CKB:`, `${formatUnit(OcCapacity, 'ckb')} CKB`);
+        console.log(`> tips: 1 CKB = 10 ^ 8 shannon`);
+
+        return {capacity:totalCapacity.toHexString()};
+
+        // return await this._request({
+        //     method:"get_cells_capacity",
+        //     url:network.rpcUrl.indexer,
+        //     params:[
+        //         {
+        //             "script": {
+        //                 "code_hash": codeHash,
+        //                 "hash_type":hashType,
+        //                 args
+        //             },
+        //             "script_type": "lock",
+        //             script_search_mode: "exact",
+        //             filter: {
+        //                 // output_data:"0x",
+        //                 // output_data_filter_mode: "exact"
+        //
+        //                 // script: {
+        //                 //     code_hash: sporeType.codeHash ,
+        //                 //     hash_type: sporeType.hashType,
+        //                 //     args: "0x",
+        //                 // },
+        //                 // script_search_mode: 'prefix',
+        //                 // script_type: 'type',
+        //             },
+        //         }
+        //     ]
+        // })
     }
     get_transaction_list = async(address) =>{
         const hashObj = Wallet.addressToScript(address);
@@ -97,7 +135,7 @@ export default class RpcClient{
             params:[
                 {
                     "script": {
-                        "code_hash": codeHash,
+                        "code_hash":codeHash,
                         "hash_type":hashType,
                         args
                     },
@@ -211,7 +249,7 @@ export default class RpcClient{
         })
     }
 
-    get_SUDT = async(address) =>{
+    get_DOB = async(address) =>{
         const hashObj = Wallet.addressToScript(address);
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
@@ -286,6 +324,75 @@ export default class RpcClient{
         });
         let signHash = await signAndSendTransaction(txSkeleton);
         const newTx = formatter.toRawTransaction(signHash);
+
+        return await this.transaction_confirm(newTx);
+    }
+
+    get_SUDT = async(address) =>{
+        const hashObj = Wallet.addressToScript(address);
+        const{codeHash,hashType,args} = hashObj;
+        const network = await this.getNetwork();
+
+        const sporeType = getSudtTypeScript(network.value === "mainnet");
+
+        return await this._request({
+            method:"get_cells",
+            url:network.rpcUrl.indexer,
+            params:[
+                {
+                    script: {
+                        code_hash: codeHash,
+                        hash_type:hashType,
+                        args
+                    },
+                    "script_type": "lock",
+                    script_search_mode: "exact",
+                    filter: {
+                        script: {
+                            code_hash: sporeType.codeHash,
+                            hash_type: sporeType.hashType,
+                            args: "0x",
+                        },
+                        script_search_mode: 'prefix',
+                        script_type: 'type',
+                    },
+                },
+                "desc",
+                "0x64"
+            ]
+        })
+    }
+
+    send_SUDT = async(obj) => {
+        const {currentAccountInfo, toAddress,args, amount,fee} = obj;
+        console.log(currentAccountInfo, toAddress,args, amount,fee)
+        const network = await this.getNetwork();
+
+        if(network.value === "mainnet"){
+            config.initializeConfig(config.predefined.LINA);
+        }else{
+            config.initializeConfig(config.predefined.AGGRON4);
+        }
+
+        const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
+
+        let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
+        txSkeleton = await commons.sudt.transfer(
+            txSkeleton,
+            [currentAccountInfo.address],
+            args,
+            toAddress,
+            amount,null,null,null,
+            {
+                splitChangeCell:true
+            }
+            );
+        txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [currentAccountInfo.address], fee);
+
+        let signHash = await signAndSendTransaction(txSkeleton);
+
+        const newTx = formatter.toRawTransaction(signHash);
+
 
         return await this.transaction_confirm(newTx);
     }
