@@ -3,6 +3,7 @@ import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
 import {formatUnit} from "@ckb-lumos/bi";
+import PublicJS from "../utils/publicJS";
 /*global chrome*/
 const toMessage = (data) =>{
     const {windowID} = data;
@@ -33,9 +34,8 @@ export const handleRequest = async (requestData) =>{
     try{
         switch (requestData.method){
             case "ckb_requestAccounts":
-                rt = await requestAccount();
+                rt = await requestAccount(url);
                 break;
-
             case "ckb_getCapacity":
                 rt = await getBalance(data);
                 break;
@@ -67,7 +67,46 @@ export const handleRequest = async (requestData) =>{
     }
 }
 
-const requestAccount = async() =>{
+
+
+const handleGrant = async(url) =>{
+
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'grant',
+        },
+        { preventDuplicate: false },
+    );
+
+    return new Promise((resolve, reject) => {
+
+
+        messenger.register('get_grant', () => {
+            return {url};
+        });
+        messenger.register('grant_result', (result) => {
+            const {data,status} =result;
+            if(status === "success"){
+                resolve(data);
+            }else{
+                reject(data);
+            }
+            messenger.destroy();
+
+        });
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("Grant Rejected");
+            }
+        });
+    });
+
+
+}
+
+const requestAccount = async(url) =>{
+
     try{
         const walletListArr = await chrome.storage.local.get(['walletList']);
         const walletList = walletListArr?.walletList ?? [];
@@ -76,18 +115,46 @@ const requestAccount = async() =>{
         const networkObj = await chrome.storage.local.get(['network'])
         const network = networkObj?.network ?? "mainnet";
         const currentAccount = walletList[current]?.account;
+        let address
         if(currentAccount){
-            return  network==="mainnet"? currentAccount.address_main : currentAccount.address_test;
+            address = network==="mainnet"? currentAccount.address_main : currentAccount.address_test;
         }else{
-            return ""
+            address = ""
+        }
+
+
+        let urlObj = new URL(url);
+        const fullDomain = `${urlObj.protocol}//${urlObj.host}`;
+
+        let hasGrant = await PublicJS.requestGrant(address,fullDomain);
+
+        let rt;
+        if(!hasGrant){
+         const result = await handleGrant(fullDomain);
+         const {result_type,grant_address} = result;
+         rt = result_type;
+         address = grant_address;
+        }else{
+            rt ="grant_success";
+        }
+        if(rt === "grant_success"){
+            return address;
+        }else{
+            throw new Error(`requestAccount:Grant Reject`)
         }
 
     }catch (e) {
+        console.error("===requestAccount==",e)
         throw new Error(`requestAccount:${e}`)
     }
 }
+
+
 const getBalance = async(params) =>{
     let addr = params[0];
+    if(!addr){
+        throw new Error(`getBalance: Address cannot be empty`)
+    }
     try{
         const client = new RpcClient();
         let rt = await client.get_capacity(addr);

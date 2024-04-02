@@ -2,6 +2,7 @@ import styled from "styled-components";
 import CopyImg from "../../assets/images/create/COPY.png";
 import MoreImg from "../../assets/images/more-dot.png";
 import EtherImg from "../../assets/images/ether.png";
+import SiteImg from "../../assets/images/sites.png";
 import {useEffect, useState} from "react";
 import DetailsImg from "../../assets/images/Details.png";
 import AccountSwitch from "./accountSwitch";
@@ -71,11 +72,11 @@ const DropDown = styled.div`
       right: 10px;
       top:60px;
       width: 173px;
-      height: 116px;
       background: #FFFFFF;
       box-shadow: 0 0 8px 0 #EDEDED;
       border-radius: 14px;
       padding: 11px 0;
+z-index: 9999;
     dl{
       display: flex;
       align-items: center;
@@ -136,8 +137,8 @@ export default function AccountHeader(){
         setShow(!show);
     }
 
-    const toDetail = () =>{
-        navigate('/detail');
+    const toDetail = (url) =>{
+        navigate(url);
     }
 
     const Copy = () =>{
@@ -154,9 +155,12 @@ export default function AccountHeader(){
 
     const handleCurrent = (index) =>{
         saveCurrent(index);
+        console.log(index)
         let currentUser = get_Address(index);
+
+        console.error("currentUser",currentUser)
         /*global chrome*/
-        chrome.runtime.sendMessage({  data:currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
+        chrome.runtime.sendMessage({  data: currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
     }
 
     const handleNew =()=>{
@@ -184,11 +188,17 @@ export default function AccountHeader(){
                     </dt>
                     <dd>{t('popup.account.Explorer')}</dd>
                 </dl>
-                <dl onClick={()=>toDetail()}>
+                <dl onClick={()=>toDetail('/detail')}>
                     <dt>
                         <img src={DetailsImg} alt=""/>
                     </dt>
                     <dd>{t('popup.account.details')}</dd>
+                </dl>
+                <dl onClick={()=>toDetail('/sites')}>
+                    <dt>
+                        <img src={SiteImg} alt=""/>
+                    </dt>
+                    <dd>Connected sites</dd>
                 </dl>
             </DropDown>
         }

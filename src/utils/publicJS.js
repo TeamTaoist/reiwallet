@@ -4,6 +4,14 @@ const AddressToShow = (address,num = 5) => {
     return `${frontStr}...${afterStr}`
 }
 
+export const requestGrant = async(address,website) =>{
+    /*global chrome*/
+    const whiteListArr = await chrome.storage.local.get(['whiteList']);
+    const whiteList = whiteListArr?.whiteList ?? {};
+    const websiteObj = whiteList[address]?.find(item=> item === website);
+    return !!websiteObj;
+}
+
 
 const randomSort = (arr) =>{
     const newArr = [...arr]
@@ -24,5 +32,6 @@ const randomSort = (arr) =>{
 
 export default {
     AddressToShow,
+    requestGrant,
     randomSort
 }

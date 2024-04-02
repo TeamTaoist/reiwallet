@@ -4,6 +4,8 @@ import Home from '../components/home-popup/home';
 import Send from "../components/token/send";
 import SendAction from "../components/token/sendAction";
 import AccountDetail from "../components/account/Detail";
+import Sites from "../components/site/sites";
+
 import Export from "../components/account/export";
 import ExportConfirm from "../components/account/exportConfirm";
 import Setting from "../components/setting/setting";
@@ -33,6 +35,10 @@ function PopupRouterLink() {
                 <Route path="/step2" element={<Step2 />}/>
                 <Route path="/step3" element={<Step3 />}/>
             <Route path="/detail" element={<AccountDetail />}/>
+            <Route path="/sites" element={<Sites />}/>
+
+
+
             <Route path="/export" element={<Export />}/>
             <Route path="/exportConfirm" element={<ExportConfirm />}/>
 

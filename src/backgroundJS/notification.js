@@ -18,8 +18,6 @@ class NotificationManager {
         this.notificationInfoQueue= [];
         this.eventEmitter = new EventEmitter();
     }
-
-
     async createNotificationWindow(_notification, options,) {
     // assign sessionId to the notification
     const notification = { ..._notification, sessionId: uuid() };

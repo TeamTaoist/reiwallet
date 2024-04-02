@@ -55,6 +55,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 sendResponse({ "message":message});
             break;
             case "CKB_ON_INJECT":
+
+                const fullDomain = `${document.location.protocol}//${document.location.host}`;
+
+
+
                 const on_event = new CustomEvent('CKB_ON_RESPONSE', { detail: { result:message.result,method:message.method} });
                 document.dispatchEvent(on_event);
                 sendResponse({ "message":message});

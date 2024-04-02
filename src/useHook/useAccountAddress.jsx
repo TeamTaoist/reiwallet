@@ -22,7 +22,7 @@ export default function useAccountAddress(){
     }, [network,currentAccount,walletList]);
 
     const get_Address = (index) =>{
-        const current = walletList[index?index:currentAccount];
+        const current = walletList[index??currentAccount];
         current.address = network === "mainnet"?current.account.address_main:current.account.address_test;
         setCurrentAccountInfo({...current});
         return current.address

@@ -1,7 +1,7 @@
 import AllModal from "../modal/AllModal";
 import styled from "styled-components";
 import Button from "../button/button";
-import Avatar from "../../assets/images/Avatar.png";
+import Avatar from "../svg/avatar/avatar";
 import CopyImg from "../../assets/images/create/COPY.png";
 import EditImg from "../../assets/images/edit.png";
 import {useNavigate} from "react-router-dom";
@@ -19,6 +19,7 @@ const TitleBox = styled.div`
     display: flex;
     align-items: center;
   font-family: "AvenirNext-Bold";
+    gap: 10px;
     .demo{
       width: 24px;
       border-radius: 24px;
@@ -121,7 +122,7 @@ export default function AccountDetail(){
     return <AllModal title={t('popup.account.details')} link="/home">
         <div>
             <TitleBox>
-                <img src={Avatar} alt="" className="demo"/>
+                <Avatar size={24} address={address} />
                 {
                     !showInput && <div className="rht">
                         <span>{walletName}</span>
