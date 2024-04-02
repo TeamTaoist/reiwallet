@@ -246,7 +246,7 @@ export default function SignMessage(){
     const getDetail = async() =>{
 
         if(messenger){
-            let data = await messenger.send("get_Transaction");
+            let data = await messenger.send("get_CKB_Transaction");
             setParams(data.rt)
             setUrl(data.url)
         }
@@ -254,11 +254,11 @@ export default function SignMessage(){
 
     const handleSuccess = async(rt) =>{
         try{
-            await messenger.send('transaction_result', {status:"success",data:rt});
+            await messenger.send('CKB_transaction_result', {status:"success",data:rt});
             window.close();
         }catch (e) {
             console.error('transaction_result',e)
-            await messenger.send('transaction_result', {status:"failed",data:e.message});
+            await messenger.send('CKB_transaction_result', {status:"failed",data:e.message});
         }finally {
             setLoading(false)
         }
@@ -267,7 +267,7 @@ export default function SignMessage(){
 
     //
     const handleClose = async() =>{
-        await messenger.send('transaction_result', {status:"rejected",data:"user rejected"});
+        await messenger.send('CKB_transaction_result', {status:"rejected",data:"user rejected"});
         window.close();
     }
 

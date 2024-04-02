@@ -3,7 +3,7 @@ import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
 import styled from "styled-components";
-import SendTransaction from "./sendTransaction";
+import SendTransaction from "./sendCKB";
 
 const Box = styled.div`
     display: flex;

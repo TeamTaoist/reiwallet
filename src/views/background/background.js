@@ -51,10 +51,18 @@ const handleON = async(data,method) =>{
     const fullDomain = `${urlObj.protocol}//${urlObj.host}`;
     let hasGrant = await PublicJS.requestGrant(data,fullDomain);
 
+    let obj ={
+        data,
+        type:"success"
+    }
+
     if(!hasGrant && method === "accountsChanged"){
-        return;
+            obj={
+                type:"error",
+                data:"This account need to grant"
+            }
     }
     chrome.tabs.query({active:true,windowId: windowID}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_ON_INJECT",result:data,method},()=>{});
+        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_ON_INJECT",result:obj,method},()=>{});
     });
 }

@@ -43,8 +43,8 @@ export const handleRequest = async (requestData) =>{
                 rt = await signData(data,windowID,url);
                 break;
 
-            case "ckb_sendTransaction":
-                rt = await sendTx(data,windowID,url);
+            case "ckb_sendCKB":
+                rt = await sendCKBTx(data,windowID,url);
                 break;
         }
         if(rt){
@@ -204,7 +204,7 @@ const signData = async(data,windowId,url) =>{
 
 }
 
-const sendTx = async(data,windowId,url) =>{
+const sendCKBTx = async(data,windowId,url) =>{
     const {amount,to} = data
     if(!amount || !to) {
         throw new Error("Amount or Address is required")
@@ -217,11 +217,11 @@ const sendTx = async(data,windowId,url) =>{
     );
 
     return new Promise((resolve, reject) => {
-        messenger.register('get_Transaction', () => {
+        messenger.register('get_CKB_Transaction', () => {
             return {rt:{amount,to},url};
         });
 
-        messenger.register('transaction_result', (result) => {
+        messenger.register('CKB_transaction_result', (result) => {
             const {data,status} =result;
             if(status === "success"){
                 resolve(data);
@@ -234,7 +234,7 @@ const sendTx = async(data,windowId,url) =>{
         browser.windows.onRemoved.addListener((windowId) => {
             if (windowId === notificationWindow.id) {
                 messenger.destroy();
-                reject("Sign transaction Rejected");
+                reject("Send CKB transaction Rejected");
             }
         });
     });
