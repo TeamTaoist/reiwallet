@@ -61,10 +61,19 @@ const on = (method, callback) =>{
     nextCall[method].push(callback)
 }
 
+const off = (method, callback) =>{
+    if(!callback)return;
+
+    if(!nextCall[method]) return;
+    const arr = nextCall[method].filter((item) => item !== callback)
+    nextCall[method] = arr;
+}
+
 let injectedCkb ={
     version:"0.0.1",
     request,
     isConnected,
+    off,
     on
 }
 window.ckb = Object.freeze(injectedCkb);
