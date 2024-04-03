@@ -3,6 +3,7 @@ import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
 import PublicJS from "../utils/publicJS";
+import {getMinFeeRate} from "@spore-sdk/core";
 /*global chrome*/
 const toMessage = (data) =>{
     const {windowID} = data;
@@ -50,6 +51,12 @@ export const handleRequest = async (requestData) =>{
                 break;
             case "ckb_switchNetwork":
                 rt = await switchNetwork(data);
+                break;
+            case "ckb_getFeeRate":
+                rt = await getFeeRate(data);
+                break;
+            case "isConnected":
+                rt = await getConnected(url);
                 break;
         }
         if(rt){
@@ -248,7 +255,7 @@ const getNetwork = async() =>{
         return network;
 
     }catch (e) {
-        throw new Error(`getBalance:${e.message}`)
+        throw new Error(`getNetwork:${e.message}`)
     }
 }
 
@@ -261,7 +268,29 @@ const switchNetwork = async(value) =>{
         };
 
     }catch (e) {
-        throw new Error(`getBalance:${e.message}`)
+        throw new Error(`switchNetwork:${e.message}`)
     }
+}
+const getFeeRate = async() =>{
+    try{
+        const client = new RpcClient();
+        return await client.get_feeRate();
 
+    }catch (e) {
+        throw new Error(`getFeeRate:${e.message}`)
+    }
+}
+
+const getConnected = async(url) =>{
+    try{
+
+        let rt =  await PublicJS.requestGrant(url)
+        return {
+            type:"Success",
+            isConnected:rt
+        };
+
+    }catch (e) {
+        throw new Error(`getConnected:${e.message}`)
+    }
 }

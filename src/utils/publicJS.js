@@ -21,13 +21,19 @@ export const requestGrant = async(website) =>{
     const {currentAccount,network} = await getAccount();
     let address = network==="mainnet"? currentAccount.address_main : currentAccount.address_test;
 
+    console.error("====address==",address)
+
     let urlObj = new URL(website);
     const fullDomain = `${urlObj.protocol}//${urlObj.host}`;
+
+    console.error("====fullDomain==",fullDomain)
 
     /*global chrome*/
     const whiteListArr = await chrome.storage.local.get(['whiteList']);
     const whiteList = whiteListArr?.whiteList ?? {};
     const websiteObj = whiteList[address]?.find(item=> item === fullDomain);
+
+    console.error("====websiteObj==",websiteObj)
     return !!websiteObj;
 }
 
