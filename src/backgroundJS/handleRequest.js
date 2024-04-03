@@ -2,7 +2,6 @@
 import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
-import {formatUnit} from "@ckb-lumos/bi";
 import PublicJS from "../utils/publicJS";
 /*global chrome*/
 const toMessage = (data) =>{
@@ -105,28 +104,21 @@ const handleGrant = async(url) =>{
 
 }
 
-const requestAccount = async(url) =>{
 
+
+const requestAccount = async(url) =>{
     try{
-        const walletListArr = await chrome.storage.local.get(['walletList']);
-        const walletList = walletListArr?.walletList ?? [];
-        const currentObj = await chrome.storage.local.get(['current_address'])
-        const current = currentObj?.current_address ?? 0;
-        const networkObj = await chrome.storage.local.get(['network'])
-        const network = networkObj?.network ?? "mainnet";
-        const currentAccount = walletList[current]?.account;
-        let address
+        const {currentAccount,network} = await PublicJS.getAccount();
+            let address
         if(currentAccount){
             address = network==="mainnet"? currentAccount.address_main : currentAccount.address_test;
         }else{
             address = ""
         }
 
-
         let urlObj = new URL(url);
         const fullDomain = `${urlObj.protocol}//${urlObj.host}`;
-
-        let hasGrant = await PublicJS.requestGrant(address,fullDomain);
+        let hasGrant = await PublicJS.requestGrant(url);
 
         let rt;
         if(!hasGrant){
@@ -172,6 +164,11 @@ const signData = async(data,windowId,url) =>{
         throw new Error("Message is required")
         return;
     }
+    let hasGrant = await PublicJS.requestGrant(url);
+    if(!hasGrant){
+        throw new Error(`This account has not been authorized by the user.`)
+        return;
+    }
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
         {
             path: 'home',
@@ -179,7 +176,6 @@ const signData = async(data,windowId,url) =>{
         { preventDuplicate: false },
     );
     return new Promise((resolve, reject) => {
-
 
         messenger.register('get_signMessage', () => {
             return {message,url};
@@ -207,8 +203,16 @@ const signData = async(data,windowId,url) =>{
 const sendCKBTx = async(data,windowId,url) =>{
     const {amount,to} = data
     if(!amount || !to) {
-        throw new Error("Amount or Address is required")
+        throw new Error("Amount or Address is required");
+        return;
     }
+
+    let hasGrant = await PublicJS.requestGrant(url);
+    if(!hasGrant){
+        throw new Error(`This account has not been authorized by the user.`)
+        return;
+    }
+
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
         {
             path: 'send',

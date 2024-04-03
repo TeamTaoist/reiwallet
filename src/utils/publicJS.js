@@ -4,13 +4,33 @@ const AddressToShow = (address,num = 5) => {
     return `${frontStr}...${afterStr}`
 }
 
-export const requestGrant = async(address,website) =>{
+export const getAccount = async() =>{
+    /*global chrome*/
+    const walletListArr = await chrome.storage.local.get(['walletList']);
+    const walletList = walletListArr?.walletList ?? [];
+    const currentObj = await chrome.storage.local.get(['current_address'])
+    const current = currentObj?.current_address ?? 0;
+    const networkObj = await chrome.storage.local.get(['network'])
+    const network = networkObj?.network ?? "mainnet";
+    return {currentAccount:walletList[current]?.account,network};
+
+}
+
+export const requestGrant = async(website) =>{
+
+    const {currentAccount,network} = await getAccount();
+    let address = network==="mainnet"? currentAccount.address_main : currentAccount.address_test;
+
+    let urlObj = new URL(website);
+    const fullDomain = `${urlObj.protocol}//${urlObj.host}`;
+
     /*global chrome*/
     const whiteListArr = await chrome.storage.local.get(['whiteList']);
     const whiteList = whiteListArr?.whiteList ?? {};
-    const websiteObj = whiteList[address]?.find(item=> item === website);
+    const websiteObj = whiteList[address]?.find(item=> item === fullDomain);
     return !!websiteObj;
 }
+
 
 
 const randomSort = (arr) =>{
@@ -33,5 +53,6 @@ const randomSort = (arr) =>{
 export default {
     AddressToShow,
     requestGrant,
+    getAccount,
     randomSort
 }

@@ -18,8 +18,6 @@ async function init() {
         }
     })
 
-
-
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         let requestType = message.type;
 
@@ -47,9 +45,7 @@ const handleON = async(data,method) =>{
     const windowID = windowObj.id;
     const tabs = await chrome.tabs.query({active:true,windowId: windowID});
     const url = tabs[0].url;
-    let urlObj = new URL(url);
-    const fullDomain = `${urlObj.protocol}//${urlObj.host}`;
-    let hasGrant = await PublicJS.requestGrant(data,fullDomain);
+    let hasGrant = await PublicJS.requestGrant(url);
 
     let obj ={
         data,
@@ -59,7 +55,7 @@ const handleON = async(data,method) =>{
     if(!hasGrant && method === "accountsChanged"){
             obj={
                 type:"error",
-                data:"This account need to grant"
+                data:"This account and/or method has not been authorized by the user."
             }
     }
     chrome.tabs.query({active:true,windowId: windowID}, function(tabs){

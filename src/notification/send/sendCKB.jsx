@@ -199,16 +199,17 @@ export default function SignMessage(){
             }
                 break;
             case "send_transaction_error":
+                {
+                    setTips(message.data??"Get info Failed")
+                    setError(true)
+                    setLoading(false)
+                }
+                break;
             case "transaction_confirm_error":
             {
-                setTips('Send Failed')
+                setTips(message.data??'Send Failed')
                 setError(true)
                 setLoading(false)
-                setTimeout(()=>{
-                    setError(false)
-                    // navigate("/send")
-                },2000)
-
             }
                 break;
 
