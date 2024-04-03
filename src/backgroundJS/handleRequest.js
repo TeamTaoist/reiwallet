@@ -45,6 +45,12 @@ export const handleRequest = async (requestData) =>{
             case "ckb_sendCKB":
                 rt = await sendCKBTx(data,windowID,url);
                 break;
+            case "ckb_getNetwork":
+                rt = await getNetwork();
+                break;
+            case "ckb_switchNetwork":
+                rt = await switchNetwork(data);
+                break;
         }
         if(rt){
             let data = {
@@ -66,10 +72,7 @@ export const handleRequest = async (requestData) =>{
     }
 }
 
-
-
 const handleGrant = async(url) =>{
-
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
         {
             path: 'grant',
@@ -78,8 +81,6 @@ const handleGrant = async(url) =>{
     );
 
     return new Promise((resolve, reject) => {
-
-
         messenger.register('get_grant', () => {
             return {url};
         });
@@ -100,11 +101,7 @@ const handleGrant = async(url) =>{
             }
         });
     });
-
-
 }
-
-
 
 const requestAccount = async(url) =>{
     try{
@@ -136,7 +133,7 @@ const requestAccount = async(url) =>{
         }
 
     }catch (e) {
-        console.error("===requestAccount==",e)
+        console.error("requestAccount",e)
         throw new Error(`requestAccount:${e}`)
     }
 }
@@ -245,3 +242,26 @@ const sendCKBTx = async(data,windowId,url) =>{
 
 }
 
+const getNetwork = async() =>{
+    try{
+        const {network} = await PublicJS.getAccount();
+        return network;
+
+    }catch (e) {
+        throw new Error(`getBalance:${e.message}`)
+    }
+}
+
+const switchNetwork = async(value) =>{
+    try{
+        await chrome.storage.local.set({network:value});
+        return {
+            type:"Success",
+            network:value
+        };
+
+    }catch (e) {
+        throw new Error(`getBalance:${e.message}`)
+    }
+
+}
