@@ -155,7 +155,7 @@ export default function Assets(){
                             </FlexLft>
                         </div>
                         <FlexRht>
-                            <SendBox>Send</SendBox>
+                            {/*<SendBox>Send</SendBox>*/}
 
                             <img src={Next} alt=""/>
                         </FlexRht>
