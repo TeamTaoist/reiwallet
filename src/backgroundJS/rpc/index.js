@@ -411,6 +411,26 @@ export default class RpcClient{
 
         return await this.transaction_confirm(newTx);
     }
+
+    melt_Cluster = async(currentAccountInfo,outPoint) => {
+        const network = await this.getNetwork();
+
+        const {index,tx_hash} = outPoint
+
+        const { txSkeleton } = await meltSpore({
+            // outPoint:sporeCell.outPoint,
+            outPoint:{
+                index,
+                txHash:tx_hash
+            },
+            fromInfos: [currentAccountInfo?.address],
+            config:network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
+        });
+        let signHash = await signAndSendTransaction(txSkeleton);
+        const newTx = formatter.toRawTransaction(signHash);
+
+        return await this.transaction_confirm(newTx);
+    }
 }
 
 

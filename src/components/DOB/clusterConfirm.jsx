@@ -121,9 +121,6 @@ export default function ClusterConfirm(){
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
 
-    console.log("==cluster===",cluster)
-
-
     const handleEvent = (message) => {
         const {type }= message;
         switch(type){

@@ -64,6 +64,9 @@ export const handlePopUp = async (requestData) =>{
         case "Melt_DOB":
             melt_dob(requestData);
             break;
+        case "Melt_Cluster":
+            melt_Cluster(requestData);
+            break;
         case "get_SUDT":
             getSUDT(requestData);
             break;
@@ -278,6 +281,21 @@ const sendCluster = async (obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.send_Cluster(obj);
+        await recordToTxList(rt);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        console.error(`${obj.method}_error`, e.message)
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const melt_Cluster = async (obj) =>{
+    const {currentAccountInfo,outPoint} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.melt_Cluster(currentAccountInfo,outPoint);
         await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 

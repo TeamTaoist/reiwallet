@@ -22,9 +22,11 @@ import Mnemonics from "../components/wallet/importWallet/Mnemonics";
 import AssetDetail from "../components/SUDT/assetDetail";
 import AddNetwork from "../components/network/addNetwork";
 import DOB_detail from "../components/DOB/detail";
+import Cluster_detail from "../components/DOB/cluster_detail";
 import DOBConfirm from "../components/DOB/confirm";
 import SendConfirm from "../components/SUDT/sendConfirm";
 import ClusterConfirm from "../components/DOB/ClusterConfirm";
+import SUDT_detail from "../components/SUDT/sudt_detail";
 
 function PopupRouterLink() {
     return (
@@ -62,8 +64,10 @@ function PopupRouterLink() {
             <Route path="/dobDetail" element={<DOB_detail />}/>
             <Route path="/dobConfirm" element={<DOBConfirm />}/>
             <Route path="/ClusterConfirm" element={<ClusterConfirm />}/>
+            <Route path="/ClusterDetail" element={<Cluster_detail />}/>
 
             <Route path="/sudtConfirm" element={<SendConfirm />}/>
+            <Route path="/sudtdetail" element={<SUDT_detail/>}/>
 
 
         </Routes>

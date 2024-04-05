@@ -216,7 +216,7 @@ export default function Dob(){
     }
     const toCluster = (item) =>{
         dispatch({type:'SET_CLUSTER_DETAIL',payload:item});
-        navigate("/sendCluster")
+        navigate("/ClusterDetail")
     }
 
 

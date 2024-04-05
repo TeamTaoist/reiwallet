@@ -131,7 +131,7 @@ export default function Assets(){
 
     const toDetail = (item) =>{
         dispatch({type:'SET_SUDT_DETAIL',payload:item});
-        navigate("/sendSUDT");
+        navigate("/sudtdetail");
     }
 
     return <Box>
