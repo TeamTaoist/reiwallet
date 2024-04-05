@@ -161,7 +161,11 @@ const getBalance = async(params) =>{
     try{
         const client = new RpcClient();
         let rt = await client.get_capacity(addr);
-        return rt?.capacity ?? 0;
+        const {capacity,OcCapacity} = rt;
+        return {
+            capacity,
+            occupied:OcCapacity
+        };
 
     }catch (e) {
         throw new Error(`getBalance:${e.message}`)

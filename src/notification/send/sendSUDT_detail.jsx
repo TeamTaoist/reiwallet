@@ -192,7 +192,6 @@ export default function SendSUDT_detail(){
     const[loading,setLoading] = useState(false)
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
-    const {symbol} = useBalance();
     const [btnL,setBtnL] = useState(false)
     const [fee,setFee] = useState('')
 
