@@ -114,7 +114,7 @@ const BtnGroup = styled.div`
     }
 `
 
-export default function SignMessage(){
+export default function SendCKB(){
     const messenger = useSessionMessenger();
     const {currentAccountInfo} = useAccountAddress();
     const { t } = useTranslation();
@@ -130,6 +130,7 @@ export default function SignMessage(){
     const [tips,setTips] = useState('')
     const [fee,setFee] = useState(0);
     const [feeRate,setFeeRate] = useState(0)
+
 
     useEffect(() => {
         toBackground()

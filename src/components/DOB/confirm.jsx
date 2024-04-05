@@ -191,7 +191,6 @@ export default function DOBConfirm(){
     const [loading,setLoading] = useState(false)
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
-
     const handleEvent = (message) => {
         const {type }= message;
         switch(type){
@@ -216,8 +215,6 @@ export default function DOBConfirm(){
                 },2000)
             }
                 break;
-
-
         }
     }
 

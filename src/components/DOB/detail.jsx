@@ -159,6 +159,8 @@ export default function DOB_detail(){
     const navigate = useNavigate();
     const [show,setShow]= useState(false)
 
+    console.log(dob)
+
 
     const Copy = () =>{
         setCopied(true);

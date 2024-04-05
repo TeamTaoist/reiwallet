@@ -1,9 +1,8 @@
-
 import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
 import PublicJS from "../utils/publicJS";
-import {getMinFeeRate} from "@spore-sdk/core";
+
 /*global chrome*/
 const toMessage = (data) =>{
     const {windowID} = data;
@@ -42,7 +41,6 @@ export const handleRequest = async (requestData) =>{
             case "ckb_signMessage":
                 rt = await signData(data,windowID,url);
                 break;
-
             case "ckb_sendCKB":
                 rt = await sendCKBTx(data,windowID,url);
                 break;
@@ -57,6 +55,12 @@ export const handleRequest = async (requestData) =>{
                 break;
             case "isConnected":
                 rt = await getConnected(url);
+                break;
+            case "ckb_sendDOB":
+                rt = await sendDOB(data,windowID,url);
+                break;
+            case "ckb_sendCluster":
+                rt = await sendCluster(data,windowID,url);
                 break;
         }
         if(rt){
@@ -232,6 +236,7 @@ const sendCKBTx = async(data,windowId,url) =>{
         messenger.register('CKB_transaction_result', (result) => {
             const {data,status} =result;
             if(status === "success"){
+                recordToTxList(data?.signedTx)
                 resolve(data);
             }else{
                 reject(data);
@@ -293,4 +298,101 @@ const getConnected = async(url) =>{
     }catch (e) {
         throw new Error(`getConnected:${e.message}`)
     }
+}
+const sendDOB = async (data,windowId,url) =>{
+    const {to,outPoint:{txHash}} = data
+    if( !to) {
+        throw new Error("Address is required");
+        return;
+    }
+    if( !txHash) {
+        throw new Error("OutPoint is required");
+        return;
+    }
+
+    let hasGrant = await PublicJS.requestGrant(url);
+    if(!hasGrant){
+        throw new Error(`This account has not been authorized by the user.`)
+        return;
+    }
+
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'sendDOB',
+        },
+        { preventDuplicate: false },
+    );
+
+    return new Promise((resolve, reject) => {
+        messenger.register('get_DOB_Transaction', () => {
+            return {rt:data,url};
+        });
+
+        messenger.register('DOB_transaction_result', (result) => {
+            const {data,status} =result;
+            if(status === "success"){
+                resolve(data);
+            }else{
+                reject(data);
+            }
+            messenger.destroy();
+
+        });
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("Send DOB transaction Rejected");
+            }
+        });
+    });
+
+
+}
+
+const sendCluster = async(data,windowId,url) =>{
+    const {to,outPoint:{txHash}} = data
+    if( !to) {
+        throw new Error("Address is required");
+        return;
+    }
+    if( !txHash) {
+        throw new Error("OutPoint is required");
+        return;
+    }
+
+    let hasGrant = await PublicJS.requestGrant(url);
+    if(!hasGrant){
+        throw new Error(`This account has not been authorized by the user.`)
+        return;
+    }
+
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'sendCluster',
+        },
+        { preventDuplicate: false },
+    );
+
+    return new Promise((resolve, reject) => {
+        messenger.register('get_Cluster_Transaction', () => {
+            return {rt:data,url};
+        });
+
+        messenger.register('Cluster_transaction_result', (result) => {
+            const {data,status} =result;
+            if(status === "success"){
+                resolve(data);
+            }else{
+                reject(data);
+            }
+            messenger.destroy();
+
+        });
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("SendCluster transaction Rejected");
+            }
+        });
+    });
 }

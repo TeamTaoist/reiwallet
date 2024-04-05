@@ -283,7 +283,7 @@ export default class RpcClient{
 
         const {index,tx_hash} = outPoint
 
-        const { txSkeleton, outputIndex } = await transferSpore({
+        const { txSkeleton } = await transferSpore({
             // outPoint:sporeCell.outPoint,
             outPoint:{
                 index,

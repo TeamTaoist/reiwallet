@@ -121,6 +121,8 @@ export default function ClusterConfirm(){
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
 
+    console.log("==cluster===",cluster)
+
 
     const handleEvent = (message) => {
         const {type }= message;
@@ -180,7 +182,6 @@ export default function ClusterConfirm(){
             method:"send_Cluster",
             outPoint:cluster.out_point,
             currentAccountInfo,
-            id:cluster?.output?.type?.args,
             toAddress:address,
         }
 

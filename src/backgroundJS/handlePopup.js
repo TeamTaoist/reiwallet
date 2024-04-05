@@ -1,8 +1,6 @@
 /*global chrome*/
 import Wallet from "../wallet/wallet";
 import RpcClient from "./rpc";
-import { getSporeById, transferSpore } from '@spore-sdk/core';
-import { predefinedSporeConfigs } from '@spore-sdk/core';
 import {currentInfo} from "../wallet/getCurrent";
 
 const recordToTxList = async(txhash)=>{
@@ -207,11 +205,11 @@ const getDOB = async (obj) =>{
 }
 
 const sendDOB = async (obj) =>{
-    const {currentAccountInfo,outPoint,toAddress,id,useCapacityMarginAsFee} = obj;
+    const {currentAccountInfo,outPoint,toAddress} = obj;
 
     try{
         const client = new RpcClient();
-        let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress,id,useCapacityMarginAsFee);
+        let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress);
         await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 
