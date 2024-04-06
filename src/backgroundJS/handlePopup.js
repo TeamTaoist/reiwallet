@@ -73,6 +73,9 @@ export const handlePopUp = async (requestData) =>{
         case "send_SUDT":
             sendSUDT(requestData);
             break;
+        case "get_XUDT":
+            getXUDT(requestData);
+            break;
     }
 
 }
@@ -301,6 +304,19 @@ const melt_Cluster = async (obj) =>{
 
     }catch (e){
         console.error(`${obj.method}_error`, e.message)
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const getXUDT = async (obj) =>{
+    const {currentAccountInfo} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.get_XUDT(currentAccountInfo.address);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }

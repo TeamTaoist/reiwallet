@@ -8,5 +8,6 @@ module.exports = {
     importMnemonic:null,
     dob:null,
     sudt:null,
+    xudt:null,
     cluster:null
 };

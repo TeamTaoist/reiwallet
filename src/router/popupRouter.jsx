@@ -27,6 +27,7 @@ import DOBConfirm from "../components/DOB/confirm";
 import SendConfirm from "../components/SUDT/sendConfirm";
 import ClusterConfirm from "../components/DOB/ClusterConfirm";
 import SUDT_detail from "../components/SUDT/sudt_detail";
+import XUDT_detail from "../components/xudt/xudt_detail";
 
 function PopupRouterLink() {
     return (
@@ -68,6 +69,7 @@ function PopupRouterLink() {
 
             <Route path="/sudtConfirm" element={<SendConfirm />}/>
             <Route path="/sudtdetail" element={<SUDT_detail/>}/>
+            <Route path="/xudtdetail" element={<XUDT_detail/>}/>
 
 
         </Routes>

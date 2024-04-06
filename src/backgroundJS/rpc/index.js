@@ -7,7 +7,7 @@ import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
 import { predefinedSporeConfigs, transferSpore,meltSpore,transferCluster} from "@spore-sdk/core";
-import {getSudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
+import {getSudtTypeScript,getXudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -430,6 +430,41 @@ export default class RpcClient{
         const newTx = formatter.toRawTransaction(signHash);
 
         return await this.transaction_confirm(newTx);
+    }
+
+    get_XUDT = async(address) =>{
+        const hashObj = Wallet.addressToScript(address);
+        const{codeHash,hashType,args} = hashObj;
+        const network = await this.getNetwork();
+
+        const xudtType = getXudtTypeScript(network.value === "mainnet");
+
+        return await this._request({
+            method:"get_cells",
+            url:network.rpcUrl.indexer,
+            params:[
+                {
+                    script: {
+                        code_hash: codeHash,
+                        hash_type:hashType,
+                        args
+                    },
+                    "script_type": "lock",
+                    script_search_mode: "exact",
+                    filter: {
+                        script: {
+                            code_hash: xudtType.codeHash,
+                            hash_type: xudtType.hashType,
+                            args: "0x",
+                        },
+                        script_search_mode: 'prefix',
+                        script_type: 'type',
+                    },
+                },
+                "desc",
+                "0x64"
+            ]
+        })
     }
 }
 
