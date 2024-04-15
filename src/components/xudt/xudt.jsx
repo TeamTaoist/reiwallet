@@ -1,14 +1,13 @@
 import Loading from "../loading/loading";
-import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
 import {useEffect, useState} from "react";
-import {useWeb3} from "../../store/contracts";
 import useAccountAddress from "../../useHook/useAccountAddress";
-import PublicJS from "../../utils/publicJS";
-import Next from "../../assets/images/into.png";
 import useXUDT from "../../useHook/useXUDT";
 import styled from "styled-components";
+import Xudt_item from "./xudt_item";
+import {unpackAmount} from "@ckb-lumos/common-scripts/lib/sudt";
+import {BI} from "@ckb-lumos/lumos";
 
 const Box = styled.div`
   padding: 23px 20px;
@@ -55,23 +54,9 @@ const Box = styled.div`
 `
 
 
-const FlexLft = styled.div`
-    display: flex;
-    align-content: center;
-    font-size: 10px;
-    gap:5px;
-    .token{
-        opacity: 0.5;
-    }
 
-`
 
-const FlexRht = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
- 
-`
+
 
 const SendBox = styled.div`
     font-size: 16px;
@@ -85,12 +70,12 @@ const LoadingBox = styled.div`
 `
 
 export default function XUDT(){
-    const navigate = useNavigate();
+
     const { t } = useTranslation();
     const {list,loading} = useXUDT();
     const {currentAccount} = useCurrentAccount();
     const [sList,setSList] = useState([])
-    const {dispatch} = useWeb3();
+
     const {currentAccountInfo} = useAccountAddress();
 
     useEffect(() => {
@@ -100,13 +85,32 @@ export default function XUDT(){
 
 
     const formatList =  () =>{
+        let arr = [...list];
+        let arrFormat =  arr.map((item)=>{
+            item.amount  = unpackAmount(item.output_data);
+            return item
+        })
 
+        console.log(arrFormat)
+
+        const groupedData = arrFormat.reduce((acc, obj) => {
+            const key = obj?.output?.type?.args
+            if (!acc[key]) {
+                acc[key] = { category: key, sum: BI.from(0),...obj };
+            }
+            acc[key].sum = acc[key].sum.add((obj.newAmount || obj.amount));
+
+            return acc;
+        }, {});
+        const result = Object.values(groupedData);
+
+        console.log(result)
+
+
+        setSList(result)
     }
 
-    const toDetail = (item) =>{
-        dispatch({type:'SET_XUDT_DETAIL',payload:item});
-        navigate("/xudtdetail");
-    }
+
 
     return <Box>
         {
@@ -114,29 +118,7 @@ export default function XUDT(){
         }
         <ul>
             {
-                sList.map((item, index) => (<li key={index} onClick={() => toDetail(item)}>
-                    <div className="flex">
-                        <div>
-                            <div className="flexInner">
-                                <span className="medium-font">{item?.sum?.toString()} </span>
-                                {
-                                    item?.argAddress === item.output.type.args && <div className="owner">owner</div>
-                                }
-                            </div>
-                            <FlexLft>
-                                <div className="token">token</div>
-                                <div className="token">{PublicJS.AddressToShow(item?.output?.type?.args)}</div>
-                            </FlexLft>
-                        </div>
-                        <FlexRht>
-                            {/*<SendBox>Send</SendBox>*/}
-
-                            <img src={Next} alt=""/>
-                        </FlexRht>
-
-                    </div>
-
-                </li>))
+                sList.map((item, index) => (<Xudt_item item={item} key={index} />))
             }
         </ul>
     </Box>

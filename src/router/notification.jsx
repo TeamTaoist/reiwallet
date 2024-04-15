@@ -6,6 +6,7 @@ import SendDOB from "../notification/send/sendDOB";
 import SendCluster from "../notification/send/sendCluster";
 import Grant from "../notification/grant/grant";
 import SendSUDT from "../notification/send/sendSUDT";
+import SendXUDT from "../notification/send/sendXUDT";
 
 function RouterLink() {
     return (
@@ -17,6 +18,7 @@ function RouterLink() {
             <Route path="/sendDOB" element={<SendDOB />}/>
             <Route path="/sendCluster" element={<SendCluster />}/>
             <Route path="/sendSUDT" element={<SendSUDT />}/>
+            <Route path="/sendXUDT" element={<SendXUDT />}/>
         </Routes>
     );
 }

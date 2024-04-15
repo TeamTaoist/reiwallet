@@ -76,6 +76,9 @@ export const handlePopUp = async (requestData) =>{
         case "get_XUDT":
             getXUDT(requestData);
             break;
+        case "send_XUDT":
+            sendXUDT(requestData);
+            break;
     }
 
 }
@@ -132,12 +135,12 @@ const get_transaction = async (obj) =>{
         const client = new RpcClient();
         let rt = await client.get_transaction(txHash);
         const {transaction:{hash},tx_status} = rt;
+        console.log("=====")
+
         if(tx_status.status !== "pending" && tx_status.status !== "proposed"){
             await RemoveRecord(hash,rt)
-
-        }else{
-            sendMsg({ type:"get_transaction_success",data:rt})
         }
+        sendMsg({ type:"get_transaction_success",data:rt})
 
 
     }catch (e){
@@ -314,6 +317,19 @@ const getXUDT = async (obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.get_XUDT(currentAccountInfo.address);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const sendXUDT = async (obj) =>{
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.send_XUDT(obj);
+        await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 
     }catch (e){

@@ -1,3 +1,8 @@
+
+import {
+    hexToBytes,
+} from "@nervosnetwork/ckb-sdk-utils";
+import {BI} from "@ckb-lumos/lumos";
 const AddressToShow = (address,num = 5) => {
     let frontStr = address.substring(0, num);
     let afterStr = address.substring(address.length - num, address.length);
@@ -45,6 +50,48 @@ const randomSort = (arr) =>{
 }
 
 
+export const unserializeTokenInfo = (hexData) => {
+    const buf = hexToBytes(hexData);
+    const view = new DataView(buf.buffer);
+
+    const decimal = view.getUint8(0);
+
+    const nameLen = view.getUint8(1);
+
+    let header = 2;
+    const nameMax = header + nameLen;
+    const nameBuf = new ArrayBuffer(nameLen);
+    const nameView = new DataView(nameBuf);
+    for (let i = 0; header < nameMax; header++, i++) {
+        const v = view.getUint8(header);
+        nameView.setUint8(i, v);
+    }
+
+    const symbolLen = view.getUint8(header);
+    header++;
+    const symbolMax = header + symbolLen;
+    const symbolBuf = new ArrayBuffer(symbolLen);
+    const symbolView = new DataView(symbolBuf);
+    for (let i = 0; header < symbolMax; header++, i++) {
+        const v = view.getUint8(header);
+        symbolView.setUint8(i, v);
+    }
+
+    return {
+        decimal,
+        name: Buffer.from(nameBuf).toString(),
+        symbol: Buffer.from(symbolBuf).toString(),
+    };
+};
+
+export  const parseFixed = (amount, decimal) =>{
+
+    const amountBI = BI.from(amount)
+    const newAmount = amountBI.div(10 ** decimal);
+    return newAmount
+
+}
+
 
 
 
@@ -52,5 +99,6 @@ export default {
     AddressToShow,
     requestGrant,
     getAccount,
+    parseFixed,
     randomSort
 }

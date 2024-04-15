@@ -7,7 +7,10 @@ import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
 import { predefinedSporeConfigs, transferSpore,meltSpore,transferCluster} from "@spore-sdk/core";
-import {getSudtTypeScript,getXudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
+import {getSudtTypeScript,getXudtTypeScript,getXudtDep} from "@nervina-labs/ckb-dex/lib/constants";
+
+import { addCellDep } from "@ckb-lumos/common-scripts/lib/helper";
+import {transfer_udt} from "../../utils/ckbRequest";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -126,7 +129,6 @@ export default class RpcClient{
     }
     send_transaction = async (to,amt,fee,isMax) =>{
         const network = await this.getNetwork();
-
         const currentAccount = await currentInfo();
 
         const {address,privatekey_show} = currentAccount;
@@ -202,7 +204,8 @@ export default class RpcClient{
             method:"send_transaction",
             url:network.rpcUrl.node,
             params:[
-                tx
+                tx,
+                "passthrough"
             ]
         })
     }
@@ -392,6 +395,7 @@ export default class RpcClient{
         const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
 
         let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
+
         txSkeleton = await commons.sudt.transfer(
             txSkeleton,
             [currentAccountInfo.address],
@@ -402,12 +406,11 @@ export default class RpcClient{
                 splitChangeCell:true
             }
             );
-        txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [currentAccountInfo.address], fee);
 
+        txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [currentAccountInfo.address], fee);
         let signHash = await signAndSendTransaction(txSkeleton);
 
         const newTx = formatter.toRawTransaction(signHash);
-
 
         return await this.transaction_confirm(newTx);
     }
@@ -465,6 +468,85 @@ export default class RpcClient{
                 "0x64"
             ]
         })
+    }
+
+    send_ckb2ckb_xudt  = async(obj) => {
+
+        // await transfer_udt(obj)
+        // const {currentAccountInfo, toAddress,args, amount,fee} = obj;
+        // const network = await this.getNetwork();
+        //
+        // if(network.value === "mainnet"){
+        //     config.initializeConfig(config.predefined.LINA);
+        // }else{
+        //     config.initializeConfig(config.predefined.AGGRON4);
+        // }
+        //
+        // const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
+        //
+        // let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
+        // console.error("==txSkeleton=",txSkeleton.toJSON(),currentAccountInfo, toAddress,args, amount,fee)
+        //
+        // let sudt_cellDeps = getXudtDep(network.value === "mainnet");
+        //
+        // txSkeleton = addCellDep(txSkeleton, sudt_cellDeps);
+        //
+        //
+        //
+        // // txSkeleton = await commons.sudt.transfer(
+        // //     txSkeleton,
+        // //     [currentAccountInfo.address],
+        // //     args,
+        // //     toAddress,
+        // //     amount,null,null,null,
+        // //     {
+        // //         config:{
+        // //
+        // //         },
+        // //         splitChangeCell:true
+        // //     }
+        // // );
+        //
+        // console.error("==sudt.transfer=",txSkeleton, fee)
+        // txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [currentAccountInfo.address], fee);
+        //
+        // console.log("====txSkeleton=",txSkeleton)
+        //
+        // let signHash = await signAndSendTransaction(txSkeleton);
+        //
+        // console.log("====signHash=",signHash)
+        //
+        // const newTx = formatter.toRawTransaction(signHash);
+        //
+        // return await this.transaction_confirm(newTx);
+    }
+
+
+    send_ckb2btc_xudt = async(currentAccountInfo, toAddress,args, amount,fee) =>{
+        const network = await this.getNetwork();
+    }
+
+    send_XUDT = async(obj) => {
+        const {currentAccountInfo, toAddress,args, amount,fee} = obj;
+        const network = await this.getNetwork();
+
+        console.log("===send_XUDT======",toAddress)
+
+
+        if(toAddress.startsWith("ck")){
+            console.log(toAddress)
+            let txSkeleton = await transfer_udt(obj,network)
+
+            let signHash = await signAndSendTransaction(txSkeleton);
+            const newTx = formatter.toRawTransaction(signHash);
+
+            return await this.transaction_confirm(newTx);
+        }else if(toAddress.startsWith("tb") || toAddress.startsWith("bc")){
+            await  this.send_ckb2btc_xudt(currentAccountInfo, toAddress,args, amount)
+        }
+
+
+
     }
 }
 

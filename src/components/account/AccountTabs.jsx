@@ -40,8 +40,7 @@ const Content = styled.div`
 
 export default function AccountTabs(){
     const { t } = useTranslation();
-    // const [list] = useState([t('popup.account.Activities'),"DOB","SUDT","XUDT"])
-    const [list] = useState([t('popup.account.Activities'),"DOB","SUDT"])
+    const [list] = useState([t('popup.account.Activities'),"DOB","SUDT","XUDT"])
     const [ current, setCurrent] = useState(0);
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab');

@@ -96,6 +96,9 @@ export default function Send(){
             case pathname.indexOf("/sendSUDT")>-1:
                 setUrl("/sudtConfirm")
                 break;
+            case pathname.indexOf("/sendXUDT")>-1:
+                setUrl("/XudtConfirm")
+                break;
             case pathname.indexOf("/sendCluster")>-1:
                 setUrl("/ClusterConfirm")
                 break;

@@ -65,6 +65,9 @@ export const handleRequest = async (requestData) =>{
             case "ckb_sendSUDT":
                 rt = await sendSUDT(data,windowID,url);
                 break;
+            case "ckb_sendXUDT":
+                rt = await sendXUDT(data,windowID,url);
+                break;
         }
         if(rt){
             let data = {
@@ -406,13 +409,17 @@ const sendCluster = async(data,windowId,url) =>{
 
 
 const sendSUDT = async(data,windowId,url) =>{
-    const {to,amount} = data
+    const {to,amount,token} = data
     if( !to) {
         throw new Error("Address is required");
         return;
     }
     if( !amount) {
         throw new Error("Amount is required");
+        return;
+    }
+    if( !token) {
+        throw new Error("Token is required");
         return;
     }
 
@@ -448,6 +455,62 @@ const sendSUDT = async(data,windowId,url) =>{
             if (windowId === notificationWindow.id) {
                 messenger.destroy();
                 reject("Send SUDT transaction Rejected");
+            }
+        });
+    });
+}
+
+
+const sendXUDT = async(data,windowId,url) =>{
+    const {to,amount,token} = data;
+    console.log("===to,amount,token=",to,amount,token)
+    if( !to) {
+        throw new Error("Address is required");
+        return;
+    }
+    if( !amount) {
+        throw new Error("Amount is required");
+        return;
+    }
+    if( !token) {
+        throw new Error("Token is required");
+        return;
+    }
+
+    let hasGrant = await PublicJS.requestGrant(url);
+    if(!hasGrant){
+        throw new Error(`This account has not been authorized by the user.`)
+        return;
+    }
+
+
+
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'sendXUDT',
+        },
+        { preventDuplicate: false },
+    );
+
+    return new Promise((resolve, reject) => {
+        messenger.register('get_XUDT_Transaction', () => {
+            return {rt:data,url};
+        });
+
+        messenger.register('XUDT_transaction_result', (result) => {
+            const {data,status} =result;
+            if(status === "success"){
+                resolve(data);
+            }else{
+                reject(data);
+            }
+            messenger.destroy();
+
+        });
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("Send XUDT transaction Rejected");
             }
         });
     });

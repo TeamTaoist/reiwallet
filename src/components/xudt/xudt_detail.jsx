@@ -140,6 +140,9 @@ const DlBox = styled.div`
             cursor: pointer;
         }
     }
+    .rhtName{
+        text-transform: uppercase;
+    }
     .tag{
         font-size: 10px;
         background: #00FF9D;
@@ -167,13 +170,12 @@ const MeltBox = styled.div`
 
 export default function XUDT_detail(){
     const { t } = useTranslation();
-    const {state:{sudt}} = useWeb3();
+    const {state:{xudt}} = useWeb3();
     const {symbol} = useBalance();
     const [copied,setCopied] = useState(false);
     const navigate = useNavigate();
     const [show,setShow]= useState(false)
 
-    console.log(sudt)
 
     const Copy = () =>{
         setCopied(true);
@@ -183,7 +185,7 @@ export default function XUDT_detail(){
     }
 
     const toGo = () =>{
-        navigate("/sendSUDT")
+        navigate("/sendXUDT")
 
         // toBackground()
     }
@@ -196,36 +198,54 @@ export default function XUDT_detail(){
         <Toast tips="copied" size={20} show={copied}/>
 
 
-        <TokenHeader title="SUDT Detail" />
+        <TokenHeader title="XUDT Detail" />
         <Content>
             <DlBox>
                 <dl>
                     <dt>Token</dt>
                     <dd>
-                        <span>{PublicJS.AddressToShow(sudt.output?.type?.args, 10)}</span>
-                        <CopyToClipboard onCopy={() => Copy()} text={sudt.output?.type?.args}>
+                        <span>{PublicJS.AddressToShow(xudt.output?.type?.args, 10)}</span>
+                        <CopyToClipboard onCopy={() => Copy()} text={xudt.output?.type?.args}>
                             <img src={CopyImg} alt=""/>
                         </CopyToClipboard>
                     </dd>
                 </dl>
                 <dl>
+                    <dt>Name</dt>
+                    <dd>
+                        <span className="rhtName">{xudt?.name}</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Symbol</dt>
+                    <dd>
+                        <span className="rhtName">{xudt?.symbol}</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Decimals</dt>
+                    <dd>
+                        <span>{xudt?.decimal}</span>
+                    </dd>
+                </dl>
+                <dl>
                     <dt>Balance</dt>
                     <dd>
-                        <span>{sudt.sum.toString()}</span>
+                        <span>{xudt?.sum ? formatUnit(xudt.sum.toString(),"ckb") : 0}</span>
                     </dd>
                 </dl>
 
-                <dl>
-                    <dt>Owner</dt>
-                    <dd>
-                        {
-                            sudt?.argAddress === sudt.output.type.args && <span className="tag">Yes</span>
-                        }
-                        {
-                            sudt?.argAddress !== sudt.output.type.args && <span className="tag no">no</span>
-                        }
-                    </dd>
-                </dl>
+                {/*<dl>*/}
+                {/*    <dt>Owner</dt>*/}
+                {/*    <dd>*/}
+                {/*        {*/}
+                {/*            xudt?.argAddress === xudt.output.type.args && <span className="tag">Yes</span>*/}
+                {/*        }*/}
+                {/*        {*/}
+                {/*            xudt?.argAddress !== xudt.output.type.args && <span className="tag no">no</span>*/}
+                {/*        }*/}
+                {/*    </dd>*/}
+                {/*</dl>*/}
             </DlBox>
             <ImageBox>
                 <div className="line"/>
