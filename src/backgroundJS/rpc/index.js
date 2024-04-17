@@ -13,7 +13,6 @@ import {transfer_udt} from "../../utils/ckbRequest";
 import {  buildRgbppLockArgs, genCkbJumpBtcVirtualTx, genRgbppLockScript} from "@rgbpp-sdk/ckb";
 import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
 import {RGBCollector} from "../../utils/newCollectorRGB";
-import {objectToTransactionSkeleton} from "@ckb-lumos/helpers";
 import {getSecp256k1CellDep} from "../../utils/constants";
 
 /*global chrome*/
@@ -482,10 +481,6 @@ export default class RpcClient{
 
         let btcUtxoList = await this.getRgbppAssert(toAddress,network);
         const {code_hash, hash_type, args} = typeScript;
-
-        console.log("btcUtxoList",btcUtxoList,typeScript);
-
-
         let findUtxo = btcUtxoList.filter((utxo)=>
              (utxo.ckbCellInfo &&
             utxo.ckbCellInfo.output.type.args == args &&
@@ -505,15 +500,10 @@ export default class RpcClient{
                 }
             }
         }
-
-        console.log("findUtxo",findUtxo);
         if(!findUtxo?.length ){
             return  "No can use utxo"
         }
         const {txHash:btcTxHash,idx:btcTxIdx} =  findUtxo[0]
-
-
-        console.log("btcTxHash",btcTxHash,btcTxIdx);
 
         const newTypescript = {
             codeHash: code_hash,
@@ -526,34 +516,15 @@ export default class RpcClient{
         }else{
             config.initializeConfig(config.predefined.AGGRON4);
         }
-        // const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
-
 
         const addressScript = helpers.parseAddress(currentAccount.address);
 
-        console.log("=====addressScript===",addressScript)
-
-        // const collector = indexer.collector({ lock: addressScript});
 
         const collector = new RGBCollector({
             ckbNodeUrl:  network.rpcUrl.node,
             ckbIndexerUrl: network.rpcUrl.indexer,
         });
         const  toRgbppLockArgs= buildRgbppLockArgs(btcTxIdx, btcTxHash);
-        console.log("=====toRgbppLockArgs===",toRgbppLockArgs)
-
-
-        const xudtType = {
-            codeHash: '0x25c29dc317811a6f6f3985a7a9ebc4838bd388d19d0feeecf0bcd60f6c0975bb',
-            hashType: 'type',
-            args: '0x1ba116c119d1cfd98a53e9d1a615cf2af2bb87d95515c9d217d367054cfc696b',
-        };
-
-        console.log("=====xudtType===",serializeScript(xudtType))
-        console.log("=====newTypescript===",serializeScript(newTypescript))
-        console.log("=====amount===",amount,parseUnit(amount.toString(), "ckb").toBigInt())
-
-        console.log("=====toRgbppLockArgs===",toRgbppLockArgs)
 
         let ckbRawTx;
 
@@ -566,8 +537,6 @@ export default class RpcClient{
             witnessLockPlaceholderSize: 1000,
         });
 
-        console.log("=====ckbRawTx11===",ckbRawTx)
-
         const emptyWitness = { lock: '', inputType: '', outputType: '' };
         let unsignedTx = {
             ...ckbRawTx,
@@ -578,18 +547,6 @@ export default class RpcClient{
         const {privatekey_show} = currentAccount;
 
         const signedTx = collector.getCkb().signTransaction(privatekey_show)(unsignedTx);
-        console.log("=====signedTx==",signedTx)
-
-
-        // const emptyWitness = {lock: "", inputType: "", outputType: ""};
-        // ckbRawTx.witnesses = ckbRawTx.inputs.map((_, index) => (index === 0 ? emptyWitness : "0x"));
-
-        // console.log("=====ckbRawTx===",ckbRawTx)
-        //
-        //
-        // let test = objectToTransactionSkeleton(ckbRawTx)
-        //
-        // console.log("=====test===",test)
 
         return signedTx;
     }
@@ -606,15 +563,7 @@ export default class RpcClient{
             return await this.transaction_confirm(newTx);
         }else if(toAddress.startsWith("tb") || toAddress.startsWith("bc")){
             let tx = await this.send_ckb2btc_xudt(obj)
-            console.log("=====send_ckb2btc_xudt====",tx)
-            // let signHash = await signAndSendTransaction(txSkeleton);
-            //
-            // console.log("=====signHash====",signHash)
             const newTx = formatter.toRawTransaction(tx);
-            //
-            console.log("=====newTx====",newTx)
-            console.log("=====newTx====",JSON.stringify(newTx))
-
             return await this.transaction_confirm(newTx);
         }
 
@@ -634,8 +583,6 @@ export default class RpcClient{
         }
 
         const rgbAssertList= [];
-
-        console.log("===getRgbppAssert====",result)
 
         if (result) {
             const rgbppLockArgsList= [];
@@ -664,7 +611,6 @@ export default class RpcClient{
                 const address = helpers.encodeToAddress(rgbppLock.lock);
                 let  rs = await this.get_XUDT(address);
                 const xudtList = rs?.objects;
-                console.log("====xudtList",xudtList)
                 if (xudtList.length > 0) {
                     for (let i = 0; i < xudtList.length; i++) {
                         const xudt = xudtList[i];
@@ -732,8 +678,6 @@ const  getUtxo = async(address,isMainnet) =>{
         },
     });
     const rt = await res.json();
-    console.log("===getUtxo",rt)
-
     if (rt.error) {
         return Promise.reject(rt.error);
     }

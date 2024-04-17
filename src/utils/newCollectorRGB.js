@@ -134,7 +134,6 @@ export class RGBCollector {
   }
 
   collectUdtInputs(liveCellsA, needAmountAAA) {
-    console.log("=====liveCells, needAmount=======",liveCellsA)
 
     const {liveCells, needAmount} = liveCellsA;
 
@@ -145,7 +144,6 @@ export class RGBCollector {
 
     for(let i = 0;i<liveCells.length;i++){
     let cell = liveCells[i];
-      console.log("====cell==",cell)
       inputs.push({
         previousOutput: {
           txHash: cell.outPoint.txHash,
