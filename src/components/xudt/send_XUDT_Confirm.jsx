@@ -239,7 +239,7 @@ export default function Send_XUDT_Confirm(){
                 setFee(rt)
             }
                 break;
-            case "send_SUDT_success":
+            case "send_XUDT_success":
             {
                 setError(true)
                 setTips('Send Finished')
@@ -249,7 +249,7 @@ export default function Send_XUDT_Confirm(){
                 },2000)
             }
                 break;
-            case "send_SUDT_error":
+            case "send_XUDT_error":
             {
                 setTips('Send Failed:'+message.data)
                 setError(true)
@@ -320,7 +320,7 @@ export default function Send_XUDT_Confirm(){
 
     const submit = () =>{
         setLoading(true)
-        console.log(xudt)
+        console.log("==xudt==",xudt)
         let obj ={
             method:"send_XUDT",
             currentAccountInfo,
@@ -330,9 +330,7 @@ export default function Send_XUDT_Confirm(){
             amount,
             fee
         }
-
         sendMsg(obj)
-
     }
 
     const checkDisabled =() =>{

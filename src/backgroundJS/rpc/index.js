@@ -7,10 +7,14 @@ import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
 import { predefinedSporeConfigs, transferSpore,meltSpore,transferCluster} from "@spore-sdk/core";
-import {getSudtTypeScript,getXudtTypeScript,getXudtDep} from "@nervina-labs/ckb-dex/lib/constants";
+import {getSudtTypeScript,getXudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
 
-import { addCellDep } from "@ckb-lumos/common-scripts/lib/helper";
 import {transfer_udt} from "../../utils/ckbRequest";
+import {  buildRgbppLockArgs, genCkbJumpBtcVirtualTx, genRgbppLockScript} from "@rgbpp-sdk/ckb";
+import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
+import {RGBCollector} from "../../utils/newCollectorRGB";
+import {objectToTransactionSkeleton} from "@ckb-lumos/helpers";
+import {getSecp256k1CellDep} from "../../utils/constants";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -470,83 +474,217 @@ export default class RpcClient{
         })
     }
 
-    send_ckb2ckb_xudt  = async(obj) => {
-
-        // await transfer_udt(obj)
-        // const {currentAccountInfo, toAddress,args, amount,fee} = obj;
-        // const network = await this.getNetwork();
-        //
-        // if(network.value === "mainnet"){
-        //     config.initializeConfig(config.predefined.LINA);
-        // }else{
-        //     config.initializeConfig(config.predefined.AGGRON4);
-        // }
-        //
-        // const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
-        //
-        // let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
-        // console.error("==txSkeleton=",txSkeleton.toJSON(),currentAccountInfo, toAddress,args, amount,fee)
-        //
-        // let sudt_cellDeps = getXudtDep(network.value === "mainnet");
-        //
-        // txSkeleton = addCellDep(txSkeleton, sudt_cellDeps);
-        //
-        //
-        //
-        // // txSkeleton = await commons.sudt.transfer(
-        // //     txSkeleton,
-        // //     [currentAccountInfo.address],
-        // //     args,
-        // //     toAddress,
-        // //     amount,null,null,null,
-        // //     {
-        // //         config:{
-        // //
-        // //         },
-        // //         splitChangeCell:true
-        // //     }
-        // // );
-        //
-        // console.error("==sudt.transfer=",txSkeleton, fee)
-        // txSkeleton = await commons.common.payFeeByFeeRate(txSkeleton, [currentAccountInfo.address], fee);
-        //
-        // console.log("====txSkeleton=",txSkeleton)
-        //
-        // let signHash = await signAndSendTransaction(txSkeleton);
-        //
-        // console.log("====signHash=",signHash)
-        //
-        // const newTx = formatter.toRawTransaction(signHash);
-        //
-        // return await this.transaction_confirm(newTx);
-    }
-
-
-    send_ckb2btc_xudt = async(currentAccountInfo, toAddress,args, amount,fee) =>{
+    send_ckb2btc_xudt = async(obj) =>{
         const network = await this.getNetwork();
+
+        const {toAddress, typeScript, amount, fee} = obj;
+        const currentAccount = await currentInfo();
+
+        let btcUtxoList = await this.getRgbppAssert(toAddress,network);
+        const {code_hash, hash_type, args} = typeScript;
+
+        console.log("btcUtxoList",btcUtxoList,typeScript);
+
+
+        let findUtxo = btcUtxoList.filter((utxo)=>
+             (utxo.ckbCellInfo &&
+            utxo.ckbCellInfo.output.type.args == args &&
+            utxo.ckbCellInfo.output.type.code_hash ==
+            code_hash &&
+            utxo.ckbCellInfo.output.type.hash_type == hash_type)
+        )
+
+        console.log("findUtxo111",findUtxo);
+
+        if (!findUtxo?.length) {
+            for (let i = 0; i < btcUtxoList.length; i++) {
+                const utxo = btcUtxoList[i];
+                if (!utxo.ckbCellInfo) {
+                    findUtxo[0] = utxo;
+                    break;
+                }
+            }
+        }
+
+        console.log("findUtxo",findUtxo);
+        if(!findUtxo?.length ){
+            return  "No can use utxo"
+        }
+        const {txHash:btcTxHash,idx:btcTxIdx} =  findUtxo[0]
+
+
+        console.log("btcTxHash",btcTxHash,btcTxIdx);
+
+        const newTypescript = {
+            codeHash: code_hash,
+            hashType: hash_type,
+            args: args
+        };
+
+        if(network.value === "mainnet"){
+            config.initializeConfig(config.predefined.LINA);
+        }else{
+            config.initializeConfig(config.predefined.AGGRON4);
+        }
+        // const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
+
+
+        const addressScript = helpers.parseAddress(currentAccount.address);
+
+        console.log("=====addressScript===",addressScript)
+
+        // const collector = indexer.collector({ lock: addressScript});
+
+        const collector = new RGBCollector({
+            ckbNodeUrl:  network.rpcUrl.node,
+            ckbIndexerUrl: network.rpcUrl.indexer,
+        });
+        const  toRgbppLockArgs= buildRgbppLockArgs(btcTxIdx, btcTxHash);
+        console.log("=====toRgbppLockArgs===",toRgbppLockArgs)
+
+
+        const xudtType = {
+            codeHash: '0x25c29dc317811a6f6f3985a7a9ebc4838bd388d19d0feeecf0bcd60f6c0975bb',
+            hashType: 'type',
+            args: '0x1ba116c119d1cfd98a53e9d1a615cf2af2bb87d95515c9d217d367054cfc696b',
+        };
+
+        console.log("=====xudtType===",serializeScript(xudtType))
+        console.log("=====newTypescript===",serializeScript(newTypescript))
+        console.log("=====amount===",amount,parseUnit(amount.toString(), "ckb").toBigInt())
+
+        console.log("=====toRgbppLockArgs===",toRgbppLockArgs)
+
+        let ckbRawTx;
+
+        ckbRawTx = await genCkbJumpBtcVirtualTx({
+            collector,
+            fromCkbAddress: currentAccount.address,
+            toRgbppLockArgs,
+            xudtTypeBytes: serializeScript(newTypescript),
+            transferAmount: parseUnit(amount.toString(), "ckb").toBigInt(),
+            witnessLockPlaceholderSize: 1000,
+        });
+
+        console.log("=====ckbRawTx11===",ckbRawTx)
+
+        const emptyWitness = { lock: '', inputType: '', outputType: '' };
+        let unsignedTx = {
+            ...ckbRawTx,
+            cellDeps: [...ckbRawTx.cellDeps, getSecp256k1CellDep(network.value === "mainnet")],
+            witnesses: [emptyWitness, ...ckbRawTx.witnesses.slice(1)],
+        };
+
+        const {privatekey_show} = currentAccount;
+
+        const signedTx = collector.getCkb().signTransaction(privatekey_show)(unsignedTx);
+        console.log("=====signedTx==",signedTx)
+
+
+        // const emptyWitness = {lock: "", inputType: "", outputType: ""};
+        // ckbRawTx.witnesses = ckbRawTx.inputs.map((_, index) => (index === 0 ? emptyWitness : "0x"));
+
+        // console.log("=====ckbRawTx===",ckbRawTx)
+        //
+        //
+        // let test = objectToTransactionSkeleton(ckbRawTx)
+        //
+        // console.log("=====test===",test)
+
+        return signedTx;
     }
 
     send_XUDT = async(obj) => {
-        const {currentAccountInfo, toAddress,args, amount,fee} = obj;
+        const {toAddress} = obj;
         const network = await this.getNetwork();
 
-        console.log("===send_XUDT======",toAddress)
-
-
         if(toAddress.startsWith("ck")){
-            console.log(toAddress)
             let txSkeleton = await transfer_udt(obj,network)
-
+            console.log("===transfer_udt===",txSkeleton)
             let signHash = await signAndSendTransaction(txSkeleton);
             const newTx = formatter.toRawTransaction(signHash);
-
             return await this.transaction_confirm(newTx);
         }else if(toAddress.startsWith("tb") || toAddress.startsWith("bc")){
-            await  this.send_ckb2btc_xudt(currentAccountInfo, toAddress,args, amount)
+            let tx = await this.send_ckb2btc_xudt(obj)
+            console.log("=====send_ckb2btc_xudt====",tx)
+            // let signHash = await signAndSendTransaction(txSkeleton);
+            //
+            // console.log("=====signHash====",signHash)
+            const newTx = formatter.toRawTransaction(tx);
+            //
+            console.log("=====newTx====",newTx)
+            console.log("=====newTx====",JSON.stringify(newTx))
+
+            return await this.transaction_confirm(newTx);
         }
 
+    }
 
+     getRgbppAssert = async(address,network) => {
+        const isMainnet = network.value === "mainnet"
 
+        const result= await getUtxo(
+            address,isMainnet
+        );
+
+        if(network.value === "mainnet"){
+            config.initializeConfig(config.predefined.LINA);
+        }else{
+            config.initializeConfig(config.predefined.AGGRON4);
+        }
+
+        const rgbAssertList= [];
+
+        console.log("===getRgbppAssert====",result)
+
+        if (result) {
+            const rgbppLockArgsList= [];
+            for (let i = 0; i < result.length; i++) {
+                const element = result[i];
+                const rgbArgs = buildRgbppLockArgs(element.vout, element.txid);
+                rgbppLockArgsList.push({
+                    args: rgbArgs,
+                    txHash: element.txid,
+                    idx: element.vout,
+                    value: element.value,
+                });
+            }
+            const rgbppLocks = rgbppLockArgsList.map((item) => {
+                const lock = genRgbppLockScript(item.args, isMainnet);
+
+                return {
+                    lock,
+                    txHash: item.txHash,
+                    idx: item.idx,
+                    value: item.value,
+                };
+            });
+
+            for await (const rgbppLock of rgbppLocks) {
+                const address = helpers.encodeToAddress(rgbppLock.lock);
+                let  rs = await this.get_XUDT(address);
+                const xudtList = rs?.objects;
+                console.log("====xudtList",xudtList)
+                if (xudtList.length > 0) {
+                    for (let i = 0; i < xudtList.length; i++) {
+                        const xudt = xudtList[i];
+                        rgbAssertList.push({
+                            txHash: rgbppLock.txHash,
+                            idx: rgbppLock.idx,
+                            ckbCellInfo: xudt,
+                            value: rgbppLock.value,
+                        });
+                    }
+                }  else {
+                    rgbAssertList.push({
+                        txHash: rgbppLock.txHash,
+                        idx: rgbppLock.idx,
+                        value: rgbppLock.value,
+                    });
+                }
+            }
+        }
+        return rgbAssertList;
     }
 }
 
@@ -554,7 +692,6 @@ export default class RpcClient{
 async function signAndSendTransaction(txSkeleton) {
 
     const currentAccount = await currentInfo();
-
     const {privatekey_show} = currentAccount;
 
     txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
@@ -584,3 +721,25 @@ const calculateFeeCompatible = (size, feeRate)=> {
     }
     return BI.from(fee);
 }
+
+const  getUtxo = async(address,isMainnet) =>{
+    const res = await fetch(   `https://mempool.space${
+        isMainnet ? "" : "/testnet"
+    }/api/address/${address}/utxo`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const rt = await res.json();
+    console.log("===getUtxo",rt)
+
+    if (rt.error) {
+        return Promise.reject(rt.error);
+    }
+
+    return rt;
+}
+
+
+
