@@ -19,6 +19,7 @@ import {blockchain} from "@ckb-lumos/base";
   }
 
 const sudt_xudt_buildTransfer = async (options, network) => {
+    console.log("======options",options)
   if (network.value === "mainnet") {
     config.initializeConfig(config.predefined.LINA);
   } else {
@@ -29,6 +30,8 @@ const sudt_xudt_buildTransfer = async (options, network) => {
   const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
   let txSkeleton = helpers.TransactionSkeleton({cellProvider: indexer});
   const {code_hash, hash_type, args} = options.typeScript;
+
+  console.log("======options",code_hash, hash_type, args)
 
   const sudtToken = {
     codeHash: code_hash,

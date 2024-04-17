@@ -320,7 +320,6 @@ export default function Send_XUDT_Confirm(){
 
     const submit = () =>{
         setLoading(true)
-        console.log("==xudt==",xudt)
         let obj ={
             method:"send_XUDT",
             currentAccountInfo,

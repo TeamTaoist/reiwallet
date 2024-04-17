@@ -557,7 +557,6 @@ export default class RpcClient{
 
         if(toAddress.startsWith("ck")){
             let txSkeleton = await transfer_udt(obj,network)
-            console.log("===transfer_udt===",txSkeleton)
             let signHash = await signAndSendTransaction(txSkeleton);
             const newTx = formatter.toRawTransaction(signHash);
             return await this.transaction_confirm(newTx);

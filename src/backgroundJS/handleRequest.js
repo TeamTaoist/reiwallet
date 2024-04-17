@@ -462,8 +462,8 @@ const sendSUDT = async(data,windowId,url) =>{
 
 
 const sendXUDT = async(data,windowId,url) =>{
-    const {to,amount,token} = data;
-    console.log("===to,amount,token=",to,amount,token)
+    const {to,amount,typeScript} = data;
+    console.log("===to,amount,token=",to,amount,typeScript)
     if( !to) {
         throw new Error("Address is required");
         return;
@@ -472,8 +472,8 @@ const sendXUDT = async(data,windowId,url) =>{
         throw new Error("Amount is required");
         return;
     }
-    if( !token) {
-        throw new Error("Token is required");
+    if( !typeScript) {
+        throw new Error("TypeScript is required");
         return;
     }
 

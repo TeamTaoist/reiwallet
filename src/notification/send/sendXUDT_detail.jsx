@@ -307,7 +307,8 @@ export default function SendXUDT_detail(){
             method:"send_XUDT",
             amount:params?.amount,
             currentAccountInfo,
-            args:params?.token,
+            args:params?.typeScript.args,
+            typeScript:params?.typeScript,
             toAddress:params?.to,
             fee
         }
@@ -345,12 +346,27 @@ export default function SendXUDT_detail(){
             <DlBox>
 
                 <dl>
-                    <dt>Token</dt>
+                    <dt>Args(OutPoint)</dt>
                     <dd>
-                        <span>{params?.token ? PublicJS.AddressToShow(params?.token, 10) : ""}</span>
-                        <CopyToClipboard onCopy={() => Copy()} text={params?.token}>
+                        <span>{params?.typeScript?.args ? PublicJS.AddressToShow(params?.typeScript?.args, 10) : ""}</span>
+                        <CopyToClipboard onCopy={() => Copy()} text={params?.typeScript?.args}>
                             <img src={CopyImg} alt=""/>
                         </CopyToClipboard>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Code_hash(OutPoint)</dt>
+                    <dd>
+                        <span>{params?.typeScript?.code_hash ? PublicJS.AddressToShow(params?.typeScript?.code_hash, 10) : ""}</span>
+                        <CopyToClipboard onCopy={() => Copy()} text={params?.typeScript?.code_hash}>
+                            <img src={CopyImg} alt=""/>
+                        </CopyToClipboard>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Type(OutPoint)</dt>
+                    <dd>
+                        <span>{params?.typeScript?.hash_type}</span>
                     </dd>
                 </dl>
                 <dl>
