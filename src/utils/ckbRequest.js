@@ -1,7 +1,7 @@
 import {
   Indexer,
   config,
-  helpers,
+  helpers, commons,
 } from "@ckb-lumos/lumos";
 import {BI, parseUnit} from "@ckb-lumos/bi";
 import { addCellDep } from "@ckb-lumos/common-scripts/lib/helper";
@@ -147,9 +147,33 @@ const sudt_xudt_buildTransfer = async (options, network) => {
   }
 
   let needCapacity = outputCapacity.add(MAX_FEE);
+
+  const minFromCKBCell = BI.from(
+      helpers.minimalCellCapacity({
+        cellOutput: {
+          lock: fromScript,
+          capacity: BI.from(0).toHexString(),
+        },
+        data: "0x",
+      })
+  );
+
   if (needCapacity.lt(sudt_sumCapacity)) {
     const ckb_change = sudt_sumCapacity.sub(needCapacity);
-    if (ckb_change.gt(0)) {
+    // if (ckb_change.gt(0)) {
+    //   const output_ckb_change = {
+    //     cellOutput: {
+    //       lock: fromScript,
+    //       capacity: ckb_change.toHexString(),
+    //     },
+    //     data: "0x",
+    //   };
+    //   txSkeleton = txSkeleton.update("outputs", (outputs) =>
+    //       outputs.push(output_ckb_change)
+    //   );
+    // }
+
+    if (ckb_change.gt(minFromCKBCell)) {
       const output_ckb_change = {
         cellOutput: {
           lock: fromScript,
@@ -157,10 +181,50 @@ const sudt_xudt_buildTransfer = async (options, network) => {
         },
         data: "0x",
       };
+
       txSkeleton = txSkeleton.update("outputs", (outputs) =>
           outputs.push(output_ckb_change)
       );
+    } else {
+      // find ckb
+      // <<
+      const collect_ckb = indexer.collector({
+        lock: {
+          script: fromScript,
+          searchMode: "exact",
+        },
+        type: "empty",
+      });
+      const inputs_ckb = [];
+      let ckb_sum = BI.from(0);
+      for await (const collect of collect_ckb.collect()) {
+        inputs_ckb.push(collect);
+        ckb_sum = ckb_sum.add(collect.cellOutput.capacity);
+        break;
+      }
+      if (inputs_ckb.length <= 0) {
+        throw new Error("Cannot find empty cell");
+      }
+      for (let i = 0; i < inputs_ckb.length; i++) {
+        const element = inputs_ckb[i];
+        element.cellOutput.capacity = "0x0";
+        txSkeleton = await commons.common.setupInputCell(txSkeleton, element);
+      }
+      const new_ckb_change = ckb_sum.add(ckb_change);
+      if (new_ckb_change.gt(0)) {
+        const output_ckb_change = {
+          cellOutput: {
+            lock: fromScript,
+            capacity: new_ckb_change.toHexString(),
+          },
+          data: "0x",
+        };
+        txSkeleton = txSkeleton.update("outputs", (outputs) =>
+            outputs.push(output_ckb_change)
+        );
+      }
     }
+
   } else {
     needCapacity = needCapacity.sub(sudt_sumCapacity);
     const collect_ckb = indexer.collector({

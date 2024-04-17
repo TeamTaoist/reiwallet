@@ -96,9 +96,9 @@ export default function Mnemonics(){
     const next = () =>{
         navigate('/confirmation');
     }
-    const download = () =>{
-        navigate('/download');
-    }
+    // const download = () =>{
+    //     navigate('/download');
+    // }
     const handleSelected = () =>{
         setChecked(!checked)
     }
@@ -125,9 +125,9 @@ export default function Mnemonics(){
                 <ContentBox className="regular-font">
 
                     <div>
-                        <div className="download" onClick={()=>download()} >
-                            <img src={DownloadImg} alt=""/>
-                        </div>
+                        {/*<div className="download" onClick={()=>download()} >*/}
+                        {/*    <img src={DownloadImg} alt=""/>*/}
+                        {/*</div>*/}
 
                         {
                             mnemonicStr.map((item,index)=>(<span key={index}>{item}</span>))
