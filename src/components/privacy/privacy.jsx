@@ -95,14 +95,17 @@ const PrivacyDashboard = () => {
         <h1 className="medium-font">{t('install.privacy.privacy-title')}</h1>
         <p>{t('install.privacy.privacy-content_p1')}</p>
         <p>{t('install.privacy.privacy-content_p2')}</p>
-        <CheckBoxStyled>
-          <CheckItem>{t('install.privacy.privacy-check_li_1')}</CheckItem>
-          <CheckItem>{t('install.privacy.privacy-check_li_2')}</CheckItem>
-          <CheckItem>{t('install.privacy.privacy-check_li_3')}</CheckItem>
-          <CheckItem>{t('install.privacy.privacy-check_li_4')}</CheckItem>
-        </CheckBoxStyled>
-        <h2 className="medium-font">{t('install.privacy.privacy_subtitle')}</h2>
-        <p>{t('install.privacy.privacy_description')}</p>
+        <p>{t('install.privacy.privacy-content_p3')}</p>
+        <p>{t('install.privacy.privacy-content_p4')}</p>
+        <p>{t('install.privacy.privacy-content_p5')}</p>
+        {/*<CheckBoxStyled>*/}
+        {/*  <CheckItem>{t('install.privacy.privacy-check_li_1')}</CheckItem>*/}
+        {/*  <CheckItem>{t('install.privacy.privacy-check_li_2')}</CheckItem>*/}
+        {/*  <CheckItem>{t('install.privacy.privacy-check_li_3')}</CheckItem>*/}
+        {/*  <CheckItem>{t('install.privacy.privacy-check_li_4')}</CheckItem>*/}
+        {/*</CheckBoxStyled>*/}
+        {/*<h2 className="medium-font">{t('install.privacy.privacy_subtitle')}</h2>*/}
+        {/*<p>{t('install.privacy.privacy_description')}</p>*/}
         <div className="options">
           <Button onClick={clickCancel}>{t('install.privacy.privacy-cancel')}</Button>
 

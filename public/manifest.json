@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "rgbpp-wallet",
-  "short_name": "rgbpp",
-  "version": "1.0.0",
-  "description": "rgbpp-wallet",
+  "name": "REI wallet",
+  "short_name": "REI wallet",
+  "version": "0.0.1",
+  "version_name": "0.0.1 alpha",
+  "description": "With REI Wallet Installed, Start Enjoying The Convenience Of Tracking And Managing All Your CKB Assets In One Place.",
   "icons": {
     "128": "logoIcon.png"
   },
-  "permissions": ["storage", "activeTab", "scripting","tabs"],
+  "permissions": ["storage", "activeTab", "tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

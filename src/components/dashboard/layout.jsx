@@ -57,7 +57,7 @@ const DashboardLayout = (props) => {
       <LayoutFooterStyled>
         <SocialIconStyled href=""><TwitterSvg /></SocialIconStyled>
         <SocialIconStyled href=""><DiscordSvg /></SocialIconStyled>
-        <SocialIconStyled href=""><TelegramSvg /></SocialIconStyled>
+        <SocialIconStyled href="https://t.me/reiwallet"><TelegramSvg /></SocialIconStyled>
         <SocialIconStyled href=""><MediumSvg /></SocialIconStyled>
       </LayoutFooterStyled>
     </DashboardLayoutStyled>

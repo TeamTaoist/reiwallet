@@ -60,6 +60,7 @@ const LinkBox = styled.div`
     img{
       width: 28px;
       margin-right: 29px;
+        cursor: pointer;
     }
 `
 const ItemBox = styled.div`
@@ -171,10 +172,10 @@ export default function Setting(){
         navigate(url)
     }
 
-    const toPrivacy = () =>{
+    const toTab = (url) =>{
         /*global chrome*/
         chrome.tabs.create({
-            url: '/install.html#/privacy'
+            url
         });
     }
     return <Box>
@@ -209,7 +210,7 @@ export default function Setting(){
                     <LftTitle className="medium-font">{t('popup.Settings.Version')}</LftTitle>
                     <div>V 1.0</div>
                 </ItemBox2>
-                <ItemBox2 onClick={() => toPrivacy()}>
+                <ItemBox2 onClick={() => toTab('/install.html#/privacy')}>
                     <LftTitle className="medium-font">{t('popup.Settings.Privacy')}</LftTitle>
                     <div className="rht">
                         <img src={Next} alt=""/>
@@ -222,7 +223,8 @@ export default function Setting(){
             <LinkBox>
                 <img src={Twitter} alt=""/>
                 <img src={Discord} alt=""/>
-                <img src={Telegram} alt=""/>
+                <img src={Telegram} alt="" onClick={()=>toTab("https://t.me/reiwallet")}/>
+
                 <img src={Medium} alt=""/>
             </LinkBox>
         </div>
