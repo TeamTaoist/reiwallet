@@ -75,6 +75,10 @@ export const handleRequest = async (requestData) =>{
             case "ckb_getPublicKey":
                 rt = await getPublicKey_inner(url);
                 break;
+
+            case "ckb_sendRawTransaction":
+                rt = await sendRawTx(url,data);
+                break;
         }
         if(rt){
             let data = {
@@ -575,9 +579,46 @@ const getPublicKey_inner = async(url) =>{
             });
         });
     }
+}
 
 
+const sendRawTx = async(url,data) =>{
 
+    let hasGrant = await PublicJS.requestGrant(url);
+    if(!hasGrant){
+        throw new Error(`This account has not been authorized by the user.`)
+        return;
+    }
+
+    const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+        {
+            path: 'sendRawTx',
+        },
+        { preventDuplicate: false },
+    );
+
+    return new Promise((resolve, reject) => {
+        messenger.register('sendRawTx_Transaction', () => {
+            return {rt:data,url};
+        });
+
+        messenger.register('sendRawTx_result', (result) => {
+            const {data,status} =result;
+            if(status === "success"){
+                resolve(data);
+            }else{
+                reject(data);
+            }
+            messenger.destroy();
+
+        });
+        browser.windows.onRemoved.addListener((windowId) => {
+            if (windowId === notificationWindow.id) {
+                messenger.destroy();
+                reject("Send raw transaction Rejected");
+            }
+        });
+    });
 
 
 }

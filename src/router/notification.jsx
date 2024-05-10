@@ -8,6 +8,7 @@ import Grant from "../notification/grant/grant";
 import SendSUDT from "../notification/send/sendSUDT";
 import SendXUDT from "../notification/send/sendXUDT";
 import GetPassword from "../notification/send/getPassword";
+import SendRawTx from "../notification/send/sendRawTx";
 
 function RouterLink() {
     return (
@@ -21,6 +22,7 @@ function RouterLink() {
             <Route path="/sendSUDT" element={<SendSUDT />}/>
             <Route path="/sendXUDT" element={<SendXUDT />}/>
             <Route path="/getPublicKey" element={<GetPassword />}/>
+            <Route path="/sendRawTx" element={<SendRawTx />}/>
         </Routes>
     );
 }

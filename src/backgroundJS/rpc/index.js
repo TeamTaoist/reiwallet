@@ -14,6 +14,7 @@ import {  buildRgbppLockArgs, genCkbJumpBtcVirtualTx, genRgbppLockScript} from "
 import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
 import {RGBCollector} from "../../utils/newCollectorRGB";
 import {getSecp256k1CellDep} from "../../utils/constants";
+import {objectToTransactionSkeleton} from "@ckb-lumos/helpers";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -565,6 +566,23 @@ export default class RpcClient{
             const newTx = formatter.toRawTransaction(tx);
             return await this.transaction_confirm(newTx);
         }
+
+    }
+
+    signAndSend = async(obj) =>{
+        const {txSkeletonObj} = obj;
+
+        const txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
+        console.log("====txSkeleton",txSkeleton)
+
+        let signHash = await signAndSendTransaction(txSkeleton);
+
+
+        console.log("====signHash",signHash)
+
+
+        const newTx = formatter.toRawTransaction(signHash);
+        return await this.transaction_confirm(newTx);
 
     }
 

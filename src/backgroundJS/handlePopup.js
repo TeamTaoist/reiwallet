@@ -79,6 +79,10 @@ export const handlePopUp = async (requestData) =>{
         case "send_XUDT":
             sendXUDT(requestData);
             break;
+
+        case "sign_send_confirm":
+            signAndSend(requestData);
+            break;
     }
 
 }
@@ -329,6 +333,18 @@ const sendXUDT = async (obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.send_XUDT(obj);
+        await recordToTxList(rt);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const signAndSend = async (obj) =>{
+    try{
+        const client = new RpcClient();
+        let rt = await client.signAndSend(obj);
         await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 
