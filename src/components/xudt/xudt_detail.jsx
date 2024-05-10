@@ -165,6 +165,13 @@ const MeltBox = styled.div`
     margin-top: 10px;
     cursor: pointer;
 `
+const TipsBtmBox = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+`
 
 
 
@@ -252,6 +259,7 @@ export default function XUDT_detail(){
                 <Button primary onClick={() => toGo()}>Send</Button>
                 {/*<MeltBox onClick={() => handleShow()}>Melt Cluster</MeltBox>*/}
             </ImageBox>
+            <TipsBtmBox>Supports sending RGB++ to BTC and sending XUDT to CKB.</TipsBtmBox>
         </Content>
     </Box>
 }

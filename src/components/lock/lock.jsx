@@ -96,8 +96,6 @@ export default function Lock({isNav,handleLock}){
         }catch (e) {
             console.error("checkPassword",e)
 
-        }finally {
-            setLoading(false)
         }
 
 

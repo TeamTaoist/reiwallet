@@ -1,7 +1,10 @@
 import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
-import PublicJS from "../utils/publicJS";
+import PublicJS, {getAccount} from "../utils/publicJS";
+import {currentInfo} from "../wallet/getCurrent";
+import {hd} from "@ckb-lumos/lumos";
+import {getPassword} from "../wallet/password";
 
 /*global chrome*/
 const toMessage = (data) =>{
@@ -67,6 +70,10 @@ export const handleRequest = async (requestData) =>{
                 break;
             case "ckb_sendXUDT":
                 rt = await sendXUDT(data,windowID,url);
+                break;
+
+            case "ckb_getPublicKey":
+                rt = await getPublicKey_inner(url);
                 break;
         }
         if(rt){
@@ -154,7 +161,6 @@ const requestAccount = async(url) =>{
         throw new Error(`requestAccount:${e}`)
     }
 }
-
 
 const getBalance = async(params) =>{
     let addr = params[0];
@@ -309,6 +315,7 @@ const getConnected = async(url) =>{
         throw new Error(`getConnected:${e.message}`)
     }
 }
+
 const sendDOB = async (data,windowId,url) =>{
     const {to,outPoint:{txHash}} = data
     if( !to) {
@@ -514,4 +521,63 @@ const sendXUDT = async(data,windowId,url) =>{
             }
         });
     });
+}
+
+const getPublicKey = async () =>{
+    const currentAccount = await currentInfo();
+    return hd.key.privateToPublic(currentAccount.privatekey_show);
+}
+
+const getPublicKey_inner = async(url) =>{
+
+
+    let hasGrant = await PublicJS.requestGrant(url);
+    if(!hasGrant){
+        throw new Error(`This account has not been authorized by the user.`)
+        return;
+    }
+
+    let pwd = await getPassword();
+    console.log("==pwd==",pwd)
+
+    if(pwd){
+        return await getPublicKey();
+    }else{
+        const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
+            {
+                path: 'getPublicKey',
+            },
+            { preventDuplicate: false },
+        );
+
+        return new Promise((resolve, reject) => {
+            messenger.register('get_PublicKey', () => {
+                return {url};
+            });
+
+            messenger.register('get_PublicKey_result', async(result) => {
+                const {status} =result;
+
+                if(status === "success"){
+                    let publicKey  = await getPublicKey();
+                    resolve(publicKey);
+                }else{
+                    reject("Get PublicKey Failed");
+                }
+                messenger.destroy();
+
+            });
+            browser.windows.onRemoved.addListener((windowId) => {
+                if (windowId === notificationWindow.id) {
+                    messenger.destroy();
+                    reject("Get PublicKey Rejected");
+                }
+            });
+        });
+    }
+
+
+
+
+
 }

@@ -7,6 +7,7 @@ import SendCluster from "../notification/send/sendCluster";
 import Grant from "../notification/grant/grant";
 import SendSUDT from "../notification/send/sendSUDT";
 import SendXUDT from "../notification/send/sendXUDT";
+import GetPassword from "../notification/send/getPassword";
 
 function RouterLink() {
     return (
@@ -19,6 +20,7 @@ function RouterLink() {
             <Route path="/sendCluster" element={<SendCluster />}/>
             <Route path="/sendSUDT" element={<SendSUDT />}/>
             <Route path="/sendXUDT" element={<SendXUDT />}/>
+            <Route path="/getPublicKey" element={<GetPassword />}/>
         </Routes>
     );
 }
