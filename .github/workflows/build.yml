@@ -1,0 +1,39 @@
+name: build
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
+    types: [ closed ]
+    paths-ignore: [ "package.json", "CHANGELOG.md", ".gitignore", ".github"]
+
+jobs:
+  bump:
+    name: bump version
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump version and push tag
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: '${{ secrets.ACTION_TOKEN }}'
+          git-branch: 'main'
+          git-message: 'chore(release): {version}'
+          git-user-name: 'taoist'
+          git-user-email: 'i@taoist.dev'
+          git-push: true
+          version-file: 'package.json'
+          preset: 'angular'
+          tag-prefix: 'v'
+          output-file: 'CHANGELOG.md'
+          skip-tag: false
+          release-count: '50'
+    
+  build:
+    name: build
+    if: ${{ always() }}
+    needs: [ bump ]
+    runs-on: ubuntu-latest
