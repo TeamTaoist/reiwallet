@@ -47,6 +47,21 @@ const LoadingBox = styled.div`
     margin-top: 20px;
 `
 
+const FlexBox = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+    span{
+        text-transform: uppercase; 
+    }
+
+`
+
+
 
 export default function Balance(){
     const navigate = useNavigate();
@@ -56,6 +71,13 @@ export default function Balance(){
 
     const toSend = () =>{
         navigate("/send");
+    }
+
+    const toHaste = () =>{
+        /*global chrome*/
+        chrome.tabs.create({
+            url: `https://haste.pro/dashboard`
+        });
     }
 
     return <BalanceBox>
@@ -85,7 +107,8 @@ export default function Balance(){
 
             </Title>
         }
-
         <Button primary onClick={() => toSend()}>{t('popup.account.send')}</Button>
+
+        <FlexBox onClick={()=>toHaste()}><span>haste</span>.pro &gt;</FlexBox>
     </BalanceBox>
 }
