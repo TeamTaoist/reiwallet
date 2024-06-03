@@ -10,7 +10,7 @@ import XUDT from "../xudt/xudt";
 const Tabs = styled.div`
     display: flex;
     .item{
-      width: 25%;
+      width: 33.3333%;
       text-align: center;
       font-size: 14px;
       font-weight: 400;
@@ -34,13 +34,32 @@ const Tabs = styled.div`
         }
       }
     }
+    .none{
+        display: none;
+    }
 `
 const Content = styled.div`
 `
 
 export default function AccountTabs(){
     const { t } = useTranslation();
-    const [list] = useState([t('popup.account.Activities'),"DOB","SUDT","XUDT"])
+    const [list] = useState([
+        {
+            value:0,
+            name:t('popup.account.Activities')
+        },
+        {
+            value:1,
+            name:"DOB"
+        },
+        // {
+        //     value:2,
+        //     name:"SUDT"
+        // },
+        {
+            value:3,
+            name:"XUDT"
+        }])
     const [ current, setCurrent] = useState(0);
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab');
@@ -71,8 +90,8 @@ export default function AccountTabs(){
         {/*}*/}
         <Tabs>
             {
-                list.map((item,index)=>(<div key={index} className={current===index ? "active item" :"item"} onClick={()=>chooseCurrent(index)}>
-                    <span>{item}</span>
+                list.map((item,index)=>(<div key={index} className={current===item.value  ? "active item" :"item"} onClick={()=>chooseCurrent(item.value)}>
+                    <span>{item.name}</span>
                     <div className="line" />
                 </div>))
             }
@@ -83,9 +102,6 @@ export default function AccountTabs(){
             }
             {
                 current === 1 && <Dob />
-            }
-            {
-                current === 2 && <Assets />
             }
             {
                 current === 3 && <XUDT />
