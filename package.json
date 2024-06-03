@@ -105,7 +105,8 @@
     "postbuild": "node ./config/postbuild.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "watch": "npm-watch"
+    "watch": "npm-watch",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
@@ -183,8 +184,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
+    "husky": "^9.0.11",
     "i18next": "^21.8.8",
     "i18next-browser-languagedetector": "^6.1.4",
     "js-base64": "^3.7.2",
