@@ -127,7 +127,7 @@ export default function SendRaw_detail(){
     const messenger = useSessionMessenger();
     const {currentAccountInfo} = useAccountAddress();
     const { t } = useTranslation();
-    const [loading,setLoading] = useState(false);
+    const [loading,setLoading] = useState(true);
 
     const [result,setResult] = useState(null)
 
@@ -218,7 +218,7 @@ export default function SendRaw_detail(){
 
 
             console.log(data.rt)
-
+            setLoading(false)
             setParams(data.rt?.txSkeleton)
             setUrl(data.url)
         }

@@ -177,7 +177,7 @@ export default function SendDOB_detail(){
     const {currentAccountInfo} = useAccountAddress();
     const {network} = useNetwork();
     const [dobDetail,setDobDetail] = useState(null)
-    const[loading,setLoading] = useState(false)
+    const[loading,setLoading] = useState(true)
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
     const {symbol} = useBalance();

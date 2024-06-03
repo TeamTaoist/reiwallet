@@ -1,12 +1,11 @@
 import Wallet from "../../wallet/wallet";
-import {clusterScript, networkList} from "../../constants/network";
 import {BI, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
 import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
-import { predefinedSporeConfigs, transferSpore,meltSpore,transferCluster} from "@spore-sdk/core";
+import {predefinedSporeConfigs, transferSpore, meltSpore, transferCluster, getSporeByOutPoint, getSporeScript} from "@spore-sdk/core";
 import {getSudtTypeScript,getXudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
 
 import {transfer_udt} from "../../utils/ckbRequest";
@@ -14,6 +13,7 @@ import {  buildRgbppLockArgs, genCkbJumpBtcVirtualTx, genRgbppLockScript} from "
 import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
 import {RGBCollector} from "../../utils/newCollectorRGB";
 import {getSecp256k1CellDep} from "../../utils/constants";
+import {networkList} from "../../constants/network";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -253,7 +253,10 @@ export default class RpcClient{
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
 
-        const clusterType = clusterScript[network.value]?.script;
+        const clusterConfig = network === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
+
+        const clusterType = getSporeScript(clusterConfig,"Cluster",["preview"]);
+        console.error("=====clusterType=",clusterType)
 
         return await this._request({
             method:"get_cells",
@@ -269,8 +272,8 @@ export default class RpcClient{
                     script_search_mode: "exact",
                     filter: {
                         script: {
-                            code_hash: clusterType.codeHash,
-                            hash_type: clusterType.hashType,
+                            code_hash: clusterType.script.codeHash,
+                            hash_type: clusterType.script.hashType,
                             args: "0x",
                         },
                         script_search_mode: 'prefix',
@@ -286,18 +289,48 @@ export default class RpcClient{
     send_DOB = async(currentAccountInfo,outPoint,toAddress) => {
         const network = await this.getNetwork();
         const addr =  Wallet.addressToScript(toAddress);
+        let feeRateRt = await this.get_feeRate();
 
-        const {index,tx_hash} = outPoint
+        let feeRate = BI.from(feeRateRt.median).toString();
+
+        const {index,tx_hash} = outPoint;
+        let newOutPoint = {
+            txHash:tx_hash,
+            index
+        }
+
+
+        const sporeConfig = network === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
+
+        const sporeCell = await getSporeByOutPoint(
+            newOutPoint,
+            sporeConfig,
+        )
+        let outputCell = JSON.parse(JSON.stringify(sporeCell));
+        outputCell.cellOutput.lock = helpers.parseAddress(toAddress, {config: sporeConfig.lumos});
+        let inputMin = helpers.minimalCellCapacityCompatible(sporeCell);
+        let outputMin = helpers.minimalCellCapacityCompatible(outputCell);
+
+        let minBi = outputMin.sub(inputMin.toString());
+
+        let amount;
+        if(minBi.gt("0")){
+            amount = minBi
+        }else{
+            amount = BI.from("0")
+        }
 
         const { txSkeleton } = await transferSpore({
-            // outPoint:sporeCell.outPoint,
             outPoint:{
                 index,
                 txHash:tx_hash
             },
+            feeRate,
             fromInfos: [currentAccountInfo?.address],
             toLock: addr,
             config:network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
+            capacityMargin:amount,
+            useCapacityMarginAsFee:false
         });
         let signHash = await signAndSendTransaction(txSkeleton);
 
@@ -314,7 +347,6 @@ export default class RpcClient{
         const {index,tx_hash} = outPoint
 
         const { txSkeleton } = await transferCluster({
-            // outPoint:sporeCell.outPoint,
             outPoint:{
                 index,
                 txHash:tx_hash
@@ -341,6 +373,7 @@ export default class RpcClient{
                 index,
                 txHash:tx_hash
             },
+
             fromInfos: [currentAccountInfo?.address],
             config:network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
         });

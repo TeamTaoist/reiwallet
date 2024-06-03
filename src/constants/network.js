@@ -26,20 +26,3 @@ export const  networkList = [
         blockExplorerUrls:"https://pudge.explorer.nervos.org/"
     },
 ]
-
-export const clusterScript = {
-    testnet:{
-        script:{
-            codeHash: "0x7366a61534fa7c7e6225ecc0d828ea3b5366adec2b58206f2ee84995fe030075",
-            hashType: 'data1',
-            args: '',
-        }
-    },
-    mainnet:{
-        script:{
-            codeHash: "0x7366a61534fa7c7e6225ecc0d828ea3b5366adec2b58206f2ee84995fe030075",
-            hashType: 'data1',
-            args: '',
-        }
-    }
-}

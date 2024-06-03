@@ -88,7 +88,7 @@ const sudt_xudt_buildTransfer = async (options, network) => {
     }
   }
   if (sudt_sumAmount.lt(amount)) {
-    throw new Error("Not enough sudt amount");
+    throw new Error("Not enough udt amount");
   }
 
   for (let i = 0; i < inputs_sudt.length; i++) {

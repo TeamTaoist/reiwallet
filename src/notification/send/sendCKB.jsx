@@ -118,7 +118,7 @@ export default function SendCKB(){
     const messenger = useSessionMessenger();
     const {currentAccountInfo} = useAccountAddress();
     const { t } = useTranslation();
-    const [loading,setLoading] = useState(false);
+    const [loading,setLoading] = useState(true);
     // const [address,setAddress] = useState('')
     // const [amount,setAmount] = useState('')
     // const [fee,setFee] = useState(0)
