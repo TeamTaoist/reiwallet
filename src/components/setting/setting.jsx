@@ -7,6 +7,7 @@ import Telegram from "../../assets/images/setting/Telegram.png";
 import Medium from "../../assets/images/setting/Medium.png";
 import Next from '../../assets/images/into.png'
 import {useTranslation} from "react-i18next";
+import {useEffect, useState} from "react";
 
 
 const Box = styled.div`
@@ -167,6 +168,7 @@ const SocialBox = styled.ul`
 export default function Setting(){
     const navigate = useNavigate()
     const { t } = useTranslation();
+    const [version,setVersion] = useState('')
 
     const toGo = (url) =>{
         navigate(url)
@@ -178,6 +180,19 @@ export default function Setting(){
             url
         });
     }
+
+    useEffect(() => {
+        getVersion();
+
+    }, []);
+
+    const getVersion = () =>{
+        /*global chrome*/
+        const manifest = chrome.runtime.getManifest();
+        console.log("=manifest.version==",manifest)
+        setVersion(manifest.version_name)
+    }
+
     return <Box>
         <TitleBox>
             <img src={CloseImg} alt="" onClick={()=>toGo('/')}/>
@@ -208,7 +223,7 @@ export default function Setting(){
             <ContentBox2>
                 <ItemBox2>
                     <LftTitle className="medium-font">{t('popup.Settings.Version')}</LftTitle>
-                    <div>V 1.0</div>
+                    <div>V {version}</div>
                 </ItemBox2>
                 <ItemBox2 onClick={() => toTab('/install.html#/privacy')}>
                     <LftTitle className="medium-font">{t('popup.Settings.Privacy')}</LftTitle>
