@@ -5,6 +5,7 @@ import PublicJS, {getAccount} from "../utils/publicJS";
 import {currentInfo} from "../wallet/getCurrent";
 import {hd} from "@ckb-lumos/lumos";
 import {getPassword} from "../wallet/password";
+import {networkList} from "../constants/network";
 
 /*global chrome*/
 const toMessage = (data) =>{
@@ -287,6 +288,14 @@ const getNetwork = async() =>{
 const switchNetwork = async(value) =>{
     try{
         await chrome.storage.local.set({network:value});
+
+        const networkArr = networkList.filter(item=>item.value === value);
+
+        let JsonStr = JSON.stringify(networkArr[0])
+        /*global chrome*/
+        chrome.storage.local.set({networkInfo:JsonStr});
+
+
         return {
             type:"Success",
             network:value
