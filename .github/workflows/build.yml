@@ -34,7 +34,7 @@ jobs:
           release-count: '50'
     
   build:
-    name: build
+    name: make build
     if: ${{ always() }}
     needs: [ bump ]
     runs-on: ubuntu-latest
