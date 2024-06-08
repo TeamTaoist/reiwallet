@@ -10,16 +10,16 @@ import Loading from "../loading/loading";
 // import {getHistoryList, getPRList} from "../../utils/indexdb";
 
 const Box = styled.div`
-  padding: 23px 20px 0;
+  padding: 15px 20px 0;
   li{
       display: flex;
-    height: 78px;
+    height: 60px;
     border-radius: 14px;
     padding: 0 22px;
     cursor: pointer;
       box-sizing: border-box;
       background: #fafafa;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     &:hover{
       background: #F1FCF1;
     }
@@ -29,7 +29,7 @@ const Box = styled.div`
       .inner{
           
           width: 100%;
-          height: 78px;
+          height: 60px;
           display: flex;
           justify-content: space-between;
           align-items: center;

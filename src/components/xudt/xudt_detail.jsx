@@ -6,12 +6,12 @@ import {useWeb3} from "../../store/contracts";
 import {useState} from "react";
 import {formatUnit} from "@ckb-lumos/bi";
 import useBalance from "../../useHook/useBalance";
-import PublicJs from "../../utils/publicJS";
-import CopyImg from "../../assets/images/create/COPY.png";
+
 import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {useNavigate} from "react-router-dom";
 import PublicJS from "../../utils/publicJS";
+import {Copy as CopyIcon} from "lucide-react";
 
 const Box = styled.div`
     min-height: 100%;
@@ -20,7 +20,7 @@ const Box = styled.div`
 `
 const Content = styled.div`
     flex-grow: 1;
-    margin:20px 0;
+    margin:10px 0 20px;
 `
 
 const TextBox = styled.div`
@@ -119,9 +119,10 @@ const ImageBox = styled.div`
     }
 `
 const DlBox = styled.div`
-    width: 80vw;
+    width:85vw;
     margin: 0 auto;
-    padding: 30px 0 ;
+    padding:0;
+    font-size: 14px;
     dl{
         margin-bottom: 10px;
         display: flex;
@@ -131,11 +132,13 @@ const DlBox = styled.div`
     }
     dt{
         opacity: 0.6;
+
     }
     dd{
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        gap: 10px;
         img{
             cursor: pointer;
         }
@@ -213,7 +216,7 @@ export default function XUDT_detail(){
                     <dd>
                         <span>{PublicJS.AddressToShow(xudt.output?.type?.args, 10)}</span>
                         <CopyToClipboard onCopy={() => Copy()} text={xudt.output?.type?.args}>
-                            <img src={CopyImg} alt=""/>
+                            <CopyIcon size={14} />
                         </CopyToClipboard>
                     </dd>
                 </dl>

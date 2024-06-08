@@ -16,36 +16,41 @@ import AddAccount from "./addAccount";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import useNetwork from "../../useHook/useNetwork";
 import Avatar from "../svg/avatar/avatar";
+import{Copy as Copy2,ChevronDown} from "lucide-react";
 
 const AccountBox = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px ;
-    border-bottom: 9px solid rgba(235, 237, 240, 0.2);
+    padding: 5px 20px 10px ;
+    border-bottom: 1px solid rgba(235, 237, 240,1);
     position: relative;
 `
 const Lft = styled.div`
     display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
     .avatar{
       width: 36px;
       height: 36px;
       border-radius: 36px;
-      margin-right: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
   .account{
-    font-size: 22px;
+    font-size: 14px;
     font-weight: 500;
     color: #34332E;
     font-family: "AvenirNext-Medium";
-    line-height: 20px;
-    margin-bottom: 4px;
+    line-height: 1.5em;
   }
   .address{
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     color: #A6ACBD;
-    line-height: 20px;
+    line-height:1.5em;
   }
 `
 
@@ -54,6 +59,7 @@ const Tips = styled.div`
     justify-content: flex-start;
     align-items: center;
   position: relative;
+    gap: 10px;
     img{
       margin-left: 5px;
       width: 24px;
@@ -63,6 +69,10 @@ const Tips = styled.div`
 
 const Rht = styled.div`
   cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
     img{
       width: 24px;
     }
@@ -168,6 +178,10 @@ export default function AccountHeader(){
         setShowNew(true)
     }
 
+    const handleClose = () =>{
+        setShowAccount(false);
+    }
+
     const handleCloseNew = () =>{
         setShowNew(false)
     }
@@ -203,17 +217,16 @@ export default function AccountHeader(){
             </DropDown>
         }
         {
-            showAccount && <AccountSwitch currentAccount={currentAccount} handleCurrent={handleCurrent} handleNew={handleNew}  />
+            showAccount && <AccountSwitch currentAccount={currentAccount} handleCurrent={handleCurrent} handleNew={handleNew}  handleClose={handleClose} />
         }
         {
             showNew && <AddAccount handleCloseNew={handleCloseNew} />
         }
         <Toast tips="copied" size={20} show={copied}/>
 
-        <Lft>
-            {/*<img src={DemoImg} alt="" className="avatar"/>*/}
-            <div className="avatar" onClick={(e)=>handleAccount(e)}>
-                <Avatar size={36} address={address} />
+        <Lft onClick={(e)=>handleAccount(e)}>
+            <div className="avatar">
+                <Avatar size={30} address={address} />
             </div>
 
             <div>
@@ -221,13 +234,14 @@ export default function AccountHeader(){
                 <Tips>
 
                     <div className="address">{PublicJs.AddressToShow(address)}</div>
-                    <CopyToClipboard onCopy={()=>Copy()} text={address}>
-                        <img src={CopyImg} alt=""/>
-                    </CopyToClipboard>
+                    <ChevronDown size={12} />
                 </Tips>
             </div>
         </Lft>
         <Rht onClick={(e)=>showDropDown(e)}>
+            <CopyToClipboard onCopy={()=>Copy()} text={address}>
+                <Copy2 size={16} />
+            </CopyToClipboard>
             <img src={MoreImg} alt=""/>
         </Rht>
     </AccountBox>
