@@ -1,5 +1,5 @@
-# rgbpp-wallet
-RGB++ Wallet is a Chrome Extension for Bitcoin Layer2s. 
+# REI Wallet
+REI Wallet is a Chrome Extension for Bitcoin Layer2s. 
 
 
 ## Config  backend URL
