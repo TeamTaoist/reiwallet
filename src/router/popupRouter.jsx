@@ -25,7 +25,7 @@ import DOB_detail from "../components/DOB/detail";
 import Cluster_detail from "../components/DOB/cluster_detail";
 import DOBConfirm from "../components/DOB/confirm";
 import SendConfirm from "../components/SUDT/sendConfirm";
-import ClusterConfirm from "../components/DOB/ClusterConfirm";
+import ClusterConfirm from "../components/DOB/clusterConfirm";
 import SUDT_detail from "../components/SUDT/sudt_detail";
 import XUDT_detail from "../components/xudt/xudt_detail";
 import Send_XUDT_Confirm from "../components/xudt/send_XUDT_Confirm";
