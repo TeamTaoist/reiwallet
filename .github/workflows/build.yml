@@ -1,15 +1,15 @@
-name: Build Wallet
+name: Build | Main Branch
 
 on:
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
 
   pull_request:
     branches: [ main ]
     types: [ closed ]
     paths-ignore: [ "package.json", "CHANGELOG.md", ".gitignore", ".github"]
 
-jobs:
+jobs:     
   bump:
     name: bump version
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true}}
@@ -32,9 +32,19 @@ jobs:
           output-file: 'CHANGELOG.md'
           skip-tag: false
           release-count: '50'
-    
+          
   build:
-    name: make build
+    name: build
     if: ${{ always() }}
     needs: [ bump ]
     runs-on: ubuntu-latest
+    env:
+      HUSKY: 0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Build
+        run: |
+          npm install
+          npm run build
