@@ -103,7 +103,6 @@ export default function Dob(){
         let clArr = [...clusterList];
         clArr.map(async(item)=>{
             item.cluster = unpackToRawClusterData(item.output_data,"v2");
-            console.log(item.cluster)
             item.clusterId = item.output.type.args;
             return item
         })

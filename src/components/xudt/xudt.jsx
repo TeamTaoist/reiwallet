@@ -91,8 +91,6 @@ export default function XUDT(){
             return item
         })
 
-        console.log(arrFormat)
-
         const groupedData = arrFormat.reduce((acc, obj) => {
             const key = obj?.output?.type?.args
             if (!acc[key]) {

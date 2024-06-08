@@ -232,17 +232,16 @@ export default function AccountHeader(){
             <div>
                 <div className="account">{walletName}</div>
                 <Tips>
-
                     <div className="address">{PublicJs.AddressToShow(address)}</div>
                     <ChevronDown size={12} />
                 </Tips>
             </div>
         </Lft>
-        <Rht onClick={(e)=>showDropDown(e)}>
+        <Rht>
             <CopyToClipboard onCopy={()=>Copy()} text={address}>
                 <Copy2 size={16} />
             </CopyToClipboard>
-            <img src={MoreImg} alt=""/>
+            <img  onClick={(e)=>showDropDown(e)} src={MoreImg} alt=""/>
         </Rht>
     </AccountBox>
 }

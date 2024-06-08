@@ -125,7 +125,7 @@ export default function AccountSwitch({currentAccount,handleCurrent,handleNew,ha
     const {accountList} = useAccountAddress();
 
     useEffect(() => {
-        if(!accountList?.length)return;
+        if(!accountList?.length || currentAccount <5)return;
         const element = document.getElementById(`current_${currentAccount}`);
         element?.scrollIntoView();
     }, [currentAccount,accountList]);
