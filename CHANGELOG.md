@@ -1,4 +1,13 @@
-## 0.1.1 (2024-06-08)
+## [0.1.2](https://github.com/TeamTaoist/reiwallet/compare/v0.1.1...v0.1.2) (2024-06-08)
+
+
+### Bug Fixes
+
+* typo in import path ([9a562fb](https://github.com/TeamTaoist/reiwallet/commit/9a562fb6147ba89694e814728d7c420b3d18d218))
+
+
+
+## [0.1.1](https://github.com/TeamTaoist/reiwallet/compare/ae5c629704e3c3a11931f81385521d868f722608...v0.1.1) (2024-06-08)
 
 
 ### Bug Fixes
