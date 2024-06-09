@@ -24,7 +24,6 @@ const backgoundJs = readFile('static/js', 'background', 'js');
 
 const newManifest = {
   ...manifest,
-  version:newVersion,
   "background": {
     "service_worker": backgoundJs,
     "type": "module"
