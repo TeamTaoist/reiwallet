@@ -43,3 +43,21 @@ also there will be lint error shown in browser console.
 ### `npm run build`
 
 This command build the app in production mode and saved to build folder.
+
+----
+
+## Release process
+
+### update version
+update version in `public/version.txt`
+
+### npm run build
+
+
+### Compress build folder
+
+The command is to compress the contents under the `build` folder.
+
+### Upload to chrome web store
+https://chrome.google.com/webstore/devconsole
+
