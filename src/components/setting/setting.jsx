@@ -189,7 +189,7 @@ export default function Setting(){
     const getVersion = () =>{
         /*global chrome*/
         const manifest = chrome.runtime.getManifest();
-        setVersion(manifest.version_name)
+        setVersion(manifest.version)
     }
 
     return <Box>

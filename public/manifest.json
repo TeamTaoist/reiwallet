@@ -3,7 +3,6 @@
   "name": "REI wallet",
   "short_name": "REI wallet",
   "version": "0.0.2",
-  "version_name": "0.0.2 alpha",
   "description": "With REI Wallet Installed, Start Enjoying The Convenience Of Tracking And Managing All Your CKB Assets In One Place.",
   "icons": {
     "128": "logoIcon.png"
