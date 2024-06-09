@@ -48,8 +48,11 @@ This command build the app in production mode and saved to build folder.
 
 ## Release process
 
+### update version
+update version in `public/version.txt`
 
 ### npm run build
+
 
 ### Compress build folder
 
