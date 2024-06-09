@@ -66,6 +66,9 @@ jobs:
     if: needs.bump.outputs.skipped != 'true'
     runs-on: ubuntu-latest
     steps:
+      - name: Clean workspace
+        run: find . -delete
+        
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
