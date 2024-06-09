@@ -1,3 +1,12 @@
+## [0.1.3](https://github.com/TeamTaoist/reiwallet/compare/v0.1.2...v0.1.3) (2024-06-09)
+
+
+### Bug Fixes
+
+* remove from postBuild ([1ee1a58](https://github.com/TeamTaoist/reiwallet/commit/1ee1a58dc2ba70f898933025366d794d7b1fbd7f))
+
+
+
 ## [0.1.2](https://github.com/TeamTaoist/reiwallet/compare/v0.1.1...v0.1.2) (2024-06-08)
 
 
