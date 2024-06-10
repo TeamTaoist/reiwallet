@@ -1,3 +1,12 @@
+## [0.1.4](https://github.com/TeamTaoist/reiwallet/compare/v0.1.3...v0.1.4) (2024-06-10)
+
+
+### Bug Fixes
+
+* build issue ([1d7659b](https://github.com/TeamTaoist/reiwallet/commit/1d7659bdf586d667708f5bd6145ca824c51930b9))
+
+
+
 ## [0.1.3](https://github.com/TeamTaoist/reiwallet/compare/v0.1.2...v0.1.3) (2024-06-09)
 
 
