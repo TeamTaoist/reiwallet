@@ -211,37 +211,4 @@ export const UNLOCKABLE_LOCK_SCRIPT = {
 export const getSecp256k1CellDep = (isMainnet) =>
   isMainnet ? MainnetInfo.Secp256k1LockDep : TestnetInfo.Secp256k1LockDep;
 
-export const getXudtTypeScript = (isMainnet) =>
-  isMainnet ? MainnetInfo.XUDTTypeScript : TestnetInfo.XUDTTypeScript;
-export const getXudtDep = (isMainnet) => (isMainnet ? MainnetInfo.XUDTTypeDep : TestnetInfo.XUDTTypeDep);
 
-export const getRgbppLockScript = (isMainnet) =>
-  isMainnet ? MainnetInfo.RgbppLockScript : TestnetInfo.RgbppLockScript;
-export const getRgbppLockDep = (isMainnet) =>
-  isMainnet ? MainnetInfo.RgbppLockDep : TestnetInfo.RgbppLockDep;
-
-export const getRgbppLockConfigDep = (isMainnet) =>
-  isMainnet ? MainnetInfo.RgbppLockConfigDep : TestnetInfo.RgbppLockConfigDep;
-
-export const getBtcTimeLockScript = (isMainnet) =>
-  isMainnet ? MainnetInfo.BtcTimeLockScript : TestnetInfo.BtcTimeLockScript;
-export const getBtcTimeLockDep = (isMainnet) =>
-  isMainnet ? MainnetInfo.BtcTimeLockDep : TestnetInfo.BtcTimeLockDep;
-
-export const getBtcTimeLockConfigDep = (isMainnet) =>
-  isMainnet ? MainnetInfo.BtcTimeLockConfigDep : TestnetInfo.BtcTimeLockConfigDep;
-
-export const getUniqueTypeScript = (isMainnet) =>
-  isMainnet ? MainnetInfo.UniqueTypeScript : TestnetInfo.UniqueTypeScript;
-export const getUniqueTypeDep = (isMainnet) =>
-  isMainnet ? MainnetInfo.UniqueTypeDep : TestnetInfo.UniqueTypeDep;
-
-export const getClusterTypeScript = (isMainnet) =>
-  isMainnet ? MainnetInfo.ClusterTypeScript : TestnetInfo.ClusterTypeScript;
-export const getClusterTypeDep = (isMainnet) =>
-  isMainnet ? MainnetInfo.ClusterTypeDep : TestnetInfo.ClusterTypeDep;
-
-export const getSporeTypeScript = (isMainnet) =>
-  isMainnet ? MainnetInfo.SporeTypeScript : TestnetInfo.SporeTypeScript;
-export const getSporeTypeDep = (isMainnet) =>
-  isMainnet ? MainnetInfo.SporeTypeDep : TestnetInfo.SporeTypeDep;
