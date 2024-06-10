@@ -1,12 +1,9 @@
 # REI Wallet
 REI Wallet is a Chrome Extension for Bitcoin Layer2s. 
 
+[![CI Build | Main Branch](https://github.com/TeamTaoist/reiwallet/actions/workflows/ci.yml/badge.svg)](https://github.com/TeamTaoist/reiwallet/actions/workflows/ci.yml)
 
-[![Build | Main Branch](https://github.com/TeamTaoist/reiwallet/actions/workflows/build.yml/badge.svg)](https://github.com/TeamTaoist/reiwallet/actions/workflows/build.yml)
-
-[![CI | Dev Branch](https://github.com/TeamTaoist/reiwallet/actions/workflows/ci.yml/badge.svg)](https://github.com/TeamTaoist/reiwallet/actions/workflows/ci.yml)
-
-
+[![CI | Dev Branch](https://github.com/TeamTaoist/reiwallet/actions/workflows/dev.yml/badge.svg)](https://github.com/TeamTaoist/reiwallet/actions/workflows/dev.yml)
 
 
 ## Config  backend URL
