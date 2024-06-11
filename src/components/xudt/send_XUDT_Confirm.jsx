@@ -373,7 +373,7 @@ export default function Send_XUDT_Confirm(){
                 <input type="number" value={amount} onChange={(e)=>handleAmount(e)}/>
                 <div className="rht">
                     <Button className="max"  onClick={()=>chooseMax()}>{t('popup.send.MAX')}</Button>
-                    <div className="balance">Amount: <span>{balance}</span><span className="symbol">{xudt?.symbol}</span></div>
+                    <div className="balance">{t('popup.send.Amount')}: <span>{balance}</span><span className="symbol">{xudt?.symbol}</span></div>
                 </div>
             </AmountBox>
         </div>
@@ -400,7 +400,7 @@ export default function Send_XUDT_Confirm(){
         </TokenBox>
             <BtnGroup>
                 <Button border onClick={() => navigate("/")}>{t('popup.send.cancel')}</Button>
-            <Button primary disabled={checkDisabled() }  onClick={()=>submit()}>Send</Button>
+            <Button primary disabled={checkDisabled() }  onClick={()=>submit()}>{t('popup.send.send')}</Button>
         </BtnGroup>
     </ContentBox>
     </Box>

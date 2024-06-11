@@ -11,6 +11,7 @@ import useAccountAddress from "../../useHook/useAccountAddress";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
 import DobClusterList from "./dobClusterList";
 import ClusterListDOB from "./clusterListDOB";
+import {useTranslation} from "react-i18next";
 
 
 const Box = styled.div`
@@ -65,6 +66,7 @@ export default function Dob(){
     const {networkInfo} = useNetwork();
     const {currentAccountInfo} = useAccountAddress();
     const [current,setCurrent] = useState(0);
+    const { t } = useTranslation();
     const [tabList] = useState([
         {
             name:"DOB",
@@ -150,7 +152,7 @@ export default function Dob(){
 
 
         {
-           ( sList.length >= 100 || cList.length >= 100) && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
+           ( sList.length >= 100 || cList.length >= 100) && <MoreBox onClick={() => toExplorer()}>{t('popup.account.viewMore')}</MoreBox>
         }
 
     </Box>

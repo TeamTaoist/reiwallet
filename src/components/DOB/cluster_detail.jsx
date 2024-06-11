@@ -142,7 +142,7 @@ export default function Cluster_detail(){
     }
 
     return <Box>
-        <Toast tips="copied" size={20} show={copied}/>
+        <Toast tips={t('popup.cluster.copied')} size={20} show={copied}/>
         {
             show &&  <MeltCluster handleClose={handleClose} cluster={cluster} />
         }
@@ -151,11 +151,11 @@ export default function Cluster_detail(){
         <Content>
             <DlBox>
                 <dl>
-                    <dt>Type</dt>
+                    <dt>{t('popup.cluster.Type')}</dt>
                     <dd className="medium-font">Spore Cluster</dd>
                 </dl>
                  <dl>
-                    <dt>Cluster Id</dt>
+                    <dt>{t('popup.cluster.ClusterId')}</dt>
                     <dd className="medium-font">
                         <span>{PublicJs.AddressToShow(cluster?.clusterId)}</span>
                         <CopyToClipboard onCopy={()=>Copy()} text={cluster?.clusterId}>
@@ -164,13 +164,13 @@ export default function Cluster_detail(){
                     </dd>
                     </dl>
                 <dl>
-                    <dt>Cluster Name</dt>
+                    <dt>{t('popup.cluster.ClusterName')}</dt>
                     <dd className="medium-font">
                         <span>{cluster.cluster.name}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Cluster Description</dt>
+                    <dt>{t('popup.cluster.ClusterDescription')}</dt>
                     <dd className="medium-font">
                         <span>{cluster.cluster.description}</span>
                     </dd>
@@ -178,13 +178,13 @@ export default function Cluster_detail(){
 
 
                 <dl>
-                    <dt>Occupied</dt>
+                    <dt>{t('popup.cluster.Occupied')}</dt>
                     <dd className="medium-font">{formatUnit(cluster?.output?.capacity, "ckb")} {symbol}</dd>
                 </dl>
             </DlBox>
             <ImageBox>
                 <div className="line"/>
-                <Button primary onClick={() => toGo()}>Send</Button>
+                <Button primary onClick={() => toGo()}>{t('popup.cluster.Send')}</Button>
                 {/*<MeltBox onClick={() => handleShow()}>Melt Cluster</MeltBox>*/}
             </ImageBox>
         </Content>

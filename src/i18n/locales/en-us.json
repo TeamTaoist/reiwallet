@@ -97,7 +97,7 @@
       "Complete": "Complete"
     },
     "import": {
-      "title": "Import Accound",
+      "title": "Import Account",
       "subTitle": "Import Private Key",
       "textTitle": "Private Key",
       "tips": "Imported accounts will not be associated with your originally created wallet account Secret Recovery Phrase.",
@@ -128,7 +128,14 @@
       "AddToken": "Add token",
       "details": "Account details",
       "ExportAccount": "Export Account",
-      "Explorer": "Explorer"
+      "Explorer": "Explorer",
+      "sites": "Connected sites",
+      "Available": "Available",
+      "Occupied": "Occupied",
+      "explorer": "View on block explorer",
+      "Committed": "Committed",
+      "viewMore": "View More"
+
     },
     "export": {
       "password": "Type your  password",
@@ -188,7 +195,12 @@
       "Outputs": "Outputs",
       "TransactionFee": "Transaction Fee",
       "Reject": "Reject",
-      "Confirm": "Confirm"
+      "Confirm": "Confirm",
+      "Amount":"Amount",
+      "Assets": "Assets",
+      "ClusterId": "Cluster Id",
+      "TokenID": "Token ID",
+      "Occupied": "Occupied"
     },
     "assets": {
       "Assets": "Assets"
@@ -197,7 +209,8 @@
       "tips": "Welcome back ！Coming soon to the decentralized web !",
       "password": "Password",
       "placeholder": "Please enter",
-      "unlock": "unlock"
+      "unlock": "unlock",
+      "validating": "validating"
     },
     "switch": {
       "title": "Switch Account",
@@ -207,6 +220,45 @@
     },
     "sign": {
       "title": "Signature request"
+    },
+    "xudt": {
+      "XUDTDetail": "XUDT Detail",
+      "Name": "Name",
+      "Symbol": "Symbol",
+      "Decimals": "Decimals",
+      "Balance": "Balance",
+      "Send": "Send",
+      "xudtTips": "Supports sending RGB++ to BTC and sending XUDT to CKB."
+    },
+    "sites": {
+      "Disconnect": "Disconnect",
+      "ConnectedSites": "Connected Sites",
+      "Nosites": "No sites"
+    },
+    "dob": {
+      "DOBDetail": "DOB Detail",
+      "copied": "Copied!",
+      "Send": "Send",
+      "MeltDOB": "Melt DOB",
+      "ClusterId": "Cluster Id",
+      "TokenID": "Token ID",
+      "Occupied": "Occupied",
+      "meltTips": "Are you sure you want to MELT this DOB?",
+      "meltTips2": "This action is irreversible",
+      "Cancel": "Cancel",
+      "MELT": "MELT"
+    },
+    "cluster": {
+      "copied": "Copied!",
+      "ClusterDetail": "Cluster Detail",
+      "SporeCluster": "Spore Cluster",
+      "ClusterId": "Cluster Id",
+      "ClusterName": "Cluster Name",
+      "ClusterDescription": "Cluster Description",
+      "Occupied": "Occupied",
+      "Description": "Description",
+      "Send": "Send",
+      "Type": "Type"
     }
   },
   "notification": {
@@ -216,5 +268,6 @@
       "signing": "You are signing"
     }
   }
+
 
 }

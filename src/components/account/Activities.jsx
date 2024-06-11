@@ -7,6 +7,7 @@ import useNetwork from "../../useHook/useNetwork";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import useHistoryList from "../../useHook/useHistory";
 import Loading from "../loading/loading";
+import {useTranslation} from "react-i18next";
 // import {getHistoryList, getPRList} from "../../utils/indexdb";
 
 const Box = styled.div`
@@ -82,6 +83,7 @@ export default function Activities(){
     const {networkInfo} = useNetwork();
     const {list,loading} = useHistoryList();
     const {currentAccountInfo} = useAccountAddress();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if(!networkInfo || !currentAccountInfo)return;
@@ -129,7 +131,7 @@ export default function Activities(){
                     list?.map((item, index) => (<ActivitiesItem key={`confirmed_${index}`} item={item} networkInfo={networkInfo} />))
                 }
                 {
-                    list?.length === 30 && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
+                    list?.length === 30 && <MoreBox onClick={() => toExplorer()}>{t('popup.account.viewMore')}</MoreBox>
                 }
             </ul>
         }

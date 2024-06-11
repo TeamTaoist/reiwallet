@@ -186,7 +186,7 @@ const SocialBox = styled.ul`
 
 export default function Setting(){
     const navigate = useNavigate()
-    const { t } = useTranslation();
+    const { t,i18n } = useTranslation();
     const [version,setVersion] = useState('')
 
     const toGo = (url) =>{
@@ -209,7 +209,15 @@ export default function Setting(){
         /*global chrome*/
         const manifest = chrome.runtime.getManifest();
         console.log("=manifest.version==",manifest)
-        setVersion(manifest.version_name)
+        setVersion(manifest.version)
+    }
+
+
+    const handleLan = () =>{
+
+        const lang = i18n.language === "zh" ? "en":"zh"
+        i18n.changeLanguage(lang);
+
     }
 
     return <Box>
@@ -222,10 +230,11 @@ export default function Setting(){
             <Titles className="medium-font">{t('popup.Settings.General')}</Titles>
             <ContentBox2>
                 {/*<ItemBox2  onClick={()=>toGo('/language')}>*/}
-                <ItemBox2>
+                <ItemBox2 onClick={()=>handleLan()}>
                     <LftTitle className="medium-font">{t('popup.Settings.Language')}</LftTitle>
                     <div className="rht">
-                        <span>English</span>
+
+                        <span>{i18n.language === "zh"?"中文":"English"}</span>
                         <img src={Next} alt=""/>
                     </div>
                 </ItemBox2>

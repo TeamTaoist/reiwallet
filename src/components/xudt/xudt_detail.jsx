@@ -208,7 +208,7 @@ export default function XUDT_detail(){
         <Toast tips="copied" size={20} show={copied}/>
 
 
-        <TokenHeader title="XUDT Detail" />
+        <TokenHeader title={t('popup.xudt.XUDTDetail')} />
         <Content>
             <DlBox>
                 <dl>
@@ -221,25 +221,25 @@ export default function XUDT_detail(){
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Name</dt>
+                    <dt>{t('popup.xudt.Name')}</dt>
                     <dd>
                         <span className="rhtName">{xudt?.name}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Symbol</dt>
+                    <dt>{t('popup.xudt.Symbol')}</dt>
                     <dd>
                         <span className="rhtName">{xudt?.symbol}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Decimals</dt>
+                    <dt>{t('popup.xudt.Decimals')}</dt>
                     <dd>
                         <span>{xudt?.decimal}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Balance</dt>
+                    <dt>{t('popup.xudt.Balance')}</dt>
                     <dd>
                         <span>{xudt?.sum ? formatUnit(xudt.sum.toString(),"ckb") : 0}</span>
                     </dd>
@@ -259,10 +259,10 @@ export default function XUDT_detail(){
             </DlBox>
             <ImageBox>
                 <div className="line"/>
-                <Button primary onClick={() => toGo()}>Send</Button>
+                <Button primary onClick={() => toGo()}>{t('popup.xudt.Send')}</Button>
                 {/*<MeltBox onClick={() => handleShow()}>Melt Cluster</MeltBox>*/}
             </ImageBox>
-            <TipsBtmBox>Supports sending RGB++ to BTC and sending XUDT to CKB.</TipsBtmBox>
+            <TipsBtmBox>{t('popup.xudt.xudtTips')}</TipsBtmBox>
         </Content>
     </Box>
 }

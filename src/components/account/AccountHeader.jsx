@@ -193,6 +193,7 @@ export default function AccountHeader(){
         });
     }
 
+
     return <AccountBox>
         {
             show &&<DropDown>
@@ -212,7 +213,7 @@ export default function AccountHeader(){
                     <dt>
                         <img src={SiteImg} alt=""/>
                     </dt>
-                    <dd>Connected sites</dd>
+                    <dd>{t('popup.account.sites')}</dd>
                 </dl>
             </DropDown>
         }
