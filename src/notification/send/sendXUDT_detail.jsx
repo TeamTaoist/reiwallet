@@ -366,25 +366,25 @@ export default function SendXUDT_detail(){
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Type(OutPoint)</dt>
+                    <dt>{t('notification.Type')}(OutPoint)</dt>
                     <dd>
                         <span>{params?.typeScript?.hash_type}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Amount</dt>
+                    <dt>{t('notification.Amount')}</dt>
                     <dd>
                         <span>{params?.amount}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Gas</dt>
+                    <dt>{t('notification.Gas')}</dt>
                     <dd>
                         <span>{fee?fee:"--"}</span> Shannons/kB
                     </dd>
                 </dl>
                 <dl>
-                    <dt>Owner</dt>
+                    <dt>{t('notification.Owner')}</dt>
                     <dd>
                         {
                             params?.argAddress === params?.token && <span className="tag">Yes</span>

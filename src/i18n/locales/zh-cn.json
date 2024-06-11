@@ -266,7 +266,11 @@
     "signing": "您正在签署"
     },
     "Reject": "拒绝",
-    "Confirm": "确认"
+    "Confirm": "确认",
+    "Amount": "数量",
+    "Gas": "Gas",
+    "Owner": "Owner",
+    "Type": "种类"
   }
 
 }

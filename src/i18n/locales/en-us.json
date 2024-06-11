@@ -268,7 +268,11 @@
       "signing": "You are signing"
     },
     "Reject": "Reject",
-    "Confirm": "Confirm"
+    "Confirm": "Confirm",
+    "Amount": "Amount",
+    "Gas": "Gas",
+    "Owner": "Owner",
+    "Type": "Type"
   }
 
 
