@@ -396,8 +396,8 @@ export default function SendXUDT_detail(){
             </DlBox>
         </TopBox>
         <BtnGroup>
-            <Button border onClick={() => handleClose()}>Rejected</Button>
-            <Button primary onClick={() => submit()}>Confirm{
+            <Button border onClick={() => handleClose()}>{t('notification.Reject')}</Button>
+            <Button primary onClick={() => submit()}>{t('popup.step1.Confirm')}{
                 btnL && <BtnLoading/>
             } </Button>
         </BtnGroup>

@@ -266,7 +266,9 @@
       "title": "Signature request",
       "tips": "Only sign this message if you fully understand the content and trust the requesting site.",
       "signing": "You are signing"
-    }
+    },
+    "Reject": "Reject",
+    "Confirm": "Confirm"
   }
 
 

@@ -10,6 +10,7 @@ import useNetwork from "../../useHook/useNetwork";
 import AccountSwitch from "./accountSwitch";
 import Button from "../../components/button/button";
 import BtnLoading from "../../components/loading/btnloading";
+import {useTranslation} from "react-i18next";
 
 
 const Box = styled.div`
@@ -93,7 +94,7 @@ const BtnGroup = styled.div`
 export default function Grant(){
     const [detail,setDetail] = useState(null);
     const messenger = useSessionMessenger();
-
+    const { t } = useTranslation();
     const [address,setAddress] = useState('');
     const [walletName,setWalletName] = useState('');
     const [showAccount,setShowAccount] = useState(false);
@@ -191,8 +192,8 @@ export default function Grant(){
         </Content>
 
         <BtnGroup>
-            <Button border onClick={()=>closeWin()}>Reject</Button>
-            <Button primary onClick={()=>handleGrant()}>Confirm
+            <Button border onClick={()=>closeWin()}>{t('notification.Reject')}</Button>
+            <Button primary onClick={()=>handleGrant()}>{t('notification.Confirm')}
                 {
                     loading && <BtnLoading />
                 }
