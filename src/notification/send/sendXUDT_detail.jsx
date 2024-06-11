@@ -16,6 +16,7 @@ import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
 import useMessage from "../../useHook/useMessage";
 import {ownerForSudt} from "@ckb-lumos/common-scripts/lib/sudt";
+import {useTranslation} from "react-i18next";
 
 const Box = styled.div`
     display: flex;
@@ -194,6 +195,7 @@ export default function SendXUDT_detail(){
     const [tips,setTips] = useState('')
     const [btnL,setBtnL] = useState(false)
     const [fee,setFee] = useState('')
+    const { t } = useTranslation();
 
     useEffect(() => {
         if(!messenger || !currentAccountInfo?.address)return;
