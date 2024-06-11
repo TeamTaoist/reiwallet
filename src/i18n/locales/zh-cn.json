@@ -14,7 +14,7 @@
     "create": {
       "create": {
         "create_title": "设置密码",
-        "start": "让我们开始",
+        "start": "让我们开始吧",
         "restore": "恢复",
         "create_tips": "您可以创建个人身份并连接到社交帐户。",
         "walletName": "钱包名称",
