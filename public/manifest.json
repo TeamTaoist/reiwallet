@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "REI wallet",
   "short_name": "REI wallet",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Track and manage all your CKB assets effortlessly with REI Wallet – your one-stop solution for convenient CKB asset management.",
   "icons": {
     "128": "logoIcon.png"
