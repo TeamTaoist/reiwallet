@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useWeb3} from "../store/contracts";
 import useNetwork from "./useNetwork";
+import {throws} from "assert";
 
 export default function useWalletList(){
     const [walletList,setWalletList] = useState([]);
@@ -24,23 +25,31 @@ export default function useWalletList(){
         setWalletList(arr)
     }, [network,wallets]);
 
-    const saveWallet = (item,index) =>{
+    const saveWallet = async(item,index) =>{
+            /*global chrome*/
+            let result = await chrome.storage.local.get(['walletList']);
 
-        /*global chrome*/
-        chrome.storage.local.get(['walletList'],(result)=>{
-          let list = result.walletList ?? [];
-          let newList;
-          if(index !== "new"){
-              let arr = [...list];
-              // arr[item.account_index] = item;
-              arr[index] = item;
-              newList = arr;
-          }else{
-               newList = [...list,JSON.parse(JSON.stringify(item))];
-          }
-            chrome.storage.local.set({walletList:newList});
-            dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
-        });
+                let list = result.walletList ?? [];
+                let newList;
+                if(index !== "new"){
+                    let arr = [...list];
+                    // arr[item.account_index] = item;
+                    arr[index] = item;
+                    newList = arr;
+                }else{
+                    const arr = list.filter(ll=>ll.account.address_main === item.account.address_main );
+                    if(!arr?.length){
+                        newList = [...list,JSON.parse(JSON.stringify(item))];
+                    }else{
+                        throw new Error("Duplicate account address already exists");
+
+                    }
+
+                }
+                chrome.storage.local.set({walletList:newList});
+                dispatch({type:'SET_WALLET_LIST',payload:!refresh_wallet_list});
+
+
 
     }
     return {walletList, saveWallet};

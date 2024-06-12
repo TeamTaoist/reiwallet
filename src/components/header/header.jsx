@@ -12,7 +12,7 @@ const HeaderBox = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding:10px 20px;
 `
 const LogoImg = styled.div`
     width: 28px;
@@ -31,6 +31,7 @@ const InputBox = styled.div`
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    font-size: 14px;
 `
 const MoreBox = styled.div`
   width: 24px;

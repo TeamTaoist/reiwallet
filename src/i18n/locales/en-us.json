@@ -2,11 +2,11 @@
   "install": {
     "privacy": {
       "privacy-title": "Privacy Policy",
-      "privacy-content_p1": "This privacy policy (\"Policy\") describes how Taoist Labs. (\"Company\", \"we\", \"our\", or \"us\") collects, uses, shares, and stores personal information of users of its websites, https://reiwallet.io/ (the \"Sites\"). This Policy applies to the Sites, applications, products and services (collectively, \"Services\") on or in which it is posted, linked, or referenced. ",
-      "privacy-content_p2": "By using the Services, you accept the terms of this Policy and our Terms of Use, and consent to our collection, use, disclosure, and retention of your information as described in this Policy. If you have not done so already, please also review our terms of use. The terms of use contain provisions that limit our liability to you and require you to resolve any dispute with us on an individual basis and not as part of any class or representative action. IF YOU DO NOT AGREE WITH ANY PART OF THIS PRIVACY POLICY OR OUR TERMS OF USE, THEN PLEASE DO NOT USE ANY OF THE SERVICES. ",
-      "privacy-content_p3": "We retain information we collect as long as it is necessary and relevant to fulfill the purposes outlined in this privacy policy. In addition, we retain personal information to comply with applicable law where required, prevent fraud, resolve disputes, troubleshoot problems, assist with any investigation, enforce our Terms of Use, and other actions permitted by law. To determine the appropriate retention period for personal information, we consider the amount, nature, and sensitivity of the personal information, the potential risk of harm from unauthorized use or disclosure of your personal information, the purposes for which we process your personal information and whether we can achieve those purposes through other means, and the applicable legal requirements.",
-      "privacy-content_p4": "In some circumstances we may anonymize your personal information (so that it can no longer be associated with you) in which case we may use this information indefinitely without further notice to you.",
-      "privacy-content_p5": "We employ industry standard security measures designed to protect the security of all information submitted through the Services. However, the security of information transmitted through the internet can never be guaranteed. We are not responsible for any interception or interruption of any communications through the internet or for changes to or losses of data. Users of the Services are responsible for maintaining the security of any password, biometrics, user ID or other form of authentication involved in obtaining access to password protected or secure areas of any of our digital services. In order to protect you and your data, we may suspend your use of any of the Services, without notice, pending an investigation, if any breach of security is suspected.",
+      "privacy-content_p1": "This privacy policy (\"Policy\") outlines how Taoist Labs (\"Company,\" \"we,\" \"our,\" or \"us\") collects, utilizes, shares, and stores the personal information of users visiting our websites, https://reiwallet.io/ (referred to as the \"Sites\"). The Policy is applicable to the Services provided on or through the Sites, including applications, products, and related services.",
+      "privacy-content_p2": "By using the Services, you acknowledge and accept the terms of this Policy, along with our Terms of Use. You also provide consent for us to collect, use, disclose, and retain your information as described in this Policy. If you haven't done so already, we encourage you to review our terms of use, as they contain provisions that limit our liability and require the resolution of any disputes on an individual basis rather than through class or representative actions. If you disagree with any part of this Privacy Policy or our Terms of Use, we kindly request that you refrain from using any of the Services.",
+      "privacy-content_p3": "We retain the information we collect for as long as necessary and relevant to fulfill the purposes outlined in this privacy policy. Additionally, we retain personal information to comply with applicable laws, prevent fraud, resolve disputes, troubleshoot issues, assist with investigations, enforce our Terms of Use, and undertake other actions permitted by law. When determining the appropriate retention period for personal information, we consider factors such as the amount, nature, and sensitivity of the information, the potential risks associated with unauthorized use or disclosure, the purposes for processing the information, alternative means to achieve those purposes, and the applicable legal requirements.",
+      "privacy-content_p4": "Under certain circumstances, we may anonymize your personal information, rendering it unassociated with you. In such cases, we may use this anonymized information indefinitely without providing further notice to you.",
+      "privacy-content_p5": "We implement industry-standard security measures to protect the security of all information submitted through the Services. However, please note that the security of information transmitted over the internet can never be guaranteed. We cannot be held responsible for any interception, interruption, changes, or loss of data during internet communications. Users of the Services are responsible for maintaining the security of any passwords, biometrics, user IDs, or other authentication methods required for accessing password-protected or secure areas of our digital services. To ensure your safety and protect your data, we may temporarily suspend your use of the Services without notice if we suspect any security breaches.",
 
 
       "privacy-cancel": "Cancel",
@@ -97,7 +97,7 @@
       "Complete": "Complete"
     },
     "import": {
-      "title": "Import Accound",
+      "title": "Import Account",
       "subTitle": "Import Private Key",
       "textTitle": "Private Key",
       "tips": "Imported accounts will not be associated with your originally created wallet account Secret Recovery Phrase.",
@@ -128,7 +128,14 @@
       "AddToken": "Add token",
       "details": "Account details",
       "ExportAccount": "Export Account",
-      "Explorer": "Explorer"
+      "Explorer": "Explorer",
+      "sites": "Connected sites",
+      "Available": "Available",
+      "Occupied": "Occupied",
+      "explorer": "View on block explorer",
+      "Committed": "Committed",
+      "viewMore": "View More"
+
     },
     "export": {
       "password": "Type your  password",
@@ -162,6 +169,7 @@
       "Version": "Version",
       "Privacy": "Privacy clause",
       "Contact": "Contact",
+      "Friendly": "Partners",
       "Mnemonic": "Mnemonic",
       "Lock": "Lock",
       "MnemonicTit": "Account mnemonic",
@@ -187,7 +195,12 @@
       "Outputs": "Outputs",
       "TransactionFee": "Transaction Fee",
       "Reject": "Reject",
-      "Confirm": "Confirm"
+      "Confirm": "Confirm",
+      "Amount":"Amount",
+      "Assets": "Assets",
+      "ClusterId": "Cluster Id",
+      "TokenID": "Token ID",
+      "Occupied": "Occupied"
     },
     "assets": {
       "Assets": "Assets"
@@ -196,7 +209,8 @@
       "tips": "Welcome back ！Coming soon to the decentralized web !",
       "password": "Password",
       "placeholder": "Please enter",
-      "unlock": "unlock"
+      "unlock": "unlock",
+      "validating": "validating"
     },
     "switch": {
       "title": "Switch Account",
@@ -206,6 +220,45 @@
     },
     "sign": {
       "title": "Signature request"
+    },
+    "xudt": {
+      "XUDTDetail": "XUDT Detail",
+      "Name": "Name",
+      "Symbol": "Symbol",
+      "Decimals": "Decimals",
+      "Balance": "Balance",
+      "Send": "Send",
+      "xudtTips": "Supports sending RGB++ to BTC and sending XUDT to CKB."
+    },
+    "sites": {
+      "Disconnect": "Disconnect",
+      "ConnectedSites": "Connected Sites",
+      "Nosites": "No sites"
+    },
+    "dob": {
+      "DOBDetail": "DOB Detail",
+      "copied": "Copied!",
+      "Send": "Send",
+      "MeltDOB": "Melt DOB",
+      "ClusterId": "Cluster Id",
+      "TokenID": "Token ID",
+      "Occupied": "Occupied",
+      "meltTips": "Are you sure you want to MELT this DOB?",
+      "meltTips2": "This action is irreversible",
+      "Cancel": "Cancel",
+      "MELT": "MELT"
+    },
+    "cluster": {
+      "copied": "Copied!",
+      "ClusterDetail": "Cluster Detail",
+      "SporeCluster": "Spore Cluster",
+      "ClusterId": "Cluster Id",
+      "ClusterName": "Cluster Name",
+      "ClusterDescription": "Cluster Description",
+      "Occupied": "Occupied",
+      "Description": "Description",
+      "Send": "Send",
+      "Type": "Type"
     }
   },
   "notification": {
@@ -213,7 +266,14 @@
       "title": "Signature request",
       "tips": "Only sign this message if you fully understand the content and trust the requesting site.",
       "signing": "You are signing"
-    }
+    },
+    "Reject": "Reject",
+    "Confirm": "Confirm",
+    "Amount": "Amount",
+    "Gas": "Gas",
+    "Owner": "Owner",
+    "Type": "Type"
   }
+
 
 }

@@ -119,7 +119,7 @@ export default function Lock({isNav,handleLock}){
 
             {
                 loading &&  <div className="line">
-                    validating
+                    {t('popup.lock.validating')}
                     <BtnLoading />
                 </div>
             }

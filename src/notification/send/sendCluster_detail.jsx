@@ -22,6 +22,7 @@ import {useNavigate} from "react-router-dom";
 import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
 import useMessage from "../../useHook/useMessage";
+import {useTranslation} from "react-i18next";
 
 const Box = styled.div`
     display: flex;
@@ -187,6 +188,7 @@ export default function SendCluster_detail(){
     const {symbol} = useBalance();
     const navigate = useNavigate();
     const [btnL,setBtnL] = useState(false)
+    const { t } = useTranslation();
 
     useEffect(() => {
         if(!messenger)return;
@@ -337,7 +339,7 @@ export default function SendCluster_detail(){
 
             <DlBox>
                 <dl>
-                    <dt>Cluster Id</dt>
+                    <dt>{t('popup.cluster.ClusterId')}</dt>
                     <dd className="medium-font">
                         <span>{cluster?.clusterId ? PublicJs.AddressToShow(cluster?.clusterId) : ""}</span>
                         <CopyToClipboard onCopy={() => Copy()} text={cluster?.clusterId}>
@@ -347,22 +349,22 @@ export default function SendCluster_detail(){
                 </dl>
 
                 <dl>
-                    <dt>Cluster Name</dt>
+                    <dt>{t('popup.cluster.ClusterName')}</dt>
                     <dd className="medium-font">{cluster?.cluster?.name}</dd>
                 </dl>
                 <dl>
-                    <dt>Occupied</dt>
+                    <dt>{t('popup.cluster.Occupied')}</dt>
                     <dd className="medium-font">{cluster?.cellOutput?.capacity?formatUnit(cluster?.cellOutput?.capacity, "ckb"):0} {symbol}</dd>
                 </dl>
                 <dl>
-                    <dt>Description</dt>
+                    <dt>{t('popup.cluster.ClusterDescription')}</dt>
                     <dd className="medium-font desc">{cluster?.cluster?.description}</dd>
                 </dl>
             </DlBox>
         </TopBox>
         <BtnGroup>
-            <Button border onClick={() => handleClose()}>Rejected</Button>
-            <Button primary onClick={() => submit()}>Confirm{
+            <Button border onClick={() => handleClose()}>{t('notification.Reject')}</Button>
+            <Button primary onClick={() => submit()}>{t('popup.step1.Confirm')}{
                 btnL && <BtnLoading/>
             } </Button>
         </BtnGroup>
