@@ -1,6 +1,10 @@
 # REI Wallet
 REI Wallet is a Chrome Extension for Bitcoin Layer2s. 
 
+[![CI Build | Main Branch](https://github.com/TeamTaoist/reiwallet/actions/workflows/ci.yml/badge.svg)](https://github.com/TeamTaoist/reiwallet/actions/workflows/ci.yml)
+
+[![CI | Dev Branch](https://github.com/TeamTaoist/reiwallet/actions/workflows/dev.yml/badge.svg)](https://github.com/TeamTaoist/reiwallet/actions/workflows/dev.yml)
+
 
 ## Config  backend URL
 Find this lines in `background.js`, and update to the correct url
@@ -36,3 +40,21 @@ also there will be lint error shown in browser console.
 ### `npm run build`
 
 This command build the app in production mode and saved to build folder.
+
+----
+
+## Release process
+
+### update version
+update version in `public/version.txt`
+
+### npm run build
+
+
+### Compress build folder
+
+The command is to compress the contents under the `build` folder.
+
+### Upload to chrome web store
+https://chrome.google.com/webstore/devconsole
+

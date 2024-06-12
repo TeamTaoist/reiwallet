@@ -1,6 +1,6 @@
 {
-  "name": "rgbpp-wallet",
-  "version": "0.1.0",
+  "name": "reiwallet",
+  "version": "0.1.2",
   "private": true,
   "dependencies": {
     "@ckb-lumos/base": "^0.22.0-next.5",
@@ -17,9 +17,6 @@
     "@rgbpp-sdk/service": "^0.0.0-snap-20240403090049",
     "@spore-sdk/core": "0.2.0-beta.8",
     "@svgr/webpack": "^5.5.0",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
@@ -185,6 +182,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.7",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "assert": "^2.0.0",

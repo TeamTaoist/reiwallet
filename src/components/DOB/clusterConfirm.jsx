@@ -181,7 +181,6 @@ export default function ClusterConfirm(){
             currentAccountInfo,
             toAddress:address,
         }
-
         sendMsg(obj)
     }
 
