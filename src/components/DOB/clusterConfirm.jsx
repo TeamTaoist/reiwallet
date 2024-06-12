@@ -204,7 +204,7 @@ export default function ClusterConfirm(){
 
         <DlBox>
         <dl>
-            <dt>{t('popup.cluster.ClusterId')}</dt>
+            <dt>Cluster Id</dt>
             <dd className="medium-font">
                 <span>{cluster?.clusterId ? PublicJs.AddressToShow(cluster?.clusterId):""}</span>
                 <CopyToClipboard onCopy={()=>Copy()} text={cluster?.clusterId}>
@@ -214,21 +214,21 @@ export default function ClusterConfirm(){
         </dl>
 
             <dl>
-                <dt>{t('popup.cluster.ClusterName')}</dt>
+                <dt>Cluster Name</dt>
                 <dd className="medium-font">{cluster?.cluster?.name}</dd>
             </dl>
             <dl>
-                <dt>{t('popup.cluster.Occupied')}</dt>
+                <dt>Occupied</dt>
                 <dd className="medium-font">{formatUnit(cluster?.output?.capacity, "ckb")} {symbol}</dd>
             </dl>
             <dl>
-                <dt>{t('popup.cluster.Description')}</dt>
+                <dt>Description</dt>
                 <dd className="medium-font desc">{cluster?.cluster?.description}</dd>
             </dl>
         </DlBox>
         <BtnGroup>
-            <Button border onClick={()=>navigate("/home?tab=1")}>{t('popup.send.Reject')}</Button>
-            <Button primary onClick={()=>submit()} >{t('popup.send.Confirm')}</Button>
+            <Button border onClick={()=>navigate("/home?tab=1")}>Rejected</Button>
+            <Button primary onClick={()=>submit()} >Confirm</Button>
         </BtnGroup>
     </ContentBox>
 }

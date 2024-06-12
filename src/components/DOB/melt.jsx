@@ -6,7 +6,6 @@ import {useNavigate} from "react-router-dom";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import BtnLoading from "../loading/btnloading";
 import Toast from "../modal/toast";
-import {useTranslation} from "react-i18next";
 
 const Mask = styled.div`
     .bg{
@@ -76,8 +75,6 @@ export default function Melt({handleClose,dob}){
     const navigate = useNavigate();
     const {currentAccountInfo} = useAccountAddress();
 
-    const { t } = useTranslation();
-
     const handleEvent = (message) => {
         const {type }= message;
         switch(type){
@@ -132,13 +129,13 @@ export default function Melt({handleClose,dob}){
             <Box>
                 <div className="inner">
                     <TitleBox>
-                        <div className="top">{t('popup.dob.meltTips')}</div>
+                        <div className="top"> Are you sure you want to MELT this DOB? </div>
 
-                        <div className="sub">{t('popup.dob.meltTips2')}</div>
+                        <div className="sub">This action is irreversible</div>
                     </TitleBox>
                     <BtnGroup>
-                        <Button border onClick={()=>closeMelt()}>{t('popup.dob.Cancel')}</Button>
-                        <Button primary disabled={loading} onClick={()=>confirm()}>{t('popup.dob.MELT')}
+                        <Button border onClick={()=>closeMelt()}>Cancel</Button>
+                        <Button primary disabled={loading} onClick={()=>confirm()}>MELT
                             {
                                 loading && <BtnLoading/>
                             }

@@ -9,18 +9,158 @@ import {useWeb3} from "../../store/contracts";
 import Loading from "../loading/loading";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
-import DobClusterList from "./dobClusterList";
-import ClusterListDOB from "./clusterListDOB";
-import {useTranslation} from "react-i18next";
 
 
 const Box = styled.div`
     padding: 23px 20px;
 `
+const UlBox = styled.ul`
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    li{
+        float: left;
+        width: 24%;
+        margin-right: 1%;
+        margin-bottom: 5px;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        &:nth-child(4n){
+            margin-right: 0;
+        }
+        .photo{
 
-
+            display: flex !important;
+            overflow: hidden;
+            .aspect {
+                padding-bottom: 100%;
+                height: 0;
+                flex-grow: 1 !important;
+            }
+            .content {
+                width: 100%;
+                margin-left: -100% !important;
+                max-width: 100% !important;
+                flex-grow: 1 !important;
+                position: relative;
+            }
+            .innerImg{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 8px;
+                        object-position: center;
+                        object-fit: cover;
+                }
+            }
+        }
+        .title{
+            position: absolute;
+            white-space: nowrap;
+            left:10px;
+            bottom:5px;
+            font-size: 10px;
+            width: calc(100% - 20px);
+            color: #fff;
+            background: rgba(0,0,0,0.8);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+`
+const ClusterUl = styled(UlBox)`
+    border-bottom: 1px solid #eee;
+    padding-bottom:5px;
+    margin-bottom:10px;
+`
 const LoadingBox = styled.div`
     margin-top: 30px;
+`
+
+const TextBox = styled.div`
+        display: flex !important;
+        overflow: hidden;
+        .aspect {
+            padding-bottom: 100%;
+            height: 0;
+            flex-grow: 1 !important;
+        }
+        .content {
+            width: 100%;
+            margin-left: -100% !important;
+            max-width: 100% !important;
+            flex-grow: 1 !important;
+            position: relative;
+        }
+        .inner{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+            font-size: 10px;
+            font-family: "AvenirNext-Medium";
+            font-weight: 500;
+            line-height: 17px;
+            box-sizing: border-box;
+            padding: 10px;
+            
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
+        }
+    
+`
+const Cls = styled(TextBox)`
+    .inner{
+        padding: 0;
+    }
+    .cluster{
+        width: 100%;
+        font-size: 12px;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 10px;
+        text-transform: uppercase;
+    }
+    .titleBtm{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 5px;
+        background: #00FF9D;
+        width: 100%;
+        height: 50%;
+        text-align: center;
+        font-size: 12px;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        line-height: 1.4em;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
 `
 
 const MoreBox = styled.div`
@@ -28,32 +168,6 @@ const MoreBox = styled.div`
     text-align: center;
     cursor: pointer;
     margin-top: 20px;
-`
-
-const TabBox = styled("div")`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
-    .li{
-        width: 80px;
-        height: 30px;
-        text-align: center;
-        background: #f5f5f5;
-        line-height: 30px;
-        cursor: pointer;
-        &:first-child{
-            border-top-left-radius: 40px;
-            border-bottom-left-radius: 40px;
-        }
-        &:last-child{
-            border-top-right-radius: 40px;
-            border-bottom-right-radius: 40px;
-        }
-        &.active{
-            background: #00FF9D;
-        }
-    }
 `
 
 export default function Dob(){
@@ -65,18 +179,6 @@ export default function Dob(){
     const {currentAccount} = useCurrentAccount();
     const {networkInfo} = useNetwork();
     const {currentAccountInfo} = useAccountAddress();
-    const [current,setCurrent] = useState(0);
-    const { t } = useTranslation();
-    const [tabList] = useState([
-        {
-            name:"DOB",
-            value:0
-        },
-        {
-            name:"Cluster",
-            value:1
-        }
-    ])
 
     useEffect(() => {
         if(list === '' || clusterList === '')return;
@@ -105,6 +207,7 @@ export default function Dob(){
         let clArr = [...clusterList];
         clArr.map(async(item)=>{
             item.cluster = unpackToRawClusterData(item.output_data,"v2");
+            console.log(item.cluster)
             item.clusterId = item.output.type.args;
             return item
         })
@@ -129,30 +232,69 @@ export default function Dob(){
         });
     }
 
-    const handleCurrent =(ind)=>{
-        setCurrent(ind);
-    }
-
     return <Box>
         {
             loading && <LoadingBox><Loading showBg={false} /></LoadingBox>
         }
-        <TabBox>
-            {
-                !loading && tabList.map((item,index)=> (<div className={current===index?"li active":"li"} key={index} onClick={()=>handleCurrent(index)} >{item.name}</div>))
-            }
-
-        </TabBox>
         {
-            current===1 &&<DobClusterList cList={cList} toCluster={toCluster} />
+            !!cList?.length &&   <ClusterUl>
+                {
+                    cList?.map((item,index)=>(<li key={`cluster_${index}`} className="item"  onClick={() => toCluster(item)}>
+                        <Cls>
+                            <div className="aspect"/>
+                            <div className="content">
+                                <div className="inner">
+                                    <div className="cluster">cluster</div>
+                                    <div className="titleBtm">
+                                        {item?.cluster?.name}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </Cls>
+                    </li>))
+                }
+            </ClusterUl>
+        }
+
+        {
+            !loading  && <UlBox>
+
+                {
+                    sList?.map((item, index) => (<li key={index} onClick={() => toDetail(item)}>
+
+                        {
+                            item.type.indexOf("text") === -1 && <div className="photo">
+                                <div className="aspect"/>
+                                <div className="content">
+                                <div className="innerImg">
+                                        <img src={item.image} alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        {
+                            item.type.indexOf("text") > -1 && <TextBox>
+                                <div className="aspect"/>
+                                <div className="content">
+                                    <div className="inner">
+                                        {item.text}
+                                    </div>
+                                </div>
+                            </TextBox>
+                        }
+
+                        {/*{*/}
+                        {/*    !!item.clusterId && < div className="title">Cluster Item </div>*/}
+                        {/*}*/}
+
+                    </li>))
+                }
+
+            </UlBox>
         }
         {
-            current===0 &&<ClusterListDOB loading={loading} sList={sList} toDetail={toDetail} />
-        }
-
-
-        {
-           ( sList.length >= 100 || cList.length >= 100) && <MoreBox onClick={() => toExplorer()}>{t('popup.account.viewMore')}</MoreBox>
+           ( sList.length >= 100 || cList.length >= 100) && <MoreBox onClick={() => toExplorer()}>view more</MoreBox>
         }
 
     </Box>

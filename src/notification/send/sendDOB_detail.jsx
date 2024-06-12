@@ -18,7 +18,6 @@ import {useNavigate} from "react-router-dom";
 import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
 import useMessage from "../../useHook/useMessage";
-import {useTranslation} from "react-i18next";
 
 const Box = styled.div`
     display: flex;
@@ -184,7 +183,6 @@ export default function SendDOB_detail(){
     const {symbol} = useBalance();
     const navigate = useNavigate();
     const [btnL,setBtnL] = useState(false)
-    const { t } = useTranslation();
 
     useEffect(() => {
         if(!messenger)return;
@@ -340,7 +338,7 @@ export default function SendDOB_detail(){
 
             <DlBox>
                 <dl>
-                    <dt>{t('popup.send.Assets')}</dt>
+                    <dt>Assets</dt>
                     <dd>
                         <ImageBox>
                             <div className="imgbr">
@@ -370,7 +368,7 @@ export default function SendDOB_detail(){
                 </dl>
                 {
                     !!dobDetail?.clusterId && <dl>
-                        <dt>{t('popup.send.ClusterId')}</dt>
+                        <dt>Cluster Id</dt>
                         <dd className="medium-font">
                             <span>{PublicJs.AddressToShow(dobDetail?.clusterId)}</span>
                             <CopyToClipboard onCopy={()=>Copy()} text={dobDetail?.clusterId}>
@@ -381,7 +379,7 @@ export default function SendDOB_detail(){
                 }
 
                 <dl>
-                    <dt>{t('popup.send.TokenID')}</dt>
+                    <dt>Token ID</dt>
                     <dd className="medium-font">
                         <span>{dobDetail?.cellOutput?.type?.args?PublicJs.AddressToShow(dobDetail?.cellOutput?.type?.args):""}</span>
                         <CopyToClipboard onCopy={()=>Copy()} text={dobDetail?.cellOutput?.type?.args}>
@@ -390,14 +388,14 @@ export default function SendDOB_detail(){
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.send.Occupied')}</dt>
+                    <dt>Occupied</dt>
                     <dd className="medium-font">{dobDetail?.cellOutput?.capacity?formatUnit(dobDetail?.cellOutput?.capacity, "ckb"):0} {symbol}</dd>
                 </dl>
             </DlBox>
         </TopBox>
         <BtnGroup>
-            <Button border onClick={()=>handleClose()}>{t('notification.Reject')}</Button>
-            <Button primary onClick={()=>submit()} >{t('popup.step1.Confirm')}{
+            <Button border onClick={()=>handleClose()}>Rejected</Button>
+            <Button primary onClick={()=>submit()} >Confirm{
                 btnL && <BtnLoading/>
             } </Button>
         </BtnGroup>

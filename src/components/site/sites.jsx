@@ -75,17 +75,17 @@ export default function Sites(){
 
     }
 
-    return <AllModal title={t('popup.sites.ConnectedSites')} link="/home">
+    return <AllModal title="Connected Sites" link="/home">
             <DlBox>
                 {
                     list?.map((item,index)=> (<dl key={index}>
                         <dt>{item}</dt>
-                        <dd onClick={(item) => disconnect(item)}>{t('popup.sites.Disconnect')}</dd>
+                        <dd onClick={(item) => disconnect(item)}>Disconnect</dd>
                     </dl>))
                 }
 
                 {
-                  !list.length  && <EmptyBox>{t('popup.sites.Nosites')}</EmptyBox>
+                  !list.length  && <EmptyBox>No sites</EmptyBox>
                 }
             </DlBox>
 

@@ -256,7 +256,7 @@ export default class RpcClient{
         const clusterConfig = network === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
 
         const clusterType = getSporeScript(clusterConfig,"Cluster",["preview"]);
-
+        console.error("=====clusterType=",clusterType)
 
         return await this._request({
             method:"get_cells",

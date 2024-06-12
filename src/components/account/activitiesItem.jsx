@@ -1,10 +1,9 @@
 import PublicJs from "../../utils/publicJS";
 import useNetwork from "../../useHook/useNetwork";
 import dayjs from "dayjs";
-import {useTranslation} from "react-i18next";
 
 export default function ActivitiesItem({item,networkInfo}) {
-    const { t } = useTranslation();
+
     const toDetail = (tx) =>{
         if(!networkInfo || !networkInfo?.blockExplorerUrls)return;
         /*global chrome*/
@@ -22,10 +21,10 @@ export default function ActivitiesItem({item,networkInfo}) {
                 <div className="item">
                     <div className="medium-font title">{item.tx_hash ? PublicJs.AddressToShow(item.tx_hash) : ""}</div>
                     {/*<div><span className="time">{item?.created ? formatDate(item?.created) : ""}</span></div>*/}
-                    <div><span className="time">{t('popup.account.explorer')}</span></div>
+                    <div><span className="time">View on block explorer</span></div>
                 </div>
                 <div className="item">
-                    <div className="medium-font titleRht">{t('popup.account.Committed')}</div>
+                    <div className="medium-font titleRht">Committed</div>
                 </div>
             </div>
         }

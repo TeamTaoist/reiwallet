@@ -4,13 +4,12 @@ import PublicJs from "../../utils/publicJS";
 import dayjs from "dayjs";
 import useNetwork from "../../useHook/useNetwork";
 import BtnLoading from "../loading/btnloading";
-import {useTranslation} from "react-i18next";
 
 
 export default function PendingItem({ txItem,networkInfo}) {
     const [tx,setTx] = useState('')
     const {loading,item}=usePendingDetail(tx);
-    const { t } = useTranslation();
+
 
     useEffect(() => {
         if(!txItem)return;
@@ -36,7 +35,7 @@ export default function PendingItem({ txItem,networkInfo}) {
                 <div className="item">
                     <div className="medium-font title">{tx ? PublicJs.AddressToShow(tx) : ""}</div>
                     {/*<div><span className="time">{txItem?.created ? formatDate(txItem?.created) : ""}</span></div>*/}
-                    <div><span className="time">{t('popup.account.explorer')}</span></div>
+                    <div><span className="time">View on block explorer</span></div>
                 </div>
                 <div className="item">
                     <div className="medium-font titleRht pending">{item?.tx_status?.status ?? ""}</div>

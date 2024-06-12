@@ -6,12 +6,12 @@ import {useWeb3} from "../../store/contracts";
 import {useState} from "react";
 import {formatUnit} from "@ckb-lumos/bi";
 import useBalance from "../../useHook/useBalance";
-
+import PublicJs from "../../utils/publicJS";
+import CopyImg from "../../assets/images/create/COPY.png";
 import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {useNavigate} from "react-router-dom";
 import PublicJS from "../../utils/publicJS";
-import {Copy as CopyIcon} from "lucide-react";
 
 const Box = styled.div`
     min-height: 100%;
@@ -20,7 +20,7 @@ const Box = styled.div`
 `
 const Content = styled.div`
     flex-grow: 1;
-    margin:10px 0 20px;
+    margin:20px 0;
 `
 
 const TextBox = styled.div`
@@ -119,10 +119,9 @@ const ImageBox = styled.div`
     }
 `
 const DlBox = styled.div`
-    width:85vw;
+    width: 80vw;
     margin: 0 auto;
-    padding:0;
-    font-size: 14px;
+    padding: 30px 0 ;
     dl{
         margin-bottom: 10px;
         display: flex;
@@ -132,13 +131,11 @@ const DlBox = styled.div`
     }
     dt{
         opacity: 0.6;
-
     }
     dd{
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: 10px;
         img{
             cursor: pointer;
         }
@@ -208,7 +205,7 @@ export default function XUDT_detail(){
         <Toast tips="copied" size={20} show={copied}/>
 
 
-        <TokenHeader title={t('popup.xudt.XUDTDetail')} />
+        <TokenHeader title="XUDT Detail" />
         <Content>
             <DlBox>
                 <dl>
@@ -216,30 +213,30 @@ export default function XUDT_detail(){
                     <dd>
                         <span>{PublicJS.AddressToShow(xudt.output?.type?.args, 10)}</span>
                         <CopyToClipboard onCopy={() => Copy()} text={xudt.output?.type?.args}>
-                            <CopyIcon size={14} />
+                            <img src={CopyImg} alt=""/>
                         </CopyToClipboard>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.xudt.Name')}</dt>
+                    <dt>Name</dt>
                     <dd>
                         <span className="rhtName">{xudt?.name}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.xudt.Symbol')}</dt>
+                    <dt>Symbol</dt>
                     <dd>
                         <span className="rhtName">{xudt?.symbol}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.xudt.Decimals')}</dt>
+                    <dt>Decimals</dt>
                     <dd>
                         <span>{xudt?.decimal}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.xudt.Balance')}</dt>
+                    <dt>Balance</dt>
                     <dd>
                         <span>{xudt?.sum ? formatUnit(xudt.sum.toString(),"ckb") : 0}</span>
                     </dd>
@@ -259,10 +256,10 @@ export default function XUDT_detail(){
             </DlBox>
             <ImageBox>
                 <div className="line"/>
-                <Button primary onClick={() => toGo()}>{t('popup.xudt.Send')}</Button>
+                <Button primary onClick={() => toGo()}>Send</Button>
                 {/*<MeltBox onClick={() => handleShow()}>Melt Cluster</MeltBox>*/}
             </ImageBox>
-            <TipsBtmBox>{t('popup.xudt.xudtTips')}</TipsBtmBox>
+            <TipsBtmBox>Supports sending RGB++ to BTC and sending XUDT to CKB.</TipsBtmBox>
         </Content>
     </Box>
 }

@@ -278,7 +278,7 @@ export default function DOBConfirm(){
             {/*    <dd className="medium-font">{dob?.clusterId ? "Spore Cluster" : "DOB"}</dd>*/}
             {/*</dl>*/}
             <dl>
-                <dt>{t('popup.send.Assets')}</dt>
+                <dt>Assets</dt>
                 <dd>
                     <ImageBox>
                         <div className="imgbr">
@@ -308,7 +308,7 @@ export default function DOBConfirm(){
             </dl>
             {
                 !!dob?.clusterId && <dl>
-                    <dt>{t('popup.send.ClusterId')}</dt>
+                    <dt>Cluster Id</dt>
                     <dd className="medium-font">
                         <span>{PublicJs.AddressToShow(dob?.clusterId)}</span>
                         <CopyToClipboard onCopy={()=>Copy()} text={dob?.clusterId}>
@@ -319,7 +319,7 @@ export default function DOBConfirm(){
             }
 
             <dl>
-                <dt>{t('popup.send.TokenID')}</dt>
+                <dt>Token ID</dt>
                 <dd className="medium-font">
                     <span>{PublicJs.AddressToShow(dob?.output?.type?.args)}</span>
                     <CopyToClipboard onCopy={()=>Copy()} text={dob?.output?.type?.args}>
@@ -328,13 +328,13 @@ export default function DOBConfirm(){
                 </dd>
             </dl>
             <dl>
-                <dt>{t('popup.send.Occupied')}</dt>
+                <dt>Occupied</dt>
                 <dd className="medium-font">{formatUnit(dob?.output?.capacity, "ckb")} {symbol}</dd>
             </dl>
         </DlBox>
         <BtnGroup>
-            <Button border onClick={()=>navigate("/home?tab=1")}>{t('popup.send.Reject')}</Button>
-            <Button primary onClick={()=>submit()} >{t('popup.send.Confirm')}</Button>
+            <Button border onClick={()=>navigate("/home?tab=1")}>Rejected</Button>
+            <Button primary onClick={()=>submit()} >Confirm</Button>
         </BtnGroup>
     </ContentBox>
 }

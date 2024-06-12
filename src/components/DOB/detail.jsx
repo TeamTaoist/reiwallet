@@ -7,7 +7,7 @@ import {useState} from "react";
 import {formatUnit} from "@ckb-lumos/bi";
 import useBalance from "../../useHook/useBalance";
 import PublicJs from "../../utils/publicJS";
-import {Copy as CopyIcon} from "lucide-react";
+import CopyImg from "../../assets/images/create/COPY.png";
 import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {useNavigate} from "react-router-dom";
@@ -73,8 +73,8 @@ const ImageBox = styled.div`
     justify-content: center;
     align-items: center;
     .imgbr{
-        width: 85vw;
-        height: 85vw;
+        width: 80vw;
+        height: 80vw;
         border: 1px solid #eee;
         border-radius: 10px;
     }
@@ -98,16 +98,12 @@ const ImageBox = styled.div`
             position: absolute;
             width: 100%;
             height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             img{
-                max-width: 100%;
-                max-height: 100%;
+                width: 100%;
+                height: 100%;
                 border-radius: 8px;
                 object-position: center;
                 object-fit: cover;
-   
             }
         }
     }
@@ -123,10 +119,9 @@ const ImageBox = styled.div`
     }
 `
 const DlBox = styled.div`
-    width: 85vw;
+    width: 80vw;
     margin: 0 auto;
     padding: 30px 0 ;
-    font-size: 14px;
     dl{
         margin-bottom: 10px;
         display: flex;
@@ -141,7 +136,6 @@ const DlBox = styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: 10px;
         img{
             cursor: pointer;
         }
@@ -186,12 +180,12 @@ export default function DOB_detail(){
     }
 
     return <Box>
-        <Toast tips={t('popup.dob.copied')} size={20} show={copied}/>
+        <Toast tips="copied" size={20} show={copied}/>
         {
             show &&  <Melt handleClose={handleClose} dob={dob} />
         }
 
-        <TokenHeader title={t('popup.dob.DOBDetail')} />
+        <TokenHeader title="DOB Detail" />
         <Content>
             <ImageBox>
                 <div className="imgbr">
@@ -216,8 +210,8 @@ export default function DOB_detail(){
                         </TextBox>
                     }
                 </div>
-                <Button primary onClick={()=>toGo()}>{t('popup.dob.Send')}</Button>
-                <MeltBox onClick={()=>handleShow()}>{t('popup.dob.MeltDOB')}</MeltBox>
+                <Button primary onClick={()=>toGo()}>Send</Button>
+                <MeltBox onClick={()=>handleShow()}>Melt DOB</MeltBox>
                 <div className="line" />
             </ImageBox>
             <DlBox>
@@ -227,28 +221,27 @@ export default function DOB_detail(){
                 {/*</dl>*/}
                 {
                     !!dob?.clusterId && <dl>
-                        <dt>{t('popup.dob.ClusterId')}</dt>
+                        <dt>Cluster Id</dt>
                         <dd className="medium-font">
                             <span>{PublicJs.AddressToShow(dob?.clusterId)}</span>
                             <CopyToClipboard onCopy={()=>Copy()} text={dob?.clusterId}>
-                                <CopyIcon size={14} />
+                                <img src={CopyImg} alt=""/>
                             </CopyToClipboard>
                         </dd>
                     </dl>
                 }
 
                 <dl>
-                    <dt>{t('popup.dob.TokenID')}</dt>
+                    <dt>Token ID</dt>
                     <dd className="medium-font">
                         <span>{PublicJs.AddressToShow(dob?.output?.type?.args)}</span>
                         <CopyToClipboard onCopy={()=>Copy()} text={dob?.output?.type?.args}>
-                        {/*<img src={CopyImg} alt=""/>*/}
-                            <CopyIcon size={14} />
+                        <img src={CopyImg} alt=""/>
                         </CopyToClipboard>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.dob.Occupied')}</dt>
+                    <dt>Occupied</dt>
                     <dd className="medium-font">{formatUnit(dob?.output?.capacity, "ckb")} {symbol}</dd>
                 </dl>
             </DlBox>

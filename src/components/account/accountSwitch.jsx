@@ -7,27 +7,13 @@ import {useTranslation} from "react-i18next";
 import PublicJs from "../../utils/publicJS";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import Avatar from "../svg/avatar/avatar";
-import {XIcon} from "lucide-react";
-import {useEffect} from "react";
-
-const Box = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.2);
-    backdrop-filter: blur(2px);
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 9999;
-`
 
 const BgBox = styled.div`
     position: absolute;
-  height: 550px;
+  height: 346px;
 z-index: 99999;
-  top:20px;
+  top:80px;
   width:90%;
-    left: 5%;
   background: #FFFFFF;
   box-shadow: 0px 0px 8px 0px #EDEDED;
   border-radius: 14px;
@@ -46,8 +32,6 @@ const BtnGroup = styled.div`
     padding: 20px;
     button{
       width: 49%;
-    height: 40px!important;
-    line-height: 35px!important;
     }
 `
 const TitleBox = styled.div`
@@ -55,15 +39,11 @@ const TitleBox = styled.div`
   font-weight: 500;
   color: #34332E;
   line-height: 20px;
-  height: 50px;
+  height: 62px;
   display: flex;
   align-items: center;
-    justify-content: space-between;
   padding: 0 20px;
   flex-shrink: 0;
-    .iconRht{
-        cursor: pointer;
-    }
 `
 const ContentBox = styled.div`
     flex-grow: 1;
@@ -76,8 +56,7 @@ const ContentBox = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 0 20px;
-      height: 60px;
-        border-bottom: 1px solid #f5f5f5;
+      height: 68px;
       &:hover{
         background: #F1FCF1;
       }
@@ -119,34 +98,26 @@ const AccountBox = styled.div`
     }
 `
 
-export default function AccountSwitch({currentAccount,handleCurrent,handleNew,handleClose}){
+export default function AccountSwitch({currentAccount,handleCurrent,handleNew}){
     const navigate = useNavigate();
     const { t } = useTranslation();
     const {accountList} = useAccountAddress();
 
-    useEffect(() => {
-        if(!accountList?.length || currentAccount <5)return;
-        const element = document.getElementById(`current_${currentAccount}`);
-        element?.scrollIntoView();
-    }, [currentAccount,accountList]);
 
     const toGo = (url) =>{
         navigate(url);
     }
 
-    return <Box><BgBox>
-        <TitleBox className="medium-font">
-            <span>{t('popup.switch.title')}</span>
-            <XIcon className="iconRht" onClick={()=>handleClose()} />
-        </TitleBox>
+    return <BgBox>
+        <TitleBox className="medium-font">{t('popup.switch.title')}</TitleBox>
         <ContentBox>
             <ul>
                 {
-                    accountList?.map((item,index)=>(<li key={index} onClick={()=>handleCurrent(index)} id={`current_${index}`}>
+                    accountList?.map((item,index)=>(<li key={index} onClick={()=>handleCurrent(index)}>
                         <img src={currentAccount=== index ? CheckAct:CheckNor} alt="" className="decr"/>
                         <AccountBox>
                             <div className="avatar">
-                                <Avatar size={28} address={item.address} />
+                                <Avatar size={24} address={item.address} />
                             </div>
                             <div>
                                 <div className="medium-font">{item.name}
@@ -158,6 +129,7 @@ export default function AccountSwitch({currentAccount,handleCurrent,handleNew,ha
                     </li>))
                 }
 
+
             </ul>
         </ContentBox>
         <BtnGroup>
@@ -165,5 +137,4 @@ export default function AccountSwitch({currentAccount,handleCurrent,handleNew,ha
             <Button border onClick={()=>toGo('/privatekey')} >{t('popup.switch.Import')}</Button>
         </BtnGroup>
     </BgBox>
-    </Box>
 }

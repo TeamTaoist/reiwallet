@@ -15,23 +15,12 @@ const Box = styled.div`
 `
 
 const SearchBox = styled.div`
-    margin:0 20px;
-    border-radius: 10px;
+    margin: 20px;
+    border-radius: 16px;
     border: 1px solid #34332D;
     display: flex;
     align-items: center;
       padding:0 10px;
-    textarea{
-        width: 100%;
-        flex-grow: 1;
-        border: 0;
-        padding: 10px;
-        resize: none;
-        &:focus-visible{
-            border: 0;
-            outline: none;
-        }
-    }
     input{
       border: 0;
       flex-grow: 1;
@@ -147,8 +136,8 @@ export default function Send(){
     return <Box>
         <TokenHeader title={t('popup.send.sendTo')} />
         <SearchBox>
-            {/*<img src={WalletImg} alt=""/>*/}
-            <textarea placeholder={t('popup.send.enterTips')} rows={4} value={keyword} onChange={(e)=>handleInput(e)} onKeyPress={(e)=>handleKeyPress(e)} />
+            <img src={WalletImg} alt=""/>
+            <input type="text" placeholder={t('popup.send.enterTips')} value={keyword} onChange={(e)=>handleInput(e)} onKeyPress={(e)=>handleKeyPress(e)} />
             {/*<img src={QRcode} alt=""/>*/}
         </SearchBox>
 

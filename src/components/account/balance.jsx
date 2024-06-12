@@ -10,7 +10,7 @@ const BalanceBox = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 20px auto;
+    margin: 20px auto 44px;
 `
 
 const Title = styled.div`
@@ -86,18 +86,18 @@ export default function Balance(){
         }
         {
             !balanceLoading && <Title className="medium-font">
-                {/*<div className="titletop">Total</div>*/}
+                <div className="titletop">Total</div>
                 <div className="total">
                     {balance} {symbol}
                 </div>
                 {
                     !!Number(occupied)&& <>
                         <div className="subTitle">
-                            <span>{t('popup.account.Available')}</span>
+                            <span>Available</span>
                             {available} {symbol}
                         </div>
                         <div className="subTitle">
-                            <span>{t('popup.account.Occupied')}</span>
+                            <span>Occupied</span>
                             {occupied} {symbol}
                         </div>
 
@@ -109,6 +109,6 @@ export default function Balance(){
         }
         <Button primary onClick={() => toSend()}>{t('popup.account.send')}</Button>
 
-        {/*<FlexBox onClick={()=>toHaste()}><span>haste</span>.pro &gt;</FlexBox>*/}
+        <FlexBox onClick={()=>toHaste()}><span>haste</span>.pro &gt;</FlexBox>
     </BalanceBox>
 }

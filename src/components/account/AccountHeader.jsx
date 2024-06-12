@@ -16,41 +16,36 @@ import AddAccount from "./addAccount";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import useNetwork from "../../useHook/useNetwork";
 import Avatar from "../svg/avatar/avatar";
-import{Copy as Copy2,ChevronDown} from "lucide-react";
 
 const AccountBox = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 20px 10px ;
-    border-bottom: 1px solid rgba(235, 237, 240,1);
+    padding: 10px 20px ;
+    border-bottom: 9px solid rgba(235, 237, 240, 0.2);
     position: relative;
 `
 const Lft = styled.div`
     display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
     .avatar{
       width: 36px;
       height: 36px;
       border-radius: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      margin-right: 13px;
     }
   .account{
-    font-size: 14px;
+    font-size: 22px;
     font-weight: 500;
     color: #34332E;
     font-family: "AvenirNext-Medium";
-    line-height: 1.5em;
+    line-height: 20px;
+    margin-bottom: 4px;
   }
   .address{
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     color: #A6ACBD;
-    line-height:1.5em;
+    line-height: 20px;
   }
 `
 
@@ -59,7 +54,6 @@ const Tips = styled.div`
     justify-content: flex-start;
     align-items: center;
   position: relative;
-    gap: 10px;
     img{
       margin-left: 5px;
       width: 24px;
@@ -69,10 +63,6 @@ const Tips = styled.div`
 
 const Rht = styled.div`
   cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
     img{
       width: 24px;
     }
@@ -178,10 +168,6 @@ export default function AccountHeader(){
         setShowNew(true)
     }
 
-    const handleClose = () =>{
-        setShowAccount(false);
-    }
-
     const handleCloseNew = () =>{
         setShowNew(false)
     }
@@ -192,7 +178,6 @@ export default function AccountHeader(){
             url: `${networkInfo?.blockExplorerUrls}address/${address}`
         });
     }
-
 
     return <AccountBox>
         {
@@ -213,36 +198,37 @@ export default function AccountHeader(){
                     <dt>
                         <img src={SiteImg} alt=""/>
                     </dt>
-                    <dd>{t('popup.account.sites')}</dd>
+                    <dd>Connected sites</dd>
                 </dl>
             </DropDown>
         }
         {
-            showAccount && <AccountSwitch currentAccount={currentAccount} handleCurrent={handleCurrent} handleNew={handleNew}  handleClose={handleClose} />
+            showAccount && <AccountSwitch currentAccount={currentAccount} handleCurrent={handleCurrent} handleNew={handleNew}  />
         }
         {
             showNew && <AddAccount handleCloseNew={handleCloseNew} />
         }
         <Toast tips="copied" size={20} show={copied}/>
 
-        <Lft onClick={(e)=>handleAccount(e)}>
-            <div className="avatar">
-                <Avatar size={30} address={address} />
+        <Lft>
+            {/*<img src={DemoImg} alt="" className="avatar"/>*/}
+            <div className="avatar" onClick={(e)=>handleAccount(e)}>
+                <Avatar size={36} address={address} />
             </div>
 
             <div>
                 <div className="account">{walletName}</div>
                 <Tips>
+
                     <div className="address">{PublicJs.AddressToShow(address)}</div>
-                    <ChevronDown size={12} />
+                    <CopyToClipboard onCopy={()=>Copy()} text={address}>
+                        <img src={CopyImg} alt=""/>
+                    </CopyToClipboard>
                 </Tips>
             </div>
         </Lft>
-        <Rht>
-            <CopyToClipboard onCopy={()=>Copy()} text={address}>
-                <Copy2 size={16} />
-            </CopyToClipboard>
-            <img  onClick={(e)=>showDropDown(e)} src={MoreImg} alt=""/>
+        <Rht onClick={(e)=>showDropDown(e)}>
+            <img src={MoreImg} alt=""/>
         </Rht>
     </AccountBox>
 }

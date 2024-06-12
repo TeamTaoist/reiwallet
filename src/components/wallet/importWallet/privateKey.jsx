@@ -10,7 +10,6 @@ import useWalletList from "../../../useHook/useWalletList";
 import Keystore from "../../../wallet/keystore";
 import BtnLoading from "../../loading/btnloading";
 import {clearPassword, getPassword} from "../../../wallet/password";
-import Toast from "../../modal/toast";
 
 const Box = styled.div`
     display: flex;
@@ -76,8 +75,6 @@ export default function PrivateKey(){
     const {saveWallet,walletList} = useWalletList();
     const [privateKey, setPrivateKey ] = useState('')
     const [loading, setLoading ] = useState(false)
-    const [show,setShow] = useState(false);
-    const [tips,setTips] = useState('');
     const handleInput = (e) =>{
         const { value } = e.target;
         setPrivateKey(value);
@@ -91,7 +88,7 @@ export default function PrivateKey(){
             let result = await getPassword()
             if(result){
                 const privateKeyCrypt = Keystore.create(privateKey,result)
-                await saveWallet({
+                saveWallet({
                     account,
                     type:"import",
                     name:`Account ${walletList.length + 1}`,
@@ -100,21 +97,14 @@ export default function PrivateKey(){
                 },'new')
                 setLoading(false);
                 navigate("/");
-
             }else{
                 clearPassword()
-                // setLoading(false);
                 navigate("/");
             }
         }catch (e) {
-            setTips( e?.message || e?.reason)
-            setShow(true)
-            setTimeout(()=>{
-                setShow(false)
-                setPrivateKey("");
-                setLoading(false);
-            },1500)
-
+            console.error(e)
+            setLoading(false);
+            setPrivateKey("");
         }
 
 
@@ -122,7 +112,6 @@ export default function PrivateKey(){
 
     return <Box>
         <NavHeader title={t('popup.import.title')} />
-        <Toast tips={tips} size={20} show={show}/>
         <ContentBox>
             <ImportHeader title={t('popup.import.subTitle')} tips={t('popup.import.tips')} />
             <Title>{t('popup.import.textTitle')}</Title>

@@ -6,30 +6,18 @@ import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
 import useNetwork from "../../useHook/useNetwork";
-import {CirclePlus} from "lucide-react";
-
-const Box = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.2);
-    backdrop-filter: blur(2px);
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 9999;
-`
 
 const ModalBox = styled.div`
   position: absolute;
   //height: 297px;
-  width: 90%;
+  width: 296px;
   background: #FFFFFF;
   box-shadow: 0px 0px 8px 0px #EDEDED;
   border-radius: 14px;
   z-index: 9999;
   overflow: hidden;
   top:75px;
-  right: 5%;
+  right: 28px;
 `
 
 const Title = styled.div`
@@ -48,9 +36,7 @@ const UlBox = styled.ul`
   height: 100px;
     .lft{
       flex-grow: 1;
-        box-sizing: border-box;
-        padding-left: 20px;
-        font-size: 14px;
+      text-align: center;
     }
     li{
       display: flex;
@@ -58,7 +44,6 @@ const UlBox = styled.ul`
       align-items: center;
       height: 44px;
       padding: 0 10px;
-        border-bottom: 1px solid #f5f5f5;
       &:hover{
         background: #F1FCF1;
       }
@@ -86,14 +71,7 @@ const BtnBox = styled.div`
     justify-content: center;
     align-items: center;
     background: #fff;
-    padding: 10px;
-    .btn{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-    }
+    padding: 20px;
 `
 
 export default function NetworkList({current,handleLoading,closeLoading}){
@@ -125,7 +103,7 @@ export default function NetworkList({current,handleLoading,closeLoading}){
         closeLoading()
     }
 
-    return <Box><ModalBox>
+    return <ModalBox>
         <Title className="medium-font">{t('popup.network.Networks')}</Title>
         <UlBox>
             {
@@ -151,8 +129,7 @@ export default function NetworkList({current,handleLoading,closeLoading}){
             }
         </UlBox>
         <BtnBox>
-            <div className="btn" onClick={()=>toGo()}> <CirclePlus /><span>{t('popup.network.AddNetwork')}</span></div>
+            <Button border onClick={()=>toGo()}>{t('popup.network.AddNetwork')}</Button>
         </BtnBox>
     </ModalBox>
-    </Box>
 }

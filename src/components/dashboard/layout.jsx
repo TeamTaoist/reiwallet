@@ -6,8 +6,6 @@ import DiscordSvg from "../svg/social/discord"
 import TelegramSvg from "../svg/social/telegram"
 import MediumSvg from "../svg/social/medium";
 import Logo from '../../assets/images/dashboard/logo.png';
-import {useTranslation} from "react-i18next";
-import {ChevronRight} from "lucide-react";
 
 const DashboardLayoutStyled = styled.div`
   padding-top: 70px;
@@ -21,20 +19,9 @@ const DashboardLayoutStyled = styled.div`
 const LayoutHeaderStyled = styled.div`
   height: 60px;
   padding: 0 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   img {
     height: 60px;
   }
-    .rht{
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        span{
-            margin-bottom: 1px;
-        }
-    }
 `;
 
 const LayoutFooterStyled = styled.div`
@@ -61,26 +48,12 @@ const SocialIconStyled = styled.a`
 
 
 const DashboardLayout = (props) => {
-  const { t,i18n } = useTranslation();
-  const handleLan = () =>{
-
-    const lang = i18n.language === "zh" ? "en":"zh"
-    i18n.changeLanguage(lang);
-
-  }
-
-  return (
+    return (
     <DashboardLayoutStyled className="regular-font">
       <LayoutHeaderStyled>
         <img src={Logo} alt="" />
-          <div className="rht">
-              <span onClick={() => handleLan()}>{i18n.language === "zh" ? "中文" : "English"}</span>
-              <ChevronRight />
-          </div>
-
-
       </LayoutHeaderStyled>
-        <LayoutContainerStyled>{props.children}</LayoutContainerStyled>
+      <LayoutContainerStyled>{props.children}</LayoutContainerStyled>
       <LayoutFooterStyled>
         <SocialIconStyled href=""><TwitterSvg /></SocialIconStyled>
         <SocialIconStyled href=""><DiscordSvg /></SocialIconStyled>

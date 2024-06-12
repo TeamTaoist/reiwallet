@@ -7,11 +7,11 @@ import {useState} from "react";
 import {formatUnit} from "@ckb-lumos/bi";
 import useBalance from "../../useHook/useBalance";
 import PublicJs from "../../utils/publicJS";
+import CopyImg from "../../assets/images/create/COPY.png";
 import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {useNavigate} from "react-router-dom";
 import MeltCluster from "./meltCluster";
-import {Copy as CopyIcon} from "lucide-react";
 
 const Box = styled.div`
     min-height: 100%;
@@ -20,10 +20,50 @@ const Box = styled.div`
 `
 const Content = styled.div`
     flex-grow: 1;
-    margin:10px 0 20px;
+    margin:20px 0;
 `
 
+const TextBox = styled.div`
+        display: flex !important;
+        overflow: hidden;
+        .aspect {
+            padding-bottom: 100%;
+            height: 0;
+            flex-grow: 1 !important;
+        }
+        .content {
+            width: 100%;
+            margin-left: -100% !important;
+            max-width: 100% !important;
+            flex-grow: 1 !important;
+            position: relative;
+        }
+        .inner{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+            font-size: 14px;
+            font-family: "AvenirNext-Medium";
+            font-weight: 500;
 
+
+            line-height: 28px;
+            box-sizing: border-box;
+            padding: 20px;
+
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 10;
+            overflow: hidden;
+        }
+    
+`
 
 const ImageBox = styled.div`
     margin: 0 auto;
@@ -79,10 +119,9 @@ const ImageBox = styled.div`
     }
 `
 const DlBox = styled.div`
-    width: 85vw;
+    width: 80vw;
     margin: 0 auto;
-    padding:  0 ;
-    font-size: 14px;
+    padding: 30px 0 ;
     dl{
         margin-bottom: 10px;
         display: flex;
@@ -97,7 +136,6 @@ const DlBox = styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: 10px;
         img{
             cursor: pointer;
         }
@@ -142,7 +180,7 @@ export default function Cluster_detail(){
     }
 
     return <Box>
-        <Toast tips={t('popup.cluster.copied')} size={20} show={copied}/>
+        <Toast tips="copied" size={20} show={copied}/>
         {
             show &&  <MeltCluster handleClose={handleClose} cluster={cluster} />
         }
@@ -151,26 +189,26 @@ export default function Cluster_detail(){
         <Content>
             <DlBox>
                 <dl>
-                    <dt>{t('popup.cluster.Type')}</dt>
+                    <dt>Type</dt>
                     <dd className="medium-font">Spore Cluster</dd>
                 </dl>
                  <dl>
-                    <dt>{t('popup.cluster.ClusterId')}</dt>
+                    <dt>Cluster Id</dt>
                     <dd className="medium-font">
                         <span>{PublicJs.AddressToShow(cluster?.clusterId)}</span>
                         <CopyToClipboard onCopy={()=>Copy()} text={cluster?.clusterId}>
-                            <CopyIcon size={14} />
+                            <img src={CopyImg} alt=""/>
                         </CopyToClipboard>
                     </dd>
                     </dl>
                 <dl>
-                    <dt>{t('popup.cluster.ClusterName')}</dt>
+                    <dt>Cluster Name</dt>
                     <dd className="medium-font">
                         <span>{cluster.cluster.name}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.cluster.ClusterDescription')}</dt>
+                    <dt>Cluster Description</dt>
                     <dd className="medium-font">
                         <span>{cluster.cluster.description}</span>
                     </dd>
@@ -178,13 +216,13 @@ export default function Cluster_detail(){
 
 
                 <dl>
-                    <dt>{t('popup.cluster.Occupied')}</dt>
+                    <dt>Occupied</dt>
                     <dd className="medium-font">{formatUnit(cluster?.output?.capacity, "ckb")} {symbol}</dd>
                 </dl>
             </DlBox>
             <ImageBox>
                 <div className="line"/>
-                <Button primary onClick={() => toGo()}>{t('popup.cluster.Send')}</Button>
+                <Button primary onClick={() => toGo()}>Send</Button>
                 {/*<MeltBox onClick={() => handleShow()}>Melt Cluster</MeltBox>*/}
             </ImageBox>
         </Content>

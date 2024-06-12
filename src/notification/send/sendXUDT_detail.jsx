@@ -16,7 +16,6 @@ import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
 import useMessage from "../../useHook/useMessage";
 import {ownerForSudt} from "@ckb-lumos/common-scripts/lib/sudt";
-import {useTranslation} from "react-i18next";
 
 const Box = styled.div`
     display: flex;
@@ -195,7 +194,6 @@ export default function SendXUDT_detail(){
     const [tips,setTips] = useState('')
     const [btnL,setBtnL] = useState(false)
     const [fee,setFee] = useState('')
-    const { t } = useTranslation();
 
     useEffect(() => {
         if(!messenger || !currentAccountInfo?.address)return;
@@ -366,25 +364,25 @@ export default function SendXUDT_detail(){
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('notification.Type')}(OutPoint)</dt>
+                    <dt>Type(OutPoint)</dt>
                     <dd>
                         <span>{params?.typeScript?.hash_type}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('notification.Amount')}</dt>
+                    <dt>Amount</dt>
                     <dd>
                         <span>{params?.amount}</span>
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('notification.Gas')}</dt>
+                    <dt>Gas</dt>
                     <dd>
                         <span>{fee?fee:"--"}</span> Shannons/kB
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('notification.Owner')}</dt>
+                    <dt>Owner</dt>
                     <dd>
                         {
                             params?.argAddress === params?.token && <span className="tag">Yes</span>
@@ -398,8 +396,8 @@ export default function SendXUDT_detail(){
             </DlBox>
         </TopBox>
         <BtnGroup>
-            <Button border onClick={() => handleClose()}>{t('notification.Reject')}</Button>
-            <Button primary onClick={() => submit()}>{t('popup.step1.Confirm')}{
+            <Button border onClick={() => handleClose()}>Rejected</Button>
+            <Button primary onClick={() => submit()}>Confirm{
                 btnL && <BtnLoading/>
             } </Button>
         </BtnGroup>

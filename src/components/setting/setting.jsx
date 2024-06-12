@@ -8,7 +8,6 @@ import Medium from "../../assets/images/setting/Medium.png";
 import Next from '../../assets/images/into.png'
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
-import HasteImg from "../../assets/images/setting/haste-logo.png"
 
 
 const Box = styled.div`
@@ -62,24 +61,6 @@ const LinkBox = styled.div`
     img{
       width: 28px;
       margin-right: 29px;
-        cursor: pointer;
-    }
-`
-const LinkBox2= styled.ul`
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    li{
-        display: flex;
-        align-items: center;
-        font-size: 16px;
-        //border-bottom: 1px solid #eee;
-        //width: 100%;
-        //padding-bottom: 10px;
-    }
-    img{
-      width: 28px;
-      margin-right: 10px;
         cursor: pointer;
     }
 `
@@ -186,7 +167,7 @@ const SocialBox = styled.ul`
 
 export default function Setting(){
     const navigate = useNavigate()
-    const { t,i18n } = useTranslation();
+    const { t } = useTranslation();
     const [version,setVersion] = useState('')
 
     const toGo = (url) =>{
@@ -208,22 +189,12 @@ export default function Setting(){
     const getVersion = () =>{
         /*global chrome*/
         const manifest = chrome.runtime.getManifest();
-
-        console.log("=manifest.version==",manifest)
         setVersion(manifest.version)
-    }
-
-
-    const handleLan = () =>{
-
-        const lang = i18n.language === "zh" ? "en":"zh"
-        i18n.changeLanguage(lang);
-
     }
 
     return <Box>
         <TitleBox>
-            <img src={CloseImg} alt="" onClick={() => toGo('/')}/>
+            <img src={CloseImg} alt="" onClick={()=>toGo('/')}/>
             <div className="title medium-font">{t('popup.Settings.More')}</div>
         </TitleBox>
 
@@ -231,15 +202,14 @@ export default function Setting(){
             <Titles className="medium-font">{t('popup.Settings.General')}</Titles>
             <ContentBox2>
                 {/*<ItemBox2  onClick={()=>toGo('/language')}>*/}
-                <ItemBox2 onClick={()=>handleLan()}>
+                <ItemBox2 >
                     <LftTitle className="medium-font">{t('popup.Settings.Language')}</LftTitle>
                     <div className="rht">
-
-                        <span>{i18n.language === "zh"?"中文":"English"}</span>
+                        <span>English</span>
                         <img src={Next} alt=""/>
                     </div>
                 </ItemBox2>
-                <ItemBox2 onClick={() => toGo('/security')}>
+                <ItemBox2  onClick={()=>toGo('/security')}>
                     <LftTitle className="medium-font">{t('popup.Settings.Security')}</LftTitle>
                     <div className="rht">
                         <img src={Next} alt=""/>
@@ -265,22 +235,12 @@ export default function Setting(){
         <div>
             <Titles className="medium-font">{t('popup.Settings.Contact')}</Titles>
             <LinkBox>
-                {/*<img src={Twitter} alt=""/>*/}
-                {/*<img src={Discord} alt=""/>*/}
-                <img src={Telegram} alt="" onClick={() => toTab("https://t.me/reiwallet")}/>
+                <img src={Twitter} alt=""/>
+                <img src={Discord} alt=""/>
+                <img src={Telegram} alt="" onClick={()=>toTab("https://t.me/reiwallet")}/>
 
-                {/*<img src={Medium} alt=""/>*/}
+                <img src={Medium} alt=""/>
             </LinkBox>
-        </div>
-        <div>
-            <Titles className="medium-font">{t('popup.Settings.Friendly')}</Titles>
-            <LinkBox2>
-
-                <li>
-                    <img src={HasteImg} alt="" onClick={() => toTab("https://haste.pro")}/>
-                    <span>Haste.pro</span>
-                </li>
-            </LinkBox2>
         </div>
     </Box>
 }

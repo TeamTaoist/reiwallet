@@ -139,6 +139,7 @@ const get_transaction = async (obj) =>{
         const client = new RpcClient();
         let rt = await client.get_transaction(txHash);
         const {transaction:{hash},tx_status} = rt;
+        console.log("=====")
 
         if(tx_status.status !== "pending" && tx_status.status !== "proposed"){
             await RemoveRecord(hash,rt)
