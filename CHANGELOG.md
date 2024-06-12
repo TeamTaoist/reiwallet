@@ -1,3 +1,12 @@
+## [0.1.7](https://github.com/TeamTaoist/reiwallet/compare/v0.1.6...v0.1.7) (2024-06-12)
+
+
+### Bug Fixes
+
+* correct the process of publish ([7357636](https://github.com/TeamTaoist/reiwallet/commit/735763629fa86d1ac7048dd2c7e3d7ca7b81b036))
+
+
+
 ## [0.1.6](https://github.com/TeamTaoist/reiwallet/compare/v0.1.5...v0.1.6) (2024-06-12)
 
 
