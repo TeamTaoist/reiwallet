@@ -43,18 +43,13 @@ This command build the app in production mode and saved to build folder.
 
 ----
 
-## Release process
+## How to release?
 
-### update version
-update version in `public/version.txt`
+The github action will auto build the release version when there has some modifications.
 
-### npm run build
+Each time when the github action is complete, you can find the newly generated release in the release section of this repo.
 
+Just download the `reiwallet-build.zip` and upload it to Chrome Webstore. 
 
-### Compress build folder
-
-The command is to compress the contents under the `build` folder.
-
-### Upload to chrome web store
-https://chrome.google.com/webstore/devconsole
+About how to upload to Chrome Webstore, please ref https://chrome.google.com/webstore/devconsole
 
