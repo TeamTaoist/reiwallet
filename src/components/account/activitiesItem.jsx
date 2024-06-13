@@ -22,10 +22,10 @@ export default function ActivitiesItem({item,networkInfo}) {
                 <div className="item">
                     <div className="medium-font title">{item.tx_hash ? PublicJs.AddressToShow(item.tx_hash) : ""}</div>
                     {/*<div><span className="time">{item?.created ? formatDate(item?.created) : ""}</span></div>*/}
-                    <div><span className="time">{t('popup.account.explorer')}</span></div>
+                    <div><span className="time">{t('popup.account.view')}</span></div>
                 </div>
                 <div className="item">
-                    <div className="medium-font titleRht">{t('popup.account.Committed')}</div>
+                    <div className="medium-font titleRht">{t('popup.account.committed')}</div>
                 </div>
             </div>
         }

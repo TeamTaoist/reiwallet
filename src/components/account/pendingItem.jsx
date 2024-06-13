@@ -36,7 +36,7 @@ export default function PendingItem({ txItem,networkInfo}) {
                 <div className="item">
                     <div className="medium-font title">{tx ? PublicJs.AddressToShow(tx) : ""}</div>
                     {/*<div><span className="time">{txItem?.created ? formatDate(txItem?.created) : ""}</span></div>*/}
-                    <div><span className="time">{t('popup.account.explorer')}</span></div>
+                    <div><span className="time">{t('popup.account.view')}</span></div>
                 </div>
                 <div className="item">
                     <div className="medium-font titleRht pending">{item?.tx_status?.status ?? ""}</div>

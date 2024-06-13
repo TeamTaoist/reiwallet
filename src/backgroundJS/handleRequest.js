@@ -530,7 +530,7 @@ const sendXUDT = async(data,windowId,url) =>{
         browser.windows.onRemoved.addListener((windowId) => {
             if (windowId === notificationWindow.id) {
                 messenger.destroy();
-                reject("Send XUDT transaction Rejected");
+                reject("Send xUDT transaction rejected");
             }
         });
     });

@@ -390,7 +390,7 @@ export default function SendDOB_detail(){
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.send.Occupied')}</dt>
+                    <dt>{t('popup.send.occupied')}</dt>
                     <dd className="medium-font">{dobDetail?.cellOutput?.capacity?formatUnit(dobDetail?.cellOutput?.capacity, "ckb"):0} {symbol}</dd>
                 </dl>
             </DlBox>

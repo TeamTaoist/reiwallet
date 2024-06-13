@@ -93,11 +93,11 @@ export default function Balance(){
                 {
                     !!Number(occupied)&& <>
                         <div className="subTitle">
-                            <span>{t('popup.account.Available')}</span>
+                            <span>{t('popup.account.available')}</span>
                             {available} {symbol}
                         </div>
                         <div className="subTitle">
-                            <span>{t('popup.account.Occupied')}</span>
+                            <span>{t('popup.account.occupied')}</span>
                             {occupied} {symbol}
                         </div>
 

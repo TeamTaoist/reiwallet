@@ -16,12 +16,11 @@
         "create_title": "设置密码",
         "start": "让我们开始吧",
         "restore": "恢复",
-        "create_tips": "您可以创建个人身份并连接到社交帐户。",
         "walletName": "钱包名称",
         "namePlaceholder": "请输入1-12个字符",
-        "pwd": "设置支付密码",
+        "pwd": "设置解锁密码",
         "pwdPlaceholder": "请输入",
-        "confirmPwd": "确认支付密码",
+        "confirmPwd": "确认解锁密码",
         "confirmPlaceholder": "请输入",
         "next": "下一步"
       },
@@ -45,19 +44,12 @@
         "title": "下载预览",
         "tips": "请妥善保管本页信息。",
         "download": "下载",
-        "id": "身份名称",
-        "Web3graphID": "rgbpp ID",
         "walletAddress": "钱包地址"
-      },
-      "social": {
-        "title": "连接到社交平台",
-        "tips": "连接到社交平台"
       }
     }
   },
   "popup": {
     "create": {
-      "create": "创建身份",
       "tips": "请创建或恢复您的第一个身份，并连接到社交帐户。",
       "Restore": "恢复"
     },
@@ -72,9 +64,9 @@
       "subTitle": "创建钱包",
       "walletName": "钱包名称",
       "namePlaceholder": "请输入1-12个字符",
-      "pwd": "设置支付密码",
+      "pwd": "设置解锁密码",
       "pwdPlaceholder": "请输入",
-      "confirmPwd": "确认支付密码",
+      "confirmPwd": "确认解锁密码",
       "confirmPlaceholder": "请输入",
       "tips": "支付密码必须包含数字、大写和小写字母以及特殊字符，长度为8-20个字符。",
       "cancel": "取消",
@@ -127,12 +119,12 @@
       "AddToken": "添加代币",
       "details": "账户详情",
       "ExportAccount": "导出账户",
-      "Explorer": "浏览器",
+      "explorer": "浏览器",
       "sites": "连接的站点",
-      "Available": "可用",
-      "Occupied": "被占用",
-      "explorer": "在区块浏览器里查看",
-      "Committed": "已确认",
+      "available": "可用",
+      "occupied": "被占用",
+      "view": "在区块浏览器里查看",
+      "committed": "已确认",
       "viewMore": "查看更多"
     },
     "export": {
@@ -198,13 +190,13 @@
       "Assets": "资产",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
-      "Occupied": "已占用"
+      "occupied": "已占用"
     },
     "assets": {
       "Assets": "资产"
     },
     "lock": {
-      "tips": "欢迎回来！即将来到去中心化网络！",
+      "tips": "欢迎回到去中心化网络!",
       "password": "密码",
       "placeholder": "请输入",
       "unlock": "解锁",
@@ -220,13 +212,13 @@
       "title": "请求签名"
     },
     "xudt": {
-      "XUDTDetail": "XUDT 详情",
+      "XUDTDetail": "xUDT 详情",
       "Name": "名称",
       "Symbol": "符号",
       "Decimals": "小数位",
       "Balance": "余额",
       "Send": "发送",
-      "xudtTips": "支持将 RGB++ 发送至 BTC，以及将 XUDT 发送至 CKB。"
+      "xudtTips": "支持将 Leap RGB++ 资产"
     },
     "sites": {
       "Disconnect": "断开连接",
@@ -240,7 +232,7 @@
       "MeltDOB": "Melt DOB",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
-      "Occupied": "已占用",
+      "occupied": "已占用",
       "meltTips": "您确定要 MELT这个 DOB?",
       "meltTips2": "此操作不可逆",
       "Cancel": "取消",
@@ -253,7 +245,7 @@
       "ClusterId": "Cluster Id",
       "ClusterName": "Cluster 名称",
       "ClusterDescription": "Cluster 描述",
-      "Occupied": "已占用",
+      "occupied": "已占用",
       "Description": "描述",
       "Send": "发送",
       "Type": "类型"

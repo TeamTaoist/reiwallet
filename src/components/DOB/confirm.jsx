@@ -328,7 +328,7 @@ export default function DOBConfirm(){
                 </dd>
             </dl>
             <dl>
-                <dt>{t('popup.send.Occupied')}</dt>
+                <dt>{t('popup.send.occupied')}</dt>
                 <dd className="medium-font">{formatUnit(dob?.output?.capacity, "ckb")} {symbol}</dd>
             </dl>
         </DlBox>

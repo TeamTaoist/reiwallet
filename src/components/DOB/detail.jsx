@@ -248,7 +248,7 @@ export default function DOB_detail(){
                     </dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.dob.Occupied')}</dt>
+                    <dt>{t('popup.dob.occupied')}</dt>
                     <dd className="medium-font">{formatUnit(dob?.output?.capacity, "ckb")} {symbol}</dd>
                 </dl>
             </DlBox>

@@ -201,7 +201,7 @@ export default function AccountHeader(){
                     <dt>
                         <img src={EtherImg} alt=""/>
                     </dt>
-                    <dd>{t('popup.account.Explorer')}</dd>
+                    <dd>{t('popup.account.explorer')}</dd>
                 </dl>
                 <dl onClick={()=>toDetail('/detail')}>
                     <dt>

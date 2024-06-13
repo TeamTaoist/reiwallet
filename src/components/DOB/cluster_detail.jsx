@@ -178,7 +178,7 @@ export default function Cluster_detail(){
 
 
                 <dl>
-                    <dt>{t('popup.cluster.Occupied')}</dt>
+                    <dt>{t('popup.cluster.occupied')}</dt>
                     <dd className="medium-font">{formatUnit(cluster?.output?.capacity, "ckb")} {symbol}</dd>
                 </dl>
             </DlBox>

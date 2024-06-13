@@ -353,7 +353,7 @@ export default function SendCluster_detail(){
                     <dd className="medium-font">{cluster?.cluster?.name}</dd>
                 </dl>
                 <dl>
-                    <dt>{t('popup.cluster.Occupied')}</dt>
+                    <dt>{t('popup.cluster.occupied')}</dt>
                     <dd className="medium-font">{cluster?.cellOutput?.capacity?formatUnit(cluster?.cellOutput?.capacity, "ckb"):0} {symbol}</dd>
                 </dl>
                 <dl>

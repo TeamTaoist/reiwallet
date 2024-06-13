@@ -17,8 +17,7 @@
         "create_title": "Set Password",
         "start": "Let's start",
         "restore": "Restore",
-        "create_tips": "You can create personal identities and connect to social accounts.",
-        "walletName": "Wallet name",
+        "walletName": "The name of the wallet",
         "namePlaceholder": "Please enter 1-12 characters",
         "pwd": "Set payment password",
         "pwdPlaceholder": "Please enter",
@@ -46,19 +45,12 @@
         "title": "Download Preview",
         "tips": "Please keep the information on this page properly. ",
         "download": "Download",
-        "id": "Identity Name",
-        "Web3graphID": "rgbpp ID",
         "walletAddress": "Wallet Address"
-      },
-      "social": {
-        "title": "Connect to social platforms",
-        "tips": "Connect to social platforms"
       }
     }
   },
   "popup": {
     "create": {
-      "create": "Create Identity",
       "tips": "Please create or restore your first and connect to social accounts.",
       "Restore": "Restore"
     },
@@ -71,13 +63,13 @@
     "createTitle":  "Create wallet",
     "step1": {
       "subTitle": "Create wallet",
-      "walletName": "Wallet name",
+      "walletName": "The name of the wallet",
       "namePlaceholder": "Please enter 1-12 characters",
-      "pwd": "Set payment password",
+      "pwd": "Set unlock password",
       "pwdPlaceholder": "Please enter",
-      "confirmPwd": "Confirm payment password",
+      "confirmPwd": "Confirm unlock password",
       "confirmPlaceholder": "Please enter",
-      "tips": "  The payment password must contain numbers, upper and lower case letters and special characters, with a length of 8-20 characters.",
+      "tips": "  The unlock password must contain numbers, upper and lower case letters and special characters, with a length of 8-20 characters.",
       "cancel": "Cancel",
       "Confirm": "Confirm"
     },
@@ -114,13 +106,13 @@
       "mnemonicTips": "If you ever change browsers or move computers, you will need this Secret Recovery Phrase to access your accounts. Save them somewhere safe and secret.",
       "mnemonicTips2": " DO NOT share this phrase with anyone!\nThese words can be used to steal all your accounts.",
       "Cancel": "Cancel",
-      "Copy": "Copy Mnemonic"
+      "Copy": "Copy mnemonic"
     },
     "account": {
       "send": "Send",
       "cancel": "Cancel",
       "name": "Account Name",
-      "add": "Add Account",
+      "add": "Add account",
       "Assets": "Assets",
       "Activities": "Activities",
       "Reward": "Reward",
@@ -128,17 +120,17 @@
       "AddToken": "Add token",
       "details": "Account details",
       "ExportAccount": "Export Account",
-      "Explorer": "Explorer",
+      "explorer": "Explorer",
       "sites": "Connected sites",
-      "Available": "Available",
-      "Occupied": "Occupied",
-      "explorer": "View on block explorer",
-      "Committed": "Committed",
+      "available": "Available",
+      "occupied": "Occupied",
+      "view": "View in block explorer",
+      "committed": "Confirmed",
       "viewMore": "View More"
 
     },
     "export": {
-      "password": "Type your  password",
+      "password": "Type your password",
       "Confirm": "Confirm",
       "cancel": "Cancel",
       "Copy": "Copy",
@@ -200,17 +192,17 @@
       "Assets": "Assets",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
-      "Occupied": "Occupied"
+      "occupied": "Occupied"
     },
     "assets": {
       "Assets": "Assets"
     },
     "lock": {
-      "tips": "Welcome back ！Coming soon to the decentralized web !",
+      "tips": "Welcome back to the decentralized world!",
       "password": "Password",
       "placeholder": "Please enter",
-      "unlock": "unlock",
-      "validating": "validating"
+      "unlock": "Unlock",
+      "validating": "Validating"
     },
     "switch": {
       "title": "Switch Account",
@@ -222,13 +214,13 @@
       "title": "Signature request"
     },
     "xudt": {
-      "XUDTDetail": "XUDT Detail",
+      "XUDTDetail": "xUDT Detail",
       "Name": "Name",
       "Symbol": "Symbol",
       "Decimals": "Decimals",
       "Balance": "Balance",
       "Send": "Send",
-      "xudtTips": "Supports sending RGB++ to BTC and sending XUDT to CKB."
+      "xudtTips": "Supports leaping RGB++ assets."
     },
     "sites": {
       "Disconnect": "Disconnect",
@@ -242,7 +234,7 @@
       "MeltDOB": "Melt DOB",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
-      "Occupied": "Occupied",
+      "occupied": "Occupied",
       "meltTips": "Are you sure you want to MELT this DOB?",
       "meltTips2": "This action is irreversible",
       "Cancel": "Cancel",
@@ -255,7 +247,7 @@
       "ClusterId": "Cluster Id",
       "ClusterName": "Cluster Name",
       "ClusterDescription": "Cluster Description",
-      "Occupied": "Occupied",
+      "occupied": "Occupied",
       "Description": "Description",
       "Send": "Send",
       "Type": "Type"
