@@ -109,6 +109,7 @@
       "Copy": "Copy mnemonic"
     },
     "account": {
+      "copied": "Copied!",
       "send": "Send",
       "cancel": "Cancel",
       "name": "Account Name",

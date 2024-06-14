@@ -108,6 +108,7 @@
       "Copy": "复制助记词"
     },
     "account": {
+      "copied": "已复制!",
       "send": "发送",
       "cancel": "取消",
       "name": "账户名称",

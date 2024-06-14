@@ -223,7 +223,7 @@ export default function AccountHeader(){
         {
             showNew && <AddAccount handleCloseNew={handleCloseNew} />
         }
-        <Toast tips="copied" size={20} show={copied}/>
+        <Toast tips={t('popup.account.copied')} size={20} show={copied}/>
 
         <Lft onClick={(e)=>handleAccount(e)}>
             <div className="avatar">
