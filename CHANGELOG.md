@@ -1,3 +1,27 @@
+# [0.2.0](https://github.com/TeamTaoist/reiwallet/compare/v0.1.7...v0.2.0) (2024-06-14)
+
+
+### Bug Fixes
+
+* duplicated account ([90a892c](https://github.com/TeamTaoist/reiwallet/commit/90a892c6bb95428e624b704a04b11cd9aaa03ff5))
+* texts ([3d501d8](https://github.com/TeamTaoist/reiwallet/commit/3d501d8b52c842c241a2c7b6415aed7e8d238757))
+* update  site name ([d0d73fa](https://github.com/TeamTaoist/reiwallet/commit/d0d73fa17c7235fda7e85516e8c5c6601be95a14))
+* update function name with global ([770a140](https://github.com/TeamTaoist/reiwallet/commit/770a1401beb5c26f98946138ff0ea36977946819))
+* update search mode ([f56570c](https://github.com/TeamTaoist/reiwallet/commit/f56570c9198ae7e1f9d570aa7da9119c8cc7018a))
+* update transaction ([cd84523](https://github.com/TeamTaoist/reiwallet/commit/cd8452389d5b3ae47c944d86d25113642b4748e4))
+* update transaction in send xudt ([ae54231](https://github.com/TeamTaoist/reiwallet/commit/ae54231a6c296f067c4b3df90b14247bc572253d))
+* update transaction with install ([e514b99](https://github.com/TeamTaoist/reiwallet/commit/e514b992f3ab44fa5854e1fdddb1a5c9c480ac9a))
+* update transaction with notification ([f56a35c](https://github.com/TeamTaoist/reiwallet/commit/f56a35c541e1713507f6f6c3d23a35f08ca40a35))
+* update ui ([940791a](https://github.com/TeamTaoist/reiwallet/commit/940791a6548c7eb0b64a0438f4a8a437969ade36))
+* update useTranslation ([7a33f98](https://github.com/TeamTaoist/reiwallet/commit/7a33f98ee55cbaa8af54c5933faf8a9ede38bc3f))
+
+
+### Features
+
+* add version when postBuild ([c4f2720](https://github.com/TeamTaoist/reiwallet/commit/c4f27201c5d9ee31195ba9b9e6e35b88e6fbc218))
+
+
+
 ## [0.1.7](https://github.com/TeamTaoist/reiwallet/compare/v0.1.6...v0.1.7) (2024-06-12)
 
 
