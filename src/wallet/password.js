@@ -1,5 +1,7 @@
 
 /*global chrome*/
+import {REACT_APP_PASSWORD} from "../utils/constants";
+
 export const savePassword = async (password) =>{
     let rt = await switchPassword(password)
     await chrome.storage.session.set({ password:rt });
@@ -18,7 +20,7 @@ export const switchPassword = async(password) =>{
         false,
         ["encrypt", "decrypt"]
     );
-    const data = new TextEncoder().encode(process.env.REACT_APP_PASSWORD);
+    const data = new TextEncoder().encode(REACT_APP_PASSWORD);
     const iv = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
 
     const encryptedData = await window.crypto.subtle.encrypt(
