@@ -1,3 +1,4 @@
+const { version } = require("process");
 
 let completer={};
 
@@ -69,6 +70,7 @@ const ReiWalletOff = (method, callback) =>{
     nextCall[method] = arr;
 }
 let injectedCkb ={
+    version: "#VERSION#",
     request:ReiWalletRequest,
     isConnected:ReiWalletIsConnected,
     off:ReiWalletOff,
