@@ -22,6 +22,7 @@ const backgoundJs = readFile('static/js', 'background', 'js');
 // const css = readFile('static/css', 'main', 'css');
 // const logo = readFile('static/media', 'logo', 'svg');
 
+// regenerate manifest.json for publishing
 const newManifest = {
   ...manifest,
   "background": {
@@ -41,3 +42,10 @@ const newManifest = {
 };
 
 fs.writeFileSync('./build/manifest.json', JSON.stringify(newManifest, null, 2));
+
+// regenerate inject.js for publishing
+const filePath = './build/content_script/inject.js';
+const searchString = '#VERSION#';
+const vesrionStr = manifest.version.toString();
+const updatedData = fs.readFileSync(filePath, 'utf8').replace(new RegExp(searchString, 'g'), vesrionStr);
+fs.writeFileSync(filePath, updatedData, 'utf8');

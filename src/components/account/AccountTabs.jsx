@@ -45,29 +45,31 @@ export default function AccountTabs(){
     const { t } = useTranslation();
     const [list] = useState([
         {
-            value:0,
-            name:t('popup.account.Activities')
+            value:3,
+            name:"XUDT"
         },
         {
             value:1,
             name:"DOB"
         },
+        {
+            value:0,
+            name:t('popup.account.Activities')
+        },
+
         // {
         //     value:2,
         //     name:"SUDT"
         // },
-        {
-            value:3,
-            name:"XUDT"
-        }])
-    const [ current, setCurrent] = useState(0);
+       ])
+    const [ current, setCurrent] = useState(3);
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab');
     const navigate = useNavigate();
     const [show,setShow] = useState(false);
 
     useEffect(() => {
-        let newTab = tab ??0;
+        let newTab = tab ??3;
         setCurrent(Number(newTab))
 
     }, [tab]);

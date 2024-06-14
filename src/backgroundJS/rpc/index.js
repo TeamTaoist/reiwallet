@@ -76,7 +76,7 @@ export default class RpcClient{
         let OcCapacity = BI.from(0);
         const addressScript = helpers.parseAddress(address);
 
-        const collector = indexer.collector({ lock: addressScript});
+        const collector = indexer.collector({ lock: addressScript,scriptSearchMode:"exact"});
 
         for await (const cell of collector.collect()) {
             totalCapacity = totalCapacity.add(cell.cellOutput.capacity);
@@ -238,7 +238,7 @@ export default class RpcClient{
                             hash_type: sporeType.hashType,
                             args: "0x",
                         },
-                        script_search_mode: 'prefix',
+                        script_search_mode: 'exact',
                         script_type: 'type',
                     },
                 },
@@ -256,7 +256,7 @@ export default class RpcClient{
         const clusterConfig = network === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
 
         const clusterType = getSporeScript(clusterConfig,"Cluster",["preview"]);
-        console.error("=====clusterType=",clusterType)
+
 
         return await this._request({
             method:"get_cells",
@@ -276,7 +276,7 @@ export default class RpcClient{
                             hash_type: clusterType.script.hashType,
                             args: "0x",
                         },
-                        script_search_mode: 'prefix',
+                        script_search_mode: 'exact',
                         script_type: 'type',
                     },
                 },
@@ -408,7 +408,7 @@ export default class RpcClient{
                             hash_type: sporeType.hashType,
                             args: "0x",
                         },
-                        script_search_mode: 'prefix',
+                        script_search_mode: 'exact',
                         script_type: 'type',
                     },
                 },
@@ -496,7 +496,7 @@ export default class RpcClient{
                             hash_type: xudtType.hashType,
                             args: "0x",
                         },
-                        script_search_mode: 'prefix',
+                        script_search_mode: 'exact',
                         script_type: 'type',
                     },
                 },

@@ -10,17 +10,17 @@ import {unpackAmount} from "@ckb-lumos/common-scripts/lib/sudt";
 import {BI} from "@ckb-lumos/lumos";
 
 const Box = styled.div`
-  padding: 23px 20px;
+  padding: 15px 20px;
   li{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 68px;
+    height: 60px;
     border-radius: 14px;
     padding: 0 27px;
     cursor: pointer;
       background: #fafafa;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     &:hover{
       background: #F1FCF1;
     }
@@ -91,8 +91,6 @@ export default function XUDT(){
             return item
         })
 
-        console.log(arrFormat)
-
         const groupedData = arrFormat.reduce((acc, obj) => {
             const key = obj?.output?.type?.args
             if (!acc[key]) {
@@ -103,8 +101,6 @@ export default function XUDT(){
             return acc;
         }, {});
         const result = Object.values(groupedData);
-
-        console.log(result)
 
 
         setSList(result)

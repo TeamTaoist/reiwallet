@@ -11,7 +11,6 @@ export default function useXUDT(){
         const {type }= message;
         if(type ==="get_XUDT_success"){
             setList(message.data?.objects ?? [])
-            console.log("get_XUDT_success",message.data)
             setLoading(false)
         }
     }

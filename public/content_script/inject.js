@@ -1,3 +1,4 @@
+const { version } = require("process");
 
 let completer={};
 
@@ -13,7 +14,7 @@ document.addEventListener('CKB_RESPONSE', function(event) {
 });
 
 
-const request = ({method, data}) =>{
+const ReiWalletRequest = ({method, data}) =>{
 
     const id = new Date().valueOf()+ Math.random();
     const request_event = new CustomEvent('CKB_REQUEST', { detail: {  method, data:{data,id}} });
@@ -33,7 +34,7 @@ const request = ({method, data}) =>{
     });
 }
 
-const isConnected = async() =>{
+const ReiWalletIsConnected = async() =>{
     let rt = await request({method:"isConnected"});
     const {isConnected} =rt;
     return isConnected;
@@ -52,7 +53,7 @@ document.addEventListener('CKB_ON_RESPONSE', function(event) {
 
 
 
-const on = (method, callback) =>{
+const ReiWalletOn = (method, callback) =>{
     if(!callback)return;
 
     if(!nextCall[method]){
@@ -61,19 +62,31 @@ const on = (method, callback) =>{
     nextCall[method].push(callback)
 }
 
-const off = (method, callback) =>{
+const ReiWalletOff = (method, callback) =>{
     if(!callback)return;
 
     if(!nextCall[method]) return;
     const arr = nextCall[method].filter((item) => item !== callback)
     nextCall[method] = arr;
 }
-
 let injectedCkb ={
-    version:"0.0.1",
-    request,
-    isConnected,
-    off,
-    on
+    version: "#VERSION#",
+    request:ReiWalletRequest,
+    isConnected:ReiWalletIsConnected,
+    off:ReiWalletOff,
+    on:ReiWalletOn
 }
-window.ckb = Object.freeze(injectedCkb);
+// window.ckb = Object.freeze(injectedCkb);
+
+if (!window.ckb) {
+    window.ckb = new Proxy(injectedCkb, {
+        deleteProperty: () => true
+    });
+}
+
+Object.defineProperty(window, 'ckb', {
+    value: new Proxy(injectedCkb, {
+        deleteProperty: () => true
+    }),
+    writable: false
+});
