@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/TeamTaoist/reiwallet/compare/v0.2.0...v0.2.1) (2024-06-15)
+
+
+### Bug Fixes
+
+* remove warnings ([6ff184b](https://github.com/TeamTaoist/reiwallet/commit/6ff184b6908609a9b8895de97a0040fd9939e73a))
+
+
+
 # [0.2.0](https://github.com/TeamTaoist/reiwallet/compare/v0.1.7...v0.2.0) (2024-06-14)
 
 
