@@ -22,6 +22,7 @@ const UrlBox = styled.div`
     background: #f8f8f8;
     padding: 10px;
     margin-bottom: 30px;
+    word-break: break-all;
 `
 const TitleBox = styled.div`
     font-weight: bold;
@@ -87,12 +88,13 @@ export default function SignMessage(){
         try{
             let rt = await SignData.signByPrivateKey(detail.message);
             await messenger.send('signMessage_result', {status:"success",data:rt});
-            window.close();
+
         }catch (e) {
             console.error('signMessage_result',e)
             await messenger.send('signMessage_result', {status:"failed",data:e.message});
         }finally {
             setLoading(false)
+            window.close();
         }
     }
 

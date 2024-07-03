@@ -235,7 +235,7 @@ export default function SendXUDT_detail(){
                 setLoading(false)
                 setTimeout(()=>{
                     setError(false)
-                    window.close();
+                    handleError(message.data)
                 },2000)
             }
                 break;
@@ -247,6 +247,10 @@ export default function SendXUDT_detail(){
 
     const {sendMsg} = useMessage(handleEvent,[]);
 
+    const handleError = async(error) => {
+        await messenger.send('XUDT_transaction_result', {status:"rejected",data:error});
+        window.close();
+    }
 
     useEffect(() => {
         toBackground()

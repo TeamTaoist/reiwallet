@@ -256,6 +256,7 @@ const sendCKBTx = async(data,windowId,url) =>{
 
         messenger.register('CKB_transaction_result', (result) => {
             const {data,status} =result;
+
             if(status === "success"){
                 recordToTxList(data?.signedTx)
                 resolve(data);
@@ -360,6 +361,8 @@ const sendDOB = async (data,windowId,url) =>{
 
         messenger.register('DOB_transaction_result', (result) => {
             const {data,status} =result;
+
+            recordToTxList(data)
             if(status === "success"){
                 resolve(data);
             }else{
@@ -551,7 +554,6 @@ const getPublicKey_inner = async(url) =>{
     }
 
     let pwd = await getPassword();
-    console.log("==pwd==",pwd)
 
     if(pwd){
         return await getPublicKey();
