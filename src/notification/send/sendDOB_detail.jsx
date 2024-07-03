@@ -39,6 +39,7 @@ const UrlBox = styled.div`
     padding: 10px;
     margin-bottom: 30px;
     margin-top: 10px;
+    word-break: break-all;
 `
 
 const FirstLine = styled.div`
