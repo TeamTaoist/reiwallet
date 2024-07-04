@@ -34,6 +34,7 @@ const UrlBox = styled.div`
     background: #f8f8f8;
     padding: 10px;
     margin-bottom: 30px;
+    word-break: break-all;
 `
 const FirstLine = styled.div`
     display: flex;
@@ -201,9 +202,13 @@ export default function SendCKB(){
                 break;
             case "send_transaction_error":
                 {
-                    setTips(message.data??"Get info Failed")
+                    setTips(message.data??"Send Failed")
                     setError(true)
                     setLoading(false)
+                    setTimeout(()=>{
+                        setError(false)
+                        handleError(message.data??"Send Failed")
+                    },2000)
                 }
                 break;
             case "transaction_confirm_error":
@@ -211,10 +216,19 @@ export default function SendCKB(){
                 setTips(message.data??'Send Failed')
                 setError(true)
                 setLoading(false)
+                setTimeout(()=>{
+                    setError(false)
+                    handleError(message.data??"Send Failed")
+                },2000)
             }
                 break;
 
         }
+    }
+
+    const handleError = async(error) => {
+        await messenger.send('CKB_transaction_result', {status:"rejected",data:error});
+        window.close();
     }
 
     const {sendMsg} = useMessage(handleEvent,[]);
@@ -257,12 +271,12 @@ export default function SendCKB(){
     const handleSuccess = async(rt) =>{
         try{
             await messenger.send('CKB_transaction_result', {status:"success",data:rt});
-            window.close();
         }catch (e) {
             console.error('transaction_result',e)
             await messenger.send('CKB_transaction_result', {status:"failed",data:e.message});
         }finally {
             setLoading(false)
+            window.close();
         }
     }
 

@@ -34,6 +34,7 @@ const UrlBox = styled.div`
     background: #f8f8f8;
     padding: 10px;
     margin-bottom: 30px;
+    word-break: break-all;
 `
 const FirstLine = styled.div`
     display: flex;
@@ -139,31 +140,6 @@ export default function SendRaw_detail(){
 
 
 
-    //
-    // useEffect(() => {
-    //
-    //     let inputsSum = BI.from(0)
-    //     result?.inputs?.map((item)=>{
-    //         //
-    //         let capacity = BI.from(item.capacity);
-    //         inputsSum = inputsSum.add(capacity)
-    //
-    //     })
-    //     let outputsSum = BI.from(0)
-    //     result?.outputs?.map((item)=>{
-    //         //
-    //         let capacity = BI.from(item.capacity);
-    //         outputsSum = outputsSum.add(capacity)
-    //
-    //     })
-    //
-    //
-    //     let gas = inputsSum.sub(outputsSum);
-    //     let gasFormat = formatUnit(gas,'ckb');
-    //     setFee(gasFormat)
-    // }, [result]);
-
-
     const handleEvent = (message) => {
         const {type }= message;
 
@@ -178,9 +154,22 @@ export default function SendRaw_detail(){
                     setError(false)
                     window.close();
                 },2000)
+            }else if(type === "sign_send_confirm_error") {
+                setError(true)
+                setTips(message.data)
+                setLoading(false)
+                setTimeout(()=>{
+                    setError(false)
+                    handleError(message.data)
+                },2000)
             }
 
 
+    }
+
+    const handleError = async(error) => {
+        await messenger.send('sendRawTx_result', {status:"rejected",data:error});
+        window.close();
     }
 
     const {sendMsg} = useMessage(handleEvent,[]);
@@ -190,25 +179,8 @@ export default function SendRaw_detail(){
         getDetail()
 
     }, [messenger]);
-    //
-    // useEffect(()=>{
-    //     if(!params || !feeRate)return;
-    //     getTXDetail()
-    //
-    // },[params,feeRate])
-    //
-    // const getTXDetail = () =>{
-    //     setLoading(true)
-    //     const {amount,to} = params
-    //     let obj ={
-    //         method:"send_transaction",
-    //         to,
-    //         amount,
-    //         isMax:false,
-    //         fee:feeRate
-    //     }
-    //     sendMsg(obj)
-    // }
+
+
 
 
     const getDetail = async() =>{
@@ -231,6 +203,7 @@ export default function SendRaw_detail(){
         }catch (e) {
             console.error('transaction_result',e)
             await messenger.send('sendRawTx_result', {status:"failed",data:e.message});
+
         }finally {
             setLoading(false)
         }

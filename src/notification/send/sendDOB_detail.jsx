@@ -39,6 +39,7 @@ const UrlBox = styled.div`
     padding: 10px;
     margin-bottom: 30px;
     margin-top: 10px;
+    word-break: break-all;
 `
 
 const FirstLine = styled.div`
@@ -222,11 +223,18 @@ export default function SendDOB_detail(){
                 setTimeout(()=>{
                     setError(false)
                     setBtnL(false)
+                    handleError('Send Failed:'+message.data)
                 },2000)
             }
                 break;
         }
     }
+
+    const handleError = async(error) => {
+        await messenger.send('DOB_transaction_result', {status:"rejected",data:error});
+        window.close();
+    }
+
 
 
     const {sendMsg} = useMessage(handleEvent,[]);
@@ -266,9 +274,10 @@ export default function SendDOB_detail(){
             setDobDetail(rt)
 
         }catch (e) {
-            console.error("=====getSporeByOutPoint=====",e.message)
             setError(true);
             setTips(e.message)
+
+            handleError(e.message)
 
         }finally {
             setLoading(false)

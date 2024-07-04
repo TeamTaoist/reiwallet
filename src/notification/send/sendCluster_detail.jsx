@@ -43,6 +43,7 @@ const UrlBox = styled.div`
     padding: 10px;
     margin-bottom: 30px;
     margin-top: 10px;
+    word-break: break-all;
 `
 
 const FirstLine = styled.div`
@@ -226,12 +227,18 @@ export default function SendCluster_detail(){
                 setTimeout(()=>{
                     setError(false)
                     setBtnL(false)
+                    handleError(message.data)
                 },2000)
             }
                 break;
         }
     }
 
+
+    const handleError = async(error) => {
+        await messenger.send('Cluster_transaction_result', {status:"rejected",data:error});
+        window.close();
+    }
 
     const {sendMsg} = useMessage(handleEvent,[]);
 
@@ -256,18 +263,15 @@ export default function SendCluster_detail(){
                 outPoint,
                 network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
             )
-
-
-            console.error("=====getClusterByOutPoint=====",rt)
             const cluster = unpackToRawClusterData(rt.data,"v2");
             rt.clusterId = rt.cellOutput.type.args;
             rt.cluster = cluster;
             setCluster(rt)
 
         }catch (e) {
-            console.error("=====getClusterByOutPoint=====",e.message)
             setError(true);
             setTips(e.message)
+            handleError(e.message)
 
         }finally {
             setLoading(false)
