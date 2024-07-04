@@ -1,3 +1,13 @@
+## [0.2.2](https://github.com/TeamTaoist/reiwallet/compare/v0.2.1...v0.2.2) (2024-07-04)
+
+
+### Bug Fixes
+
+* send detail ui & update rgbpp-sdk ([f726d80](https://github.com/TeamTaoist/reiwallet/commit/f726d80e65fbb0f901edc166502509a3648f2b4a))
+* update error tips in transaction ([44f7ced](https://github.com/TeamTaoist/reiwallet/commit/44f7ced7f4552a3529486b601d779bbe66fba2ea))
+
+
+
 ## [0.2.1](https://github.com/TeamTaoist/reiwallet/compare/v0.2.0...v0.2.1) (2024-06-15)
 
 
