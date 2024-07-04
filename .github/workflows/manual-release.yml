@@ -1,4 +1,4 @@
-name: Manual Build | Main Branch
+name: Manual Release | Main Branch
 
 on:
   workflow_dispatch:
