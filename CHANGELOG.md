@@ -1,3 +1,12 @@
+## [0.2.3](https://github.com/TeamTaoist/reiwallet/compare/v0.2.2...v0.2.3) (2024-07-05)
+
+
+### Bug Fixes
+
+* update network in mainnet ([693d561](https://github.com/TeamTaoist/reiwallet/commit/693d56153d281d9f31a8747f06384a9aa9528fd4))
+
+
+
 ## [0.2.2](https://github.com/TeamTaoist/reiwallet/compare/v0.2.1...v0.2.2) (2024-07-04)
 
 
