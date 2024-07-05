@@ -253,7 +253,7 @@ export default class RpcClient{
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
 
-        const clusterConfig = network === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
+        const clusterConfig = network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
 
         const clusterType = getSporeScript(clusterConfig,"Cluster",["preview"]);
 
@@ -300,7 +300,7 @@ export default class RpcClient{
         }
 
 
-        const sporeConfig = network === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
+        const sporeConfig = network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
 
         const sporeCell = await getSporeByOutPoint(
             newOutPoint,
@@ -319,6 +319,9 @@ export default class RpcClient{
         }else{
             amount = BI.from("0")
         }
+
+
+
 
         const { txSkeleton } = await transferSpore({
             outPoint:{
