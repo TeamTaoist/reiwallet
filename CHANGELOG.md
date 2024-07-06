@@ -1,3 +1,18 @@
+# [0.3.0](https://github.com/TeamTaoist/reiwallet/compare/v0.2.3...v0.3.0) (2024-07-06)
+
+
+### Bug Fixes
+
+* remove console.log ([b64a3fc](https://github.com/TeamTaoist/reiwallet/commit/b64a3fc2858821caa4960a46c1e064cf9b60b8da))
+* update dob list ([24c18cb](https://github.com/TeamTaoist/reiwallet/commit/24c18cb725c26c6b68031becf16c7828792499f8))
+
+
+### Features
+
+* add sign raw transaction ([98a15b2](https://github.com/TeamTaoist/reiwallet/commit/98a15b2362db637f5b6ea4925f4e289db00020f3))
+
+
+
 ## [0.2.3](https://github.com/TeamTaoist/reiwallet/compare/v0.2.2...v0.2.3) (2024-07-05)
 
 
