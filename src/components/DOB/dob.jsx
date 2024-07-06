@@ -79,13 +79,30 @@ export default function Dob(){
     ])
 
     useEffect(() => {
-        if(list === '' || clusterList === '')return;
+
         formatList()
+        formatClusterList()
+
     }, [list,currentAccount,clusterList]);
+
+    const formatClusterList = () =>{
+        if(clusterList  === '')return;
+        let clArr = [...clusterList];
+        clArr.map(async(item)=>{
+            item.cluster = unpackToRawClusterData(item.output_data,"v2");
+            item.clusterId = item.output.type.args;
+            return item
+        })
+
+        setCList(clArr)
+    }
 
 
     const formatList =  () =>{
+        if(list === '')return;
         let arr = [...list];
+
+        console.log("=====formatList=",arr)
         arr.map(async(item)=>{
             let spore =  unpackToRawSporeData(item.output_data)
             const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
@@ -102,14 +119,7 @@ export default function Dob(){
         })
         setSList(arr)
 
-        let clArr = [...clusterList];
-        clArr.map(async(item)=>{
-            item.cluster = unpackToRawClusterData(item.output_data,"v2");
-            item.clusterId = item.output.type.args;
-            return item
-        })
 
-        setCList(clArr)
     }
     const toCluster = (item) =>{
         dispatch({type:'SET_CLUSTER_DETAIL',payload:item});
