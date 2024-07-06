@@ -2,7 +2,13 @@ import styled from "styled-components";
 import useDOB from "../../useHook/useDOB";
 import {useEffect, useState} from "react";
 
-import {unpackToRawSporeData, unpackToRawClusterData, getClusterById, predefinedSporeConfigs} from '@spore-sdk/core';
+import {
+    unpackToRawSporeData,
+    unpackToRawClusterData,
+    getClusterById,
+    predefinedSporeConfigs,
+    bufferToRawString
+} from '@spore-sdk/core';
 import useNetwork from "../../useHook/useNetwork";
 import {useNavigate} from "react-router-dom";
 import {useWeb3} from "../../store/contracts";
@@ -79,29 +85,14 @@ export default function Dob(){
     ])
 
     useEffect(() => {
-        if(list === '' || clusterList === '')return;
+
         formatList()
+        formatClusterList()
+
     }, [list,currentAccount,clusterList]);
 
-
-    const formatList =  () =>{
-        let arr = [...list];
-        arr.map(async(item)=>{
-            let spore =  unpackToRawSporeData(item.output_data)
-            const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
-            const base64 = Buffer.from(buffer, "binary" ).toString("base64");
-            item.type = spore.contentType;
-            if( item.type.indexOf("text") > -1){
-                item.text =  Buffer.from(buffer, "binary" ).toString()
-            }else{
-                item.image = `data:${spore.contentType};base64,${base64}`;
-            }
-
-            item.clusterId =  spore.clusterId;
-            return item
-        })
-        setSList(arr)
-
+    const formatClusterList = () =>{
+        if(clusterList  === '')return;
         let clArr = [...clusterList];
         clArr.map(async(item)=>{
             item.cluster = unpackToRawClusterData(item.output_data,"v2");
@@ -110,6 +101,36 @@ export default function Dob(){
         })
 
         setCList(clArr)
+    }
+
+
+    const formatList =  () =>{
+        if(list === '')return;
+        let arr = [...list];
+
+        console.log("=====formatList=",arr)
+        arr.map(async(item)=>{
+            let spore =  unpackToRawSporeData(item.output_data)
+            console.log("=====formatListspore=",spore)
+            const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
+
+            item.type = spore.contentType;
+            if( item.type.indexOf("text") > -1){
+                item.text =  Buffer.from(buffer, "binary" ).toString()
+            }else if( item.type.indexOf("image") > -1  ){
+                const base64 = Buffer.from(buffer, "binary" ).toString("base64");
+                item.image = `data:${spore.contentType};base64,${base64}`;
+            }else if( item.type.indexOf("json") > -1  ){
+                let content =  bufferToRawString(spore.content)
+                console.log("=====formatListspore-content=",content)
+            }
+
+            item.clusterId =  spore.clusterId;
+            return item
+        })
+        setSList(arr)
+
+
     }
     const toCluster = (item) =>{
         dispatch({type:'SET_CLUSTER_DETAIL',payload:item});
