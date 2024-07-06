@@ -525,7 +525,6 @@ export default class RpcClient{
             utxo.ckbCellInfo.output.type.hash_type == hash_type)
         )
 
-        console.log("findUtxo111",findUtxo);
 
         if (!findUtxo?.length) {
             for (let i = 0; i < btcUtxoList.length; i++) {
@@ -608,13 +607,8 @@ export default class RpcClient{
         const {txSkeletonObj} = obj;
 
         const txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
-        console.log("====txSkeleton",txSkeleton)
 
         let signHash = await signAndSendTransaction(txSkeleton);
-
-
-        console.log("====signHash",signHash)
-
 
         const newTx = formatter.toRawTransaction(signHash);
         return await this.transaction_confirm(newTx);
@@ -624,7 +618,6 @@ export default class RpcClient{
         const {txSkeletonObj} = obj;
 
         let txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
-        console.log("====txSkeleton",txSkeleton)
 
         const currentAccount = await currentInfo();
         const {privatekey_show} = currentAccount;
@@ -637,7 +630,6 @@ export default class RpcClient{
             .toArray();
 
         let rt =  helpers.sealTransaction(txSkeleton, signatures);
-        console.log("====rt--sealTransaction-",rt)
         return rt
 
 
