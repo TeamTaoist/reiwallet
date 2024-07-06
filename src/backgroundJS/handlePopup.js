@@ -83,6 +83,9 @@ export const handlePopUp = async (requestData) =>{
         case "sign_send_confirm":
             signAndSend(requestData);
             break;
+        case "sign_confirm":
+            signRaw(requestData);
+            break;
     }
 
 }
@@ -344,6 +347,17 @@ const signAndSend = async (obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.signAndSend(obj);
+        await recordToTxList(rt);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+const signRaw = async (obj) =>{
+    try{
+        const client = new RpcClient();
+        let rt = await client.signRaw(obj);
         await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 

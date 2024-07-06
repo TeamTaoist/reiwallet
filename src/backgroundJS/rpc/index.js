@@ -620,6 +620,28 @@ export default class RpcClient{
         return await this.transaction_confirm(newTx);
 
     }
+    signRaw = async(obj) =>{
+        const {txSkeletonObj} = obj;
+
+        let txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
+        console.log("====txSkeleton",txSkeleton)
+
+        const currentAccount = await currentInfo();
+        const {privatekey_show} = currentAccount;
+
+        txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
+
+        let signatures = txSkeleton
+            .get("signingEntries")
+            .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
+            .toArray();
+
+        let rt =  helpers.sealTransaction(txSkeleton, signatures);
+        console.log("====rt--sealTransaction-",rt)
+        return rt
+
+
+    }
 
      getRgbppAssert = async(address,network) => {
         const isMainnet = network.value === "mainnet"
