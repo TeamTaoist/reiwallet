@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/TeamTaoist/reiwallet/compare/v0.3.0...v0.3.1) (2024-07-07)
+
+
+### Bug Fixes
+
+* update margin in dob ([5250a2b](https://github.com/TeamTaoist/reiwallet/commit/5250a2bcc8c87fa6c4d0dea2ff4de0bb560c39b5))
+
+
+
 # [0.3.0](https://github.com/TeamTaoist/reiwallet/compare/v0.2.3...v0.3.0) (2024-07-06)
 
 
