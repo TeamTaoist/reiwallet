@@ -308,10 +308,15 @@ export default class RpcClient{
         )
         let outputCell = JSON.parse(JSON.stringify(sporeCell));
         outputCell.cellOutput.lock = helpers.parseAddress(toAddress, {config: sporeConfig.lumos});
-        let inputMin = helpers.minimalCellCapacityCompatible(sporeCell);
+
+        let inputCapacity = sporeCell.cellOutput.capacity;
+        let inputOccupied = helpers.minimalCellCapacityCompatible(sporeCell);
+        let inputMargin = BI.from(inputCapacity).sub(inputOccupied);
+        
+
         let outputMin = helpers.minimalCellCapacityCompatible(outputCell);
 
-        let minBi = outputMin.sub(inputMin.toString());
+        let minBi = outputMin.sub(inputOccupied.toString());
 
         let amount;
         if(minBi.gt("0")){
@@ -319,9 +324,6 @@ export default class RpcClient{
         }else{
             amount = BI.from("0")
         }
-
-
-
 
         const { txSkeleton } = await transferSpore({
             outPoint:{
@@ -332,9 +334,13 @@ export default class RpcClient{
             fromInfos: [currentAccountInfo?.address],
             toLock: addr,
             config:network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
-            capacityMargin:amount,
+            capacityMargin:inputMargin.add(amount),
             useCapacityMarginAsFee:false
         });
+
+
+
+
         let signHash = await signAndSendTransaction(txSkeleton);
 
         const newTx = formatter.toRawTransaction(signHash);
