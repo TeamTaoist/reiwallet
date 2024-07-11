@@ -309,6 +309,7 @@ module.exports = function (webpackEnv) {
       // https://github.com/facebook/create-react-app/issues/253
       fallback: {
         fs: false,
+        'process/browser': require.resolve('process/browser'),
         buffer: require.resolve('buffer/'),
         assert: require.resolve("assert/"),
         crypto: require.resolve("crypto-browserify"),

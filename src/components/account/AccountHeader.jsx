@@ -165,10 +165,8 @@ export default function AccountHeader(){
 
     const handleCurrent = (index) =>{
         saveCurrent(index);
-        console.log(index)
         let currentUser = get_Address(index);
 
-        console.error("currentUser",currentUser)
         /*global chrome*/
         chrome.runtime.sendMessage({  data: currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
     }

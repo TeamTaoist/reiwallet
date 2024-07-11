@@ -19,6 +19,7 @@ import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
 import useMessage from "../../useHook/useMessage";
 import {useTranslation} from "react-i18next";
+import {decodeDOB} from "@taoist-labs/dob-decoder";
 
 const Box = styled.div`
     display: flex;
@@ -258,19 +259,30 @@ export default function SendDOB_detail(){
         try{
             const rt = await getSporeByOutPoint(
                 outPoint,
-                network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
+                network === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet,
             )
-            let spore =  unpackToRawSporeData(rt.data)
-            const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
-            const base64 = Buffer.from(buffer, "binary" ).toString("base64");
-            rt.type = spore.contentType;
-            if( rt.type.indexOf("text") > -1){
-                rt.text =  Buffer.from(buffer, "binary" ).toString()
-            }else{
-                rt.image = `data:${spore.contentType};base64,${base64}`;
-            }
 
-            rt.clusterId =  spore.clusterId;
+
+            const itemDobId = rt.cellOutput.type.args;
+            console.log(itemDobId,rt.data);
+            try{
+                const asset = await decodeDOB(itemDobId,network==="testnet",rt.data);
+                rt.asset = asset;
+            }catch(e){
+                console.error("Get dob info failed",e)
+            }
+            console.log(rt)
+            // let spore =  unpackToRawSporeData(rt.data)
+            // const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
+            // const base64 = Buffer.from(buffer, "binary" ).toString("base64");
+            // rt.type = spore.contentType;
+            // if( rt.type.indexOf("text") > -1){
+            //     rt.text =  Buffer.from(buffer, "binary" ).toString()
+            // }else{
+            //     rt.image = `data:${spore.contentType};base64,${base64}`;
+            // }
+            //
+            // rt.clusterId =  spore.clusterId;
             setDobDetail(rt)
 
         }catch (e) {
@@ -354,35 +366,56 @@ export default function SendDOB_detail(){
                         <ImageBox>
                             <div className="imgbr">
                                 {
-                                    dobDetail?.type.indexOf("text") === -1 && <div className="photo">
+                                    dobDetail?.asset?.contentType?.indexOf("image") > -1 && <div className="photo">
                                         <div className="aspect"/>
                                         <div className="content">
                                             <div className="innerImg">
-                                                <img src={dobDetail.image} alt=""/>
+                                                <img src={dobDetail?.asset?.data} alt=""/>
                                             </div>
                                         </div>
                                     </div>
                                 }
                                 {
-                                    dobDetail?.type.indexOf("text") > -1 && <TextBox>
+                                    dobDetail?.asset?.contentType?.indexOf("text") > -1 && <TextBox>
                                         <div className="aspect"/>
                                         <div className="content">
                                             <div className="inner">
-                                                Text
+                                                {dobDetail?.asset?.data}
                                             </div>
                                         </div>
                                     </TextBox>
+                                }
+                                {
+                                    dobDetail?.asset?.contentType?.indexOf("json") > -1 && <div className="photo">
+                                        <div className="aspect"/>
+                                        <div className="content">
+                                            <div className="innerImg">
+                                                <img src={dobDetail?.asset?.data?.url} alt=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                {
+                                    dobDetail?.asset?.contentType?.indexOf("dob/0") > -1 && <div className="photo">
+                                        <div className="aspect"/>
+                                        <div className="content">
+                                            <div className="innerImg">
+                                                <img src={dobDetail?.asset?.data?.imgUrl} alt=""/>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         </ImageBox>
                     </dd>
                 </dl>
                 {
-                    !!dobDetail?.clusterId && <dl>
+                    !!dobDetail?.asset?.clusterId && <dl>
                         <dt>{t('popup.send.ClusterId')}</dt>
                         <dd className="medium-font">
-                            <span>{PublicJs.AddressToShow(dobDetail?.clusterId)}</span>
-                            <CopyToClipboard onCopy={()=>Copy()} text={dobDetail?.clusterId}>
+                            <span>{PublicJs.AddressToShow(dobDetail?.asset?.clusterId)}</span>
+                            <CopyToClipboard onCopy={()=>Copy()} text={dobDetail?.asset?.clusterId}>
                                 <img src={CopyImg} alt=""/>
                             </CopyToClipboard>
                         </dd>

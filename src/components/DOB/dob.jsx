@@ -18,6 +18,7 @@ import useCurrentAccount from "../../useHook/useCurrentAccount";
 import DobClusterList from "./dobClusterList";
 import ClusterListDOB from "./clusterListDOB";
 import {useTranslation} from "react-i18next";
+import {decodeDOB} from "@taoist-labs/dob-decoder";
 
 
 const Box = styled.div`
@@ -69,7 +70,7 @@ export default function Dob(){
     const navigate = useNavigate()
     const {dispatch} = useWeb3();
     const {currentAccount} = useCurrentAccount();
-    const {networkInfo} = useNetwork();
+    const {networkInfo,network} = useNetwork();
     const {currentAccountInfo} = useAccountAddress();
     const [current,setCurrent] = useState(0);
     const { t } = useTranslation();
@@ -104,30 +105,22 @@ export default function Dob(){
     }
 
 
-    const formatList =  () =>{
+    const formatList =  async() =>{
         if(list === '')return;
-        let arr = [...list];
+        let arr = [];
 
-        console.log("=====formatList=",arr)
-        arr.map(async(item)=>{
-            let spore =  unpackToRawSporeData(item.output_data)
-            console.log("=====formatListspore=",spore)
-            const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
+        for(let i=0;i<list.length;i++){
+            let item = list[i];
 
-            item.type = spore.contentType;
-            if( item.type.indexOf("text") > -1){
-                item.text =  Buffer.from(buffer, "binary" ).toString()
-            }else if( item.type.indexOf("image") > -1  ){
-                const base64 = Buffer.from(buffer, "binary" ).toString("base64");
-                item.image = `data:${spore.contentType};base64,${base64}`;
-            }else if( item.type.indexOf("json") > -1  ){
-                let content =  bufferToRawString(spore.content)
-                console.log("=====formatListspore-content=",content)
+            const itemDobId = item.output.type.args;
+            try{
+                const asset = await decodeDOB(itemDobId,network==="testnet",item.output_data);
+                arr.push({...item,asset});
+            }catch(e){
+                console.error("Get dob info failed",e)
             }
 
-            item.clusterId =  spore.clusterId;
-            return item
-        })
+        }
         setSList(arr)
 
 
