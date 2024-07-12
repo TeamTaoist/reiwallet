@@ -196,24 +196,45 @@ export default function DOB_detail(){
             <ImageBox>
                 <div className="imgbr">
                     {
-                        dob?.type.indexOf("text") === -1 && <div className="photo">
+                        dob.asset.contentType.indexOf("image") > -1 && <div className="photo">
                             <div className="aspect"/>
                             <div className="content">
                                 <div className="innerImg">
-                                    <img src={dob.image} alt=""/>
+                                    <img src={dob.asset.data} alt=""/>
                                 </div>
                             </div>
                         </div>
                     }
                     {
-                        dob?.type.indexOf("text") > -1 && <TextBox>
+                        dob.asset.contentType.indexOf("text") > -1 && <TextBox>
                             <div className="aspect"/>
                             <div className="content">
                                 <div className="inner">
-                                    {dob.text}
+                                    {dob.asset.data}
                                 </div>
                             </div>
                         </TextBox>
+                    }
+                    {
+                        dob.asset.contentType.indexOf("json") > -1 && <div className="photo">
+                            <div className="aspect"/>
+                            <div className="content">
+                                <div className="innerImg">
+                                    <img src={dob.asset.data.url} alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    {
+                        dob.asset.contentType.indexOf("dob/0") > -1 && <div className="photo">
+                            <div className="aspect"/>
+                            <div className="content">
+                                <div className="innerImg">
+                                    <img src={dob.asset.data.imgUrl} alt=""/>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </div>
                 <Button primary onClick={()=>toGo()}>{t('popup.dob.Send')}</Button>
@@ -226,11 +247,11 @@ export default function DOB_detail(){
                 {/*    <dd className="medium-font">{dob?.clusterId ? "Spore Cluster" : "DOB"}</dd>*/}
                 {/*</dl>*/}
                 {
-                    !!dob?.clusterId && <dl>
+                    !!dob?.asset.clusterId && <dl>
                         <dt>{t('popup.dob.ClusterId')}</dt>
                         <dd className="medium-font">
-                            <span>{PublicJs.AddressToShow(dob?.clusterId)}</span>
-                            <CopyToClipboard onCopy={()=>Copy()} text={dob?.clusterId}>
+                            <span>{PublicJs.AddressToShow(dob?.asset.clusterId)}</span>
+                            <CopyToClipboard onCopy={()=>Copy()} text={dob?.asset.clusterId}>
                                 <CopyIcon size={14} />
                             </CopyToClipboard>
                         </dd>

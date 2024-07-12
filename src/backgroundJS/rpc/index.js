@@ -312,7 +312,7 @@ export default class RpcClient{
         let inputCapacity = sporeCell.cellOutput.capacity;
         let inputOccupied = helpers.minimalCellCapacityCompatible(sporeCell);
         let inputMargin = BI.from(inputCapacity).sub(inputOccupied);
-        
+
 
         let outputMin = helpers.minimalCellCapacityCompatible(outputCell);
 

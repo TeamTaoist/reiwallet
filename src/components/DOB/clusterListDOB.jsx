@@ -114,24 +114,45 @@ export default function ClusterListDOB({loading,sList,toDetail}){
                     sList?.map((item, index) => (<li key={index} onClick={() => toDetail(item)}>
 
                         {
-                            item.type.indexOf("text") === -1 && <div className="photo">
+                            item.asset.contentType.indexOf("image") > -1 && <div className="photo">
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="innerImg">
-                                        <img src={item.image} alt=""/>
+                                        <img src={item.asset.data} alt=""/>
                                     </div>
                                 </div>
                             </div>
                         }
                         {
-                            item.type.indexOf("text") > -1 && <TextBox>
+                            item.asset.contentType.indexOf("text") > -1 && <TextBox>
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="inner">
-                                        {item.text}
+                                        {item.asset.data}
                                     </div>
                                 </div>
                             </TextBox>
+                        }
+                        {
+                            item.asset.contentType.indexOf("json") > -1 && <div className="photo">
+                                <div className="aspect"/>
+                                <div className="content">
+                                    <div className="innerImg">
+                                        <img src={item.asset.data.url} alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        {
+                            item.asset.contentType.indexOf("dob/0") > -1 && <div className="photo">
+                                <div className="aspect"/>
+                                <div className="content">
+                                    <div className="innerImg">
+                                        <img src={item.asset.data.imgUrl} alt=""/>
+                                    </div>
+                                </div>
+                            </div>
                         }
 
                     </li>))

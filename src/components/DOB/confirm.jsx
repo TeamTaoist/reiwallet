@@ -283,24 +283,45 @@ export default function DOBConfirm(){
                     <ImageBox>
                         <div className="imgbr">
                             {
-                                dob?.type.indexOf("text") === -1 && <div className="photo">
+                                dob.asset.contentType.indexOf("image") > -1 && <div className="photo">
                                     <div className="aspect"/>
                                     <div className="content">
                                         <div className="innerImg">
-                                            <img src={dob.image} alt=""/>
+                                            <img src={dob.asset.data} alt=""/>
                                         </div>
                                     </div>
                                 </div>
                             }
                             {
-                                dob?.type.indexOf("text") > -1 && <TextBox>
+                                dob.asset.contentType.indexOf("text") > -1 && <TextBox>
                                     <div className="aspect"/>
                                     <div className="content">
                                         <div className="inner">
-                                            Text
+                                            {dob.asset.data}
                                         </div>
                                     </div>
                                 </TextBox>
+                            }
+                            {
+                                dob.asset.contentType.indexOf("json") > -1 && <div className="photo">
+                                    <div className="aspect"/>
+                                    <div className="content">
+                                        <div className="innerImg">
+                                            <img src={dob.asset.data.url} alt=""/>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            {
+                                dob.asset.contentType.indexOf("dob/0") > -1 && <div className="photo">
+                                    <div className="aspect"/>
+                                    <div className="content">
+                                        <div className="innerImg">
+                                            <img src={dob.asset.data.imgUrl} alt=""/>
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         </div>
                     </ImageBox>
