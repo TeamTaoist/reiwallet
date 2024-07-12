@@ -1,3 +1,12 @@
+## [0.3.2](https://github.com/TeamTaoist/reiwallet/compare/v0.3.1...v0.3.2) (2024-07-12)
+
+
+### Bug Fixes
+
+* update dob/0 images ([fc06e88](https://github.com/TeamTaoist/reiwallet/commit/fc06e8850eed48c0d09da1ce38ddf18c3aa87faf))
+
+
+
 ## [0.3.1](https://github.com/TeamTaoist/reiwallet/compare/v0.3.0...v0.3.1) (2024-07-07)
 
 
