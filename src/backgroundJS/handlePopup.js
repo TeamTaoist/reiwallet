@@ -207,11 +207,11 @@ const transaction_confirm = async(obj) =>{
 
 
 const getDOB = async (obj) =>{
-    const {currentAccountInfo} = obj;
+    const {currentAccountInfo,version} = obj;
 
     try{
         const client = new RpcClient();
-        let rt = await client.get_DOB(currentAccountInfo.address);
+        let rt = await client.get_DOB(currentAccountInfo.address,version);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 
     }catch (e){

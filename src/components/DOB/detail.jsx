@@ -12,6 +12,7 @@ import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {useNavigate} from "react-router-dom";
 import Melt from "./melt";
+import ErrorImg from "../../assets/images/error_image.svg";
 
 const Box = styled.div`
     min-height: 100%;
@@ -200,7 +201,7 @@ export default function DOB_detail(){
                             <div className="aspect"/>
                             <div className="content">
                                 <div className="innerImg">
-                                    <img src={dob.asset.data} alt=""/>
+                                    <img src={dob.asset.data?dob.asset.data:ErrorImg} alt=""/>
                                 </div>
                             </div>
                         </div>

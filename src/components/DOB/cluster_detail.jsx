@@ -169,12 +169,12 @@ export default function Cluster_detail(){
                         <span>{cluster.cluster.name}</span>
                     </dd>
                 </dl>
-                <dl>
-                    <dt>{t('popup.cluster.ClusterDescription')}</dt>
-                    <dd className="medium-font">
-                        <span>{cluster.cluster.description}</span>
-                    </dd>
-                </dl>
+                {/*<dl>*/}
+                {/*    <dt>{t('popup.cluster.ClusterDescription')}</dt>*/}
+                {/*    <dd className="medium-font">*/}
+                {/*        <span>{cluster.cluster.description}</span>*/}
+                {/*    </dd>*/}
+                {/*</dl>*/}
 
 
                 <dl>

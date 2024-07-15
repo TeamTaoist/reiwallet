@@ -15,6 +15,7 @@ import useBalance from "../../useHook/useBalance";
 import TokenHeader from "../header/tokenHeader";
 import Loading from "../loading/loading";
 import useMessage from "../../useHook/useMessage";
+import ErrorImg from "../../assets/images/error_image.svg";
 
 
 const ContentBox = styled.div`
@@ -287,7 +288,7 @@ export default function DOBConfirm(){
                                     <div className="aspect"/>
                                     <div className="content">
                                         <div className="innerImg">
-                                            <img src={dob.asset.data} alt=""/>
+                                            <img src={dob.asset.data?dob.asset.data:ErrorImg} alt=""/>
                                         </div>
                                     </div>
                                 </div>

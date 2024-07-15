@@ -213,12 +213,15 @@ export default class RpcClient{
         })
     }
 
-    get_DOB = async(address) =>{
+    get_DOB = async(address,version="v2") =>{
         const hashObj = Wallet.addressToScript(address);
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
-
-        const sporeType = getSporeTypeScript(network.value === "mainnet");
+        const sporeConfig = network.value==="testnet"? predefinedSporeConfigs.Testnet:predefinedSporeConfigs.Mainnet;
+        const versionStr = network.value === 'testnet'?"preview":"latest";
+        console.log("=versionStr===",versionStr,network)
+        const sporeType = getSporeScript(sporeConfig,"Spore",[version,versionStr]);
+        console.log("=sporeType===",sporeType)
 
         return await this._request({
             method:"get_cells",
@@ -234,8 +237,8 @@ export default class RpcClient{
                     script_search_mode: "exact",
                     filter: {
                         script: {
-                            code_hash: sporeType.codeHash,
-                            hash_type: sporeType.hashType,
+                            code_hash: sporeType.script.codeHash,
+                            hash_type: sporeType.script.hashType,
                             args: "0x",
                         },
                         script_search_mode: 'exact',
@@ -255,7 +258,7 @@ export default class RpcClient{
 
         const clusterConfig = network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
 
-        const clusterType = getSporeScript(clusterConfig,"Cluster",["preview"]);
+        const clusterType = getSporeScript(clusterConfig,"Cluster",["v2","preview"]);
 
 
         return await this._request({
