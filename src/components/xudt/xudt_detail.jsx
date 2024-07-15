@@ -5,7 +5,6 @@ import Button from "../button/button";
 import {useWeb3} from "../../store/contracts";
 import {useState} from "react";
 import {formatUnit} from "@ckb-lumos/bi";
-import useBalance from "../../useHook/useBalance";
 
 import Toast from "../modal/toast";
 import {CopyToClipboard} from "react-copy-to-clipboard";
@@ -23,47 +22,47 @@ const Content = styled.div`
     margin:10px 0 20px;
 `
 
-const TextBox = styled.div`
-        display: flex !important;
-        overflow: hidden;
-        .aspect {
-            padding-bottom: 100%;
-            height: 0;
-            flex-grow: 1 !important;
-        }
-        .content {
-            width: 100%;
-            margin-left: -100% !important;
-            max-width: 100% !important;
-            flex-grow: 1 !important;
-            position: relative;
-        }
-        .inner{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f8f8;
-            font-size: 14px;
-            font-family: "AvenirNext-Medium";
-            font-weight: 500;
-
-
-            line-height: 28px;
-            box-sizing: border-box;
-            padding: 20px;
-
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 10;
-            overflow: hidden;
-        }
-    
-`
+// const TextBox = styled.div`
+//         display: flex !important;
+//         overflow: hidden;
+//         .aspect {
+//             padding-bottom: 100%;
+//             height: 0;
+//             flex-grow: 1 !important;
+//         }
+//         .content {
+//             width: 100%;
+//             margin-left: -100% !important;
+//             max-width: 100% !important;
+//             flex-grow: 1 !important;
+//             position: relative;
+//         }
+//         .inner{
+//             position: absolute;
+//             width: 100%;
+//             height: 100%;
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//             background: #f8f8f8;
+//             font-size: 14px;
+//             font-family: "AvenirNext-Medium";
+//             font-weight: 500;
+//
+//
+//             line-height: 28px;
+//             box-sizing: border-box;
+//             padding: 20px;
+//
+//             word-break: break-all;
+//             text-overflow: ellipsis;
+//             display: -webkit-box;
+//             -webkit-box-orient: vertical;
+//             -webkit-line-clamp: 10;
+//             overflow: hidden;
+//         }
+//
+// `
 
 const ImageBox = styled.div`
     margin: 0 auto;
@@ -161,13 +160,14 @@ const DlBox = styled.div`
         }
     }
 `
-const MeltBox = styled.div`
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    margin-top: 10px;
-    cursor: pointer;
-`
+// const MeltBox = styled.div`
+//     width: 100%;
+//     text-align: center;
+//     font-size: 12px;
+//     margin-top: 10px;
+//     cursor: pointer;
+// `
+
 const TipsBtmBox = styled.div`
     width: 100%;
     display: flex;
@@ -181,10 +181,9 @@ const TipsBtmBox = styled.div`
 export default function XUDT_detail(){
     const { t } = useTranslation();
     const {state:{xudt}} = useWeb3();
-    const {symbol} = useBalance();
     const [copied,setCopied] = useState(false);
     const navigate = useNavigate();
-    const [show,setShow]= useState(false)
+    // const [show,setShow]= useState(false)
 
 
     const Copy = () =>{
@@ -200,9 +199,9 @@ export default function XUDT_detail(){
         // toBackground()
     }
 
-    const handleClose = () =>{
-        setShow(false)
-    }
+    // const handleClose = () =>{
+    //     setShow(false)
+    // }
 
     return <Box>
         <Toast tips="copied" size={20} show={copied}/>

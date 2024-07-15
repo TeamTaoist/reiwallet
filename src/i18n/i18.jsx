@@ -1,5 +1,5 @@
 import LanguageDetector from 'i18next-browser-languagedetector';
-import i18n, {use} from "i18next";
+import i18n from "i18next";
 import enUsTrans from "./locales/en-us.json";
 import zhCnTrans from "./locales/zh-cn.json";
 import {

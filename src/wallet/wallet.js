@@ -7,7 +7,7 @@ import Keystore from "./keystore";
 import {getPassword} from "./password";
 
 const systemScriptsMainnet = predefined.LINA.SCRIPTS
-const systemScriptsTestnet = predefined.AGGRON4.SCRIPTS
+// const systemScriptsTestnet = predefined.AGGRON4.SCRIPTS
 
 export default class Wallet{
     constructor(index,isMainnet,hasMnemonic,importMnemonic="create") {
@@ -23,7 +23,6 @@ export default class Wallet{
     }
 
     async useMnemonic () {
-        /*global chrome*/
         let result = await getPassword();
         if(!result){
             throw new Error("no_password")
@@ -58,7 +57,6 @@ export default class Wallet{
 
     async ExportPrivateKey (account_index) {
         try{
-            /*global chrome*/
             const key = await this.GenerateKey(account_index);
             return bytes.hexify(key.privateKey);
 

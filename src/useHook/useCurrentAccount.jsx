@@ -14,7 +14,6 @@ export default function useCurrentAccount(){
     }, [refresh_current]);
 
     const saveCurrent = (value) =>{
-        /*global chrome*/
         chrome.storage.local.set({current_address:value});
         setCurrentAccount(value)
         dispatch({type:'SET_CURRENT_ACCOUNT',payload:value});

@@ -85,7 +85,7 @@ export default function AddNetwork(){
         let arr = [...netList,obj]
         chrome.storage.local.set({networkList:arr})
 
-
+        setShow(true)
         navigate('/');
     }
 

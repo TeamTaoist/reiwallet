@@ -67,10 +67,10 @@ export default function Step1(){
     const [confirmPassword,setConfirmPassword] = useState('');
 
     const submit = () =>{
-        let obj = {
-            walletName,
-            password
-        }
+        // let obj = {
+        //     walletName,
+        //     password
+        // }
         navigate("/step2");
     }
 

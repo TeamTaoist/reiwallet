@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
-import Assets from "../SUDT/assets";
 import Activities from "./Activities";
 import {useTranslation} from "react-i18next";
 import {useNavigate, useSearchParams} from "react-router-dom";
@@ -66,7 +65,7 @@ export default function AccountTabs(){
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab');
     const navigate = useNavigate();
-    const [show,setShow] = useState(false);
+    // const [show,setShow] = useState(false);
 
     useEffect(() => {
         let newTab = tab ??3;

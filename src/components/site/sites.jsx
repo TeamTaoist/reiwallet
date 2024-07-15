@@ -40,7 +40,7 @@ export default function Sites(){
     const { t } = useTranslation();
     const {currentAccountInfo} = useAccountAddress();
     const [list,setList] = useState([])
-    const [loading,setLoading] = useState(false)
+    // const [loading,setLoading] = useState(false)
 
     useEffect(()=>{
         if(!currentAccountInfo?.address)return;
@@ -56,7 +56,7 @@ export default function Sites(){
     }
 
     const disconnect = async(website) =>{
-        setLoading(true)
+        // setLoading(true)
         try{
             let arr = [...list];
             let itemIndex = arr.findIndex(item=>item === website);
@@ -70,7 +70,7 @@ export default function Sites(){
         }catch (e) {
             console.error("disconnect",e.message)
         }finally {
-            setLoading(false)
+            // setLoading(false)
         }
 
     }

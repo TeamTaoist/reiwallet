@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Next from "../../assets/images/into.png"
 import {useNavigate} from "react-router-dom";
-import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import useSUDT from "../../useHook/useSUDT";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
@@ -78,12 +77,12 @@ const FlexRht = styled.div`
  
 `
 
-const SendBox = styled.div`
-    font-size: 16px;
-    font-family: "AvenirNext-Medium";
-    font-weight: bold;
-    color: #00A554;
-`
+// const SendBox = styled.div`
+//     font-size: 16px;
+//     font-family: "AvenirNext-Medium";
+//     font-weight: bold;
+//     color: #00A554;
+// `
 
 const LoadingBox = styled.div`
     margin-top: 30px;
@@ -91,7 +90,6 @@ const LoadingBox = styled.div`
 
 export default function Assets(){
     const navigate = useNavigate();
-    const { t } = useTranslation();
     const {list,loading} = useSUDT();
     const {currentAccount} = useCurrentAccount();
     const [sList,setSList] = useState([])

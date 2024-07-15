@@ -2,7 +2,7 @@ import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
-import SendXUDT_detail from "./sendXUDT_detail";
+import SendXUDTDetail from "./sendXUDT_detail";
 
 export default function SendXUDT(){
 
@@ -23,7 +23,7 @@ export default function SendXUDT(){
             !status && <Lock isNav={true} handleLock={handleLock} />
         }
         {
-            status && <SendXUDT_detail />
+            status && <SendXUDTDetail />
         }
     </div>
 }

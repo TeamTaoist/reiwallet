@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import {useWeb3} from "../store/contracts";
 import useNetwork from "./useNetwork";
-import {throws} from "assert";
 
 export default function useWalletList(){
     const [walletList,setWalletList] = useState([]);

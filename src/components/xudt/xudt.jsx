@@ -1,11 +1,10 @@
 import Loading from "../loading/loading";
-import {useTranslation} from "react-i18next";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
 import {useEffect, useState} from "react";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import useXUDT from "../../useHook/useXUDT";
 import styled from "styled-components";
-import Xudt_item from "./xudt_item";
+import XudtItem from "./xudt_item";
 import {unpackAmount} from "@ckb-lumos/common-scripts/lib/sudt";
 import {BI} from "@ckb-lumos/lumos";
 
@@ -53,17 +52,12 @@ const Box = styled.div`
   }
 `
 
-
-
-
-
-
-const SendBox = styled.div`
-    font-size: 16px;
-    font-family: "AvenirNext-Medium";
-    font-weight: bold;
-    color: #00A554;
-`
+// const SendBox = styled.div`
+//     font-size: 16px;
+//     font-family: "AvenirNext-Medium";
+//     font-weight: bold;
+//     color: #00A554;
+// `
 
 const LoadingBox = styled.div`
     margin-top: 30px;
@@ -71,7 +65,6 @@ const LoadingBox = styled.div`
 
 export default function XUDT(){
 
-    const { t } = useTranslation();
     const {list,loading} = useXUDT();
     const {currentAccount} = useCurrentAccount();
     const [sList,setSList] = useState([])
@@ -114,7 +107,7 @@ export default function XUDT(){
         }
         <ul>
             {
-                sList.map((item, index) => (<Xudt_item item={item} key={index} />))
+                sList.map((item, index) => (<XudtItem item={item} key={index} />))
             }
         </ul>
     </Box>

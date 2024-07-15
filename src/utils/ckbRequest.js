@@ -41,10 +41,10 @@ const sudt_xudt_buildTransfer = async (options, network) => {
 
   const CONFIG = network.value === "Mainnet" ? config.predefined.LINA : config.predefined.AGGRON4;
   const fromScript = helpers.parseAddress(options.currentAccountInfo.address, {config: CONFIG});
-  const fromAddress = helpers.encodeToAddress(fromScript, {config: CONFIG});
+  // const fromAddress = helpers.encodeToAddress(fromScript, {config: CONFIG});
 
   const toScript = helpers.parseAddress(options.toAddress, {config: CONFIG});
-  const toAddress = helpers.encodeToAddress(toScript, {config: CONFIG});
+  // const toAddress = helpers.encodeToAddress(toScript, {config: CONFIG});
 
   let sudt_cellDeps;
   sudt_cellDeps = getXudtDep(network.value === "Mainnet");

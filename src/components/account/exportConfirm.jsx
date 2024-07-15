@@ -98,7 +98,6 @@ export default function ExportConfirm(){
 
     const decryptPrivatekey = async(privateKey) => {
         try {
-            /*global chrome*/
             let result = await getPassword();
             if (result) {
                 let str = await Keystore.decrypt(result,privateKey);

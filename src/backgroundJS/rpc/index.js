@@ -4,7 +4,6 @@ import {parseUnit} from "@ckb-lumos/bi";
 import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
-import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
 import {predefinedSporeConfigs, transferSpore, meltSpore, transferCluster, getSporeByOutPoint, getSporeScript} from "@spore-sdk/core";
 import {getSudtTypeScript,getXudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
 
@@ -521,17 +520,17 @@ export default class RpcClient{
     send_ckb2btc_xudt = async(obj) =>{
         const network = await this.getNetwork();
 
-        const {toAddress, typeScript, amount, fee} = obj;
+        const {toAddress, typeScript, amount} = obj;
         const currentAccount = await currentInfo();
 
         let btcUtxoList = await this.getRgbppAssert(toAddress,network);
         const {code_hash, hash_type, args} = typeScript;
         let findUtxo = btcUtxoList.filter((utxo)=>
              (utxo.ckbCellInfo &&
-            utxo.ckbCellInfo.output.type.args == args &&
-            utxo.ckbCellInfo.output.type.code_hash ==
+            utxo.ckbCellInfo.output.type.args === args &&
+            utxo.ckbCellInfo.output.type.code_hash ===
             code_hash &&
-            utxo.ckbCellInfo.output.type.hash_type == hash_type)
+            utxo.ckbCellInfo.output.type.hash_type === hash_type)
         )
 
 
@@ -560,9 +559,6 @@ export default class RpcClient{
         }else{
             config.initializeConfig(config.predefined.AGGRON4);
         }
-
-        const addressScript = helpers.parseAddress(currentAccount.address);
-
 
         const collector = new RGBCollector({
             ckbNodeUrl:  network.rpcUrl.node,

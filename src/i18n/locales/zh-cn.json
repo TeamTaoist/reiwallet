@@ -219,7 +219,7 @@
       "Decimals": "小数位",
       "Balance": "余额",
       "Send": "发送",
-      "xudtTips": "支持将 Leap RGB++ 资产"
+      "xudtTips": "支持 Leap RGB++ 资产"
     },
     "sites": {
       "Disconnect": "断开连接",
@@ -235,6 +235,7 @@
       "TokenID": "Token ID",
       "occupied": "已占用",
       "meltTips": "您确定要 MELT这个 DOB?",
+      "meltClusterTips": "您确定要 MELT这个Cluster?",
       "meltTips2": "此操作不可逆",
       "Cancel": "取消",
       "MELT": "MELT"

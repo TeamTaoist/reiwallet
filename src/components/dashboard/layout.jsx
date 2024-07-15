@@ -6,8 +6,8 @@ import DiscordSvg from "../svg/social/discord"
 import TelegramSvg from "../svg/social/telegram"
 import MediumSvg from "../svg/social/medium";
 import Logo from '../../assets/images/dashboard/logo.png';
-import {useTranslation} from "react-i18next";
 import {ChevronRight} from "lucide-react";
+import i18n from "i18next";
 
 const DashboardLayoutStyled = styled.div`
   padding-top: 70px;
@@ -61,7 +61,6 @@ const SocialIconStyled = styled.a`
 
 
 const DashboardLayout = (props) => {
-  const { t,i18n } = useTranslation();
   const handleLan = () =>{
 
     const lang = i18n.language === "zh" ? "en":"zh"

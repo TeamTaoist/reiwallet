@@ -1,6 +1,4 @@
 import PublicJs from "../../utils/publicJS";
-import useNetwork from "../../useHook/useNetwork";
-import dayjs from "dayjs";
 import {useTranslation} from "react-i18next";
 
 export default function ActivitiesItem({item,networkInfo}) {
@@ -12,9 +10,9 @@ export default function ActivitiesItem({item,networkInfo}) {
             url: `${networkInfo?.blockExplorerUrls}transaction/${tx}`
         });
     }
-    const formatDate = (dateTime) =>{
-        return dayjs(dateTime).format("YYYY-MM-DD HH:mm")
-    }
+    // const formatDate = (dateTime) =>{
+    //     return dayjs(dateTime).format("YYYY-MM-DD HH:mm")
+    // }
 
     return <li onClick={() => toDetail(item.tx_hash)} >
         {

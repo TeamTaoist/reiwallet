@@ -1,9 +1,8 @@
 import HeaderTop from "../../header/header";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect,  useState} from "react";
 import NoWallet from "./noWallet";
 import Account from "../../account/account";
 import styled from "styled-components";
-import {use} from "i18next";
 
 const Box = styled.div`
     height: 100%;

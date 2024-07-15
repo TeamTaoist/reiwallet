@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import Checked from "../../assets/images/Checked.png";
 import Close from "../../assets/images/close.png";
-import Button from "../button/button";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useState} from "react";
 import useNetwork from "../../useHook/useNetwork";
 import {CirclePlus} from "lucide-react";
 
@@ -120,7 +118,6 @@ export default function NetworkList({current,handleLoading,closeLoading}){
         let arr = [...netList]
         arr.splice(index,1)
 
-        /*global chrome*/
         chrome.storage.local.set({networkList:arr})
         closeLoading()
     }

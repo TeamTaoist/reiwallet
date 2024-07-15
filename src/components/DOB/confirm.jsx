@@ -76,12 +76,6 @@ const SendInput = styled.div`
 `
 
 
-const Tips = styled.div`
-    padding: 10px 0;
-    span{
-        font-weight: bold;
-    }
-`
 
 const DlBox = styled.div`
     margin: 0 auto;

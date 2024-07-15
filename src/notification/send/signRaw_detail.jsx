@@ -4,16 +4,11 @@ import Button from "../../components/button/button";
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import BtnLoading from "../../components/loading/btnloading";
-import Avatar from "../../components/svg/avatar/avatar";
-import PublicJS from "../../utils/publicJS";
-import FromImg from "../../assets/images/fromTo.png";
-import {formatUnit} from "@ckb-lumos/bi";
-import useBalance from "../../useHook/useBalance";
-import useAccountAddress from "../../useHook/useAccountAddress";
+
 import useMessage from "../../useHook/useMessage";
 import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
-import {BI} from "@ckb-lumos/lumos";
+
 
 
 const Box = styled.div`
@@ -36,70 +31,7 @@ const UrlBox = styled.div`
     margin-bottom: 30px;
     word-break: break-all;
 `
-const FirstLine = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-    gap: 10px;
-`
-const AvatarBox = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap:10px;
-`
-const SendBox = styled.div`
-    background: #f8f8f8;
-    border-radius:8px;
-    padding:17px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 5px 0 10px;
-    font-size: 14px;
-    .tit{
-        font-size: 12px;
-    }
-    .number{
-        font-size: 18px;
-        font-weight: bold;
-    }
-`
-const SymbolBox = styled.div`
-    font-size: 18px;
-    font-weight: 500;
-`
 
-const FeeBox = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-`
-const TitleBox = styled.div`
-  font-size: 12px;
-  font-weight: 400;
-  color: #34332E;
-  line-height: 20px;
-    width: 100%;
-   margin-top: 10px;
-    
-`
-const AddressBox = styled.div`
-    background: #f8f8f8;
-    border-radius:6px;
-    padding:  17px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 5px 0 ;
-    font-size:14px;
-`
 const BtnGroup = styled.div`
     width: 100%;
     display: flex;
@@ -126,11 +58,9 @@ const JsonBox = styled.div`
 
 export default function SignRaw_detail(){
     const messenger = useSessionMessenger();
-    const {currentAccountInfo} = useAccountAddress();
     const { t } = useTranslation();
     const [loading,setLoading] = useState(true);
 
-    const [result,setResult] = useState(null)
 
     const [params,setParams] = useState(null)
     const [url,setUrl] = useState('')

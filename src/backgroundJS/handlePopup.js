@@ -86,6 +86,9 @@ export const handlePopUp = async (requestData) =>{
         case "sign_confirm":
             signRaw(requestData);
             break;
+        default:
+            console.error("Unknown request: "+requestData);
+            break;
     }
 
 }

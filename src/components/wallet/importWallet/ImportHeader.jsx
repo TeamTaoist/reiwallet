@@ -9,16 +9,16 @@ const TitleBox = styled.div`
     line-height: 32px;
   }
 `
-const StepBox = styled.div`
-  width: 60px;
-  height: 27px;
-  background: #000000;
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 16px;
-  line-height: 27px;
-  text-align: center;
-`
+// const StepBox = styled.div`
+//   width: 60px;
+//   height: 27px;
+//   background: #000000;
+//   border-radius: 8px;
+//   color: #ffffff;
+//   font-size: 16px;
+//   line-height: 27px;
+//   text-align: center;
+// `
 const Tips = styled.div`
     margin-top: 14px;
   font-size: 16px;
@@ -26,7 +26,7 @@ const Tips = styled.div`
 `
 
 export default function ImportHeader(props){
-    const { step, title,tips} = props
+    const {  title,tips} = props
     return <Box>
         <TitleBox>
             <div className="lft medium-font">{title}</div>

@@ -6,7 +6,7 @@ import DashboardLayout from "../../dashboard/layout";
 import Button from "../../button/button";
 import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
 
-import DownloadImg from '../../../assets/images/create/download.png';
+// import DownloadImg from '../../../assets/images/create/download.png';
 import UncheckedImg from "../../../assets/images/create/unCheck.png";
 import CheckedImg from '../../../assets/images/create/unCheck02.png';
 import {useTranslation} from "react-i18next";

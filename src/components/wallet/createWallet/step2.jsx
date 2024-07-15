@@ -5,7 +5,7 @@ import styled from "styled-components";
 import RefreshImg from "../../../assets/images/create/refresh.png";
 import Button from "../../button/button";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import CopyImg from "../../../assets/images/create/COPY.png";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import Toast from "../../modal/toast";
@@ -83,33 +83,33 @@ const StrBox = styled.div`
 export default function Step2(){
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [ mnemonicStr, setMnemonicStr] = useState([]);
+    const [ mnemonicStr] = useState([]);
     const [copied,setCopied] = useState(false);
 
-    useEffect(()=>{
-        // if(accountMnemonic!=null){
-        //     setMnemonicStr(accountMnemonic)
-        // }else{
-        //     init();
-        // }
-
-        init();
-
-    },[]);
-
-    const init = () =>{
-        // const wallet = ethers.Wallet.createRandom();
-        // const { mnemonic:{ phrase}} = wallet;
-        // const mnemonicArr = phrase.split(' ');
-        // setMnemonicStr(mnemonicArr);
-    }
+    // useEffect(()=>{
+    //     // if(accountMnemonic!=null){
+    //     //     setMnemonicStr(accountMnemonic)
+    //     // }else{
+    //     //     init();
+    //     // }
+    //
+    //     init();
+    //
+    // },[]);
+    //
+    // const init = () =>{
+    //     // const wallet = ethers.Wallet.createRandom();
+    //     // const { mnemonic:{ phrase}} = wallet;
+    //     // const mnemonicArr = phrase.split(' ');
+    //     // setMnemonicStr(mnemonicArr);
+    // }
 
     const submit = () =>{
         navigate("/step3");
     }
 
     const refresh = () =>{
-        init();
+        // init();
     }
 
     const Copy = () =>{

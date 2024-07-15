@@ -6,7 +6,6 @@ import Avatar from "../../components/svg/avatar/avatar";
 import PublicJs from "../../utils/publicJS";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
 import useAccountAddress from "../../useHook/useAccountAddress";
-import useNetwork from "../../useHook/useNetwork";
 import AccountSwitch from "./accountSwitch";
 import Button from "../../components/button/button";
 import BtnLoading from "../../components/loading/btnloading";
@@ -101,7 +100,6 @@ export default function Grant(){
     const [loading,setLoading] = useState(false)
     const {currentAccount,saveCurrent} = useCurrentAccount();
     const {currentAccountInfo,get_Address} = useAccountAddress();
-    const {networkInfo} = useNetwork();
 
     useEffect(() => {
         document.addEventListener("click", (e) =>{

@@ -5,8 +5,8 @@ import PublicJS from "../../utils/publicJS";
 /*global chrome*/
 async function init() {
 
-    var dbName = "DatabaseName";
-    var open = indexedDB.open(dbName, 1);
+    // var dbName = "DatabaseName";
+    // var open = indexedDB.open(dbName, 1);
 
     chrome.runtime.onInstalled.addListener((e) => {
         console.log("onInstalled", e)

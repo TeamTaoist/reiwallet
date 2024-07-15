@@ -1,22 +1,21 @@
 import {useTranslation} from "react-i18next";
 import styled from "styled-components";
 import Button from "../../button/button";
-import {useNavigate} from "react-router-dom";
 import Successful from "../../../assets/images/create/successful.png";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import CopyImg from "../../../assets/images/create/COPY.png";
 import Toast from "../../modal/toast";
 
 import DashboardLayout from "../../dashboard/layout";
-import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
+import ContainerLayout from "../../dashboard/container_layout";
 import {useWeb3} from "../../../store/contracts";
 
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`
+// const Box = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   height: 100vh;
+// `
 const ContainerContentStyled = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,13 +40,13 @@ const Content = styled.div`
   flex-grow: 1;
 `
 
-const BtmBox = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  padding:40px  20px;
-  width: 100%;
-`
+// const BtmBox = styled.div`
+//   position: absolute;
+//   left: 0;
+//   bottom: 0;
+//   padding:40px  20px;
+//   width: 100%;
+// `
 const SubTitle = styled.div`
   font-size: 20px;
   line-height: 20px;

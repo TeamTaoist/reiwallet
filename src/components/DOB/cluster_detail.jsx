@@ -103,13 +103,13 @@ const DlBox = styled.div`
         }
     }
 `
-const MeltBox = styled.div`
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    margin-top: 10px;
-    cursor: pointer;
-`
+// const MeltBox = styled.div`
+//     width: 100%;
+//     text-align: center;
+//     font-size: 12px;
+//     margin-top: 10px;
+//     cursor: pointer;
+// `
 
 
 
@@ -137,9 +137,9 @@ export default function Cluster_detail(){
     const handleClose = () =>{
         setShow(false)
     }
-    const handleShow = () =>{
-        setShow(true)
-    }
+    // const handleShow = () =>{
+    //     setShow(true)
+    // }
 
     return <Box>
         <Toast tips={t('popup.cluster.copied')} size={20} show={copied}/>
@@ -186,6 +186,7 @@ export default function Cluster_detail(){
                 <div className="line"/>
                 <Button primary onClick={() => toGo()}>{t('popup.cluster.Send')}</Button>
                 {/*<MeltBox onClick={() => handleShow()}>Melt Cluster</MeltBox>*/}
+                {/*api not support*/}
             </ImageBox>
         </Content>
     </Box>

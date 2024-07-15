@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import CopyImg from "../../assets/images/create/COPY.png";
 import MoreImg from "../../assets/images/more-dot.png";
 import EtherImg from "../../assets/images/ether.png";
 import SiteImg from "../../assets/images/sites.png";
@@ -185,7 +184,6 @@ export default function AccountHeader(){
     }
 
     const toExplorer = () =>{
-        /*global chrome*/
         chrome.tabs.create({
             url: `${networkInfo?.blockExplorerUrls}address/${address}`
         });
