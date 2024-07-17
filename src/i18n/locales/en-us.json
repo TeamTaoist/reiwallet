@@ -237,6 +237,7 @@
       "TokenID": "Token ID",
       "occupied": "Occupied",
       "meltTips": "Are you sure you want to MELT this DOB?",
+      "meltClusterTips": "Are you sure you want to MELT this Cluster?",
       "meltTips2": "This action is irreversible",
       "Cancel": "Cancel",
       "MELT": "MELT"

@@ -1,5 +1,5 @@
 import Avatar from 'boring-avatars';
-export default function ({size,address}){
+export default function AvatarFunc ({size,address}){
     return <Avatar
         size={size}
         name={address}

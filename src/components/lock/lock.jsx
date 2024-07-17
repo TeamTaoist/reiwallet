@@ -2,11 +2,12 @@ import LogoV from "../../assets/images/logo-V.png";
 import Button from "../button/button";
 import {useTranslation} from "react-i18next";
 import styled from "styled-components";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Keystore from "../../wallet/keystore";
 import BtnLoading from "../loading/btnloading";
 import {savePassword, switchPassword} from "../../wallet/password";
+import Toast from "../modal/toast";
 
 
 const Main = styled.div`
@@ -58,19 +59,21 @@ const Content = styled.div`
       }
     }
 `
-const Forgot = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  color: #00A25C;
-  line-height: 20px;
-  margin-top: 10px;
-`
+// const Forgot = styled.div`
+//   font-size: 16px;
+//   font-weight: 400;
+//   color: #00A25C;
+//   line-height: 20px;
+//   margin-top: 10px;
+// `
 
 export default function Lock({isNav,handleLock}){
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [ password, setPassword ] = useState('');
     const [loading,setLoading] = useState(false)
+    const [error,setError] = useState(false)
+    const [tips,setTips] = useState('')
 
     const handleInput = (e) =>{
         const { value } = e.target;
@@ -95,6 +98,12 @@ export default function Lock({isNav,handleLock}){
 
         }catch (e) {
             console.error("checkPassword",e)
+            setError(true)
+            setTips('Unlock failed!')
+            setTimeout(()=>{
+                setError(false)
+                setLoading(false)
+            },2000)
 
         }
 
@@ -102,6 +111,7 @@ export default function Lock({isNav,handleLock}){
 
     }
     return <Main>
+        <Toast tips={tips}  show={error}/>
         <img src={LogoV} alt=""/>
         <TipsBox className="regular-font">
             {t('popup.lock.tips')}

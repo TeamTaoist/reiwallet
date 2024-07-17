@@ -21,14 +21,14 @@ import Step3 from "../components/wallet/createWallet/step3";
 import Mnemonics from "../components/wallet/importWallet/Mnemonics";
 import AssetDetail from "../components/SUDT/assetDetail";
 import AddNetwork from "../components/network/addNetwork";
-import DOB_detail from "../components/DOB/detail";
-import Cluster_detail from "../components/DOB/cluster_detail";
+import DOBDetail from "../components/DOB/detail";
+import ClusterDetail from "../components/DOB/cluster_detail";
 import DOBConfirm from "../components/DOB/confirm";
 import SendConfirm from "../components/SUDT/sendConfirm";
 import ClusterConfirm from "../components/DOB/clusterConfirm";
-import SUDT_detail from "../components/SUDT/sudt_detail";
-import XUDT_detail from "../components/xudt/xudt_detail";
-import Send_XUDT_Confirm from "../components/xudt/send_XUDT_Confirm";
+import SUDTDetail from "../components/SUDT/sudt_detail";
+import XUDTDetail from "../components/xudt/xudt_detail";
+import SendXUDTConfirm from "../components/xudt/send_XUDT_Confirm";
 
 function PopupRouterLink() {
     return (
@@ -64,16 +64,16 @@ function PopupRouterLink() {
             <Route path="/assetDetail" element={<AssetDetail />}/>
             <Route path="/addNetwork" element={<AddNetwork />}/>
 
-            <Route path="/dobDetail" element={<DOB_detail />}/>
+            <Route path="/dobDetail" element={<DOBDetail />}/>
             <Route path="/dobConfirm" element={<DOBConfirm />}/>
             <Route path="/ClusterConfirm" element={<ClusterConfirm />}/>
-            <Route path="/ClusterDetail" element={<Cluster_detail />}/>
+            <Route path="/ClusterDetail" element={<ClusterDetail />}/>
 
             <Route path="/sudtConfirm" element={<SendConfirm />}/>
 
-            <Route path="/sudtdetail" element={<SUDT_detail/>}/>
-            <Route path="/xudtdetail" element={<XUDT_detail/>}/>
-           <Route path="/XudtConfirm" element={<Send_XUDT_Confirm />}/>
+            <Route path="/sudtdetail" element={<SUDTDetail/>}/>
+            <Route path="/xudtdetail" element={<XUDTDetail/>}/>
+           <Route path="/XudtConfirm" element={<SendXUDTConfirm />}/>
 
         </Routes>
    );

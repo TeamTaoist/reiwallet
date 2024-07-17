@@ -2,7 +2,6 @@ import React, { useCallback } from "react"
 import styled from "styled-components"
 import DashboardLayout from "../dashboard/layout";
 import Button from "../button/button";
-import Check from '../../assets/images/dashboard/check.svg';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useWalletList from "../../useHook/useWalletList";
@@ -42,34 +41,34 @@ const PrivacyPageStyled = styled.div`
     }
   }
 `
+//
+// const CheckBoxStyled = styled.div`
+//   font-size: 16px;
+//   margin: 44px 0;
+// `
+// const CheckItemStyled = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: flex-start;
+//   margin-top: 18px;
+//   &:first-child {
+//     margin-top: 0;
+//   }
+//   img {
+//     width: 24px;
+//     height: 24px;
+//     margin-right: 10px;
+//   }
+// `
 
-const CheckBoxStyled = styled.div`
-  font-size: 16px;
-  margin: 44px 0;
-`
-const CheckItemStyled = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  margin-top: 18px;
-  &:first-child {
-    margin-top: 0;
-  }
-  img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-  }
-`
-
-const CheckItem = (props) => {
-  return (
-    <CheckItemStyled>
-      <img src={Check} alt="" />
-      <span>{props.children}</span>
-    </CheckItemStyled>
-  )
-}
+// const CheckItem = (props) => {
+//   return (
+//     <CheckItemStyled>
+//       <img src={Check} alt="" />
+//       <span>{props.children}</span>
+//     </CheckItemStyled>
+//   )
+// }
 
 const PrivacyDashboard = () => {
   const navigate = useNavigate();

@@ -46,26 +46,26 @@ const BtmBox = styled.div`
   box-shadow: 0px -1px 5px 0px rgba(0, 0, 0, 0.05);
 `
 
-const SelectedBox = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    margin: 20px 0 100px -20px;
-  
-    span{
-      margin:0 0 10px 20px ;
-      padding: 6px 10px;
-      background: #FCFEFA;
-      border-radius: 10px;
-      border: 1px solid #D2D5E1;
-      cursor: pointer;
-      &.active{
-        background: #00FF9D;
-        border-radius: 10px;
-        border: 1px solid #00FF9D;
-      }
-    }
-    
-`
+// const SelectedBox = styled.div`
+//     display: flex;
+//     flex-wrap: wrap;
+//     margin: 20px 0 100px -20px;
+//
+//     span{
+//       margin:0 0 10px 20px ;
+//       padding: 6px 10px;
+//       background: #FCFEFA;
+//       border-radius: 10px;
+//       border: 1px solid #D2D5E1;
+//       cursor: pointer;
+//       &.active{
+//         background: #00FF9D;
+//         border-radius: 10px;
+//         border: 1px solid #00FF9D;
+//       }
+//     }
+//
+// `
 
 const ClearBox = styled.div`
     margin: -5px auto 15px;
@@ -88,30 +88,26 @@ export default function Step3(){
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const [list,setList] = useState([]);
+    // const [list,setList] = useState([]);
     const [selectedArr,SetSelectedArr] = useState([]);
-    const [activeArr, setActiveArr] = useState([]);
-    const [disabled , setDisabled] = useState(true);
-
-
-
-
-    const next = () =>{
-        navigate('/social');
-    }
+    // const [activeArr, setActiveArr] = useState([]);
+    // const [disabled , setDisabled] = useState(true);
+    // const next = () =>{
+    //     navigate('/social');
+    // }
     const clear = () =>{
-        setActiveArr([]);
+        // setActiveArr([]);
         SetSelectedArr([]);
     }
-    const chooseSelect = (selected,index)=>{
-        let arr= [...selectedArr];
-        arr.push(selected);
-        SetSelectedArr(arr);
-
-        let actArr = [...activeArr];
-        actArr[index] = true;
-        setActiveArr(actArr)
-    }
+    // const chooseSelect = (selected,index)=>{
+    //     let arr= [...selectedArr];
+    //     arr.push(selected);
+    //     SetSelectedArr(arr);
+    //
+    //     let actArr = [...activeArr];
+    //     actArr[index] = true;
+    //     setActiveArr(actArr)
+    // }
 
     const submit = async() =>{
 
@@ -134,11 +130,11 @@ export default function Step3(){
                     <img src={ClearImg} alt=""/>
                     <span className="medium-font">Clear</span>
                 </ClearBox>
-                <SelectedBox>
-                    {
-                        list.map((item,index)=>(<span className={activeArr[index]?'active':''} key={`list_${index}`} onClick={()=>chooseSelect(item,index)}>{item}</span>))
-                    }
-                </SelectedBox>
+                {/*<SelectedBox>*/}
+                {/*    {*/}
+                {/*        list.map((item,index)=>(<span className={activeArr[index]?'active':''} key={`list_${index}`} onClick={()=>chooseSelect(item,index)}>{item}</span>))*/}
+                {/*    }*/}
+                {/*</SelectedBox>*/}
             </div>
         </MainBox>
         <BtmBox>

@@ -3,7 +3,6 @@ import Button from "../../button/button";
 import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
-import CopyImg from '../../../assets/images/create/COPY.png';
 import html2canvas from "html2canvas";
 import {useEffect, useState} from "react";
 import {useWeb3} from "../../../store/contracts";

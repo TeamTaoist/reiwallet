@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import ActivitiesItem from "./activitiesItem";
 import PendingItem from "./pendingItem";

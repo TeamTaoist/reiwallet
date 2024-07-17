@@ -47,19 +47,19 @@ const LoadingBox = styled.div`
     margin-top: 20px;
 `
 
-const FlexBox = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-top: 20px;
-    text-decoration: underline;
-    cursor: pointer;
-    span{
-        text-transform: uppercase; 
-    }
-
-`
+// const FlexBox = styled.div`
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     font-size: 14px;
+//     margin-top: 20px;
+//     text-decoration: underline;
+//     cursor: pointer;
+//     span{
+//         text-transform: uppercase;
+//     }
+//
+// `
 
 
 
@@ -73,12 +73,6 @@ export default function Balance(){
         navigate("/send");
     }
 
-    const toHaste = () =>{
-        /*global chrome*/
-        chrome.tabs.create({
-            url: `https://haste.pro/dashboard`
-        });
-    }
 
     return <BalanceBox>
         {

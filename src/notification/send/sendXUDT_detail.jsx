@@ -10,7 +10,6 @@ import CopyImg from "../../assets/images/create/COPY.png";
 import {formatUnit} from "@ckb-lumos/bi";
 import Button from "../../components/button/button";
 import BtnLoading from "../../components/loading/btnloading";
-import useBalance from "../../useHook/useBalance";
 import { predefined } from '@ckb-lumos/config-manager'
 import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
@@ -113,78 +112,7 @@ const DlBox = styled.div`
     }
 `
 
-const ImageBox = styled.div`
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .imgbr{
-        width: 50px;
-        height: 50px;
-        border: 1px solid #eee;
-        border-radius: 4px;
-    }
-    .photo{
 
-        display: flex !important;
-        overflow: hidden;
-        .aspect {
-            padding-bottom: 100%;
-            height: 0;
-            flex-grow: 1 !important;
-        }
-        .content {
-            width: 100%;
-            margin-left: -100% !important;
-            max-width: 100% !important;
-            flex-grow: 1 !important;
-            position: relative;
-        }
-        .innerImg{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            img{
-                width: 100%;
-                height: 100%;
-                border-radius: 4px;
-                object-position: center;
-                object-fit: cover;
-            }
-        }
-    }
-`
-const TextBox = styled.div`
-        display: flex !important;
-        overflow: hidden;
-        .aspect {
-            padding-bottom: 100%;
-            height: 0;
-            flex-grow: 1 !important;
-        }
-        .content {
-            width: 100%;
-            margin-left: -100% !important;
-            max-width: 100% !important;
-            flex-grow: 1 !important;
-            position: relative;
-        }
-        .inner{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f8f8;
-            font-size: 12px;
-            font-family: "AvenirNext-Medium";
-            font-weight: 500;
-        }
-    
-`
 
 export default function SendXUDT_detail(){
     const messenger = useSessionMessenger();

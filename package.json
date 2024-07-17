@@ -17,7 +17,7 @@
     "@rgbpp-sdk/service": "^0.4.0",
     "@spore-sdk/core": "0.2.0-beta.8",
     "@svgr/webpack": "^5.5.0",
-    "@taoist-labs/dob-decoder": "^0.0.2",
+    "@taoist-labs/dob-decoder": "^0.0.5",
     "axios": "^1.6.8",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
@@ -73,6 +73,7 @@
     "semver": "^7.3.5",
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.3.1",
+    "vm-browserify": "^1.1.2",
     "web-vitals": "^2.1.4",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
@@ -111,7 +112,16 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "default-case": "off",
+      "no-lone-blocks": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "no-redeclare": "off",
+      "array-callback-return": "off",
+      "import/no-anonymous-default-export": "off"
+
+    }
   },
   "browserslist": {
     "production": [

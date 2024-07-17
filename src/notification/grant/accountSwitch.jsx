@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import CheckNor from "../../assets/images/Check01.png";
 import CheckAct from "../../assets/images/Check02.png";
-import {useNavigate} from "react-router-dom";
-import {useTranslation} from "react-i18next";
 import PublicJs from "../../utils/publicJS";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import Avatar from "../../components/svg/avatar/avatar";
@@ -21,17 +19,19 @@ z-index: 99999;
   flex-direction: column;
 `
 
-const TitleBox = styled.div`
-  font-size: 18px;
-  font-weight: 500;
-  color: #34332E;
-  line-height: 20px;
-  height: 62px;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  flex-shrink: 0;
-`
+// const TitleBox = styled.div`
+//   font-size: 18px;
+//   font-weight: 500;
+//   color: #34332E;
+//   line-height: 20px;
+//   height: 62px;
+//   display: flex;
+//   align-items: center;
+//   padding: 0 20px;
+//   flex-shrink: 0;
+// `
+
+
 const ContentBox = styled.div`
     flex-grow: 1;
     overflow-y: auto;
@@ -87,7 +87,6 @@ const AccountBox = styled.div`
 
 export default function AccountSwitch({currentAccount,handleCurrent}){
 
-    const { t } = useTranslation();
     const {accountList} = useAccountAddress();
 
     return <BgBox>

@@ -4,7 +4,6 @@ import {parseUnit} from "@ckb-lumos/bi";
 import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
-import { getSporeTypeScript } from "@nervina-labs/ckb-dex";
 import {predefinedSporeConfigs, transferSpore, meltSpore, transferCluster, getSporeByOutPoint, getSporeScript} from "@spore-sdk/core";
 import {getSudtTypeScript,getXudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
 
@@ -213,12 +212,15 @@ export default class RpcClient{
         })
     }
 
-    get_DOB = async(address) =>{
+    get_DOB = async(address,version="v2") =>{
         const hashObj = Wallet.addressToScript(address);
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
-
-        const sporeType = getSporeTypeScript(network.value === "mainnet");
+        const sporeConfig = network.value==="testnet"? predefinedSporeConfigs.Testnet:predefinedSporeConfigs.Mainnet;
+        const versionStr = network.value === 'testnet'?"preview":"latest";
+        console.log("=versionStr===",versionStr,network)
+        const sporeType = getSporeScript(sporeConfig,"Spore",[version,versionStr]);
+        console.log("=sporeType===",sporeType)
 
         return await this._request({
             method:"get_cells",
@@ -234,8 +236,8 @@ export default class RpcClient{
                     script_search_mode: "exact",
                     filter: {
                         script: {
-                            code_hash: sporeType.codeHash,
-                            hash_type: sporeType.hashType,
+                            code_hash: sporeType.script.codeHash,
+                            hash_type: sporeType.script.hashType,
                             args: "0x",
                         },
                         script_search_mode: 'exact',
@@ -255,7 +257,7 @@ export default class RpcClient{
 
         const clusterConfig = network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
 
-        const clusterType = getSporeScript(clusterConfig,"Cluster",["preview"]);
+        const clusterType = getSporeScript(clusterConfig,"Cluster",["v2","preview"]);
 
 
         return await this._request({
@@ -518,17 +520,17 @@ export default class RpcClient{
     send_ckb2btc_xudt = async(obj) =>{
         const network = await this.getNetwork();
 
-        const {toAddress, typeScript, amount, fee} = obj;
+        const {toAddress, typeScript, amount} = obj;
         const currentAccount = await currentInfo();
 
         let btcUtxoList = await this.getRgbppAssert(toAddress,network);
         const {code_hash, hash_type, args} = typeScript;
         let findUtxo = btcUtxoList.filter((utxo)=>
              (utxo.ckbCellInfo &&
-            utxo.ckbCellInfo.output.type.args == args &&
-            utxo.ckbCellInfo.output.type.code_hash ==
+            utxo.ckbCellInfo.output.type.args === args &&
+            utxo.ckbCellInfo.output.type.code_hash ===
             code_hash &&
-            utxo.ckbCellInfo.output.type.hash_type == hash_type)
+            utxo.ckbCellInfo.output.type.hash_type === hash_type)
         )
 
 
@@ -557,9 +559,6 @@ export default class RpcClient{
         }else{
             config.initializeConfig(config.predefined.AGGRON4);
         }
-
-        const addressScript = helpers.parseAddress(currentAccount.address);
-
 
         const collector = new RGBCollector({
             ckbNodeUrl:  network.rpcUrl.node,

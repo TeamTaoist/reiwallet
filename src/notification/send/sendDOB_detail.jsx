@@ -5,7 +5,7 @@ import Avatar from "../../components/svg/avatar/avatar";
 import PublicJS from "../../utils/publicJS";
 import FromImg from "../../assets/images/fromTo.png";
 import useAccountAddress from "../../useHook/useAccountAddress";
-import {getSporeByOutPoint, predefinedSporeConfigs, unpackToRawSporeData} from "@spore-sdk/core";
+import {getSporeByOutPoint, predefinedSporeConfigs} from "@spore-sdk/core";
 import useNetwork from "../../useHook/useNetwork";
 import PublicJs from "../../utils/publicJS";
 import {CopyToClipboard} from "react-copy-to-clipboard";
@@ -14,7 +14,6 @@ import {formatUnit} from "@ckb-lumos/bi";
 import Button from "../../components/button/button";
 import BtnLoading from "../../components/loading/btnloading";
 import useBalance from "../../useHook/useBalance";
-import {useNavigate} from "react-router-dom";
 import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
 import useMessage from "../../useHook/useMessage";
@@ -184,7 +183,6 @@ export default function SendDOB_detail(){
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
     const {symbol} = useBalance();
-    const navigate = useNavigate();
     const [btnL,setBtnL] = useState(false)
     const { t } = useTranslation();
 
@@ -264,14 +262,13 @@ export default function SendDOB_detail(){
 
 
             const itemDobId = rt.cellOutput.type.args;
-            console.log(itemDobId,rt.data);
             try{
                 const asset = await decodeDOB(itemDobId,network==="testnet",rt.data);
                 rt.asset = asset;
             }catch(e){
                 console.error("Get dob info failed",e)
             }
-            console.log(rt)
+
             // let spore =  unpackToRawSporeData(rt.data)
             // const buffer = Buffer.from(spore.content.toString().slice(2), 'hex');
             // const base64 = Buffer.from(buffer, "binary" ).toString("base64");

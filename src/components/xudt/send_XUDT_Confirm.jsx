@@ -9,11 +9,11 @@ import useAccountAddress from "../../useHook/useAccountAddress";
 import TokenHeader from "../header/tokenHeader";
 import {useWeb3} from "../../store/contracts";
 import PublicJS from "../../utils/publicJS";
-import CopyImg from "../../assets/images/create/COPY.png";
 import Toast from "../modal/toast";
 import useMessage from "../../useHook/useMessage";
 import Loading from "../loading/loading";
-import {formatUnit, parseUnit} from "@ckb-lumos/bi";
+import {formatUnit} from "@ckb-lumos/bi";
+import{Copy as Copy2} from "lucide-react";
 
 const Box = styled.div`
     display: flex;
@@ -194,6 +194,7 @@ const TokenBox = styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        gap: 10px;
         img{
             cursor: pointer;
         }
@@ -392,7 +393,7 @@ export default function Send_XUDT_Confirm(){
                 <dd>
                     <span>{PublicJS.AddressToShow(xudt.output?.type?.args, 10)}</span>
                     <CopyToClipboard onCopy={()=>Copy()} text={xudt.output?.type?.args}>
-                        <img src={CopyImg} alt=""/>
+                        <Copy2 size={16} />
                     </CopyToClipboard>
                 </dd>
             </dl>

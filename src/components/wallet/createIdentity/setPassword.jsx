@@ -4,7 +4,7 @@ import Button from "../../button/button";
 import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import {useWeb3} from "../../../store/contracts";
 // import Keystore from "../../../wallet/keystore";
 

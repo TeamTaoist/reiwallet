@@ -314,7 +314,8 @@ module.exports = function (webpackEnv) {
         assert: require.resolve("assert/"),
         crypto: require.resolve("crypto-browserify"),
         stream: require.resolve("stream-browserify"),
-        path: require.resolve("path-browserify")
+        path: require.resolve("path-browserify"),
+        "vm": require.resolve("vm-browserify")
       },
 
       modules: ['node_modules', paths.appNodeModules].concat(

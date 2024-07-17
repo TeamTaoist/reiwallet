@@ -1,7 +1,7 @@
 import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
-import PublicJS, {getAccount} from "../utils/publicJS";
+import PublicJS from "../utils/publicJS";
 import {currentInfo} from "../wallet/getCurrent";
 import {hd} from "@ckb-lumos/lumos";
 import {getPassword} from "../wallet/password";
@@ -82,6 +82,9 @@ export const handleRequest = async (requestData) =>{
                 break;
             case "ckb_signRawTransaction":
                 rt = await signRawTx(url,data);
+                break;
+            default:
+                console.error("Unknown request: "+data);
                 break;
         }
         if(rt){
@@ -194,12 +197,10 @@ const signData = async(data,windowId,url) =>{
     const {message} = data
     if(!message) {
         throw new Error("Message is required")
-        return;
     }
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
         {
@@ -236,13 +237,11 @@ const sendCKBTx = async(data,windowId,url) =>{
     const {amount,to} = data
     if(!amount || !to) {
         throw new Error("Amount or Address is required");
-        return;
     }
 
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
@@ -296,10 +295,7 @@ const switchNetwork = async(value) =>{
         const networkArr = networkList.filter(item=>item.value === value);
 
         let JsonStr = JSON.stringify(networkArr[0])
-        /*global chrome*/
         chrome.storage.local.set({networkInfo:JsonStr});
-
-
         return {
             type:"Success",
             network:value
@@ -337,17 +333,14 @@ const sendDOB = async (data,windowId,url) =>{
     const {to,outPoint:{txHash}} = data
     if( !to) {
         throw new Error("Address is required");
-        return;
     }
     if( !txHash) {
         throw new Error("OutPoint is required");
-        return;
     }
 
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
@@ -389,17 +382,14 @@ const sendCluster = async(data,windowId,url) =>{
     const {to,outPoint:{txHash}} = data
     if( !to) {
         throw new Error("Address is required");
-        return;
     }
     if( !txHash) {
         throw new Error("OutPoint is required");
-        return;
     }
 
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
@@ -438,21 +428,17 @@ const sendSUDT = async(data,windowId,url) =>{
     const {to,amount,token} = data
     if( !to) {
         throw new Error("Address is required");
-        return;
     }
     if( !amount) {
         throw new Error("Amount is required");
-        return;
     }
     if( !token) {
         throw new Error("Token is required");
-        return;
     }
 
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
@@ -489,24 +475,19 @@ const sendSUDT = async(data,windowId,url) =>{
 
 const sendXUDT = async(data,windowId,url) =>{
     const {to,amount,typeScript} = data;
-    console.log("===to,amount,token=",to,amount,typeScript)
     if( !to) {
         throw new Error("Address is required");
-        return;
     }
     if( !amount) {
         throw new Error("Amount is required");
-        return;
     }
     if( !typeScript) {
         throw new Error("TypeScript is required");
-        return;
     }
 
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
 
@@ -553,7 +534,6 @@ const getPublicKey_inner = async(url) =>{
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
     let pwd = await getPassword();
@@ -601,7 +581,6 @@ const sendRawTx = async(url,data) =>{
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
@@ -641,7 +620,6 @@ const signRawTx = async(url,data) =>{
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
-        return;
     }
 
     const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(

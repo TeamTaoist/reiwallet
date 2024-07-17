@@ -175,7 +175,7 @@ const Tips = styled.div`
 export default function SendStep1({toDetail,fee}){
     const [ amount, setAmount] = useState('');
     const { t } = useTranslation();
-    const {balance,available,balanceLoading,symbol} = useBalance();
+    const {available,balanceLoading,symbol} = useBalance();
     const [ address,setAddress] = useState('');
     const [ isMax,setIsMax] = useState(false);
     const [search] = useSearchParams();

@@ -99,7 +99,7 @@ export default function AccountConfirm(){
     }, [mnemonic]);
 
     const getMnemonic = async() =>{
-        /*global chrome*/
+
         const wallet = new Wallet(currentAccount,network ==="mainnet",true);
         let result = await  wallet.exportMnemonic();
         const str = result.split(" ")

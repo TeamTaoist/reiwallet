@@ -8,7 +8,7 @@ import useNetwork from "../../useHook/useNetwork";
 import {useEffect, useState} from "react";
 import useMessage from "../../useHook/useMessage";
 import BtnLoading from "../loading/btnloading";
-import {formatUnit, parseUnit} from "@ckb-lumos/bi";
+import {formatUnit} from "@ckb-lumos/bi";
 
 
 const FlexRht = styled.div`

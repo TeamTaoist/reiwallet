@@ -1,6 +1,5 @@
 import TokenHeader from "../header/tokenHeader";
 import ImportHeader from "../wallet/importWallet/ImportHeader";
-import Info from "../../assets/images/create/tip.png";
 import Button from "../button/button";
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
@@ -10,7 +9,7 @@ import {useState} from "react";
 import Keystore from "../../wallet/keystore";
 import BtnLoading from "../loading/btnloading";
 import {useTranslation} from "react-i18next";
-import {clearPassword, getPassword, switchPassword} from "../../wallet/password";
+import {clearPassword, switchPassword} from "../../wallet/password";
 
 const Box = styled.div`
     display: flex;

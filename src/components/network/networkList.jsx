@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import Checked from "../../assets/images/Checked.png";
 import Close from "../../assets/images/close.png";
-import Button from "../button/button";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useState} from "react";
 import useNetwork from "../../useHook/useNetwork";
 import {CirclePlus} from "lucide-react";
 
@@ -59,6 +57,10 @@ const UlBox = styled.ul`
       height: 44px;
       padding: 0 10px;
         border-bottom: 1px solid #f5f5f5;
+        &:last-child{
+            border-bottom: 0;
+            margin-bottom: 30px;
+        }
       &:hover{
         background: #F1FCF1;
       }
@@ -120,7 +122,6 @@ export default function NetworkList({current,handleLoading,closeLoading}){
         let arr = [...netList]
         arr.splice(index,1)
 
-        /*global chrome*/
         chrome.storage.local.set({networkList:arr})
         closeLoading()
     }
@@ -150,9 +151,9 @@ export default function NetworkList({current,handleLoading,closeLoading}){
                 </li>))
             }
         </UlBox>
-        <BtnBox>
-            <div className="btn" onClick={()=>toGo()}> <CirclePlus /><span>{t('popup.network.AddNetwork')}</span></div>
-        </BtnBox>
+        {/*<BtnBox>*/}
+        {/*    <div className="btn" onClick={()=>toGo()}> <CirclePlus /><span>{t('popup.network.AddNetwork')}</span></div>*/}
+        {/*</BtnBox>*/}
     </ModalBox>
     </Box>
 }

@@ -2,7 +2,7 @@ import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
-import SendDOB_detail from "./sendDOB_detail";
+import SendDOBDetail from "./sendDOB_detail";
 
 export default function SendDOB(){
 
@@ -23,7 +23,7 @@ export default function SendDOB(){
             !status && <Lock isNav={true} handleLock={handleLock} />
         }
         {
-            status && <SendDOB_detail />
+            status && <SendDOBDetail />
         }
     </div>
 }

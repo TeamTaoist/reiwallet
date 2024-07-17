@@ -1,6 +1,5 @@
 import TokenHeader from "../header/tokenHeader";
 import styled from "styled-components";
-import WalletImg from '../../assets/images/account/Wallet01.png';
 import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ErrorImg from "../../assets/images/error_image.svg";
 
 const UlBox = styled.ul`
     &:after {
@@ -118,7 +119,7 @@ export default function ClusterListDOB({loading,sList,toDetail}){
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="innerImg">
-                                        <img src={item.asset.data} alt=""/>
+                                        <img src={item.asset.data?item.asset.data:ErrorImg} alt=""/>
                                     </div>
                                 </div>
                             </div>

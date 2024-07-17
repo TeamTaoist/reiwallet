@@ -1,14 +1,7 @@
 import styled from "styled-components";
 import useDOB from "../../useHook/useDOB";
 import {useEffect, useState} from "react";
-
-import {
-    unpackToRawSporeData,
-    unpackToRawClusterData,
-    getClusterById,
-    predefinedSporeConfigs,
-    bufferToRawString
-} from '@spore-sdk/core';
+import {unpackToRawClusterData,} from '@spore-sdk/core';
 import useNetwork from "../../useHook/useNetwork";
 import {useNavigate} from "react-router-dom";
 import {useWeb3} from "../../store/contracts";
@@ -19,7 +12,6 @@ import DobClusterList from "./dobClusterList";
 import ClusterListDOB from "./clusterListDOB";
 import {useTranslation} from "react-i18next";
 import {decodeDOB} from "@taoist-labs/dob-decoder";
-
 
 const Box = styled.div`
     padding: 23px 20px;
@@ -42,6 +34,8 @@ const TabBox = styled("div")`
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
+    position: relative;
+    width: 100%;
     .li{
         width: 80px;
         height: 30px;
@@ -49,11 +43,11 @@ const TabBox = styled("div")`
         background: #f5f5f5;
         line-height: 30px;
         cursor: pointer;
-        &:first-child{
+        &.li0{
             border-top-left-radius: 40px;
             border-bottom-left-radius: 40px;
         }
-        &:last-child{
+        &.li1{
             border-top-right-radius: 40px;
             border-bottom-right-radius: 40px;
         }
@@ -63,10 +57,44 @@ const TabBox = styled("div")`
     }
 `
 
+// const SelectBox = styled("div")`
+//     border: 1px solid #ddd;
+//     position: absolute;
+//     right: 20px;
+//     display: flex;
+//     align-items: center;
+//     padding: 2px 5px;
+//     border-radius: 4px;
+//
+// `
+
+// const DropBox = styled("div")`
+//     position: fixed;
+//     z-index: 99999999;
+//     width: 100vw;
+//     height: 100vh;
+//     background: rgba(0,0,0,0.4);
+//     backdrop-filter: blur(2px);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     ul{
+//         background: #fff;
+//         width: 50vw;
+//         border-radius: 10px;
+//         li{
+//             padding:10px 20px;
+//             border-bottom: 1px solid #ddd;
+//         }
+//     }
+//
+// `
+
 export default function Dob(){
     const {list,loading,clusterList} = useDOB();
     const [sList,setSList] = useState([])
     const [cList,setCList] = useState([])
+    const [loadingShow,setLoadingShow] = useState(false)
     const navigate = useNavigate()
     const {dispatch} = useWeb3();
     const {currentAccount} = useCurrentAccount();
@@ -86,6 +114,17 @@ export default function Dob(){
     ])
 
     useEffect(() => {
+
+        if(!list){
+            setLoadingShow(true)
+        }else{
+            setLoadingShow(false)
+        }
+
+    }, [list]);
+
+    useEffect(() => {
+
 
         formatList()
         formatClusterList()
@@ -107,6 +146,8 @@ export default function Dob(){
 
     const formatList =  async() =>{
         if(list === '')return;
+        setSList([])
+
         let arr = [];
 
         for(let i=0;i<list.length;i++){
@@ -116,12 +157,18 @@ export default function Dob(){
             try{
                 const asset = await decodeDOB(itemDobId,network==="testnet",item.output_data);
                 arr.push({...item,asset});
+                setSList([...arr])
             }catch(e){
+                arr.push({...item,asset:{
+                        contentType:"image",
+                        data:""
+                    }});
+                setSList([...arr])
                 console.error("Get dob info failed",e)
             }
 
         }
-        setSList(arr)
+
 
 
     }
@@ -147,21 +194,27 @@ export default function Dob(){
         setCurrent(ind);
     }
 
+
+
     return <Box>
         {
-            loading && <LoadingBox><Loading showBg={false} /></LoadingBox>
+            (loading ||  (!loading && loadingShow )) && <LoadingBox><Loading showBg={false} /></LoadingBox>
         }
+
         <TabBox>
             {
-                !loading && tabList.map((item,index)=> (<div className={current===index?"li active":"li"} key={index} onClick={()=>handleCurrent(index)} >{item.name}</div>))
+                !loading && tabList.map((item,index)=> (<div className={current===index?`li active li${index}`:`li li${index}`} key={index} onClick={()=>handleCurrent(index)} >{item.name}</div>))
             }
 
+
+
         </TabBox>
+
         {
             current===1 &&<DobClusterList cList={cList} toCluster={toCluster} />
         }
         {
-            current===0 &&<ClusterListDOB loading={loading} sList={sList} toDetail={toDetail} />
+            current===0 &&<ClusterListDOB loading={loading} sList={sList} toDetail={toDetail}  />
         }
 
 
