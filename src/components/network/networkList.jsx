@@ -57,6 +57,10 @@ const UlBox = styled.ul`
       height: 44px;
       padding: 0 10px;
         border-bottom: 1px solid #f5f5f5;
+        &:last-child{
+            border-bottom: 0;
+            margin-bottom: 30px;
+        }
       &:hover{
         background: #F1FCF1;
       }
@@ -147,9 +151,9 @@ export default function NetworkList({current,handleLoading,closeLoading}){
                 </li>))
             }
         </UlBox>
-        <BtnBox>
-            <div className="btn" onClick={()=>toGo()}> <CirclePlus /><span>{t('popup.network.AddNetwork')}</span></div>
-        </BtnBox>
+        {/*<BtnBox>*/}
+        {/*    <div className="btn" onClick={()=>toGo()}> <CirclePlus /><span>{t('popup.network.AddNetwork')}</span></div>*/}
+        {/*</BtnBox>*/}
     </ModalBox>
     </Box>
 }
