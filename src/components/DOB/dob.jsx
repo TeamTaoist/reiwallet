@@ -146,6 +146,8 @@ export default function Dob(){
 
     const formatList =  async() =>{
         if(list === '')return;
+        setSList([])
+
         let arr = [];
 
         for(let i=0;i<list.length;i++){
