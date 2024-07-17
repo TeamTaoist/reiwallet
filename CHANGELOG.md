@@ -1,3 +1,16 @@
+## [0.3.3](https://github.com/TeamTaoist/reiwallet/compare/v0.3.2...v0.3.3) (2024-07-17)
+
+
+### Bug Fixes
+
+* hide network button ([dc14f99](https://github.com/TeamTaoist/reiwallet/commit/dc14f996d7a48f2eae642fffa6257e3105ba3424))
+* remove useless code &compress images ([32510d9](https://github.com/TeamTaoist/reiwallet/commit/32510d94cfd5e85b3793c66ed4413242f4163bae))
+* update address ([648250d](https://github.com/TeamTaoist/reiwallet/commit/648250d17d5a8600d80a99d73ba041886fc2cc64))
+* update dob with default image ([597a36e](https://github.com/TeamTaoist/reiwallet/commit/597a36ec6ac2667b718246ff3d12edddff42b5b0))
+* update init in dob list ([dd68d75](https://github.com/TeamTaoist/reiwallet/commit/dd68d75ca77c03e7e606210421cf0139d61c778b))
+
+
+
 ## [0.3.2](https://github.com/TeamTaoist/reiwallet/compare/v0.3.1...v0.3.2) (2024-07-12)
 
 
