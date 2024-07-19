@@ -1,3 +1,15 @@
+## [0.3.4](https://github.com/TeamTaoist/reiwallet/compare/v0.3.3...v0.3.4) (2024-07-19)
+
+
+### Bug Fixes
+
+* address format ([2547092](https://github.com/TeamTaoist/reiwallet/commit/2547092a71bb8304dfa644ba1fc803139dffad06))
+* address format ([5dfe618](https://github.com/TeamTaoist/reiwallet/commit/5dfe618030f9ed870f624caa33526a617932c3bd))
+* update xudt warnings ([5cd1af7](https://github.com/TeamTaoist/reiwallet/commit/5cd1af728a19128cbb1378b42ed58d75df518457))
+* use capacity instead of occupied ([7362327](https://github.com/TeamTaoist/reiwallet/commit/736232723b80bff5500813209ece4a526b4199e4))
+
+
+
 ## [0.3.3](https://github.com/TeamTaoist/reiwallet/compare/v0.3.2...v0.3.3) (2024-07-17)
 
 
