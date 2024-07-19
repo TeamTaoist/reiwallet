@@ -78,6 +78,7 @@ export default function XUDT(){
 
 
     const formatList =  () =>{
+        setSList([])
         let arr = [...list];
         let arrFormat =  arr.map((item)=>{
             item.amount  = unpackAmount(item.output_data);
@@ -94,6 +95,7 @@ export default function XUDT(){
             return acc;
         }, {});
         const result = Object.values(groupedData);
+
 
 
         setSList(result)

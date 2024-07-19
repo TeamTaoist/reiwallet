@@ -234,6 +234,7 @@
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
       "occupied": "已占用",
+      "capacity": "容量",
       "meltTips": "您确定要 MELT这个 DOB?",
       "meltClusterTips": "您确定要 MELT这个Cluster?",
       "meltTips2": "此操作不可逆",

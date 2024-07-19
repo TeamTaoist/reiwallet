@@ -4,8 +4,9 @@ import {
 } from "@nervosnetwork/ckb-sdk-utils";
 import {BI} from "@ckb-lumos/lumos";
 const AddressToShow = (address,num = 5) => {
+    if(!address || typeof address !== "string")return "...";
     let frontStr = address?.substring(0, num);
-    let afterStr = address?.substring(address.length - num, address.length);
+    let afterStr = address?.substring(address?.length - num, address?.length);
     return `${frontStr}...${afterStr}`
 }
 

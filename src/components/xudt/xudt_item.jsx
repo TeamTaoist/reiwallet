@@ -92,6 +92,7 @@ export default function Xudt_item({item}){
                 sizeLimit: 1,
             }
         );
+        if(!txInfo ||  !txInfo.objects[0])return;
         const {txHash:tx} =  txInfo.objects[0]
         toBackground(tx)
         setTxHash(tx)
