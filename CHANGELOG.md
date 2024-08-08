@@ -1,3 +1,12 @@
+## [0.3.5](https://github.com/TeamTaoist/reiwallet/compare/v0.3.4...v0.3.5) (2024-08-08)
+
+
+### Bug Fixes
+
+* update inject ([162592c](https://github.com/TeamTaoist/reiwallet/commit/162592c74990a8cb066fe41ac6e4a7afa15e5977))
+
+
+
 ## [0.3.4](https://github.com/TeamTaoist/reiwallet/compare/v0.3.3...v0.3.4) (2024-07-19)
 
 
