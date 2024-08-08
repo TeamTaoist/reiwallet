@@ -1,5 +1,6 @@
 
 
+
 let completer={};
 
 document.addEventListener('CKB_RESPONSE', function(event) {
@@ -35,7 +36,7 @@ const ReiWalletRequest = ({method, data}) =>{
 }
 
 const ReiWalletIsConnected = async() =>{
-    let rt = await request({method:"isConnected"});
+    let rt = await ReiWalletRequest({method:"isConnected"});
     const {isConnected} =rt;
     return isConnected;
 }

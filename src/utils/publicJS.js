@@ -3,6 +3,8 @@ import {
     hexToBytes,
 } from "@nervosnetwork/ckb-sdk-utils";
 import {BI} from "@ckb-lumos/lumos";
+
+/*global chrome*/
 const AddressToShow = (address,num = 5) => {
     if(!address || typeof address !== "string")return "...";
     let frontStr = address?.substring(0, num);
@@ -11,7 +13,7 @@ const AddressToShow = (address,num = 5) => {
 }
 
 export const getAccount = async() =>{
-    /*global chrome*/
+
     const walletListArr = await chrome.storage.local.get(['walletList']);
     const walletList = walletListArr?.walletList ?? [];
     const currentObj = await chrome.storage.local.get(['current_address'])
@@ -94,6 +96,36 @@ export  const parseFixed = (amount, decimal) =>{
 }
 
 
+export const getUtxoStore = async() =>{
+
+    let rt = await chrome.storage.local.get(["utxo"]);
+    const {utxo} = rt;
+
+    const date = new Date().valueOf();
+    return  utxo.filter((utx)=>utx.timeStamp  + 5 * 60 * 1000 > date );
+}
+
+export const setUtxo = (txSkeleton) => {
+    try{
+        // const inputsArr = txSkeleton.get("inputs").toArray();
+
+        const inputsArr = txSkeleton.inputs;
+        const utxoList = getUtxoStore();
+        for (let i = 0; i < inputsArr.length; i++) {
+            utxoList.push({
+                timeStamp:new Date().valueOf(),
+                index:inputsArr[i].previous_output.index,
+                txHash:inputsArr[i].previous_output.tx_hash
+            })
+        }
+        chrome.storage.local.set({utxo:utxoList})
+
+    }catch (e){
+        console.log(e)
+    }
+
+}
+
 
 
 
@@ -102,5 +134,7 @@ export default {
     requestGrant,
     getAccount,
     parseFixed,
+    getUtxoStore,
+    setUtxo,
     randomSort
 }
