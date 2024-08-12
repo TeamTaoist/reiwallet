@@ -7,8 +7,14 @@ export default class SignData{
      static signByPrivateKey = async(message) => {
         const currentAccount = await currentInfo();
         const {privatekey_show} = currentAccount;
-        const digest = SignData.signatureHash(message)
-        return hd.key.signRecoverable(digest, privatekey_show)
+
+        let newMessage
+         if (!/^0x([0-9a-fA-F][0-9a-fA-F])*$/.test(message)) {
+             newMessage = SignData.signatureHash(message);
+         }else{
+             newMessage = message;
+         }
+        return hd.key.signRecoverable(newMessage, privatekey_show)
     }
      static signatureHash(message) {
         const buffer = Buffer.from( message, 'utf-8')
