@@ -42,6 +42,7 @@ const SubTitle = styled.div`
 const MsgBox = styled.div`
     padding: 20px;
     background: #f8f8f8;
+    word-break: break-all;
 `
 const BtnGroup = styled.div`
     width: 100%;
