@@ -1,3 +1,12 @@
+## [0.3.6](https://github.com/TeamTaoist/reiwallet/compare/v0.3.5...v0.3.6) (2024-08-12)
+
+
+### Bug Fixes
+
+* add new sign message ([b04f164](https://github.com/TeamTaoist/reiwallet/commit/b04f164ff9395a986c87cde223bef6ce990ca13f))
+
+
+
 ## [0.3.5](https://github.com/TeamTaoist/reiwallet/compare/v0.3.4...v0.3.5) (2024-08-08)
 
 
