@@ -1,3 +1,12 @@
+## [0.3.7](https://github.com/TeamTaoist/reiwallet/compare/v0.3.6...v0.3.7) (2024-08-15)
+
+
+### Bug Fixes
+
+* add did ([211c1fd](https://github.com/TeamTaoist/reiwallet/commit/211c1fd95619d809d0caa15fe70257a2787cdfd3))
+
+
+
 ## [0.3.6](https://github.com/TeamTaoist/reiwallet/compare/v0.3.5...v0.3.6) (2024-08-12)
 
 
