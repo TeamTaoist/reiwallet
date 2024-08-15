@@ -2,12 +2,14 @@ import {useEffect, useState} from "react";
 import useMessage from "./useMessage";
 import useAccountAddress from "./useAccountAddress";
 
-export default function useDOB(){
+export default function useDOB(current){
     const {currentAccountInfo} = useAccountAddress();
     const [loading,setLoading] = useState(false);
     const [loadingCL,setLoadingCL] = useState(false);
     const [list,setList] = useState('');
+    const [didList,setDidList] = useState('');
     const [clusterList,setClusterList] = useState('');
+
 
     const handleEvent = (message) => {
         const {type }= message;
@@ -15,6 +17,12 @@ export default function useDOB(){
             case "get_DOB_success":
             {
                 setList(message.data?.objects ?? [])
+                setLoading(false)
+            }
+                break;
+            case "get_DID_success":
+            {
+                setDidList(message.data?.objects ?? [])
                 setLoading(false)
             }
                 break;
@@ -30,18 +38,43 @@ export default function useDOB(){
     const {sendMsg} = useMessage(handleEvent,[]);
 
     useEffect(() => {
-        if(!currentAccountInfo)return;
+        if(!currentAccountInfo )return;
+
         setLoading(true)
+        setList([])
+        if(current === 0){
+            toBackground()
+        }else{
+            toDIDBackground()
+        }
+
+    }, [currentAccountInfo,current]);
+
+
+
+
+    useEffect(() => {
+        if(!currentAccountInfo)return;
         setLoadingCL(true)
         clustertoBackground()
-        toBackground()
     }, [currentAccountInfo]);
+
+
+    const toDIDBackground = () =>{
+        let obj ={
+            method:"get_DID",
+            currentAccountInfo,
+        }
+        setList([])
+        sendMsg(obj)
+    }
 
     const toBackground = () =>{
         let obj ={
             method:"get_DOB",
-            currentAccountInfo
+            currentAccountInfo,
         }
+        setList([])
         sendMsg(obj)
     }
     const clustertoBackground = () =>{
@@ -49,7 +82,8 @@ export default function useDOB(){
             method:"get_Cluster",
             currentAccountInfo
         }
+
         sendMsg(obj)
     }
-    return {list,loading,clusterList,loadingCL}
+    return {list,didList,loading,clusterList,loadingCL}
 }

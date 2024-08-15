@@ -228,7 +228,7 @@ export default function DOB_detail(){
                     }
 
                     {
-                        dob.asset.contentType.indexOf("dob/0") > -1 && <div className="photo">
+                        (dob.asset.contentType.indexOf("dob/0") > -1 ||dob.asset.contentType?.indexOf("DID") > -1 )&& <div className="photo">
                             <div className="aspect"/>
                             <div className="content">
                                 <div className="innerImg">
@@ -239,7 +239,10 @@ export default function DOB_detail(){
                     }
                 </div>
                 <Button primary onClick={()=>toGo()}>{t('popup.dob.Send')}</Button>
-                <MeltBox onClick={()=>handleShow()}>{t('popup.dob.MeltDOB')}</MeltBox>
+                {
+                    dob.asset.contentType?.indexOf("DID") === -1 &&  <MeltBox onClick={()=>handleShow()}>{t('popup.dob.MeltDOB')}</MeltBox>
+                }
+
                 <div className="line" />
             </ImageBox>
             <DlBox>
