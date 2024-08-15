@@ -8,12 +8,7 @@ export default class SignData{
         const currentAccount = await currentInfo();
         const {privatekey_show} = currentAccount;
 
-        let newMessage
-         if (!/^0x([0-9a-fA-F][0-9a-fA-F])*$/.test(message)) {
-             newMessage = SignData.signatureHash(message);
-         }else{
-             newMessage = message;
-         }
+        const newMessage = SignData.signatureHash(message);
         return hd.key.signRecoverable(newMessage, privatekey_show)
     }
      static signatureHash(message) {

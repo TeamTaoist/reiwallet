@@ -194,7 +194,7 @@ const getBalance = async(params) =>{
 
 const notificationManager = new NotificationManager();
 const signData = async(data,windowId,url) =>{
-    const {message} = data
+    const message = `Nervos Message:${data.message}`
     if(!message) {
         throw new Error("Message is required")
     }
