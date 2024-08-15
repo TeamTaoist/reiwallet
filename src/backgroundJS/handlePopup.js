@@ -52,6 +52,9 @@ export const handlePopUp = async (requestData) =>{
         case "get_DOB":
             getDOB(requestData);
             break;
+        case "get_DID":
+            getDID(requestData);
+            break;
         case "get_Cluster":
             getCLuster(requestData);
             break;
@@ -221,18 +224,30 @@ const getDOB = async (obj) =>{
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }
-
-const sendDOB = async (obj) =>{
-    const {currentAccountInfo,outPoint,toAddress} = obj;
+const getDID = async (obj) =>{
+    const {currentAccountInfo} = obj;
 
     try{
         const client = new RpcClient();
-        let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress);
+        let rt = await client.get_DID(currentAccountInfo.address);
+        sendMsg({ type:`${obj.method}_success`,data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+
+const sendDOB = async (obj) =>{
+    const {currentAccountInfo,outPoint,toAddress,dobType,typeScript} = obj;
+
+    try{
+        const client = new RpcClient();
+        let rt = await client.send_DOB(currentAccountInfo,outPoint,toAddress,dobType,typeScript);
         await recordToTxList(rt);
         sendMsg({ type:`${obj.method}_success`,data:rt})
 
     }catch (e){
-        console.error(`${obj.method}_error`, e.message)
+        console.error(`${obj.method}_error`, e)
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }

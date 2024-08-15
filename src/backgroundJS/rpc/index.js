@@ -1,18 +1,28 @@
 import Wallet from "../../wallet/wallet";
-import {BI, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
+import {BI, CellCollector, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
 import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
-import {predefinedSporeConfigs, transferSpore, meltSpore, transferCluster, getSporeByOutPoint, getSporeScript} from "@spore-sdk/core";
+import {
+    predefinedSporeConfigs,
+    transferSpore,
+    meltSpore,
+    transferCluster,
+    getSporeByOutPoint,
+    getSporeScript,
+    getSporeByType
+} from "@spore-sdk/core";
 import {getSudtTypeScript,getXudtTypeScript} from "@nervina-labs/ckb-dex/lib/constants";
 
 import {transfer_udt} from "../../utils/ckbRequest";
 import {  buildRgbppLockArgs, genCkbJumpBtcVirtualTx, genRgbppLockScript} from "@rgbpp-sdk/ckb";
 import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
 import {RGBCollector} from "../../utils/newCollectorRGB";
-import {getSecp256k1CellDep} from "../../utils/constants";
+import {DID_CONTRACT, getSecp256k1CellDep} from "../../utils/constants";
 import {networkList} from "../../constants/network";
+import {Hash, HexString} from "@ckb-lumos/base/lib/primitive";
+import {HashType} from "@ckb-lumos/base/lib/api";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -216,11 +226,51 @@ export default class RpcClient{
         const hashObj = Wallet.addressToScript(address);
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
+
         const sporeConfig = network.value==="testnet"? predefinedSporeConfigs.Testnet:predefinedSporeConfigs.Mainnet;
         const versionStr = network.value === 'testnet'?"preview":"latest";
-        console.log("=versionStr===",versionStr,network)
+
         const sporeType = getSporeScript(sporeConfig,"Spore",[version,versionStr]);
-        console.log("=sporeType===",sporeType)
+        return await this._request({
+            method:"get_cells",
+            url:network.rpcUrl.indexer,
+            params:[
+                {
+                    script: {
+                        code_hash: codeHash,
+                        hash_type:hashType,
+                        args
+                    },
+                    "script_type": "lock",
+                    script_search_mode: "exact",
+                    filter: {
+                        script: {
+                            code_hash: sporeType.script.codeHash,
+                            hash_type: sporeType.script.hashType,
+                            args: "0x",
+                        },
+                        script_search_mode: 'exact',
+                        script_type: 'type',
+                    },
+                },
+                "desc",
+                "0x64"
+            ]
+        })
+    }
+    get_DID = async(address) =>{
+        const hashObj = Wallet.addressToScript(address);
+        const{codeHash,hashType,args} = hashObj;
+        const network = await this.getNetwork();
+
+
+        const {CODE_HASH:codeHashDID,HASH_TYPE:hashTypeDID} = DID_CONTRACT[network.value]
+        const sporeType={
+            script:{
+                codeHash:codeHashDID,
+                hashType:hashTypeDID
+            }
+        }
 
         return await this._request({
             method:"get_cells",
@@ -288,7 +338,7 @@ export default class RpcClient{
         })
     }
 
-    send_DOB = async(currentAccountInfo,outPoint,toAddress) => {
+    send_DOB = async(currentAccountInfo,outPoint,toAddress,dobType,typeScript) => {
         const network = await this.getNetwork();
         const addr =  Wallet.addressToScript(toAddress);
         let feeRateRt = await this.get_feeRate();
@@ -300,14 +350,29 @@ export default class RpcClient{
             txHash:tx_hash,
             index
         }
-
-
         const sporeConfig = network.value === "mainnet" ? predefinedSporeConfigs.Mainnet : predefinedSporeConfigs.Testnet;
 
-        const sporeCell = await getSporeByOutPoint(
-            newOutPoint,
-            sporeConfig,
-        )
+
+        let  sporeCell
+        if(dobType === "spore"){
+             sporeCell = await getSporeByOutPoint(
+                newOutPoint,
+                sporeConfig,
+            )
+        }else{
+            sporeCell = await getSporeByType(
+                {
+                    args:typeScript.args,
+                    codeHash:typeScript.code_hash,
+                    hashType:typeScript.hash_type,
+                    },
+                sporeConfig,
+            )
+        }
+
+
+
+
         let outputCell = JSON.parse(JSON.stringify(sporeCell));
         outputCell.cellOutput.lock = helpers.parseAddress(toAddress, {config: sporeConfig.lumos});
 
@@ -339,9 +404,6 @@ export default class RpcClient{
             capacityMargin:inputMargin.add(amount),
             useCapacityMarginAsFee:false
         });
-
-
-
 
         let signHash = await signAndSendTransaction(txSkeleton);
 

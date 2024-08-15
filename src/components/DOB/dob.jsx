@@ -91,7 +91,7 @@ const TabBox = styled("div")`
 // `
 
 export default function Dob(){
-    const {list,loading,clusterList} = useDOB();
+
     const [sList,setSList] = useState([])
     const [cList,setCList] = useState([])
     const [loadingShow,setLoadingShow] = useState(false)
@@ -101,16 +101,23 @@ export default function Dob(){
     const {networkInfo,network} = useNetwork();
     const {currentAccountInfo} = useAccountAddress();
     const [current,setCurrent] = useState(0);
+    const {list,loading,clusterList,didList} = useDOB(current);
     const { t } = useTranslation();
+
     const [tabList] = useState([
         {
-            name:"DOB",
+            name:"Spore",
             value:0
+        },
+        {
+            name:"DID",
+            value:2
         },
         {
             name:"Cluster",
             value:1
         }
+
     ])
 
     useEffect(() => {
@@ -123,13 +130,11 @@ export default function Dob(){
 
     }, [list]);
 
+
+
     useEffect(() => {
-
-
-        formatList()
         formatClusterList()
-
-    }, [list,currentAccount,clusterList]);
+    }, [currentAccount,clusterList]);
 
     const formatClusterList = () =>{
         if(clusterList  === '')return;
@@ -144,42 +149,15 @@ export default function Dob(){
     }
 
 
-    const formatList =  async() =>{
-        if(list === '')return;
-        setSList([])
 
-        let arr = [];
-
-        for(let i=0;i<list.length;i++){
-            let item = list[i];
-
-            const itemDobId = item.output.type.args;
-            try{
-                const asset = await decodeDOB(itemDobId,network==="testnet",item.output_data);
-                arr.push({...item,asset});
-                setSList([...arr])
-            }catch(e){
-                arr.push({...item,asset:{
-                        contentType:"image",
-                        data:""
-                    }});
-                setSList([...arr])
-                console.error("Get dob info failed",e)
-            }
-
-        }
-
-
-
-    }
     const toCluster = (item) =>{
         dispatch({type:'SET_CLUSTER_DETAIL',payload:item});
         navigate("/ClusterDetail")
     }
 
 
-    const toDetail = (item) =>{
-        dispatch({type:'SET_DOB_DETAIL',payload:item});
+    const toDetail = (item,dobType) =>{
+        dispatch({type:'SET_DOB_DETAIL',payload: {...item,dobType}});
         navigate("/dobDetail")
     }
 
@@ -203,7 +181,7 @@ export default function Dob(){
 
         <TabBox>
             {
-                !loading && tabList.map((item,index)=> (<div className={current===index?`li active li${index}`:`li li${index}`} key={index} onClick={()=>handleCurrent(index)} >{item.name}</div>))
+                !loading && tabList.map((item,index)=> (<div className={current===item.value?`li active li${item.value}`:`li li${item.value}`} key={index} onClick={()=>handleCurrent(item.value)} >{item.name}</div>))
             }
 
 
@@ -214,9 +192,11 @@ export default function Dob(){
             current===1 &&<DobClusterList cList={cList} toCluster={toCluster} />
         }
         {
-            current===0 &&<ClusterListDOB loading={loading} sList={sList} toDetail={toDetail}  />
+            current===0 &&<ClusterListDOB loading={loading} list={list} toDetail={toDetail}  key="spore" current={current} />
         }
-
+        {
+            current===2 &&<ClusterListDOB loading={loading} list={didList} toDetail={toDetail} key="did" current={current}  />
+        }
 
         {
            ( sList.length >= 100 || cList.length >= 100) && <MoreBox onClick={() => toExplorer()}>{t('popup.account.viewMore')}</MoreBox>

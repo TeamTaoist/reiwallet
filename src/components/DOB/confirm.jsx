@@ -16,6 +16,7 @@ import TokenHeader from "../header/tokenHeader";
 import Loading from "../loading/loading";
 import useMessage from "../../useHook/useMessage";
 import ErrorImg from "../../assets/images/error_image.svg";
+import {xudt} from "../../store/initState";
 
 
 const ContentBox = styled.div`
@@ -243,7 +244,9 @@ export default function DOBConfirm(){
             outPoint:dob.out_point,
             currentAccountInfo,
             id:dob?.output?.type?.args,
-            toAddress:address
+            typeScript:dob.output?.type,
+            toAddress:address,
+            dobType:dob?.dobType
         }
 
         sendMsg(obj)
@@ -309,7 +312,7 @@ export default function DOBConfirm(){
                             }
 
                             {
-                                dob.asset.contentType.indexOf("dob/0") > -1 && <div className="photo">
+                                (dob.asset.contentType.indexOf("dob/0") > -1 ||dob.asset.contentType?.indexOf("DID") > -1)  && <div className="photo">
                                     <div className="aspect"/>
                                     <div className="content">
                                         <div className="innerImg">

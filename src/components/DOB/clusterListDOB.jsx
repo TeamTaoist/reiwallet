@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import ErrorImg from "../../assets/images/error_image.svg";
+import {useEffect, useState} from "react";
+import {decodeDOB} from "@taoist-labs/dob-decoder";
+import useNetwork from "../../useHook/useNetwork";
 
 const UlBox = styled.ul`
     &:after {
@@ -106,16 +109,54 @@ const TextBox = styled.div`
         }
     
 `
-export default function ClusterListDOB({loading,sList,toDetail}){
+export default function ClusterListDOB({loading,list,toDetail,current}){
+    const [sList,setSList] = useState([])
+    const {network} = useNetwork();
+
+    useEffect(() => {
+        formatList()
+    }, [list]);
+
+    const formatList =  async() =>{
+        if(list === '')return;
+        setSList([])
+
+
+        let arr = [];
+
+        for(let i=0;i<list.length;i++){
+            let item = list[i];
+
+            const itemDobId = item.output.type.args;
+            try{
+                const asset = await decodeDOB(itemDobId,network==="testnet",item.output_data,current === 0?"spore":"did");
+                arr.push({...item,asset});
+
+                setSList([...arr])
+            }catch(e){
+                arr.push({...item,asset:{
+                        contentType:"image",
+                        data:""
+                    }});
+                setSList([...arr])
+                console.error("Get dob info failed",e)
+            }
+
+        }
+
+
+
+    }
+
     return <>
         {
             !loading  && <UlBox>
 
                 {
-                    sList?.map((item, index) => (<li key={index} onClick={() => toDetail(item)}>
+                    sList?.map((item, index) => (<li key={index} onClick={() => toDetail(item,current === 0 ?"spore":"did")}>
 
                         {
-                            item.asset.contentType.indexOf("image") > -1 && <div className="photo">
+                            item.asset?.contentType?.indexOf("image") > -1 && <div className="photo">
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="innerImg">
@@ -125,7 +166,7 @@ export default function ClusterListDOB({loading,sList,toDetail}){
                             </div>
                         }
                         {
-                            item.asset.contentType.indexOf("text") > -1 && <TextBox>
+                            item.asset?.contentType?.indexOf("text") > -1 && <TextBox>
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="inner">
@@ -135,7 +176,7 @@ export default function ClusterListDOB({loading,sList,toDetail}){
                             </TextBox>
                         }
                         {
-                            item.asset.contentType.indexOf("json") > -1 && <div className="photo">
+                            item.asset?.contentType?.indexOf("json") > -1 && <div className="photo">
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="innerImg">
@@ -146,7 +187,7 @@ export default function ClusterListDOB({loading,sList,toDetail}){
                         }
 
                         {
-                            item.asset.contentType.indexOf("dob/0") > -1 && <div className="photo">
+                            (item.asset?.contentType?.indexOf("dob/0") > -1 || item.asset?.contentType?.indexOf("DID") > -1 ) && <div className="photo">
                                 <div className="aspect"/>
                                 <div className="content">
                                     <div className="innerImg">
@@ -155,7 +196,6 @@ export default function ClusterListDOB({loading,sList,toDetail}){
                                 </div>
                             </div>
                         }
-
                     </li>))
                 }
 
