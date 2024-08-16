@@ -1,3 +1,14 @@
+## [0.3.9](https://github.com/TeamTaoist/reiwallet/compare/v0.3.8...v0.3.9) (2024-08-16)
+
+
+### Bug Fixes
+
+* add time to activities ([f717d15](https://github.com/TeamTaoist/reiwallet/commit/f717d15e3c0bebb3f0eac6f10c4ac13e0c0b631f))
+* replace rpc url ([3ee5d53](https://github.com/TeamTaoist/reiwallet/commit/3ee5d5373c2981d5ad13d0d8f27281dc2458ef73))
+* update image with DID ([bf35f8f](https://github.com/TeamTaoist/reiwallet/commit/bf35f8f6f977a2f2deb0c209484e24adbc755ed1))
+
+
+
 ## [0.3.8](https://github.com/TeamTaoist/reiwallet/compare/v0.3.7...v0.3.8) (2024-08-16)
 
 
