@@ -1,3 +1,13 @@
+## [0.3.8](https://github.com/TeamTaoist/reiwallet/compare/v0.3.7...v0.3.8) (2024-08-16)
+
+
+### Bug Fixes
+
+* add prefix to  sign message ([93c037c](https://github.com/TeamTaoist/reiwallet/commit/93c037cc74914eff233b5ee3785a5853d356fdd0))
+* update message ([a876fac](https://github.com/TeamTaoist/reiwallet/commit/a876fac74b5363422e75c608777a54959f3d67a7))
+
+
+
 ## [0.3.7](https://github.com/TeamTaoist/reiwallet/compare/v0.3.6...v0.3.7) (2024-08-15)
 
 
