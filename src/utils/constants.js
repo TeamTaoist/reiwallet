@@ -231,6 +231,6 @@ export const DID_CONTRACT = {
 }
 
 export const localServer = {
-  mainnet:"https://ckb-rpc-worker.dev-taoist.workers.dev",
-  testnet:"https://ckb-rpc-worker.dev-taoist.workers.dev/testnet"
+  mainnet:"https://ckb-rpc.caboroca.xyz",
+  testnet:"https://ckb-rpc.caboroca.xyz/testnet"
 }
