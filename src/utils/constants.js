@@ -229,3 +229,8 @@ export const DID_CONTRACT = {
     DEP_TYPE:"code",
   }
 }
+
+export const localServer = {
+  mainnet:"https://ckb-rpc-worker.dev-taoist.workers.dev",
+  testnet:"https://ckb-rpc-worker.dev-taoist.workers.dev/testnet"
+}
