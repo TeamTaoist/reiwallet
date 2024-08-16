@@ -229,3 +229,8 @@ export const DID_CONTRACT = {
     DEP_TYPE:"code",
   }
 }
+
+export const localServer = {
+  mainnet:"https://ckb-rpc.caboroca.xyz",
+  testnet:"https://ckb-rpc.caboroca.xyz/testnet"
+}

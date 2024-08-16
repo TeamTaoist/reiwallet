@@ -134,12 +134,7 @@ export default function ClusterListDOB({loading,list,toDetail,current}){
 
                 setSList([...arr])
             }catch(e){
-                arr.push({...item,asset:{
-                        contentType:"image",
-                        data:""
-                    }});
-                setSList([...arr])
-                console.error("Get dob info failed",e)
+                console.log("Get dob info failed",e)
             }
 
         }

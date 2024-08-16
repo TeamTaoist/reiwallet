@@ -3,6 +3,7 @@ import usePendingDetail from "../../useHook/usePendingDetail";
 import PublicJs from "../../utils/publicJS";
 import BtnLoading from "../loading/btnloading";
 import {useTranslation} from "react-i18next";
+import dayjs from "dayjs";
 
 
 export default function PendingItem({ txItem,networkInfo}) {
@@ -14,10 +15,10 @@ export default function PendingItem({ txItem,networkInfo}) {
         if(!txItem)return;
         setTx(txItem.txhash)
     }, [txItem]);
-    //
-    // const formatDate = (dateTime) =>{
-    //     return dayjs(dateTime).format("YYYY-MM-DD HH:mm")
-    // }
+
+    const formatDate = (dateTime) =>{
+        return dayjs(dateTime).format("YYYY-MM-DD HH:mm")
+    }
 
     const toDetail = (tx) =>{
         if(!networkInfo || !networkInfo?.blockExplorerUrls)return;
@@ -33,8 +34,8 @@ export default function PendingItem({ txItem,networkInfo}) {
             !loading && <div className="inner">
                 <div className="item">
                     <div className="medium-font title">{tx ? PublicJs.AddressToShow(tx) : ""}</div>
-                    {/*<div><span className="time">{txItem?.created ? formatDate(txItem?.created) : ""}</span></div>*/}
-                    <div><span className="time">{t('popup.account.view')}</span></div>
+                    <div><span className="time">{txItem?.created ? formatDate(txItem?.created) : ""}</span></div>
+                    {/*<div><span className="time">{t('popup.account.view')}</span></div>*/}
                 </div>
                 <div className="item">
                     <div className="medium-font titleRht pending">{item?.tx_status?.status ?? ""}</div>

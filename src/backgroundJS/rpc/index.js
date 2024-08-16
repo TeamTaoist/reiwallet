@@ -19,7 +19,7 @@ import {transfer_udt} from "../../utils/ckbRequest";
 import {  buildRgbppLockArgs, genCkbJumpBtcVirtualTx, genRgbppLockScript} from "@rgbpp-sdk/ckb";
 import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
 import {RGBCollector} from "../../utils/newCollectorRGB";
-import {DID_CONTRACT, getSecp256k1CellDep} from "../../utils/constants";
+import {DID_CONTRACT, getSecp256k1CellDep, localServer} from "../../utils/constants";
 import {networkList} from "../../constants/network";
 import {Hash, HexString} from "@ckb-lumos/base/lib/primitive";
 import {HashType} from "@ckb-lumos/base/lib/api";
@@ -102,9 +102,12 @@ export default class RpcClient{
         const{codeHash,hashType,args} = hashObj;
         const network = await this.getNetwork();
 
+        console.log(network);
+        const url = localServer[network.value]
+
         return await this._request({
             method:"get_transactions",
-            url:network.rpcUrl.indexer,
+            url,
             params:[
                 {
                     "script": {
