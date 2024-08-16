@@ -194,10 +194,12 @@ const getBalance = async(params) =>{
 
 const notificationManager = new NotificationManager();
 const signData = async(data,windowId,url) =>{
-    const {message} = data
-    if(!message) {
+    if(!data.message) {
         throw new Error("Message is required")
     }
+    
+    const message = `Nervos Message:${data.message}`
+
     let hasGrant = await PublicJS.requestGrant(url);
     if(!hasGrant){
         throw new Error(`This account has not been authorized by the user.`)
