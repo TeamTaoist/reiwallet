@@ -1,3 +1,13 @@
+## [0.3.10](https://github.com/TeamTaoist/reiwallet/compare/v0.3.9...v0.3.10) (2024-08-19)
+
+
+### Bug Fixes
+
+* add "ckb_sendTransaction"/"ckb_signTransaction" ([0c73afe](https://github.com/TeamTaoist/reiwallet/commit/0c73afe0d2088e6f0dd3d8e21ddd9dad14e05969))
+* update type in send/sign transaction ([86357f3](https://github.com/TeamTaoist/reiwallet/commit/86357f304a69c9fd300d9a529b0932e8c43f5048))
+
+
+
 ## [0.3.9](https://github.com/TeamTaoist/reiwallet/compare/v0.3.8...v0.3.9) (2024-08-16)
 
 
