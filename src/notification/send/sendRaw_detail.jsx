@@ -124,6 +124,7 @@ export default function SendRaw_detail(){
 
 
     const [params,setParams] = useState(null)
+    const [txType, setTxType] = useState('')
     const [url,setUrl] = useState('')
     const [error,setError] = useState(false)
     const [tips,setTips] = useState('')
@@ -175,11 +176,9 @@ export default function SendRaw_detail(){
 
         if(messenger){
             let data = await messenger.send("sendRawTx_Transaction");
-
-
-            console.log(data.rt)
             setLoading(false)
             setParams(data.rt?.txSkeleton)
+            setTxType(data.rt?.type)
             setUrl(data.url)
         }
     }
@@ -209,7 +208,8 @@ export default function SendRaw_detail(){
 
         let obj ={
             method:"sign_send_confirm",
-            txSkeletonObj:params
+            txSkeletonObj:params,
+            type:txType
         }
         sendMsg(obj)
 

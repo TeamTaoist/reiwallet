@@ -78,9 +78,13 @@ export const handleRequest = async (requestData) =>{
                 break;
 
             case "ckb_sendRawTransaction":
+            case "ckb_sendTransaction":
+                data.type= requestData.method === "ckb_sendTransaction" ?"transaction_object":"skeleton_object"
                 rt = await sendRawTx(url,data);
                 break;
             case "ckb_signRawTransaction":
+            case "ckb_signTransaction":
+                data.type= requestData.method === "ckb_signTransaction" ?"transaction_object":"skeleton_object"
                 rt = await signRawTx(url,data);
                 break;
             default:
@@ -197,7 +201,7 @@ const signData = async(data,windowId,url) =>{
     if(!data.message) {
         throw new Error("Message is required")
     }
-    
+
     const message = `Nervos Message:${data.message}`
 
     let hasGrant = await PublicJS.requestGrant(url);
