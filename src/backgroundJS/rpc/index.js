@@ -680,6 +680,25 @@ export default class RpcClient{
 
     }
 
+    getLiveCell = async (outPoint)=>{
+        const network = await this.getNetwork();
+
+        const {txHash,index}=outPoint
+
+        return await this._request({
+            method:"get_live_cell",
+            url:network.rpcUrl.indexer,
+            params:[
+                {
+                    index,
+                    "tx_hash": txHash
+                },
+                true,
+                true
+            ]
+        })
+    }
+
     signAndSend = async(obj) =>{
         const {txSkeletonObj,type} = obj;
 
@@ -688,19 +707,16 @@ export default class RpcClient{
         if(type==="transaction_object"){
 
             const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj)
-            const network = await this.getNetwork();
-
-            const rpc = new RPC(network.rpcUrl.node);
             const fetcher = async (outPoint) => {
-                let rs = await rpc.getLiveCell(outPoint, true);
+                let rs = await this.getLiveCell(outPoint);
                 let cell = {
                     cellOutput: {
                         capacity: rs.cell?.output.capacity,
-                        lock: rs.cell?.output.lock,
-                        type: rs.cell?.output.type,
+                        lock:ResultFormatter.toScript(rs.cell?.output.lock) ,
+                        type:ResultFormatter.toScript(rs.cell?.output.type) ,
                     },
-                    data: rs.cell?.data,
-                    outPoint,
+                    data: rs.cell?.data.content,
+                    outPoint:ResultFormatter.toOutPoint(outPoint),
                 };
                 return cell;
             };
@@ -727,26 +743,22 @@ export default class RpcClient{
 
             const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj)
 
-            const network = await this.getNetwork();
-
-            const rpc = new RPC(network.rpcUrl.node);
 
             const fetcher = async (outPoint) => {
-                let rs = await rpc.getLiveCell(outPoint, true);
+                let rs = await this.getLiveCell(outPoint);
                 let cell = {
                     cellOutput: {
                         capacity: rs.cell?.output.capacity,
-                        lock: rs.cell?.output.lock,
-                        type: rs.cell?.output.type,
+                        lock:ResultFormatter.toScript(rs.cell?.output.lock) ,
+                        type:ResultFormatter.toScript(rs.cell?.output.type) ,
                     },
-                    data: rs.cell?.data,
-                    outPoint,
+                    data: rs.cell?.data.content,
+                    outPoint:ResultFormatter.toOutPoint(outPoint),
                 };
                 return cell;
             };
 
             txSkeleton = await createTransactionSkeleton(rawTransaction, fetcher );
-
 
         }else{
             txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
