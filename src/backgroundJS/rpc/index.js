@@ -1,5 +1,5 @@
 import Wallet from "../../wallet/wallet";
-import {BI, CellCollector, commons, config, hd, helpers, Indexer} from "@ckb-lumos/lumos";
+import {BI, CellCollector, commons, config, hd, helpers, Indexer,RPC} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
 import {formatter} from "./formatParamas";
 import {blockchain} from "@ckb-lumos/base";
@@ -21,6 +21,13 @@ import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
 import {RGBCollector} from "../../utils/newCollectorRGB";
 import {DID_CONTRACT, getSecp256k1CellDep, localServer} from "../../utils/constants";
 import {networkList} from "../../constants/network";
+import { ResultFormatter} from "@ckb-lumos/rpc";
+
+import {
+    createTransactionSkeleton,
+    transactionSkeletonToObject,
+} from "@ckb-lumos/helpers";
+
 import {Hash, HexString} from "@ckb-lumos/base/lib/primitive";
 import {HashType} from "@ckb-lumos/base/lib/api";
 
@@ -674,9 +681,36 @@ export default class RpcClient{
     }
 
     signAndSend = async(obj) =>{
-        const {txSkeletonObj} = obj;
+        const {txSkeletonObj,type} = obj;
 
-        const txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
+
+        let txSkeleton;
+        if(type==="transaction_object"){
+
+            const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj)
+            const network = await this.getNetwork();
+
+            const rpc = new RPC(network.rpcUrl.node);
+            const fetcher = async (outPoint) => {
+                let rs = await rpc.getLiveCell(outPoint, true);
+                let cell = {
+                    cellOutput: {
+                        capacity: rs.cell?.output.capacity,
+                        lock: rs.cell?.output.lock,
+                        type: rs.cell?.output.type,
+                    },
+                    data: rs.cell?.data,
+                    outPoint,
+                };
+                return cell;
+            };
+            txSkeleton = await createTransactionSkeleton(rawTransaction, fetcher );
+
+
+        }else{
+
+         txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
+        }
 
         let signHash = await signAndSendTransaction(txSkeleton);
 
@@ -685,9 +719,39 @@ export default class RpcClient{
 
     }
     signRaw = async(obj) =>{
-        const {txSkeletonObj} = obj;
+        const {txSkeletonObj,type} = obj;
 
-        let txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
+        let txSkeleton
+
+        if(type==="transaction_object"){
+
+            const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj)
+
+            const network = await this.getNetwork();
+
+            const rpc = new RPC(network.rpcUrl.node);
+
+            const fetcher = async (outPoint) => {
+                let rs = await rpc.getLiveCell(outPoint, true);
+                let cell = {
+                    cellOutput: {
+                        capacity: rs.cell?.output.capacity,
+                        lock: rs.cell?.output.lock,
+                        type: rs.cell?.output.type,
+                    },
+                    data: rs.cell?.data,
+                    outPoint,
+                };
+                return cell;
+            };
+
+            txSkeleton = await createTransactionSkeleton(rawTransaction, fetcher );
+
+
+        }else{
+            txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj)
+
+        }
 
         const currentAccount = await currentInfo();
         const {privatekey_show} = currentAccount;
@@ -701,7 +765,6 @@ export default class RpcClient{
 
         let rt =  helpers.sealTransaction(txSkeleton, signatures);
         return rt
-
 
     }
 

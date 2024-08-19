@@ -61,7 +61,7 @@ export default function SignRaw_detail(){
     const { t } = useTranslation();
     const [loading,setLoading] = useState(true);
 
-
+    const [txType, setTxType] = useState('')
     const [params,setParams] = useState(null)
     const [url,setUrl] = useState('')
     const [error,setError] = useState(false)
@@ -118,10 +118,9 @@ export default function SignRaw_detail(){
         if(messenger){
             let data = await messenger.send("signRawTx_Transaction");
 
-
-            console.log(data.rt)
             setLoading(false)
             setParams(data.rt?.txSkeleton)
+            setTxType(data.rt?.type)
             setUrl(data.url)
         }
     }
@@ -151,7 +150,8 @@ export default function SignRaw_detail(){
 
         let obj ={
             method:"sign_confirm",
-            txSkeletonObj:params
+            txSkeletonObj:params,
+            type:txType
         }
         sendMsg(obj)
 
