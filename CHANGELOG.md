@@ -1,3 +1,12 @@
+## [0.3.11](https://github.com/TeamTaoist/reiwallet/compare/v0.3.10...v0.3.11) (2024-08-19)
+
+
+### Bug Fixes
+
+* update get live cells ([be2a6f9](https://github.com/TeamTaoist/reiwallet/commit/be2a6f94d9503b6f7718dccb9882aa682f07aa4e))
+
+
+
 ## [0.3.10](https://github.com/TeamTaoist/reiwallet/compare/v0.3.9...v0.3.10) (2024-08-19)
 
 
