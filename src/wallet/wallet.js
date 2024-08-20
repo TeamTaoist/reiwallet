@@ -71,6 +71,7 @@ export default class Wallet{
 
         return {
             address_main,
+            publicKey,
             address_test,
             mnemonic:!this.hasMnemonic?this.mnemonic:""
         }
@@ -100,6 +101,7 @@ export default class Wallet{
             return {
                 address_main,
                 address_test,
+                publicKey,
                 mnemonic:!this.hasMnemonic?this.mnemonic:""
             }
 

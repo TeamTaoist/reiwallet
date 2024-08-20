@@ -16,6 +16,7 @@ import useAccountAddress from "../../useHook/useAccountAddress";
 import useNetwork from "../../useHook/useNetwork";
 import Avatar from "../svg/avatar/avatar";
 import{Copy as Copy2,ChevronDown} from "lucide-react";
+import usePublickey from "../../useHook/usePublickey";
 
 const AccountBox = styled.div`
     display: flex;
@@ -114,6 +115,7 @@ export default function AccountHeader(){
     const {currentAccount,saveCurrent} = useCurrentAccount();
     const {currentAccountInfo,get_Address} = useAccountAddress();
     const {networkInfo} = useNetwork();
+    usePublickey()
 
     const[show,setShow] = useState(false);
     const [showNew,setShowNew] = useState(false);

@@ -34,6 +34,9 @@ export const handlePopUp = async (requestData) =>{
         case "get_capacity":
             get_Capacity(requestData);
             break;
+        case "get_publicKey":
+            get_publicKey(requestData);
+            break;
         case "get_transaction":
             get_transaction(requestData);
             break;
@@ -136,6 +139,16 @@ const get_Capacity = async(obj) =>{
         const client = new RpcClient();
         let rt = await client.get_capacity(currentAccountInfo.address);
         sendMsg({ type:"get_Capacity_success",data:rt})
+
+    }catch (e){
+        sendMsg({ type:`${obj.method}_error`,data: e.message})
+    }
+}
+const get_publicKey = async(obj) =>{
+    try{
+        const client = new RpcClient();
+        let rt = await client.getPublicKey();
+        sendMsg({ type:"get_publicKey_success",data:rt})
 
     }catch (e){
         sendMsg({ type:`${obj.method}_error`,data: e.message})
