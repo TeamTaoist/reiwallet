@@ -123,6 +123,7 @@ export default function Confirmation(){
             chrome.storage.local.set({isInit:true});
             saveWallet({
                 account,
+                publicKey:account.publicKey,
                 type:"create",
                 name:"Account 1",
                 account_index:0

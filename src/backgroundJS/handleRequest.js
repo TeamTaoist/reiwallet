@@ -2,8 +2,7 @@ import RpcClient from "./rpc";
 import { NotificationManager } from './notification';
 import browser from 'webextension-polyfill';
 import PublicJS from "../utils/publicJS";
-import {currentInfo} from "../wallet/getCurrent";
-import {hd} from "@ckb-lumos/lumos";
+
 import {getPassword} from "../wallet/password";
 import {networkList} from "../constants/network";
 
@@ -11,7 +10,7 @@ import {networkList} from "../constants/network";
 const toMessage = (data) =>{
     const {windowID} = data;
     chrome.tabs.query({active:true,windowId: windowID}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_RESPONSE_BACKGROUND",data});
+        chrome.tabs.sendMessage(tabs[0]?.id, { type:"CKB_RESPONSE_BACKGROUND",data});
     });
 }
 
@@ -29,9 +28,12 @@ const recordToTxList = async(txhash)=>{
 export const handleRequest = async (requestData) =>{
     const {id,data} = requestData.data;
     const windowObj =  await chrome.windows.getCurrent();
-    const windowID = windowObj.id;
-    const tabs = await chrome.tabs.query({active:true,windowId: windowID});
-    const url = tabs[0].url;
+    const windowID = windowObj?.id;
+
+    console.log("windowID",windowID);
+
+    const tabs = await chrome.tabs.query({active:true,windowId: windowID}) ?? [];
+    const url = tabs[0]?.url??"http://";
 
     let rt;
     try{
@@ -97,7 +99,10 @@ export const handleRequest = async (requestData) =>{
                 id,
                 windowID
             }
-            toMessage(data)
+            setTimeout(()=>{
+                toMessage(data)
+            },100)
+
         }
 
     }catch (e) {

@@ -93,6 +93,7 @@ export default function PrivateKey(){
                 const privateKeyCrypt = Keystore.create(privateKey,result)
                 await saveWallet({
                     account,
+                    publicKey:account.publicKey,
                     type:"import",
                     name:`Account ${walletList.length + 1}`,
                     account_index:"",

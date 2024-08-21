@@ -1,8 +1,8 @@
 import HeaderTop from "../../header/header";
 import {useEffect,  useState} from "react";
-import NoWallet from "./noWallet";
 import Account from "../../account/account";
 import styled from "styled-components";
+import CreateRestore from "../../createIdentity/CreateRestore";
 
 const Box = styled.div`
     height: 100%;
@@ -34,7 +34,7 @@ export default function WalletHome(){
             !!len && <Content><Account /></Content>
         }
         {
-            !len && <Content><NoWallet /></Content>
+            !len && <Content><CreateRestore /></Content>
         }
     </Box>
 }

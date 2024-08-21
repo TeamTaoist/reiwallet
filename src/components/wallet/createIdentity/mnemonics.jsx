@@ -85,11 +85,11 @@ export default function Mnemonics(){
     const creatWallet = async (index) =>{
         const wallet = new Wallet(index,true,false);
         let walletObj = await wallet.GenerateWallet();
-        const {address_main,address_test,mnemonic} = walletObj;
+        const {address_main,address_test,mnemonic,publicKey} = walletObj;
         const mnemonicArr = mnemonic.split(' ');
         setMnemonicStr(mnemonicArr);
         dispatch({type:'SET_MNEMONIC',payload:mnemonicArr});
-        dispatch({type:"SET_ACCOUNT",payload:{address_main,address_test}});
+        dispatch({type:"SET_ACCOUNT",payload:{address_main,address_test,publicKey}});
     }
 
 
