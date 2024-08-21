@@ -529,10 +529,6 @@ const sendXUDT = async(data,windowId,url) =>{
     });
 }
 
-const getPublicKey = async () =>{
-    const currentAccount = await currentInfo();
-    return hd.key.privateToPublic(currentAccount.privatekey_show);
-}
 
 const getPublicKey_inner = async(url) =>{
 
@@ -545,7 +541,8 @@ const getPublicKey_inner = async(url) =>{
     let pwd = await getPassword();
 
     if(pwd){
-        return await getPublicKey();
+        const client = new RpcClient();
+        return await client.getPublicKey();
     }else{
         const { messenger, window: notificationWindow } = await notificationManager.createNotificationWindow(
             {
@@ -563,7 +560,8 @@ const getPublicKey_inner = async(url) =>{
                 const {status} =result;
 
                 if(status === "success"){
-                    let publicKey  = await getPublicKey();
+                    const client = new RpcClient();
+                    let publicKey  = await client.getPublicKey();
                     resolve(publicKey);
                 }else{
                     reject("Get PublicKey Failed");

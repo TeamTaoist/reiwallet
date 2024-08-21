@@ -25,11 +25,8 @@ import { ResultFormatter} from "@ckb-lumos/rpc";
 
 import {
     createTransactionSkeleton,
-    transactionSkeletonToObject,
 } from "@ckb-lumos/helpers";
 
-import {Hash, HexString} from "@ckb-lumos/base/lib/primitive";
-import {HashType} from "@ckb-lumos/base/lib/api";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -72,6 +69,28 @@ export default class RpcClient{
         }
 
         return rt?.result;
+
+    }
+
+    getPublicKey = async () =>{
+
+        let publicKey
+        const currentObj = await chrome.storage.local.get(['current_address']);
+        const current = currentObj.current_address;
+        const walletListArr = await chrome.storage.local.get(['walletList'])
+        const walletList = walletListArr.walletList;
+        const currentAccount = walletList[current];
+        if(currentAccount.publicKey){
+            publicKey = currentAccount.publicKey
+        }else{
+            const currentObj = await currentInfo();
+            publicKey = hd.key.privateToPublic(currentObj.privatekey_show);
+
+            walletList[current].publicKey = publicKey;
+            chrome.storage.local.set({walletList:walletList});
+        }
+
+        return publicKey ;
 
     }
 
