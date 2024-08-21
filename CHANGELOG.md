@@ -1,3 +1,12 @@
+## [0.3.12](https://github.com/TeamTaoist/reiwallet/compare/v0.3.11...v0.3.12) (2024-08-21)
+
+
+### Bug Fixes
+
+* update public key ([b7c3916](https://github.com/TeamTaoist/reiwallet/commit/b7c391666dd20ad63ca530565ca9f162b4533377))
+
+
+
 ## [0.3.11](https://github.com/TeamTaoist/reiwallet/compare/v0.3.10...v0.3.11) (2024-08-19)
 
 
