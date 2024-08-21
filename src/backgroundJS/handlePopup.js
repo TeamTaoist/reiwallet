@@ -114,6 +114,7 @@ export const create_new_wallet = async(obj) =>{
 
             let item = {
                 account:walletObj,
+                publicKey:walletObj.publicKey,
                 type:"create",
                 name,
                 account_index:sumArr.length
