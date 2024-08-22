@@ -68,10 +68,14 @@ export default function Restore(){
 
     const confirm = async() =>{
         setLoading(true)
-        const wallet = new Wallet(0,true,false,mnemonicImport);
+        let mnemonicArr = mnemonicImport.trim().split(/\s+/);
+        const mnemonicStr = mnemonicArr.join(" ");
+
+        const wallet = new Wallet(0,true,false,mnemonicStr);
         let walletObj = await wallet.GenerateWallet();
         const {address_main,address_test,publicKey} = walletObj;
-        dispatch({type:'SET_MNEMONIC',payload:mnemonicImport.split(" ")});
+
+        dispatch({type:'SET_MNEMONIC',payload:mnemonicArr});
         dispatch({type:"SET_IMPORT_MNEMONIC",payload:"importMnemonic"});
         dispatch({type:"SET_ACCOUNT",payload:{address_main,address_test,publicKey}});
         setLoading(false)
