@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import useMessage from "../../useHook/useMessage";
 import BtnLoading from "../loading/btnloading";
 import {formatUnit} from "@ckb-lumos/bi";
+import {MainnetInfo, TestnetInfo} from "../../utils/constants";
 
 
 const FlexRht = styled.div`
@@ -46,10 +47,12 @@ export default function Xudt_item({item}){
     const handleEvent = (message) => {
         const {type }= message;
         if(type ==="get_transaction_success"){
-
             if(txHash === message.data.transaction.hash){
-                const {transaction:{outputs_data}} = message.data;
-                let rt = outputs_data[0] !=="0x"?unserializeTokenInfo(outputs_data[0]):null;
+                const {transaction:{outputs_data,outputs}} = message.data;
+                const isMainnet = network === "mainnet";
+                let utS =   isMainnet ? MainnetInfo.UniqueTypeScript : TestnetInfo.UniqueTypeScript;
+                const index = outputs?.findIndex(itemInner=>itemInner?.type?.code_hash === utS.codeHash)
+                let rt = index!== -1?unserializeTokenInfo(outputs_data[index]):null;
 
                 if(rt){
                     rt.newAmount = parseFixed(item.amount.toString(),rt.decimal);
