@@ -22,13 +22,13 @@ import Mnemonics from "../components/wallet/importWallet/Mnemonics";
 import AssetDetail from "../components/SUDT/assetDetail";
 import AddNetwork from "../components/network/addNetwork";
 import DOBDetail from "../components/DOB/detail";
-import ClusterDetail from "../components/DOB/cluster_detail";
+import ClusterDetail from "../components/DOB/clusterDetail";
 import DOBConfirm from "../components/DOB/confirm";
 import SendConfirm from "../components/SUDT/sendConfirm";
 import ClusterConfirm from "../components/DOB/clusterConfirm";
-import SUDTDetail from "../components/SUDT/sudt_detail";
-import XUDTDetail from "../components/xudt/xudt_detail";
-import SendXUDTConfirm from "../components/xudt/send_XUDT_Confirm";
+import SUDTDetail from "../components/SUDT/sudtDetail";
+import XUDTDetail from "../components/xudt/xudtDetail";
+import SendXUDTConfirm from "../components/xudt/sendXUDTConfirm";
 
 function PopupRouterLink() {
     return (

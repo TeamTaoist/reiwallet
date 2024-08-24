@@ -2,7 +2,7 @@ import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
-import SendSUDTDetail from "./sendSUDT_detail";
+import SendSUDTDetail from "./sendSUDTDetail";
 
 export default function SendSUDT(){
 

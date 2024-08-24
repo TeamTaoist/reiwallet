@@ -2,7 +2,7 @@ import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
-import SendClusterDetail from "./sendCluster_detail";
+import SendClusterDetail from "./sendClusterDetail";
 
 export default function SendCluster(){
 

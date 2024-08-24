@@ -1,7 +1,7 @@
 import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
-import SendRawDetail from "./sendRaw_detail";
+import SendRawDetail from "./sendRawDetail";
 
 
 export default function SendRawTx(){

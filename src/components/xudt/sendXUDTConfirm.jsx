@@ -215,7 +215,7 @@ const TokenBox = styled.div`
     }
 `
 
-export default function Send_XUDT_Confirm(){
+export default function SendXUDTConfirm(){
     const [ amount, setAmount] = useState('');
     const { t } = useTranslation();
     const [ address,setAddress] = useState('');

@@ -1,4 +1,4 @@
-import NavHeader from "../../header/NavHeader";
+import NavHeader from "../../header/navHeader";
 import CreateHeader from "./createHeader";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";

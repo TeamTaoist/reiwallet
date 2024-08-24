@@ -2,7 +2,7 @@ import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
-import SignRawDetail from "./signRaw_detail";
+import SignRawDetail from "./signRawDetail";
 
 
 export default function SignRawTx(){

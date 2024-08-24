@@ -1,4 +1,4 @@
-import NavHeader from "../../header/NavHeader";
+import NavHeader from "../../header/navHeader";
 import {useTranslation} from "react-i18next";
 import styled from "styled-components";
 import Button from "../../button/button";

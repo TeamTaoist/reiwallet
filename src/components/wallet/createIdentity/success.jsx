@@ -8,7 +8,7 @@ import CopyImg from "../../../assets/images/create/COPY.png";
 import Toast from "../../modal/toast";
 
 import DashboardLayout from "../../dashboard/layout";
-import ContainerLayout from "../../dashboard/container_layout";
+import ContainerLayout from "../../dashboard/containerLayout";
 import {useWeb3} from "../../../store/contracts";
 
 // const Box = styled.div`

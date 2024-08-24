@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import DashboardLayout from "../../dashboard/layout";
 import Button from "../../button/button";
-import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
+import ContainerLayout,{ContainerTitle} from "../../dashboard/containerLayout";
 
 // import DownloadImg from '../../../assets/images/create/download.png';
 import UncheckedImg from "../../../assets/images/create/unCheck.png";

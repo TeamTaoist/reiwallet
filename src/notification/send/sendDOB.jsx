@@ -2,7 +2,7 @@ import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
-import SendDOBDetail from "./sendDOB_detail";
+import SendDOBDetail from "./sendDOBDetail";
 
 export default function SendDOB(){
 

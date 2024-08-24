@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import useAccountAddress from "../../useHook/useAccountAddress";
 import useXUDT from "../../useHook/useXUDT";
 import styled from "styled-components";
-import XudtItem from "./xudt_item";
+import XudtItem from "./xudtItem";
 import {unpackAmount} from "@ckb-lumos/common-scripts/lib/sudt";
 import {BI} from "@ckb-lumos/lumos";
 

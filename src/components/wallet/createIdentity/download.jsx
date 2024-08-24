@@ -1,6 +1,6 @@
 import DashboardLayout from "../../dashboard/layout";
 import Button from "../../button/button";
-import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
+import ContainerLayout,{ContainerTitle} from "../../dashboard/containerLayout";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import html2canvas from "html2canvas";

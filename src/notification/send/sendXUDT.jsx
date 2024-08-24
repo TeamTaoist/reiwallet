@@ -2,7 +2,7 @@ import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
 import {useEffect, useState} from "react";
 
-import SendXUDTDetail from "./sendXUDT_detail";
+import SendXUDTDetail from "./sendXUDTDetail";
 
 export default function SendXUDT(){
 

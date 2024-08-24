@@ -1,7 +1,7 @@
 import DashboardLayout from "../../dashboard/layout";
 import {useNavigate} from "react-router-dom";
 import Button from "../../button/button";
-import ContainerLayout,{ContainerTitle} from "../../dashboard/container_layout";
+import ContainerLayout,{ContainerTitle} from "../../dashboard/containerLayout";
 import styled from "styled-components";
 import {useTranslation} from "react-i18next";
 import { useState} from "react";

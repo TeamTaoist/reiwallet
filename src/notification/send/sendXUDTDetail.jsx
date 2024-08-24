@@ -114,7 +114,7 @@ const DlBox = styled.div`
 
 
 
-export default function SendXUDT_detail(){
+export default function SendXUDTDetail(){
     const messenger = useSessionMessenger();
     const [params,setParams] = useState(null)
     const [url,setUrl] = useState('')

@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import AccountHeader from "./AccountHeader";
+import AccountHeader from "./accountHeader";
 import Balance from "./balance";
-import AccountTabs from "./AccountTabs";
+import AccountTabs from "./accountTabs";
 
 const Box = styled.div`
   display: flex;
