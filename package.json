@@ -2,6 +2,121 @@
   "name": "reiwallet",
   "version": "0.1.2",
   "private": true,
+  "scripts": {
+    "start": "node scripts/start.js",
+    "postbuild": "node ./config/postbuild.js",
+    "build": "node scripts/build.js",
+    "test": "echo \"No test specified\"",
+    "watch": "npm-watch",
+    "prepare": "husky"
+  },
+
+  "watch": {
+    "build": {
+      "patterns": [
+        ".",
+        "src/**",
+        "public/**"
+      ],
+      "ignore": [
+        "build",
+        "node_modules"
+      ],
+      "extensions": [
+        "js",
+        "json",
+        "lock",
+        "css",
+        "jsx"
+      ]
+    }
+  },
+
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "default-case": "off",
+      "no-lone-blocks": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "no-redeclare": "off",
+      "array-callback-return": "off",
+      "import/no-anonymous-default-export": "off"
+    }
+  },
+
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "modulePaths": [],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "resetMocks": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+
   "dependencies": {
     "@ckb-lumos/base": "^0.22.0-next.5",
     "@ckb-lumos/bi": "^0.22.0-next.5",
@@ -81,116 +196,7 @@
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1"
   },
-  "watch": {
-    "build": {
-      "patterns": [
-        ".",
-        "src/**",
-        "public/**"
-      ],
-      "ignore": [
-        "build",
-        "node_modules"
-      ],
-      "extensions": [
-        "js",
-        "json",
-        "lock",
-        "css",
-        "jsx"
-      ]
-    }
-  },
-  "scripts": {
-    "start": "node scripts/start.js",
-    "postbuild": "node ./config/postbuild.js",
-    "build": "node scripts/build.js",
-    "test": "echo \"No test specified\"",
-    "watch": "npm-watch",
-    "prepare": "husky"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "rules": {
-      "default-case": "off",
-      "no-lone-blocks": "off",
-      "react-hooks/exhaustive-deps": "off",
-      "no-redeclare": "off",
-      "array-callback-return": "off",
-      "import/no-anonymous-default-export": "off"
-    }
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
-    ],
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "modulePaths": [],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "web.ts",
-      "ts",
-      "web.tsx",
-      "tsx",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ],
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
-    ],
-    "resetMocks": true
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
+
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -216,6 +222,7 @@
     "uuid": "^8.3.2",
     "webextension-polyfill": "^0.10.0"
   },
+  
   "overrides": {
     "@ckb-lumos/ckb-indexer": {
       "cross-fetch": "^4.0.0"
