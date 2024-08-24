@@ -1,3 +1,15 @@
+## [0.3.14](https://github.com/TeamTaoist/reiwallet/compare/v0.3.13...v0.3.14) (2024-08-24)
+
+
+### Bug Fixes
+
+* update account ([86921c6](https://github.com/TeamTaoist/reiwallet/commit/86921c60f32e721d853b115f1e416bffd38d50b7))
+* update restore mnemonic ([016231e](https://github.com/TeamTaoist/reiwallet/commit/016231e363d550414aee5b1c70ef8733e21e4817))
+* update window id ([6b1d517](https://github.com/TeamTaoist/reiwallet/commit/6b1d517e70039d71429e29e4c3ffde8e5cc09186))
+* update xudt with UniqueTypeScript ([f9918db](https://github.com/TeamTaoist/reiwallet/commit/f9918db6c0a299fcdcee2f5018e202b04681c85c))
+
+
+
 ## [0.3.13](https://github.com/TeamTaoist/reiwallet/compare/v0.3.12...v0.3.13) (2024-08-21)
 
 
