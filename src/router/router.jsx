@@ -5,7 +5,7 @@ import SetPassword from "../components/wallet/createIdentity/setPassword";
 import Mnemonics from "../components/wallet/createIdentity/mnemonics";
 import Download from "../components/wallet/createIdentity/download";
 import Restore from "../components/wallet/createIdentity/restore";
-import Confirmation from '../components/wallet/createIdentity/Confirmation'
+import Confirmation from '../components/wallet/createIdentity/confirmation'
 import Success from "../components/wallet/createIdentity/success";
 
 function RouterLink() {

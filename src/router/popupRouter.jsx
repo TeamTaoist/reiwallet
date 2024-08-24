@@ -18,7 +18,7 @@ import Success from "../components/wallet/createWallet/success";
 import Step1 from "../components/wallet/createWallet/step1";
 import Step2 from "../components/wallet/createWallet/step2";
 import Step3 from "../components/wallet/createWallet/step3";
-import Mnemonics from "../components/wallet/importWallet/Mnemonics";
+import Mnemonics from "../components/wallet/importWallet/mnemonics";
 import AssetDetail from "../components/SUDT/assetDetail";
 import AddNetwork from "../components/network/addNetwork";
 import DOBDetail from "../components/DOB/detail";
