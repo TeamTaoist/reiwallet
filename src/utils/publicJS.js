@@ -20,6 +20,10 @@ export const getAccount = async() =>{
     const current = currentObj?.current_address ?? 0;
     const networkObj = await chrome.storage.local.get(['network'])
     const network = networkObj?.network ?? "mainnet";
+
+    if(!walletList.length){
+        throw new Error("No account found.");
+    }
     return {currentAccount:walletList[current]?.account,network};
 
 }
@@ -27,7 +31,7 @@ export const getAccount = async() =>{
 export const requestGrant = async(website) =>{
 
     const {currentAccount,network} = await getAccount();
-    let address = network==="mainnet"? currentAccount.address_main : currentAccount.address_test;
+    let address = network==="mainnet"? currentAccount?.address_main : currentAccount?.address_test;
     let urlObj = new URL(website);
     const fullDomain = `${urlObj.protocol}//${urlObj.host}`;
     /*global chrome*/

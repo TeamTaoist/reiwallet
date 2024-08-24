@@ -18,6 +18,9 @@ async function init() {
         }
     })
 
+
+    const windowObj =  await chrome.windows.getCurrent();
+
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         let requestType = message.type;
 
@@ -27,7 +30,8 @@ async function init() {
                 break;
 
             case "CKB_REQUEST_BACKGROUND":
-                handleRequest(message.data)
+
+                handleRequest(message.data,windowObj)
             break;
             case "CKB_ON_BACKGROUND":
                 handleON(message.data,message.method)

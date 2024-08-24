@@ -25,12 +25,11 @@ const recordToTxList = async(txhash)=>{
         },...arr]});
 }
 
-export const handleRequest = async (requestData) =>{
+export const handleRequest = async (requestData,windowObj) =>{
     const {id,data} = requestData.data;
-    const windowObj =  await chrome.windows.getCurrent();
+    // const windowObj =  await chrome.windows.getCurrent();
     const windowID = windowObj?.id;
 
-    console.log("windowID",windowID);
 
     const tabs = await chrome.tabs.query({active:true,windowId: windowID}) ?? [];
     const url = tabs[0]?.url??"http://";
@@ -151,8 +150,9 @@ const requestAccount = async(url) =>{
     try{
         const {currentAccount,network} = await PublicJS.getAccount();
             let address
+        console.log("=currentAccount=====",currentAccount)
         if(currentAccount){
-            address = network==="mainnet"? currentAccount.address_main : currentAccount.address_test;
+            address = network==="mainnet"? currentAccount?.address_main : currentAccount?.address_test;
         }else{
             address = ""
         }
