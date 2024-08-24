@@ -150,7 +150,6 @@ const requestAccount = async(url) =>{
     try{
         const {currentAccount,network} = await PublicJS.getAccount();
             let address
-        console.log("=currentAccount=====",currentAccount)
         if(currentAccount){
             address = network==="mainnet"? currentAccount?.address_main : currentAccount?.address_test;
         }else{
