@@ -18,6 +18,9 @@ async function init() {
         }
     })
 
+
+    const windowObj =  await chrome.windows.getCurrent();
+
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         let requestType = message.type;
 
@@ -27,10 +30,11 @@ async function init() {
                 break;
 
             case "CKB_REQUEST_BACKGROUND":
-                handleRequest(message.data)
+
+                handleRequest(message.data,windowObj)
             break;
             case "CKB_ON_BACKGROUND":
-                handleON(message.data,message.method)
+                handleON(message.data,message.method,windowObj)
             break;
         }
         sendResponse({ "message":message});
@@ -40,8 +44,7 @@ async function init() {
 }
 init();
 
-const handleON = async(data,method) =>{
-    const windowObj =  await chrome.windows.getCurrent();
+const handleON = async(data,method,windowObj) =>{
     const windowID = windowObj.id;
     const tabs = await chrome.tabs.query({active:true,windowId: windowID});
     const url = tabs[0].url;
