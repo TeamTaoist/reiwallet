@@ -1,7 +1,7 @@
 import Wallet from "../../wallet/wallet";
 import {BI, CellCollector, commons, config, hd, helpers, Indexer,RPC} from "@ckb-lumos/lumos";
 import {parseUnit} from "@ckb-lumos/bi";
-import {formatter} from "./formatParamas";
+import {formatter} from "./formatParams";
 import {blockchain} from "@ckb-lumos/base";
 import {currentInfo} from "../../wallet/getCurrent";
 import {
