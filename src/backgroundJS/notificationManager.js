@@ -3,13 +3,8 @@ import {v4 as uuid} from "uuid";
 import isEqual from 'lodash.isequal';
 import omit from 'lodash.omit';
 import { EventEmitter } from 'eventemitter3';
-import { createSessionMessenger } from './session';
-
-export const browserExtensionAdapter = {
-    send: (message) => browser.runtime.sendMessage(message),
-    receive: (handler) => browser.runtime.onMessage.addListener(handler),
-    dispose: (receiver) => browser.runtime.onMessage.removeListener(receiver),
-};
+import { createSessionMessenger } from './sessionManager';
+import { browserExtensionAdapter } from './extensionAdapter';
 
 
 class NotificationManager {

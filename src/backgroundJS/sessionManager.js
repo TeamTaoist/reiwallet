@@ -80,7 +80,7 @@ export function createSessionMessenger(config,) {
 
 export function createSessionMessage(data) {
   return {
-    [SESSION_MESSAGE_SYMBOL]: true,
+    [SESSION_MESSAGE_SYMBOL]: true, 
     rpc: data,
   };
 }

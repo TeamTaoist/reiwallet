@@ -1,5 +1,5 @@
 import RpcClient from "./rpc";
-import { NotificationManager } from './notification';
+import { NotificationManager } from './notificationManager';
 import browser from 'webextension-polyfill';
 import PublicJS from "../utils/publicJS";
 

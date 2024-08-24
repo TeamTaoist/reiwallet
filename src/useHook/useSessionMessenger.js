@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { browserExtensionAdapter } from '../backgroundJS/notification';
-import { createSessionMessenger } from '../backgroundJS/session';
+import { browserExtensionAdapter } from '../backgroundJS/extensionAdapter';
+import { createSessionMessenger } from '../backgroundJS/sessionManager';
 
 export function useSessionMessenger(sessionId) {
   const [searchParams] = useSearchParams();

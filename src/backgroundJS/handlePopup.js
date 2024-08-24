@@ -16,7 +16,7 @@ const recordToTxList = async(txhash)=>{
         },...arr]});
 }
 
-const RemoveRecord = async (txhash,result) =>{
+const removeRecord = async (txhash,result) =>{
     let list = await chrome.storage.local.get(["txList"]);
     let arr = list.txList ? list.txList : [];
     if(!arr.length)return;
@@ -29,28 +29,28 @@ const RemoveRecord = async (txhash,result) =>{
 export const handlePopUp = async (requestData) =>{
     switch (requestData.method){
         case "Create_Account":
-           create_new_wallet(requestData);
+           createNewWallet(requestData);
             break;
         case "get_capacity":
-            get_Capacity(requestData);
+            getCapacity(requestData);
             break;
         case "get_publicKey":
-            get_publicKey(requestData);
+            getPublicKey(requestData);
             break;
         case "get_transaction":
-            get_transaction(requestData);
+            getTransaction(requestData);
             break;
         case "get_transaction_history":
-            get_transaction_history(requestData);
+            getTransactionHistory(requestData);
             break;
         case "get_feeRate":
-            get_feeRate(requestData);
+            getFeeRate(requestData);
             break;
         case "send_transaction":
-            send_transaction(requestData);
+            sendTransaction(requestData);
             break;
         case "transaction_confirm":
-            transaction_confirm(requestData);
+            transactionConfirm(requestData);
             break;
         case "get_DOB":
             getDOB(requestData);
@@ -59,7 +59,7 @@ export const handlePopUp = async (requestData) =>{
             getDID(requestData);
             break;
         case "get_Cluster":
-            getCLuster(requestData);
+            getCluster(requestData);
             break;
         case "send_DOB":
             sendDOB(requestData);
@@ -68,10 +68,10 @@ export const handlePopUp = async (requestData) =>{
             sendCluster(requestData);
             break;
         case "Melt_DOB":
-            melt_dob(requestData);
+            meltDOB(requestData);
             break;
         case "Melt_Cluster":
-            melt_Cluster(requestData);
+            meltCluster(requestData);
             break;
         case "get_SUDT":
             getSUDT(requestData);
@@ -103,7 +103,7 @@ const sendMsg = (data) =>{
     chrome.runtime.sendMessage(data,  ()=> {})
 }
 
-export const create_new_wallet = async(obj) =>{
+export const createNewWallet = async(obj) =>{
     const {index,network,hasMnemonic,name,id,method} = obj;
     const wallet = new Wallet(index,network==="mainnet",hasMnemonic);
     try{
@@ -134,7 +134,7 @@ export const create_new_wallet = async(obj) =>{
     }
 }
 
-const get_Capacity = async(obj) =>{
+const getCapacity = async(obj) =>{
     const {currentAccountInfo} = obj;
     try{
         const client = new RpcClient();
@@ -145,7 +145,7 @@ const get_Capacity = async(obj) =>{
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }
-const get_publicKey = async(obj) =>{
+const getPublicKey = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.getPublicKey();
@@ -156,7 +156,7 @@ const get_publicKey = async(obj) =>{
     }
 }
 
-const get_transaction = async (obj) =>{
+const getTransaction = async (obj) =>{
     const {txHash} = obj
     try{
         const client = new RpcClient();
@@ -164,7 +164,7 @@ const get_transaction = async (obj) =>{
         const {transaction:{hash},tx_status} = rt;
 
         if(tx_status.status !== "pending" && tx_status.status !== "proposed"){
-            await RemoveRecord(hash,rt)
+            await removeRecord(hash,rt)
         }
         sendMsg({ type:"get_transaction_success",data:rt})
 
@@ -173,7 +173,7 @@ const get_transaction = async (obj) =>{
         sendMsg({ type:`${obj.method}_error`,data: e.message})
     }
 }
-const get_transaction_history = async (obj) =>{
+const getTransactionHistory = async (obj) =>{
     const {currentAccountInfo} = obj;
 
     try{
@@ -186,7 +186,7 @@ const get_transaction_history = async (obj) =>{
     }
 }
 
-const get_feeRate = async(obj) =>{
+const getFeeRate = async(obj) =>{
     try{
         const client = new RpcClient();
         let rt = await client.get_feeRate();
@@ -197,7 +197,7 @@ const get_feeRate = async(obj) =>{
     }
 }
 
-const send_transaction = async (obj) =>{
+const sendTransaction = async (obj) =>{
     const {to,amount,fee,isMax} = obj;
     try{
         const client = new RpcClient();
@@ -211,7 +211,7 @@ const send_transaction = async (obj) =>{
 }
 
 
-const transaction_confirm = async(obj) =>{
+const transactionConfirm = async(obj) =>{
     const {tx} = obj;
     try{
         const client = new RpcClient();
@@ -266,7 +266,7 @@ const sendDOB = async (obj) =>{
     }
 }
 
-const melt_dob = async (obj) =>{
+const meltDOB = async (obj) =>{
     const {currentAccountInfo,outPoint} = obj;
 
     try{
@@ -307,7 +307,7 @@ const sendSUDT = async (obj) =>{
     }
 }
 
-const getCLuster = async (obj) =>{
+const getCluster = async (obj) =>{
     const {currentAccountInfo} = obj;
 
     try{
@@ -334,7 +334,7 @@ const sendCluster = async (obj) =>{
     }
 }
 
-const melt_Cluster = async (obj) =>{
+const meltCluster = async (obj) =>{
     const {currentAccountInfo,outPoint} = obj;
 
     try{
