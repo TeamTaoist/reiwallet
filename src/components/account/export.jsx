@@ -1,4 +1,4 @@
-import AllModal from "../modal/AllModal";
+import AllModal from "../modal/allModal";
 import Avatar from "../../assets/images/Avatar.png";
 import styled from "styled-components";
 import Button from "../button/button";

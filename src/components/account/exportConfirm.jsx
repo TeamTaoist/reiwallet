@@ -1,4 +1,4 @@
-import AllModal from "../modal/AllModal";
+import AllModal from "../modal/allModal";
 import styled from "styled-components";
 import Button from "../button/button";
 import TipImg from "../../assets/images/create/tip.png";
