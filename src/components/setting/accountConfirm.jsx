@@ -1,5 +1,5 @@
 import TokenHeader from "../header/tokenHeader";
-import ImportHeader from "../wallet/importWallet/ImportHeader";
+import ImportHeader from "../wallet/importWallet/importHeader";
 import Info from "../../assets/images/info.png";
 import Button from "../button/button";
 import styled from "styled-components";

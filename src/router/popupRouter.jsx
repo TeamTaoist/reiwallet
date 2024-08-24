@@ -11,7 +11,7 @@ import ExportConfirm from "../components/account/exportConfirm";
 import Setting from "../components/setting/setting";
 import Language from "../components/setting/language";
 import Security from "../components/setting/security";
-import AccountMnemonic from "../components/setting/AccountMnemonic";
+import AccountMnemonic from "../components/setting/accountMnemonic";
 import AccountConfirm from "../components/setting/accountConfirm";
 import PrivateKey from "../components/wallet/importWallet/privateKey";
 import Success from "../components/wallet/createWallet/success";
