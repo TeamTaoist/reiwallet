@@ -43,8 +43,16 @@ function documentElementCheck() {
 }
 
 document.addEventListener('CKB_REQUEST', function(event) {
-        chrome.runtime.sendMessage({ type:'CKB_REQUEST_BACKGROUND',data:event.detail},  ()=> {})
-
+    try {
+        chrome.runtime.sendMessage({ type:'CKB_REQUEST_BACKGROUND',data:event.detail},  ()=> {
+            if (chrome.runtime.lastError) {
+                console.log("chrome.runtime.lastError", chrome.runtime.lastError.message);
+                return;
+              }
+        })
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
 });
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     let requestType = message.type;

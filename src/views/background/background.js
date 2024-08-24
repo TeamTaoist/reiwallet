@@ -62,6 +62,11 @@ const handleON = async(data,method,windowObj) =>{
             }
     }
     chrome.tabs.query({active:true,windowId: windowID}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_ON_INJECT",result:obj,method},()=>{});
+        chrome.tabs.sendMessage(tabs[0].id, { type:"CKB_ON_INJECT",result:obj,method},()=>{
+            if (chrome.runtime.lastError) {
+                console.log("chrome.runtime.lastError", chrome.runtime.lastError.message);
+                return;
+              }
+        });
     });
 }

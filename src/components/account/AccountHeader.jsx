@@ -169,7 +169,16 @@ export default function AccountHeader(){
         let currentUser = get_Address(index);
 
         /*global chrome*/
-        chrome.runtime.sendMessage({  data: currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
+        try {
+            chrome.runtime.sendMessage({  data: currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{
+                if (chrome.runtime.lastError) {
+                    console.log("chrome.runtime.lastError", chrome.runtime.lastError.message);
+                    return;
+                }
+            })
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
     }
 
     const handleNew =()=>{

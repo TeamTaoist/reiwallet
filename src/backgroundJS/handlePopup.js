@@ -100,7 +100,16 @@ export const handlePopUp = async (requestData) =>{
 }
 
 const sendMsg = (data) =>{
-    chrome.runtime.sendMessage(data,  ()=> {})
+    try {
+        chrome.runtime.sendMessage(data,  ()=> {
+            if (chrome.runtime.lastError) {
+                console.log("chrome.runtime.lastError", chrome.runtime.lastError.message);
+                return;
+            }
+        })
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
 }
 
 export const createNewWallet = async(obj) =>{

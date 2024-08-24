@@ -136,7 +136,16 @@ export default function Grant(){
         saveCurrent(index);
         let currentUser = get_Address(index);
         /*global chrome*/
-        chrome.runtime.sendMessage({  data:currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
+        try{
+            chrome.runtime.sendMessage({  data:currentUser,method:"accountsChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message);
+                }
+            })
+        } catch (error) {
+            console.error("Error sending message:", error);
+        };
+        
     }
 
     const closeWin = async() =>{

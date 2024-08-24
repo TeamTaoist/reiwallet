@@ -114,7 +114,16 @@ export default function NetworkList({current,handleLoading,closeLoading}){
         let net = JSON.parse(JSON.stringify(netList[index]));
         delete net.value
         /*global chrome*/
-        chrome.runtime.sendMessage({  data:net,method:"chainChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{})
+        try {
+            chrome.runtime.sendMessage({  data:net,method:"chainChanged" ,type:"CKB_ON_BACKGROUND"}, () =>{
+                if (chrome.runtime.lastError) {
+                    console.log("chrome.runtime.lastError", chrome.runtime.lastError.message);
+                    return;
+                  }
+            })
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
 
     }
     const handleRemove = async (index) =>{
