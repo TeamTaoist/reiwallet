@@ -4,7 +4,7 @@ import browser from 'webextension-polyfill';
 import PublicJS from "../utils/publicJS";
 
 import {getPassword} from "../wallet/password";
-import {networkList} from "../constants/network";
+import {networkList} from "../config/network";
 
 /*global chrome*/
 const toMessage = (data) =>{

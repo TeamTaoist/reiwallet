@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useWeb3} from "../store/contracts";
-import {networkList} from "../constants/network";
+import {networkList} from "../config/network";
 
 export default function useNetwork(){
     const [network,setNetwork] = useState('');

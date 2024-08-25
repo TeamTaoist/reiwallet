@@ -1,6 +1,6 @@
 
 /*global chrome*/
-import {REACT_APP_PASSWORD} from "../utils/constants";
+import {REACT_APP_PASSWORD} from "../config/constants";
 
 export const savePassword = async (password) =>{
     let rt = await switchPassword(password)

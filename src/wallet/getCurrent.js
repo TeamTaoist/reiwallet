@@ -1,6 +1,6 @@
 import Wallet from "./wallet";
 import Keystore from "./keystore";
-import {networkList} from "../constants/network";
+import {networkList} from "../config/network";
 import {getPassword} from "./password";
 /*global chrome*/
 

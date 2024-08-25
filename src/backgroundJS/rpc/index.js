@@ -19,8 +19,8 @@ import {transfer_udt} from "../../utils/ckbRequest";
 import {  buildRgbppLockArgs, genCkbJumpBtcVirtualTx, genRgbppLockScript} from "@rgbpp-sdk/ckb";
 import {serializeScript} from "@nervosnetwork/ckb-sdk-utils";
 import {RGBCollector} from "../../utils/newCollectorRGB";
-import {DID_CONTRACT, getSecp256k1CellDep, localServer} from "../../utils/constants";
-import {networkList} from "../../constants/network";
+import {DID_CONTRACT, getSecp256k1CellDep, localServer} from "../../config/constants";
+import {networkList} from "../../config/network";
 import { ResultFormatter} from "@ckb-lumos/rpc";
 
 import {

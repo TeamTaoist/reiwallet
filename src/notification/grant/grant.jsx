@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {useSessionMessenger} from "../../useHook/useSessionMessenger";
-import {config} from "../../constants/config";
 import Avatar from "../../components/svg/avatar/avatar";
 import PublicJs from "../../utils/publicJS";
 import useCurrentAccount from "../../useHook/useCurrentAccount";
@@ -185,7 +184,7 @@ export default function Grant(){
         }
         <UrlBox>{detail?.url}</UrlBox>
         <Content>
-            <TitleBox>Connect with {config.name}</TitleBox>
+            <TitleBox>Connect with Rei Wallet</TitleBox>
             <TipsBox>Select the account to use on this site</TipsBox>
             <AccountBox onClick={(e)=>handleAccount(e)}>
                 <div>

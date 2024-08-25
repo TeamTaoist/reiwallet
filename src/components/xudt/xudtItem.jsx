@@ -9,7 +9,7 @@ import {useEffect, useState} from "react";
 import useMessage from "../../useHook/useMessage";
 import BtnLoading from "../loading/btnloading";
 import {formatUnit} from "@ckb-lumos/bi";
-import {MainnetInfo, TestnetInfo} from "../../utils/constants";
+import {MainnetInfo, TestnetInfo} from "../../config/constants";
 
 
 const FlexRht = styled.div`
