@@ -63,7 +63,7 @@ const useTailwind = fs.existsSync(
   path.join(paths.appPath, 'tailwind.config.js')
 );
 
-const tools = require('../tools');
+const tools = require('./tools');
 
 // Get the path to the uncompiled service worker (if it exists).
 const swSrc = paths.swSrc;
