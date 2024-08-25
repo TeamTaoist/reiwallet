@@ -11,7 +11,7 @@ import GetPassword from "../notification/send/getPassword";
 import SendRawTx from "../notification/send/sendRawTx";
 import SignRawTx from "../notification/send/signRawTx";
 
-function RouterLink() {
+function NotificationRouterLink() {
     return (
         <Routes>
             <Route path="/" element={<Navigate to="/home" />}/>
@@ -29,4 +29,4 @@ function RouterLink() {
     );
 }
 
-export default RouterLink;
+export default NotificationRouterLink;

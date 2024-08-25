@@ -4,7 +4,7 @@ import styled from "styled-components";
 import '../../assets/css/font.css';
 import '../../assets/css/globals.css';
 import { HashRouter as Router } from 'react-router-dom'
-import RouterLink from "../../router/notification";
+import NotificationRouterLink from "../../router/notificationRouter";
 import '../../i18n/i18';
 import {Web3ContextProvider} from "../../store/contracts";
 
@@ -17,7 +17,7 @@ const root = createRoot(container);
 root.render(<Box>
     <Web3ContextProvider>
         <Router>
-            <RouterLink />
+            <NotificationRouterLink />
         </Router>
     </Web3ContextProvider>
 </Box>);
