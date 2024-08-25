@@ -3,7 +3,7 @@ import React from "react";
 import '../../assets/css/font.css';
 import '../../assets/css/globals.css';
 import { HashRouter as Router } from 'react-router-dom'
-import RouterLink from "../../router/router";
+import RouterLink from "../../router/pageRouter";
 import '../../i18n/i18';
 import {Web3ContextProvider} from "../../store/contracts";
 
