@@ -1,10 +1,10 @@
 import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 import styled from "styled-components";
-import Button from "../../components/button/button";
+import Button from "../../popup/button/button";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import SignData from "../../wallet/signData";
-import BtnLoading from "../../components/loading/btnloading";
+import BtnLoading from "../../popup/loading/btnloading";
 
 const Box = styled.div`
   display: flex;

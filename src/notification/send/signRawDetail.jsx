@@ -1,13 +1,13 @@
 import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 import styled from "styled-components";
-import Button from "../../components/button/button";
+import Button from "../../popup/button/button";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import BtnLoading from "../../components/loading/btnloading";
+import BtnLoading from "../../popup/loading/btnloading";
 
 import useMessage from "../../hooks/useMessage";
-import Loading from "../../components/loading/loading";
-import Toast from "../../components/modal/toast";
+import Loading from "../../popup/loading/loading";
+import Toast from "../../popup/modal/toast";
 
 const Box = styled.div`
   display: flex;

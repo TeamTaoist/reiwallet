@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useSessionMessenger } from "../../hooks/useSessionMessenger";
-import Avatar from "../../components/svg/avatar/avatar";
+import Avatar from "../../popup/svg/avatar/avatar";
 import PublicJs from "../../utils/publicJS";
 import useCurrentAccount from "../../hooks/useCurrentAccount";
 import useAccountAddress from "../../hooks/useAccountAddress";
 import AccountSwitch from "./accountSwitch";
-import Button from "../../components/button/button";
-import BtnLoading from "../../components/loading/btnloading";
+import Button from "../../popup/button/button";
+import BtnLoading from "../../popup/loading/btnloading";
 import { useTranslation } from "react-i18next";
 
 const Box = styled.div`

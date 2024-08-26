@@ -1,18 +1,18 @@
 import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 import styled from "styled-components";
-import Button from "../../components/button/button";
+import Button from "../../popup/button/button";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import BtnLoading from "../../components/loading/btnloading";
-import Avatar from "../../components/svg/avatar/avatar";
+import BtnLoading from "../../popup/loading/btnloading";
+import Avatar from "../../popup/svg/avatar/avatar";
 import PublicJS from "../../utils/publicJS";
 import FromImg from "../../assets/images/fromTo.png";
 import { formatUnit } from "@ckb-lumos/bi";
 import useBalance from "../../hooks/useBalance";
 import useAccountAddress from "../../hooks/useAccountAddress";
 import useMessage from "../../hooks/useMessage";
-import Loading from "../../components/loading/loading";
-import Toast from "../../components/modal/toast";
+import Loading from "../../popup/loading/loading";
+import Toast from "../../popup/modal/toast";
 import { BI } from "@ckb-lumos/lumos";
 
 const Box = styled.div`

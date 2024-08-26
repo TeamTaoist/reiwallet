@@ -1,4 +1,4 @@
-import Lock from "../../components/lock/lock";
+import Lock from "../../popup/lock/lock";
 import useLock from "../../hooks/useLock";
 import { useEffect, useState } from "react";
 import SendTransaction from "./sendCKB";
