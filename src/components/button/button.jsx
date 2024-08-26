@@ -41,14 +41,14 @@ const ButtonStyled = styled.button`
     background: rgba(0, 255, 157, 1);
     color: #000000;
     opacity: 1;
-    &:disabled{
+    &:disabled {
       opacity: 0.4;
     }
   }
   &.primaryBorder {
     border: 2px solid rgba(0, 255, 157, 1);
     color: #000000;
-    background: #FFFFFF;
+    background: #ffffff;
   }
   &.black {
     background: #000;
@@ -56,24 +56,23 @@ const ButtonStyled = styled.button`
     opacity: 1;
   }
   &.border {
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 14px;
     color: #000000;
-    border: 2px solid #34332D;
+    border: 2px solid #34332d;
   }
-  &.import{
+  &.import {
     display: flex;
     align-content: center;
     justify-content: center;
-    gap:10px;
+    gap: 10px;
     width: 100%;
     background: rgba(0, 255, 157, 1);
     color: #000;
   }
-
 `;
 const Button = (props) => {
-  const { fullWidth, primary,border,black,primaryBorder } = props;
+  const { fullWidth, primary, border, black, primaryBorder } = props;
 
   const buttonClass = useMemo(() => {
     let classes = "";
@@ -94,7 +93,11 @@ const Button = (props) => {
     }
     return classes;
   }, [fullWidth, primary]);
-  return <ButtonStyled className={buttonClass} {...props}>{props.children}</ButtonStyled>;
+  return (
+    <ButtonStyled className={buttonClass} {...props}>
+      {props.children}
+    </ButtonStyled>
+  );
 };
 
 export default Button;

@@ -1,34 +1,34 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import useMessage from "./useMessage";
 import useAccountAddress from "./useAccountAddress";
 
-export default function useXUDT(){
-    const {currentAccountInfo} = useAccountAddress();
-    const [loading,setLoading] = useState(false);
-    const [list,setList] = useState('');
+export default function useXUDT() {
+  const { currentAccountInfo } = useAccountAddress();
+  const [loading, setLoading] = useState(false);
+  const [list, setList] = useState("");
 
-    const handleEvent = (message) => {
-        const {type }= message;
-        if(type ==="get_XUDT_success"){
-            setList(message.data?.objects ?? [])
-            setLoading(false)
-        }
+  const handleEvent = (message) => {
+    const { type } = message;
+    if (type === "get_XUDT_success") {
+      setList(message.data?.objects ?? []);
+      setLoading(false);
     }
+  };
 
-    const {sendMsg} = useMessage(handleEvent,[]);
+  const { sendMsg } = useMessage(handleEvent, []);
 
-    useEffect(() => {
-        if(!currentAccountInfo)return;
-        setLoading(true)
-        toBackground()
-    }, [currentAccountInfo]);
+  useEffect(() => {
+    if (!currentAccountInfo) return;
+    setLoading(true);
+    toBackground();
+  }, [currentAccountInfo]);
 
-    const toBackground = () =>{
-        let obj ={
-            method:"get_XUDT",
-            currentAccountInfo
-        }
-        sendMsg(obj)
-    }
-    return {list,loading}
+  const toBackground = () => {
+    let obj = {
+      method: "get_XUDT",
+      currentAccountInfo,
+    };
+    sendMsg(obj);
+  };
+  return { list, loading };
 }

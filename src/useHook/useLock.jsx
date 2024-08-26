@@ -1,18 +1,17 @@
-import {useEffect, useState} from "react";
-import {getPassword} from "../wallet/password";
+import { useEffect, useState } from "react";
+import { getPassword } from "../wallet/password";
 
-export default function useLock(){
-    const [Unlocked,setUnlocked] = useState(false);
+export default function useLock() {
+  const [Unlocked, setUnlocked] = useState(false);
 
-    useEffect(()=>{
-        getLocalPassword()
-    },[]);
+  useEffect(() => {
+    getLocalPassword();
+  }, []);
 
-    const getLocalPassword = async() =>{
-        let result = await getPassword();
-        setUnlocked(!!result)
-    }
+  const getLocalPassword = async () => {
+    let result = await getPassword();
+    setUnlocked(!!result);
+  };
 
-
-    return Unlocked;
+  return Unlocked;
 }

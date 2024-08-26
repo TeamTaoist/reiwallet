@@ -1,19 +1,19 @@
-import React, { useCallback } from "react"
-import styled from "styled-components"
+import React, { useCallback } from "react";
+import styled from "styled-components";
 import DashboardLayout from "../dashboard/layout";
 import Button from "../button/button";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useWalletList from "../../useHook/useWalletList";
 
 const PrivacyPageStyled = styled.div`
   width: 762px;
   padding: 120px 100px 50px 100px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 0px 30px 0px rgba(3, 36, 22, 0.06);
   border-radius: 10px;
-  border: 1px solid #F3F7F4;
-  margin: 60px auto ;
+  border: 1px solid #f3f7f4;
+  margin: 60px auto;
   height: 600px;
   overflow-y: auto;
 
@@ -40,7 +40,7 @@ const PrivacyPageStyled = styled.div`
       margin-right: 30px;
     }
   }
-`
+`;
 //
 // const CheckBoxStyled = styled.div`
 //   font-size: 16px;
@@ -73,30 +73,30 @@ const PrivacyPageStyled = styled.div`
 const PrivacyDashboard = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const {walletList} = useWalletList();
+  const { walletList } = useWalletList();
   const clickCancel = useCallback(() => {
     window.close();
-  }, [])
+  }, []);
 
-  const clickAgree =() => {
-    if(walletList?.length){
+  const clickAgree = () => {
+    if (walletList?.length) {
       window.close();
       return;
     }
     /*global chrome*/
-    chrome.storage.local.set({agreement:true})
-    navigate('/create');
-  }
+    chrome.storage.local.set({ agreement: true });
+    navigate("/create");
+  };
 
   return (
     <DashboardLayout>
       <PrivacyPageStyled>
-        <h1 className="medium-font">{t('install.privacy.privacy-title')}</h1>
-        <p>{t('install.privacy.privacy-content_p1')}</p>
-        <p>{t('install.privacy.privacy-content_p2')}</p>
-        <p>{t('install.privacy.privacy-content_p3')}</p>
-        <p>{t('install.privacy.privacy-content_p4')}</p>
-        <p>{t('install.privacy.privacy-content_p5')}</p>
+        <h1 className="medium-font">{t("install.privacy.privacy-title")}</h1>
+        <p>{t("install.privacy.privacy-content_p1")}</p>
+        <p>{t("install.privacy.privacy-content_p2")}</p>
+        <p>{t("install.privacy.privacy-content_p3")}</p>
+        <p>{t("install.privacy.privacy-content_p4")}</p>
+        <p>{t("install.privacy.privacy-content_p5")}</p>
         {/*<CheckBoxStyled>*/}
         {/*  <CheckItem>{t('install.privacy.privacy-check_li_1')}</CheckItem>*/}
         {/*  <CheckItem>{t('install.privacy.privacy-check_li_2')}</CheckItem>*/}
@@ -106,9 +106,13 @@ const PrivacyDashboard = () => {
         {/*<h2 className="medium-font">{t('install.privacy.privacy_subtitle')}</h2>*/}
         {/*<p>{t('install.privacy.privacy_description')}</p>*/}
         <div className="options">
-          <Button onClick={clickCancel}>{t('install.privacy.privacy-cancel')}</Button>
+          <Button onClick={clickCancel}>
+            {t("install.privacy.privacy-cancel")}
+          </Button>
 
-          <Button primary onClick={clickAgree}>{t('install.privacy.privacy-agree')}</Button>
+          <Button primary onClick={clickAgree}>
+            {t("install.privacy.privacy-agree")}
+          </Button>
         </div>
       </PrivacyPageStyled>
     </DashboardLayout>

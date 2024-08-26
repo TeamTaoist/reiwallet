@@ -1,43 +1,41 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import useMessage from "./useMessage";
 
-export default function usePendingDetail(txHash){
+export default function usePendingDetail(txHash) {
+  const [loading, setLoading] = useState(false);
+  const [item, setItem] = useState(null);
 
-    const [loading,setLoading] = useState(false);
-    const [item,setItem] = useState(null);
-
-    const handleEvent = (message) => {
-        const {type }= message;
-        if(type ==="get_transaction_success"){
-            if(txHash === message.data.transaction.hash){
-                setItem(message.data)
-                setLoading(false)
-            }
-        }
+  const handleEvent = (message) => {
+    const { type } = message;
+    if (type === "get_transaction_success") {
+      if (txHash === message.data.transaction.hash) {
+        setItem(message.data);
+        setLoading(false);
+      }
     }
+  };
 
-    const {sendMsg} = useMessage(handleEvent,[txHash]);
+  const { sendMsg } = useMessage(handleEvent, [txHash]);
 
-    useEffect(() => {
-        if(!txHash) return;
-        setLoading(true)
-        toBackground()
-        const timer = setInterval(()=>{
-            toBackground()
-        },2 * 1000)
+  useEffect(() => {
+    if (!txHash) return;
+    setLoading(true);
+    toBackground();
+    const timer = setInterval(() => {
+      toBackground();
+    }, 2 * 1000);
 
-        return () =>{
-            clearInterval(timer)
-        }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [txHash]);
 
-    }, [txHash]);
-
-    const toBackground = () =>{
-        let obj ={
-            method:"get_transaction",
-            txHash
-        }
-        sendMsg(obj)
-    }
-    return {item,loading}
+  const toBackground = () => {
+    let obj = {
+      method: "get_transaction",
+      txHash,
+    };
+    sendMsg(obj);
+  };
+  return { item, loading };
 }

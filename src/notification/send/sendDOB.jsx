@@ -1,29 +1,25 @@
 import Lock from "../../components/lock/lock";
 import useLock from "../../useHook/useLock";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 import SendDOBDetail from "./sendDOBDetail";
 
-export default function SendDOB(){
+export default function SendDOB() {
+  const Unlocked = useLock();
+  const [status, setStatus] = useState(false);
 
-    const Unlocked = useLock();
-    const [status,setStatus ] = useState(false)
+  useEffect(() => {
+    setStatus(Unlocked);
+  }, [Unlocked]);
 
-    useEffect(() => {
-        setStatus(Unlocked)
-    }, [Unlocked]);
+  const handleLock = (bl) => {
+    setStatus(bl);
+  };
 
-    const handleLock = (bl) =>{
-        setStatus(bl)
-    }
-
-
-    return <div>
-        {
-            !status && <Lock isNav={true} handleLock={handleLock} />
-        }
-        {
-            status && <SendDOBDetail />
-        }
+  return (
+    <div>
+      {!status && <Lock isNav={true} handleLock={handleLock} />}
+      {status && <SendDOBDetail />}
     </div>
+  );
 }

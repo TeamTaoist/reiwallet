@@ -1,4 +1,4 @@
-import {v4 as uuid} from "uuid";
+import { v4 as uuid } from "uuid";
 import {
   createJSONRPCErrorResponse,
   createJSONRPCRequest,
@@ -6,10 +6,10 @@ import {
   isJSONRPCRequest,
   isJSONRPCResponse,
   JSONRPCErrorCode,
-} from 'json-rpc-2.0';
-export const SESSION_MESSAGE_SYMBOL = '__SESSION_MESSAGE_SYMBOL__' ;
+} from "json-rpc-2.0";
+export const SESSION_MESSAGE_SYMBOL = "__SESSION_MESSAGE_SYMBOL__";
 
-export function createSessionMessenger(config,) {
+export function createSessionMessenger(config) {
   const { sessionId = uuid(), adapter } = config;
 
   let handlers = new Set();
@@ -17,7 +17,9 @@ export function createSessionMessenger(config,) {
 
   const genJsonRpcRequestId = () => `${sessionId}:${reqId++}`;
   const isCurrentSessionMessage = (message) => {
-    return typeof message.rpc.id === 'string' && message.rpc.id.startsWith(sessionId);
+    return (
+      typeof message.rpc.id === "string" && message.rpc.id.startsWith(sessionId)
+    );
   };
 
   return {
@@ -25,7 +27,9 @@ export function createSessionMessenger(config,) {
     send: (type, param) => {
       const currentReqId = genJsonRpcRequestId();
 
-      const requestMessage = createSessionMessage(createJSONRPCRequest(currentReqId, String(type), param));
+      const requestMessage = createSessionMessage(
+        createJSONRPCRequest(currentReqId, String(type), param),
+      );
       adapter.send(requestMessage);
 
       return new Promise((resolve, reject) => {
@@ -47,7 +51,7 @@ export function createSessionMessenger(config,) {
         });
       });
     },
-    register:(method, handler,) => {
+    register: (method, handler) => {
       adapter.receive(async function handleRequest(unknownMessage) {
         if (!isSessionMessage(unknownMessage)) {
           return;
@@ -59,12 +63,21 @@ export function createSessionMessenger(config,) {
         if (!isJSONRPCRequest(req) || req.method !== method) return;
 
         const res = await (async () => {
-          if(!req.id) throw new Error(`request id is required`)
+          if (!req.id) throw new Error(`request id is required`);
           try {
-            return createJSONRPCSuccessResponse(req.id, await handler(req.params));
+            return createJSONRPCSuccessResponse(
+              req.id,
+              await handler(req.params),
+            );
           } catch (e) {
-            const errorMessage = e instanceof Error ? e.message : 'Internal Error';
-            return createJSONRPCErrorResponse(req.id, JSONRPCErrorCode.InternalError, errorMessage, e);
+            const errorMessage =
+              e instanceof Error ? e.message : "Internal Error";
+            return createJSONRPCErrorResponse(
+              req.id,
+              JSONRPCErrorCode.InternalError,
+              errorMessage,
+              e,
+            );
           }
         })();
 
@@ -80,12 +93,12 @@ export function createSessionMessenger(config,) {
 
 export function createSessionMessage(data) {
   return {
-    [SESSION_MESSAGE_SYMBOL]: true, 
+    [SESSION_MESSAGE_SYMBOL]: true,
     rpc: data,
   };
 }
 
 export function isSessionMessage(x) {
-  if (!x || typeof x !== 'object') return false;
+  if (!x || typeof x !== "object") return false;
   return SESSION_MESSAGE_SYMBOL in x;
 }

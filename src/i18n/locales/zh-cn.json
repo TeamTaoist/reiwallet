@@ -53,13 +53,13 @@
       "tips": "请创建或恢复您的第一个身份，并连接到社交帐户。",
       "Restore": "恢复"
     },
-    "walletHome":{
+    "walletHome": {
       "createTips": "将为您创建一个新的钱包帐户和帐户助记词",
       "createBtn": "创建钱包",
       "importTips": "使用您之前备份的助记词，将其导入钱包，恢复钱包并开始使用。",
       "importBtn": "导入钱包"
     },
-    "createTitle":  "创建钱包",
+    "createTitle": "创建钱包",
     "step1": {
       "subTitle": "创建钱包",
       "walletName": "钱包名称",
@@ -73,7 +73,7 @@
       "Confirm": "确认"
     },
     "step2": {
-     "subTitle": "账户助记词",
+      "subTitle": "账户助记词",
       "tips": "助记词是唯一的凭证，可以帮助您恢复钱包。",
       "Next": "下一步"
     },
@@ -187,7 +187,7 @@
       "TransactionFee": "交易手续费",
       "Reject": "拒绝",
       "Confirm": "确认",
-      "Amount":"数量",
+      "Amount": "数量",
       "Assets": "资产",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
@@ -256,9 +256,9 @@
   },
   "notification": {
     "sign": {
-    "title": "请求签名",
-    "tips": "只有在您完全理解内容并信任请求站点时才签署此消息。",
-    "signing": "您正在签署"
+      "title": "请求签名",
+      "tips": "只有在您完全理解内容并信任请求站点时才签署此消息。",
+      "signing": "您正在签署"
     },
     "Reject": "拒绝",
     "Confirm": "确认",
@@ -267,5 +267,4 @@
     "Owner": "Owner",
     "Type": "种类"
   }
-
 }

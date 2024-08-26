@@ -4,10 +4,10 @@ import Button from "../button/button";
 import Avatar from "../svg/avatar/avatar";
 import CopyImg from "../../assets/images/create/COPY.png";
 import EditImg from "../../assets/images/edit.png";
-import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {CopyToClipboard} from "react-copy-to-clipboard";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import Checked from "../../assets/images/Checked.png";
 import Toast from "../modal/toast";
 import useAccountAddress from "../../useHook/useAccountAddress";
@@ -16,27 +16,27 @@ import useCurrentAccount from "../../useHook/useCurrentAccount";
 import QRCode from "react-qr-code";
 
 const TitleBox = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
   font-family: "AvenirNext-Bold";
-    gap: 10px;
-    .demo{
-      width: 24px;
-      border-radius: 24px;
-      margin-right: 8px;
-    }
-  .edit{
+  gap: 10px;
+  .demo {
+    width: 24px;
+    border-radius: 24px;
+    margin-right: 8px;
+  }
+  .edit {
     width: 24px;
     margin-left: 8px;
   }
-  .rht{
+  .rht {
     display: flex;
     align-items: center;
   }
-  span{
+  span {
     font-size: 18px;
   }
-  .inputAccount{
+  .inputAccount {
     width: 219px;
     height: 38px;
     box-sizing: border-box;
@@ -46,115 +46,132 @@ const TitleBox = styled.div`
     font-family: "AvenirNext-Bold";
     font-size: 18px;
   }
-`
+`;
 const ImgBox = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 45px;
-  
-    img{
-      width: 140px;
-      height: 140px;
-    }
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 45px;
+
+  img {
+    width: 140px;
+    height: 140px;
+  }
+`;
 const Address = styled.div`
-    word-break: break-all;
-    margin: 40px auto 60px;
+  word-break: break-all;
+  margin: 40px auto 60px;
   font-size: 16px;
   font-weight: 500;
-  color: #34332E;
+  color: #34332e;
   line-height: 22px;
   position: relative;
-    img{
-      width: 24px;
-      margin-bottom: -6px;
-      cursor: pointer;
-    }
-`
+  img {
+    width: 24px;
+    margin-bottom: -6px;
+    cursor: pointer;
+  }
+`;
 
-export default function AccountDetail(){
-    const navigate = useNavigate();
-    const { t } = useTranslation();
-    const {currentAccountInfo} = useAccountAddress();
-    const {saveWallet} = useWalletList();
-    const {currentAccount} = useCurrentAccount();
+export default function AccountDetail() {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { currentAccountInfo } = useAccountAddress();
+  const { saveWallet } = useWalletList();
+  const { currentAccount } = useCurrentAccount();
 
-    const [ showInput, setShowInput ] = useState(false);
-    const [address,setAddress] = useState('')
-    const [copied,setCopied] = useState(false);
-    const [walletName,setWalletName] = useState('');
+  const [showInput, setShowInput] = useState(false);
+  const [address, setAddress] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [walletName, setWalletName] = useState("");
 
-    useEffect(() => {
-        if(!currentAccountInfo)return;
-        const {address,name} = currentAccountInfo;
-        setWalletName(name)
-        setAddress(address)
-    }, [currentAccountInfo]);
+  useEffect(() => {
+    if (!currentAccountInfo) return;
+    const { address, name } = currentAccountInfo;
+    setWalletName(name);
+    setAddress(address);
+  }, [currentAccountInfo]);
 
+  const goExport = () => {
+    navigate("/export");
+  };
+  const handleEdit = () => {
+    setShowInput(true);
+  };
+  const handleInput = (e) => {
+    setWalletName(e.target.value);
+  };
+  const Copy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1500);
+  };
 
-    const goExport =() =>{
-        navigate('/export');
-    }
-    const handleEdit = () =>{
-        setShowInput(true);
-    }
-    const handleInput = (e) =>{
-        setWalletName(e.target.value);
-    }
-    const Copy = () =>{
-        setCopied(true);
-        setTimeout(()=>{
-            setCopied(false);
-        },1500);
-    }
+  const Submit = (e) => {
+    setShowInput(false);
+    let obj = {
+      ...currentAccountInfo,
+      name: walletName,
+    };
 
-    const Submit =( e )=>{
-        setShowInput(false);
-        let obj={
-            ...currentAccountInfo,
-            name:walletName
-        }
+    saveWallet(obj, currentAccount);
+  };
 
-        saveWallet(obj,currentAccount)
-    }
+  return (
+    <AllModal title={t("popup.account.details")} link="/home">
+      <div>
+        <TitleBox>
+          <Avatar size={24} address={address} />
+          {!showInput && (
+            <div className="rht">
+              <span>{walletName}</span>
+              <img
+                src={EditImg}
+                alt=""
+                className="edit"
+                onClick={() => handleEdit()}
+              />
+            </div>
+          )}
+          {showInput && (
+            <div className="rht">
+              <input
+                type="text"
+                className="inputAccount"
+                value={walletName}
+                onChange={(e) => handleInput(e)}
+              />
+              <img
+                src={Checked}
+                alt=""
+                className="edit"
+                onClick={() => Submit()}
+              />
+            </div>
+          )}
+        </TitleBox>
+        <ImgBox>
+          {/*<img src={Demo} alt=""/>*/}
+          <QRCode
+            size={80}
+            style={{ height: "auto", maxWidth: "140px", width: "140px" }}
+            value={address}
+            viewBox={`0 0 256 256`}
+          />
+        </ImgBox>
 
-    return <AllModal title={t('popup.account.details')} link="/home">
-        <div>
-            <TitleBox>
-                <Avatar size={24} address={address} />
-                {
-                    !showInput && <div className="rht">
-                        <span>{walletName}</span>
-                        <img src={EditImg} alt="" className="edit" onClick={()=>handleEdit()}/>
-                    </div>
-                }
-                {
-                    showInput && <div className="rht">
-                        <input type="text" className="inputAccount" value={walletName} onChange={(e)=>handleInput(e)}/>
-                        <img src={Checked} alt="" className="edit" onClick={()=>Submit()}/>
-                    </div>
-                }
-
-            </TitleBox>
-            <ImgBox>
-                {/*<img src={Demo} alt=""/>*/}
-                <QRCode
-                    size={80}
-                    style={{ height: "auto", maxWidth: "140px", width: "140px" }}
-                    value={address}
-                    viewBox={`0 0 256 256`}
-                />
-            </ImgBox>
-
-            <Address className="medium-font">
-              <Toast tips="copied" left="100" bottom="-40" show={copied}/>
-                {address}
-                <CopyToClipboard onCopy={()=>Copy()} text={address}>
-                    <img src={CopyImg} alt=""/>
-                </CopyToClipboard>
-            </Address>
-            <Button fullWidth black onClick={()=>goExport()}>{t('popup.account.ExportAccount')}</Button>
-        </div>
+        <Address className="medium-font">
+          <Toast tips="copied" left="100" bottom="-40" show={copied} />
+          {address}
+          <CopyToClipboard onCopy={() => Copy()} text={address}>
+            <img src={CopyImg} alt="" />
+          </CopyToClipboard>
+        </Address>
+        <Button fullWidth black onClick={() => goExport()}>
+          {t("popup.account.ExportAccount")}
+        </Button>
+      </div>
     </AllModal>
+  );
 }

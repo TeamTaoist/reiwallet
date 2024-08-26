@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 function SvgComponent(props) {
   return (
@@ -22,7 +22,7 @@ function SvgComponent(props) {
         <rect fill="#34332E" x={5} y={17} width={16} height={2} rx={1} />
       </g>
     </svg>
-  )
+  );
 }
 
-export default SvgComponent
+export default SvgComponent;

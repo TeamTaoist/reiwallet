@@ -8,7 +8,6 @@
       "privacy-content_p4": "Under certain circumstances, we may anonymize your personal information, rendering it unassociated with you. In such cases, we may use this anonymized information indefinitely without providing further notice to you.",
       "privacy-content_p5": "We implement industry-standard security measures to protect the security of all information submitted through the Services. However, please note that the security of information transmitted over the internet can never be guaranteed. We cannot be held responsible for any interception, interruption, changes, or loss of data during internet communications. Users of the Services are responsible for maintaining the security of any passwords, biometrics, user IDs, or other authentication methods required for accessing password-protected or secure areas of our digital services. To ensure your safety and protect your data, we may temporarily suspend your use of the Services without notice if we suspect any security breaches.",
 
-
       "privacy-cancel": "Cancel",
       "privacy-agree": "Agree"
     },
@@ -26,7 +25,7 @@
         "next": "NEXT"
       },
       "restore": {
-        "title":"Enter mnemonics",
+        "title": "Enter mnemonics",
         "tips": "Please select words in order according to your mnemonic words.",
         "enterTips": "Enter 12 mnemonic words in order and separate them with space."
       },
@@ -54,13 +53,13 @@
       "tips": "Please create or restore your first and connect to social accounts.",
       "Restore": "Restore"
     },
-    "walletHome":{
+    "walletHome": {
       "createTips": "A new wallet account and account mnemonics will be created for you",
       "createBtn": "Create Wallet",
       "importTips": "Use the mnemonics you backed up before, import them into wallet, restore the wallet and start using it.",
       "importBtn": "Import Wallet"
     },
-    "createTitle":  "Create wallet",
+    "createTitle": "Create wallet",
     "step1": {
       "subTitle": "Create wallet",
       "walletName": "The name of the wallet",
@@ -128,7 +127,6 @@
       "view": "View in block explorer",
       "committed": "Confirmed",
       "viewMore": "View More"
-
     },
     "export": {
       "password": "Type your password",
@@ -189,7 +187,7 @@
       "TransactionFee": "Transaction Fee",
       "Reject": "Reject",
       "Confirm": "Confirm",
-      "Amount":"Amount",
+      "Amount": "Amount",
       "Assets": "Assets",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
@@ -269,6 +267,4 @@
     "Owner": "Owner",
     "Type": "Type"
   }
-
-
 }

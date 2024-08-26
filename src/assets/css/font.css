@@ -1,13 +1,13 @@
 @font-face {
-    font-family: "AvenirNext-Regular";
-    src: url('../fonts/AvenirNext-Regular.ttf');
+  font-family: "AvenirNext-Regular";
+  src: url("../fonts/AvenirNext-Regular.ttf");
 }
 
 @font-face {
-    font-family: "AvenirNext-Medium";
-    src: url('../fonts/AvenirNext-Medium.otf');
+  font-family: "AvenirNext-Medium";
+  src: url("../fonts/AvenirNext-Medium.otf");
 }
 @font-face {
-    font-family: "AvenirNext-Bold";
-    src: url('../fonts/AvenirNext-Bold.ttf');
+  font-family: "AvenirNext-Bold";
+  src: url("../fonts/AvenirNext-Bold.ttf");
 }

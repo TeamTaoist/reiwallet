@@ -1,6 +1,6 @@
-import React from 'react';
-import {Route,Routes,Navigate} from "react-router-dom";
-import Home from '../components/home-popup/home';
+import React from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Home from "../components/home-popup/home";
 import Send from "../components/token/send";
 import SendAction from "../components/token/sendAction";
 import AccountDetail from "../components/account/Detail";
@@ -31,52 +31,49 @@ import XUDTDetail from "../components/xudt/xudtDetail";
 import SendXUDTConfirm from "../components/xudt/sendXUDTConfirm";
 
 function PopupRouterLink() {
-    return (
-        <Routes>
-            <Route path="/" element={<Navigate to="/home" />}/>
-            <Route path="/home" element={<Home />}/>
-                <Route path="/step1" element={<Step1 />}/>
-                <Route path="/step2" element={<Step2 />}/>
-                <Route path="/step3" element={<Step3 />}/>
-            <Route path="/detail" element={<AccountDetail />}/>
-            <Route path="/sites" element={<Sites />}/>
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/home" />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/step1" element={<Step1 />} />
+      <Route path="/step2" element={<Step2 />} />
+      <Route path="/step3" element={<Step3 />} />
+      <Route path="/detail" element={<AccountDetail />} />
+      <Route path="/sites" element={<Sites />} />
 
+      <Route path="/export" element={<Export />} />
+      <Route path="/exportConfirm" element={<ExportConfirm />} />
 
+      <Route path="/send" element={<Send />} />
+      <Route path="/sendDOB" element={<Send />} />
+      <Route path="/sendCluster" element={<Send />} />
+      <Route path="/sendSUDT" element={<Send />} />
+      <Route path="/sendXUDT" element={<Send />} />
 
-            <Route path="/export" element={<Export />}/>
-            <Route path="/exportConfirm" element={<ExportConfirm />}/>
+      <Route path="/sendStep1" element={<SendAction />} />
+      <Route path="/setting" element={<Setting />} />
+      <Route path="/language" element={<Language />} />
+      <Route path="/security" element={<Security />} />
+      <Route path="/accountMnemonic" element={<AccountMnemonic />} />
+      <Route path="/accountConfirm" element={<AccountConfirm />} />
+      <Route path="/privatekey" element={<PrivateKey />} />
+      <Route path="/success" element={<Success />} />
+      <Route path="/mnemonics" element={<Mnemonics />} />
+      <Route path="/assetDetail" element={<AssetDetail />} />
+      <Route path="/addNetwork" element={<AddNetwork />} />
 
-            <Route path="/send" element={<Send />}/>
-            <Route path="/sendDOB" element={<Send />}/>
-            <Route path="/sendCluster" element={<Send />}/>
-            <Route path="/sendSUDT" element={<Send />}/>
-            <Route path="/sendXUDT" element={<Send />}/>
+      <Route path="/dobDetail" element={<DOBDetail />} />
+      <Route path="/dobConfirm" element={<DOBConfirm />} />
+      <Route path="/ClusterConfirm" element={<ClusterConfirm />} />
+      <Route path="/ClusterDetail" element={<ClusterDetail />} />
 
-            <Route path="/sendStep1" element={<SendAction />}/>
-            <Route path="/setting" element={<Setting />}/>
-            <Route path="/language" element={<Language />}/>
-            <Route path="/security" element={<Security />}/>
-            <Route path="/accountMnemonic" element={<AccountMnemonic />}/>
-            <Route path="/accountConfirm" element={<AccountConfirm />}/>
-            <Route path="/privatekey" element={<PrivateKey />}/>
-            <Route path="/success" element={<Success />}/>
-            <Route path="/mnemonics" element={<Mnemonics />}/>
-            <Route path="/assetDetail" element={<AssetDetail />}/>
-            <Route path="/addNetwork" element={<AddNetwork />}/>
+      <Route path="/sudtConfirm" element={<SendConfirm />} />
 
-            <Route path="/dobDetail" element={<DOBDetail />}/>
-            <Route path="/dobConfirm" element={<DOBConfirm />}/>
-            <Route path="/ClusterConfirm" element={<ClusterConfirm />}/>
-            <Route path="/ClusterDetail" element={<ClusterDetail />}/>
-
-            <Route path="/sudtConfirm" element={<SendConfirm />}/>
-
-            <Route path="/sudtdetail" element={<SUDTDetail/>}/>
-            <Route path="/xudtdetail" element={<XUDTDetail/>}/>
-           <Route path="/XudtConfirm" element={<SendXUDTConfirm />}/>
-
-        </Routes>
-   );
+      <Route path="/sudtdetail" element={<SUDTDetail />} />
+      <Route path="/xudtdetail" element={<XUDTDetail />} />
+      <Route path="/XudtConfirm" element={<SendXUDTConfirm />} />
+    </Routes>
+  );
 }
 
 export default PopupRouterLink;

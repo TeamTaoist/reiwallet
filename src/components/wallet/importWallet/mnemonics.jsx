@@ -1,33 +1,33 @@
 import NavHeader from "../../header/navHeader";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import ImportHeader from "./importHeader";
 import styled from "styled-components";
 import Button from "../../button/button";
-import {useNavigate} from "react-router-dom";
-import Info from "../../../assets/images/create/tip.png"
+import { useNavigate } from "react-router-dom";
+import Info from "../../../assets/images/create/tip.png";
 
 const Box = styled.div`
-    display: flex;
+  display: flex;
   flex-direction: column;
   height: 100%;
-`
+`;
 const ContentBox = styled.div`
   flex-grow: 1;
   padding: 20px;
   position: relative;
-`
+`;
 const Title = styled.div`
   font-size: 18px;
   line-height: 25px;
   margin-top: 31px;
-`
+`;
 const BoxText = styled.div`
   margin-top: 13px;
   height: 130px;
-  background: #FCFEFA;
+  background: #fcfefa;
   border-radius: 14px;
   border: 1px solid #000000;
-  textarea{
+  textarea {
     background: transparent;
     width: 100%;
     height: 130px;
@@ -38,64 +38,68 @@ const BoxText = styled.div`
     font-size: 14px;
     font-family: AvenirNext-Regular, AvenirNext;
     font-weight: 400;
-    color: #212F5A;
+    color: #212f5a;
     line-height: 19px;
-    &:focus{
+    &:focus {
       outline: none;
     }
   }
-`
+`;
 const BtmBox = styled.div`
   position: absolute;
   left: 0;
   bottom: 0;
   padding: 20px;
   width: 100%;
-  
-  background: #FFFFFF;
-`
+
+  background: #ffffff;
+`;
 const FlexLine = styled.div`
-    display: flex;
-    align-items: flex-start;
+  display: flex;
+  align-items: flex-start;
   margin-top: 22px;
   font-size: 14px;
   font-family: AvenirNext-Regular, AvenirNext;
   font-weight: 400;
-  color: #242F57;
+  color: #242f57;
   line-height: 20px;
-  img{
+  img {
     width: 23px;
     margin-right: 4px;
   }
-`
+`;
 
+export default function Mnemonics() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
-export default function Mnemonics(){
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+  const submit = () => {
+    navigate("/success");
+  };
 
-    const submit = () =>{
-        navigate("/success");
-    }
+  return (
+    <Box>
+      <NavHeader title={t("popup.mnemonics.title")} />
 
-    return <Box>
-        <NavHeader title={t('popup.mnemonics.title')} />
-
-        <ContentBox>
-            <ImportHeader title={t('popup.mnemonics.subTitle')} tips={t('popup.mnemonics.tips')} />
-            <Title>{t('popup.mnemonics.textTitle')}</Title>
-            <BoxText>
-                <textarea name=""  />
-            </BoxText>
-            <FlexLine>
-                <img src={Info} alt=""/>
-                <div>
-                    {t('popup.mnemonics.inputTips')}
-                </div>
-            </FlexLine>
-            <BtmBox>
-                <Button fullWidth primary onClick={()=>submit()}>{t('popup.mnemonics.Confirm')}</Button>
-            </BtmBox>
-        </ContentBox>
+      <ContentBox>
+        <ImportHeader
+          title={t("popup.mnemonics.subTitle")}
+          tips={t("popup.mnemonics.tips")}
+        />
+        <Title>{t("popup.mnemonics.textTitle")}</Title>
+        <BoxText>
+          <textarea name="" />
+        </BoxText>
+        <FlexLine>
+          <img src={Info} alt="" />
+          <div>{t("popup.mnemonics.inputTips")}</div>
+        </FlexLine>
+        <BtmBox>
+          <Button fullWidth primary onClick={() => submit()}>
+            {t("popup.mnemonics.Confirm")}
+          </Button>
+        </BtmBox>
+      </ContentBox>
     </Box>
+  );
 }
