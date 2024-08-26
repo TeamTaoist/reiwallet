@@ -64,14 +64,14 @@ function PopupRouterLink() {
 
       <Route path="/dobDetail" element={<DOBDetail />} />
       <Route path="/dobConfirm" element={<DOBConfirm />} />
-      <Route path="/ClusterConfirm" element={<ClusterConfirm />} />
+      <Route path="/clusterConfirm" element={<ClusterConfirm />} />
       <Route path="/ClusterDetail" element={<ClusterDetail />} />
 
       <Route path="/sudtConfirm" element={<SendConfirm />} />
 
       <Route path="/sudtdetail" element={<SUDTDetail />} />
       <Route path="/xudtdetail" element={<XUDTDetail />} />
-      <Route path="/XudtConfirm" element={<SendXUDTConfirm />} />
+      <Route path="/xudtConfirm" element={<SendXUDTConfirm />} />
     </Routes>
   );
 }
