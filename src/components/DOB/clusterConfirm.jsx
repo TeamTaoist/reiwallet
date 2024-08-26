@@ -1,4 +1,4 @@
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import { useWeb3 } from "../../store/contracts";
 import CloseImg from "../../assets/images/close.png";
 import Button from "../button/button";
@@ -11,10 +11,10 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import CopyImg from "../../assets/images/create/COPY.png";
 import { formatUnit } from "@ckb-lumos/bi";
 import Toast from "../modal/toast";
-import useBalance from "../../useHook/useBalance";
+import useBalance from "../../hooks/useBalance";
 import TokenHeader from "../header/tokenHeader";
 import Loading from "../loading/loading";
-import useMessage from "../../useHook/useMessage";
+import useMessage from "../../hooks/useMessage";
 
 const ContentBox = styled.div`
   flex-grow: 1;

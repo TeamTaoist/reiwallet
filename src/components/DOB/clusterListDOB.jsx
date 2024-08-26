@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ErrorImg from "../../assets/images/error_image.svg";
 import { useEffect, useState } from "react";
 import { decodeDOB } from "@taoist-labs/dob-decoder";
-import useNetwork from "../../useHook/useNetwork";
+import useNetwork from "../../hooks/useNetwork";
 
 const UlBox = styled.ul`
   &:after {

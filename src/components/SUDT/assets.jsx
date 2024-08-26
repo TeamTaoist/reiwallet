@@ -2,13 +2,13 @@ import styled from "styled-components";
 import Next from "../../assets/images/into.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useSUDT from "../../useHook/useSUDT";
-import useCurrentAccount from "../../useHook/useCurrentAccount";
+import useSUDT from "../../hooks/useSUDT";
+import useCurrentAccount from "../../hooks/useCurrentAccount";
 import { predefined } from "@ckb-lumos/config-manager";
 
 import PublicJS from "../../utils/publicJS";
 import { unpackAmount, ownerForSudt } from "@ckb-lumos/common-scripts/lib/sudt";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import { useWeb3 } from "../../store/contracts";
 import Loading from "../loading/loading";
 import { BI } from "@ckb-lumos/lumos";

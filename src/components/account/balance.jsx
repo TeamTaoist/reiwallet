@@ -3,7 +3,7 @@ import Button from "../button/button";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Loading from "../loading/loading";
-import useBalance from "../../useHook/useBalance";
+import useBalance from "../../hooks/useBalance";
 
 const BalanceBox = styled.div`
   display: flex;

@@ -10,9 +10,9 @@ import { useTranslation } from "react-i18next";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Checked from "../../assets/images/Checked.png";
 import Toast from "../modal/toast";
-import useAccountAddress from "../../useHook/useAccountAddress";
-import useWalletList from "../../useHook/useWalletList";
-import useCurrentAccount from "../../useHook/useCurrentAccount";
+import useAccountAddress from "../../hooks/useAccountAddress";
+import useWalletList from "../../hooks/useWalletList";
+import useCurrentAccount from "../../hooks/useCurrentAccount";
 import QRCode from "react-qr-code";
 
 const TitleBox = styled.div`

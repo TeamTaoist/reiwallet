@@ -2,12 +2,12 @@ import CloseImg from "../../assets/images/close.png";
 import BtnLoading from "../loading/btnloading";
 import Button from "../button/button";
 import { useEffect, useState } from "react";
-import useBalance from "../../useHook/useBalance";
+import useBalance from "../../hooks/useBalance";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { parseUnit } from "@ckb-lumos/bi";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 
 const ContentBox = styled.div`
   flex-grow: 1;

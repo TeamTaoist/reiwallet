@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import FromImg from "../../assets/images/fromTo.png";
 import Avatar from "../svg/avatar/avatar";
-import useBalance from "../../useHook/useBalance";
+import useBalance from "../../hooks/useBalance";
 import Button from "../button/button";
 import PublicJS from "../../utils/publicJS";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import { formatUnit } from "@ckb-lumos/bi";
 import { useEffect, useState } from "react";
 import { BI } from "@ckb-lumos/lumos";

@@ -8,7 +8,7 @@ import Open from "../../assets/images/create/open.png";
 import Close from "../../assets/images/create/close.png";
 import { useEffect, useState } from "react";
 import Keystore from "../../wallet/keystore";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import BtnLoading from "../loading/btnloading";
 import { clearPassword, switchPassword } from "../../wallet/password";
 

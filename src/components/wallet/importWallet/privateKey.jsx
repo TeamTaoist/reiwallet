@@ -6,7 +6,7 @@ import Button from "../../button/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Wallet from "../../../wallet/wallet";
-import useWalletList from "../../../useHook/useWalletList";
+import useWalletList from "../../../hooks/useWalletList";
 import Keystore from "../../../wallet/keystore";
 import BtnLoading from "../../loading/btnloading";
 import { clearPassword, getPassword } from "../../../wallet/password";

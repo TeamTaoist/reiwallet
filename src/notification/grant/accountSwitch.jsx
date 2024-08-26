@@ -2,7 +2,7 @@ import styled from "styled-components";
 import CheckNor from "../../assets/images/Check01.png";
 import CheckAct from "../../assets/images/Check02.png";
 import PublicJs from "../../utils/publicJS";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import Avatar from "../../components/svg/avatar/avatar";
 
 const BgBox = styled.div`

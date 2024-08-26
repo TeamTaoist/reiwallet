@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../button/button";
-import useWalletList from "../../useHook/useWalletList";
-import useNetwork from "../../useHook/useNetwork";
+import useWalletList from "../../hooks/useWalletList";
+import useNetwork from "../../hooks/useNetwork";
 import { useNavigate } from "react-router-dom";
 import { useWeb3 } from "../../store/contracts";
 import BtnLoading from "../loading/btnloading";
-import useMessage from "../../useHook/useMessage";
+import useMessage from "../../hooks/useMessage";
 import { v4 as uuid } from "uuid";
 import Toast from "../modal/toast";
 

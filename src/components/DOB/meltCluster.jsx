@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Button from "../button/button";
-import useMessage from "../../useHook/useMessage";
+import useMessage from "../../hooks/useMessage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import BtnLoading from "../loading/btnloading";
 import Toast from "../modal/toast";
 import { useTranslation } from "react-i18next";

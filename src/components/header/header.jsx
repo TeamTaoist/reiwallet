@@ -5,7 +5,7 @@ import DropImg from "../../assets/images/drop.png";
 import { useNavigate } from "react-router-dom";
 import NetworkList from "../network/networkList";
 import { useEffect, useState } from "react";
-import useNetwork from "../../useHook/useNetwork";
+import useNetwork from "../../hooks/useNetwork";
 import Loading from "../loading/loading";
 
 const HeaderBox = styled.div`

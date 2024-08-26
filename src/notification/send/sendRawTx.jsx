@@ -1,5 +1,5 @@
 import Lock from "../../components/lock/lock";
-import useLock from "../../useHook/useLock";
+import useLock from "../../hooks/useLock";
 import { useEffect, useState } from "react";
 import SendRawDetail from "./sendRawDetail";
 

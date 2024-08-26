@@ -3,7 +3,7 @@ import Checked from "../../assets/images/Checked.png";
 import Close from "../../assets/images/close.png";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import useNetwork from "../../useHook/useNetwork";
+import useNetwork from "../../hooks/useNetwork";
 import { CirclePlus } from "lucide-react";
 
 const Box = styled.div`

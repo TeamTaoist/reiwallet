@@ -5,7 +5,7 @@ import Button from "../button/button";
 import { useWeb3 } from "../../store/contracts";
 import { useState } from "react";
 import { formatUnit } from "@ckb-lumos/bi";
-import useBalance from "../../useHook/useBalance";
+import useBalance from "../../hooks/useBalance";
 import PublicJs from "../../utils/publicJS";
 import { Copy as CopyIcon } from "lucide-react";
 import Toast from "../modal/toast";

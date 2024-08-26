@@ -1,6 +1,6 @@
 import AllModal from "../modal/allModal";
 import { useTranslation } from "react-i18next";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 

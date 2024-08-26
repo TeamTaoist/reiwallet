@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { formatUnit } from "@ckb-lumos/bi";
-import useMessage from "../../useHook/useMessage";
+import useMessage from "../../hooks/useMessage";
 import SendStep1 from "../send/sendStep1";
 import SendStep2 from "../send/sendStep2";
 import Loading from "../loading/loading";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import usePendingDetail from "../../useHook/usePendingDetail";
+import usePendingDetail from "../../hooks/usePendingDetail";
 import PublicJs from "../../utils/publicJS";
 import BtnLoading from "../loading/btnloading";
 import { useTranslation } from "react-i18next";

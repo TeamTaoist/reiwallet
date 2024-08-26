@@ -1,8 +1,8 @@
 import Lock from "../../components/lock/lock";
-import useLock from "../../useHook/useLock";
+import useLock from "../../hooks/useLock";
 import { useEffect, useState } from "react";
 
-import { useSessionMessenger } from "../../useHook/useSessionMessenger";
+import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 
 export default function GetPassword() {
   const Unlocked = useLock();

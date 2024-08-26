@@ -5,7 +5,7 @@ import Button from "../button/button";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import PublicJs from "../../utils/publicJS";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import Avatar from "../svg/avatar/avatar";
 import { XIcon } from "lucide-react";
 import { useEffect } from "react";

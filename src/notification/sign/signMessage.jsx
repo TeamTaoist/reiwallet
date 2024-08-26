@@ -1,4 +1,4 @@
-import { useSessionMessenger } from "../../useHook/useSessionMessenger";
+import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 import styled from "styled-components";
 import Button from "../../components/button/button";
 import { useTranslation } from "react-i18next";

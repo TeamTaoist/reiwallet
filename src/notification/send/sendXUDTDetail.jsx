@@ -1,10 +1,10 @@
-import { useSessionMessenger } from "../../useHook/useSessionMessenger";
+import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Avatar from "../../components/svg/avatar/avatar";
 import PublicJS from "../../utils/publicJS";
 import FromImg from "../../assets/images/fromTo.png";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import CopyImg from "../../assets/images/create/COPY.png";
 import { formatUnit } from "@ckb-lumos/bi";
@@ -13,7 +13,7 @@ import BtnLoading from "../../components/loading/btnloading";
 import { predefined } from "@ckb-lumos/config-manager";
 import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
-import useMessage from "../../useHook/useMessage";
+import useMessage from "../../hooks/useMessage";
 import { ownerForSudt } from "@ckb-lumos/common-scripts/lib/sudt";
 import { useTranslation } from "react-i18next";
 

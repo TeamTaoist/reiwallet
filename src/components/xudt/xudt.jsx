@@ -1,8 +1,8 @@
 import Loading from "../loading/loading";
-import useCurrentAccount from "../../useHook/useCurrentAccount";
+import useCurrentAccount from "../../hooks/useCurrentAccount";
 import { useEffect, useState } from "react";
-import useAccountAddress from "../../useHook/useAccountAddress";
-import useXUDT from "../../useHook/useXUDT";
+import useAccountAddress from "../../hooks/useAccountAddress";
+import useXUDT from "../../hooks/useXUDT";
 import styled from "styled-components";
 import XudtItem from "./xudtItem";
 import { unpackAmount } from "@ckb-lumos/common-scripts/lib/sudt";

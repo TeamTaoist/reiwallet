@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import useDOB from "../../useHook/useDOB";
+import useDOB from "../../hooks/useDOB";
 import { useEffect, useState } from "react";
 import { unpackToRawClusterData } from "@spore-sdk/core";
-import useNetwork from "../../useHook/useNetwork";
+import useNetwork from "../../hooks/useNetwork";
 import { useNavigate } from "react-router-dom";
 import { useWeb3 } from "../../store/contracts";
 import Loading from "../loading/loading";
-import useAccountAddress from "../../useHook/useAccountAddress";
-import useCurrentAccount from "../../useHook/useCurrentAccount";
+import useAccountAddress from "../../hooks/useAccountAddress";
+import useCurrentAccount from "../../hooks/useCurrentAccount";
 import DobClusterList from "./dobClusterList";
 import ClusterListDOB from "./clusterListDOB";
 import { useTranslation } from "react-i18next";

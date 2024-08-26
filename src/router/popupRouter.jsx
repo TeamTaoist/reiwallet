@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Home from "../components/home-popup/home";
+import Home from "../components/homePopup/home";
 import Send from "../components/token/send";
 import SendAction from "../components/token/sendAction";
 import AccountDetail from "../components/account/Detail";

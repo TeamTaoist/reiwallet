@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useSessionMessenger } from "../../useHook/useSessionMessenger";
+import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 import Avatar from "../../components/svg/avatar/avatar";
 import PublicJs from "../../utils/publicJS";
-import useCurrentAccount from "../../useHook/useCurrentAccount";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useCurrentAccount from "../../hooks/useCurrentAccount";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import AccountSwitch from "./accountSwitch";
 import Button from "../../components/button/button";
 import BtnLoading from "../../components/loading/btnloading";

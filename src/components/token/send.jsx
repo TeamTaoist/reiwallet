@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PublicJs from "../../utils/publicJS";
 import Avatar from "../svg/avatar/avatar";
-import useWalletList from "../../useHook/useWalletList";
+import useWalletList from "../../hooks/useWalletList";
 
 const Box = styled.div`
   height: 100%;

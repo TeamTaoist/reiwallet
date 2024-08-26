@@ -4,7 +4,7 @@ import DashboardLayout from "../dashboard/layout";
 import Button from "../button/button";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import useWalletList from "../../useHook/useWalletList";
+import useWalletList from "../../hooks/useWalletList";
 
 const PrivacyPageStyled = styled.div`
   width: 762px;

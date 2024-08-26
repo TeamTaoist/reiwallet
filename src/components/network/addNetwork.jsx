@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../loading/loading";
-import useNetwork from "../../useHook/useNetwork";
+import useNetwork from "../../hooks/useNetwork";
 import Toast from "../modal/toast";
 
 const Box = styled.div`

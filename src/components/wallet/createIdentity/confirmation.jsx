@@ -12,9 +12,9 @@ import { useWeb3 } from "../../../store/contracts";
 import PublicJs from "../../../utils/publicJS";
 import Keystore from "../../../wallet/keystore";
 import Loading from "../../loading/loading";
-import useNetwork from "../../../useHook/useNetwork";
-import useCurrentAccount from "../../../useHook/useCurrentAccount";
-import useWalletList from "../../../useHook/useWalletList";
+import useNetwork from "../../../hooks/useNetwork";
+import useCurrentAccount from "../../../hooks/useCurrentAccount";
+import useWalletList from "../../../hooks/useWalletList";
 import { savePassword } from "../../../wallet/password";
 
 const ContainerContentStyled = styled.div``;

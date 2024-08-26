@@ -5,13 +5,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import useAccountAddress from "../../useHook/useAccountAddress";
+import useAccountAddress from "../../hooks/useAccountAddress";
 import TokenHeader from "../header/tokenHeader";
 import { useWeb3 } from "../../store/contracts";
 import PublicJS from "../../utils/publicJS";
 import CopyImg from "../../assets/images/create/COPY.png";
 import Toast from "../modal/toast";
-import useMessage from "../../useHook/useMessage";
+import useMessage from "../../hooks/useMessage";
 import Loading from "../loading/loading";
 import { formatUnit } from "@ckb-lumos/bi";
 

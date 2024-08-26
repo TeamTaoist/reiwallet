@@ -10,13 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import PublicJs from "../../utils/publicJS";
 import Toast from "../modal/toast";
-import useCurrentAccount from "../../useHook/useCurrentAccount";
+import useCurrentAccount from "../../hooks/useCurrentAccount";
 import AddAccount from "./addAccount";
-import useAccountAddress from "../../useHook/useAccountAddress";
-import useNetwork from "../../useHook/useNetwork";
+import useAccountAddress from "../../hooks/useAccountAddress";
+import useNetwork from "../../hooks/useNetwork";
 import Avatar from "../svg/avatar/avatar";
 import { Copy as Copy2, ChevronDown } from "lucide-react";
-import usePublickey from "../../useHook/usePublickey";
+import usePublickey from "../../hooks/usePublickey";
 
 const AccountBox = styled.div`
   display: flex;

@@ -3,7 +3,7 @@ import WalletHome from "../wallet/createWallet/walletHome";
 import Lock from "../lock/lock";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import useLock from "../../useHook/useLock";
+import useLock from "../../hooks/useLock";
 
 const Box = styled.div`
   height: 600px;

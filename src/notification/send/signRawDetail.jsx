@@ -1,11 +1,11 @@
-import { useSessionMessenger } from "../../useHook/useSessionMessenger";
+import { useSessionMessenger } from "../../hooks/useSessionMessenger";
 import styled from "styled-components";
 import Button from "../../components/button/button";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import BtnLoading from "../../components/loading/btnloading";
 
-import useMessage from "../../useHook/useMessage";
+import useMessage from "../../hooks/useMessage";
 import Loading from "../../components/loading/loading";
 import Toast from "../../components/modal/toast";
 
