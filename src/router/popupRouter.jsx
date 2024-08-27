@@ -3,7 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "../popup/homePopup/home";
 import Send from "../popup/token/send";
 import SendAction from "../popup/token/sendAction";
-import AccountDetail from "../popup/account/Detail";
+import AccountDetail from "../popup/account/detail";
 import Sites from "../popup/site/sites";
 
 import Export from "../popup/account/export";
