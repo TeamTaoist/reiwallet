@@ -1,4 +1,4 @@
-import CreateRestore from "../createIdentity/CreateRestore";
+import CreateRestore from "../createIdentity/createRestore";
 import WalletHome from "../wallet/createWallet/walletHome";
 import Lock from "../lock/lock";
 import styled from "styled-components";

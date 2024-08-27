@@ -2,7 +2,7 @@ import HeaderTop from "../../header/header";
 import { useEffect, useState } from "react";
 import Account from "../../account/account";
 import styled from "styled-components";
-import CreateRestore from "../../createIdentity/CreateRestore";
+import CreateRestore from "../../createIdentity/createRestore";
 
 const Box = styled.div`
   height: 100%;
