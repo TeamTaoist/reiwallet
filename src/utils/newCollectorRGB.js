@@ -3,7 +3,7 @@ import { hexToBytes } from "@nervosnetwork/ckb-sdk-utils";
 
 import camelcaseKeys from "camelcase-keys";
 import { BI } from "@ckb-lumos/lumos";
-const toCamelCase = (object) => {
+const toCamelcase = (object) => {
   try {
     return JSON.parse(
       JSON.stringify(
@@ -92,7 +92,7 @@ export class RGBCollector {
       throw new Error("Get cells error");
       // return Promise.reject(rt.error);
     } else {
-      return toCamelCase(response.result.objects);
+      return toCamelcase(response.result.objects);
     }
   }
 

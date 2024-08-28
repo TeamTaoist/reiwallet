@@ -11,8 +11,8 @@ export default class Keystore {
   static createEmpty = () => {
     const salt = crypto.randomBytes(32);
     const iv = crypto.randomBytes(16);
-    const kdfParams = {
-      dkLen: 32,
+    const kdfparams = {
+      dklen: 32,
       salt: salt.toString("hex"),
       n: 2 ** 18,
       r: 8,
@@ -20,13 +20,13 @@ export default class Keystore {
     };
     return new Keystore(
       {
-        cipherText: "",
-        cipherParams: {
+        ciphertext: "",
+        cipherparams: {
           iv: iv.toString("hex"),
         },
         cipher: CIPHER,
         kdf: "scrypt",
-        kdfParams,
+        kdfparams,
         mac: "",
       },
       uuid(),
@@ -37,8 +37,8 @@ export default class Keystore {
     const salt = options.salt || crypto.randomBytes(32);
     const iv = options.iv || crypto.randomBytes(16);
     // salt: salt.toString('hex'),
-    const kdfParams = {
-      dkLen: 32,
+    const kdfparams = {
+      dklen: 32,
       salt,
       n: 2 ** 18,
       r: 8,
@@ -47,14 +47,14 @@ export default class Keystore {
 
     const privateKeyBuffer = Buffer.from(str, "utf8");
 
-    // const derivedKey = crypto.scryptSync(password, salt, kdfParams.dkLen, Keystore.scryptOptions(kdfParams))
+    // const derivedKey = crypto.scryptSync(password, salt, kdfparams.dklen, Keystore.scryptOptions(kdfparams))
     const derivedKey = scrypt.syncScrypt(
       Buffer.from(password),
-      kdfParams.salt,
-      kdfParams.n,
-      kdfParams.r,
-      kdfParams.p,
-      kdfParams.dkLen,
+      kdfparams.salt,
+      kdfparams.n,
+      kdfparams.r,
+      kdfparams.p,
+      kdfparams.dklen,
       "sha256",
     );
 
@@ -64,20 +64,20 @@ export default class Keystore {
       throw new Error("Unsupported cipher");
     }
 
-    const cipherText = Buffer.concat([
+    const ciphertext = Buffer.concat([
       cipher.update(privateKeyBuffer),
       cipher.final(),
     ]);
 
     return {
-      cipherText: cipherText.toString("hex"),
-      cipherParams: {
+      ciphertext: ciphertext.toString("hex"),
+      cipherparams: {
         iv: iv.toString("hex"),
       },
       cipher: CIPHER,
       kdf: "scrypt",
-      kdfParams: kdfParams,
-      mac: Keystore.mac(derivedKey, cipherText),
+      kdfparams: kdfparams,
+      mac: Keystore.mac(derivedKey, ciphertext),
       id: uuid(),
     };
   };
@@ -93,23 +93,23 @@ export default class Keystore {
       keyStr = decryptStr;
     }
 
-    const { kdfParams } = keyStr;
+    const { kdfparams } = keyStr;
 
-    const salt = kdfParams.salt?.data;
+    const salt = kdfparams.salt?.data;
 
     const derivedKey = scrypt.syncScrypt(
       Buffer.from(password),
       salt,
-      kdfParams.n,
-      kdfParams.r,
-      kdfParams.p,
-      kdfParams.dkLen,
+      kdfparams.n,
+      kdfparams.r,
+      kdfparams.p,
+      kdfparams.dklen,
       "sha256",
     );
-    const cipherText = Buffer.from(keyStr.cipherText, "hex");
+    const ciphertext = Buffer.from(keyStr.ciphertext, "hex");
     const mac = new Keccak(256)
       .update(
-        Buffer.concat([derivedKey.slice(16, 32), Buffer.from(cipherText)]),
+        Buffer.concat([derivedKey.slice(16, 32), Buffer.from(ciphertext)]),
       )
       .digest("hex");
     if (mac !== keyStr.mac) {
@@ -119,10 +119,10 @@ export default class Keystore {
     const decipher = crypto.createDecipheriv(
       keyStr.cipher,
       derivedKey.slice(0, 16),
-      Buffer.from(keyStr.cipherParams.iv, "hex"),
+      Buffer.from(keyStr.cipherparams.iv, "hex"),
     );
 
-    const seed = Buffer.concat([decipher.update(cipherText), decipher.final()]);
+    const seed = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
 
     return seed.toString("utf8");
   };
@@ -131,43 +131,43 @@ export default class Keystore {
     /*global chrome*/
     let keyJson = await chrome.storage.local.get(["Mnemonic"]);
     let keyStr = JSON.parse(keyJson.Mnemonic);
-    keyStr.kdfParams.salt = keyStr.kdfParams.salt?.data;
+    keyStr.kdfparams.salt = keyStr.kdfparams.salt?.data;
 
-    const { kdfParams } = keyStr;
+    const { kdfparams } = keyStr;
     const derivedKey = scrypt.syncScrypt(
       Buffer.from(password),
-      kdfParams.salt,
-      kdfParams.n,
-      kdfParams.r,
-      kdfParams.p,
-      kdfParams.dkLen,
+      kdfparams.salt,
+      kdfparams.n,
+      kdfparams.r,
+      kdfparams.p,
+      kdfparams.dklen,
     );
 
-    const cipherText = Buffer.from(keyStr.cipherText, "hex");
-    return Keystore.mac(derivedKey, cipherText) === keyStr.mac;
+    const ciphertext = Buffer.from(keyStr.ciphertext, "hex");
+    return Keystore.mac(derivedKey, ciphertext) === keyStr.mac;
   };
 
-  static derivedKey = (password, kdfParams) => {
+  static derivedKey = (password, kdfparams) => {
     return scrypt.syncScrypt(
       password,
-      Buffer.from(kdfParams.salt, "hex"),
-      kdfParams.dkLen,
-      Keystore.scryptOptions(kdfParams),
+      Buffer.from(kdfparams.salt, "hex"),
+      kdfparams.dklen,
+      Keystore.scryptOptions(kdfparams),
     );
   };
 
-  static mac = (derivedKey, cipherText) => {
+  static mac = (derivedKey, ciphertext) => {
     return new Keccak(256)
-      .update(Buffer.concat([derivedKey.slice(16, 32), cipherText]))
+      .update(Buffer.concat([derivedKey.slice(16, 32), ciphertext]))
       .digest("hex");
   };
 
-  static scryptOptions = (kdfParams) => {
+  static scryptOptions = (kdfparams) => {
     return {
-      N: kdfParams.n,
-      r: kdfParams.r,
-      p: kdfParams.p,
-      maxmem: 128 * (kdfParams.n + kdfParams.p + 2) * kdfParams.r,
+      N: kdfparams.n,
+      r: kdfparams.r,
+      p: kdfparams.p,
+      maxmem: 128 * (kdfparams.n + kdfparams.p + 2) * kdfparams.r,
     };
   };
 }
