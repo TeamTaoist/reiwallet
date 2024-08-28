@@ -79,13 +79,13 @@ export default function Mnemonics() {
 
   useEffect(() => {
     if (mnemonic == null) {
-      creatWallet(0);
+      createWallet(0);
     } else {
       setMnemonicStr(mnemonic);
     }
   }, [mnemonic]);
 
-  const creatWallet = async (index) => {
+  const createWallet = async (index) => {
     const wallet = new Wallet(index, true, false);
     let walletObj = await wallet.GenerateWallet();
     const { address_main, address_test, mnemonic, publicKey } = walletObj;

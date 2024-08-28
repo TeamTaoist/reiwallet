@@ -1,6 +1,6 @@
 import PublicJS, {
   parseFixed,
-  unserializeTokenInfo,
+  unSerializeTokenInfo,
 } from "../../utils/publicJS";
 import Next from "../../assets/images/into.png";
 import styled from "styled-components";
@@ -59,7 +59,7 @@ export default function Xudt_item({ item }) {
           (itemInner) => itemInner?.type?.code_hash === utS.codeHash,
         );
         let rt =
-          index !== -1 ? unserializeTokenInfo(outputs_data[index]) : null;
+          index !== -1 ? unSerializeTokenInfo(outputs_data[index]) : null;
 
         if (rt) {
           rt.newAmount = parseFixed(item.amount.toString(), rt.decimal);

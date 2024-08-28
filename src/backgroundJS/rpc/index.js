@@ -1,13 +1,13 @@
 import Wallet from "../../wallet/wallet";
 import {
   BI,
-  CellCollector,
+  // CellCollector,
   commons,
   config,
   hd,
   helpers,
   Indexer,
-  RPC,
+  // RPC,
 } from "@ckb-lumos/lumos";
 import { parseUnit } from "@ckb-lumos/bi";
 import { formatter } from "./formatParams";
