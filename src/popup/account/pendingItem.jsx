@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import usePendingDetail from "../../hooks/usePendingDetail";
 import PublicJs from "../../utils/publicJS";
 import BtnLoading from "../loading/btn_loading";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 
 export default function PendingItem({ txItem, networkInfo }) {
   const [tx, setTx] = useState("");
   const { loading, item } = usePendingDetail(tx);
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   useEffect(() => {
     if (!txItem) return;

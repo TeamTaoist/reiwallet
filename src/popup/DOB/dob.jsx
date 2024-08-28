@@ -11,7 +11,7 @@ import useCurrentAccount from "../../hooks/useCurrentAccount";
 import DobClusterList from "./dobClusterList";
 import ClusterListDOB from "./clusterListDOB";
 import { useTranslation } from "react-i18next";
-import { decodeDOB } from "@taoist-labs/dob-decoder";
+// import { decodeDOB } from "@taoist-labs/dob-decoder";
 
 const Box = styled.div`
   padding: 23px 20px;
@@ -90,13 +90,17 @@ const TabBox = styled("div")`
 // `
 
 export default function Dob() {
-  const [sList, setSList] = useState([]);
+  const [
+    sList, // setSList
+  ] = useState([]);
   const [cList, setCList] = useState([]);
   const [loadingShow, setLoadingShow] = useState(false);
   const navigate = useNavigate();
   const { dispatch } = useWeb3();
   const { currentAccount } = useCurrentAccount();
-  const { networkInfo, network } = useNetwork();
+  const {
+    networkInfo, // network
+  } = useNetwork();
   const { currentAccountInfo } = useAccountAddress();
   const [current, setCurrent] = useState(0);
   const { list, loading, clusterList, didList } = useDOB(current);

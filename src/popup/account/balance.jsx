@@ -27,7 +27,7 @@ const Title = styled.div`
   }
 
   .subTitle,
-  .titletop {
+  .titleTop {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,7 +79,7 @@ export default function Balance() {
       )}
       {!balanceLoading && (
         <Title className="medium-font">
-          {/*<div className="titletop">Total</div>*/}
+          {/*<div className="titleTop">Total</div>*/}
           <div className="total">
             {balance} {symbol}
           </div>

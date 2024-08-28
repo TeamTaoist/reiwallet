@@ -120,7 +120,7 @@ export default function Xudt_item({ item }) {
 
   const toDetail = (item) => {
     dispatch({ type: "SET_XUDT_DETAIL", payload: { ...item, ...detail } });
-    navigate("/xudtdetail");
+    navigate("/xudtDetail");
   };
 
   return (

@@ -69,8 +69,8 @@ function PopupRouterLink() {
 
       <Route path="/sudtConfirm" element={<SendConfirm />} />
 
-      <Route path="/sudtdetail" element={<SUDTDetail />} />
-      <Route path="/xudtdetail" element={<XUDTDetail />} />
+      <Route path="/sudtDetail" element={<SUDTDetail />} />
+      <Route path="/xudtDetail" element={<XUDTDetail />} />
       <Route path="/xudtConfirm" element={<SendXUDTConfirm />} />
     </Routes>
   );

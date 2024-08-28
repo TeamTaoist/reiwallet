@@ -122,7 +122,7 @@ export default function Assets() {
 
   const toDetail = (item) => {
     dispatch({ type: "SET_SUDT_DETAIL", payload: item });
-    navigate("/sudtdetail");
+    navigate("/sudtDetail");
   };
 
   return (

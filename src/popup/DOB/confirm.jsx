@@ -16,7 +16,7 @@ import TokenHeader from "../header/tokenHeader";
 import Loading from "../loading/loading";
 import useMessage from "../../hooks/useMessage";
 import ErrorImg from "../../assets/images/error_image.svg";
-import { xudt } from "../../store/initState";
+// import { xudt } from "../../store/initState";
 
 const ContentBox = styled.div`
   flex-grow: 1;

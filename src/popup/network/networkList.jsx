@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Checked from "../../assets/images/Checked.png";
 import Close from "../../assets/images/close.png";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useNetwork from "../../hooks/useNetwork";
-import { CirclePlus } from "lucide-react";
+// import { CirclePlus } from "lucide-react";
 
 const Box = styled.div`
   width: 100vw;
@@ -83,29 +83,29 @@ const UlBox = styled.ul`
     }
   }
 `;
-const BtnBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-  padding: 10px;
-  .btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-  }
-`;
+// const BtnBox = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background: #fff;
+//   padding: 10px;
+//   .btn {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     gap: 10px;
+//     cursor: pointer;
+//   }
+// `;
 
 export default function NetworkList({ current, handleLoading, closeLoading }) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { saveNetwork, netList } = useNetwork();
 
-  const toGo = () => {
-    navigate("/addNetwork");
-  };
+  // const toGo = () => {
+  //   navigate("/addNetwork");
+  // };
 
   const handleSelect = async (index) => {
     const value = netList[index].value;
