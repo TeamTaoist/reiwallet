@@ -51,7 +51,7 @@ const randomSort = (arr) => {
   return newArr;
 };
 
-export const unserializeTokenInfo = (hexData) => {
+export const unSerializeTokenInfo = (hexData) => {
   const buf = hexToBytes(hexData);
   const view = new DataView(buf.buffer);
 
