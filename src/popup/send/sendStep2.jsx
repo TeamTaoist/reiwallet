@@ -148,7 +148,7 @@ export default function SendStep2({
           <Avatar size={36} address={currentAccountInfo?.address} />
           <div className="name">
             {currentAccountInfo?.address
-              ? PublicJS.AddressToShow(currentAccountInfo?.address)
+              ? PublicJS.addressToShow(currentAccountInfo?.address)
               : ""}
           </div>
         </AvatarBox>
@@ -157,7 +157,7 @@ export default function SendStep2({
         </div>
         <AvatarBox>
           <Avatar size={36} address={address} />
-          <div className="name">{PublicJS.AddressToShow(address)}</div>
+          <div className="name">{PublicJS.addressToShow(address)}</div>
         </AvatarBox>
       </FirstLine>
       <SendBox>
@@ -171,7 +171,7 @@ export default function SendStep2({
         <TitleBox>{t("popup.send.Inputs")}</TitleBox>
         {result?.inputs?.map((item) => (
           <AddressBox>
-            <div>{PublicJS.AddressToShow(item.address)}</div>
+            <div>{PublicJS.addressToShow(item.address)}</div>
             <div>
               {formatUnit(item.capacity, "ckb")} {symbol}
             </div>
@@ -182,7 +182,7 @@ export default function SendStep2({
         <TitleBox>{t("popup.send.Outputs")}</TitleBox>
         {result?.outputs?.map((item) => (
           <AddressBox>
-            <div>{PublicJS.AddressToShow(item.address)}</div>
+            <div>{PublicJS.addressToShow(item.address)}</div>
             <div>
               {formatUnit(item.capacity, "ckb")} {symbol}
             </div>

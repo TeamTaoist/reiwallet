@@ -304,7 +304,7 @@ export default function SendCKB() {
             <Avatar size={20} address={currentAccountInfo?.address} />
             <div className="name">
               {currentAccountInfo?.address
-                ? PublicJS.AddressToShow(currentAccountInfo?.address)
+                ? PublicJS.addressToShow(currentAccountInfo?.address)
                 : ""}
             </div>
           </AvatarBox>
@@ -314,7 +314,7 @@ export default function SendCKB() {
           <AvatarBox>
             <Avatar size={20} address={params?.to} />
             <div className="name">
-              {params?.to ? PublicJS.AddressToShow(params?.to) : ""}
+              {params?.to ? PublicJS.addressToShow(params?.to) : ""}
             </div>
           </AvatarBox>
         </FirstLine>
@@ -329,7 +329,7 @@ export default function SendCKB() {
           <TitleBox>{t("popup.send.Inputs")}</TitleBox>
           {result?.inputs?.map((item) => (
             <AddressBox>
-              <div>{PublicJS.AddressToShow(item.address)}</div>
+              <div>{PublicJS.addressToShow(item.address)}</div>
               <div>
                 {formatUnit(item.capacity, "ckb")} {symbol}
               </div>
@@ -340,7 +340,7 @@ export default function SendCKB() {
           <TitleBox>{t("popup.send.Outputs")}</TitleBox>
           {result?.outputs?.map((item) => (
             <AddressBox>
-              <div>{PublicJS.AddressToShow(item.address)}</div>
+              <div>{PublicJS.addressToShow(item.address)}</div>
               <div>
                 {formatUnit(item.capacity, "ckb")} {symbol}
               </div>

@@ -152,7 +152,7 @@ export default function Cluster_detail() {
           <dl>
             <dt>{t("popup.cluster.ClusterId")}</dt>
             <dd className="medium-font">
-              <span>{PublicJs.AddressToShow(cluster?.clusterId)}</span>
+              <span>{PublicJs.addressToShow(cluster?.clusterId)}</span>
               <CopyToClipboard onCopy={() => Copy()} text={cluster?.clusterId}>
                 <CopyIcon size={14} />
               </CopyToClipboard>

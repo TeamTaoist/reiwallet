@@ -163,7 +163,7 @@ export default function Send() {
 
             <dd className="medium-font">
               <div className="title">{item?.name}</div>
-              <div>{PublicJs.AddressToShow(item.address)}</div>
+              <div>{PublicJs.addressToShow(item.address)}</div>
             </dd>
           </dl>
         ))}

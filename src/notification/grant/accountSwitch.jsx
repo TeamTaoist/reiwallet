@@ -109,7 +109,7 @@ export default function AccountSwitch({ currentAccount, handleCurrent }) {
                     )}
                   </div>
                   <div className="balance medium-font">
-                    {PublicJs.AddressToShow(item.address)}
+                    {PublicJs.addressToShow(item.address)}
                   </div>
                 </div>
               </AccountBox>

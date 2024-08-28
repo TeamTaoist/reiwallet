@@ -209,7 +209,7 @@ export default function XUDT_detail() {
           <dl>
             <dt>Token</dt>
             <dd>
-              <span>{PublicJS.AddressToShow(xudt.output?.type?.args, 10)}</span>
+              <span>{PublicJS.addressToShow(xudt.output?.type?.args, 10)}</span>
               <CopyToClipboard
                 onCopy={() => Copy()}
                 text={xudt.output?.type?.args}

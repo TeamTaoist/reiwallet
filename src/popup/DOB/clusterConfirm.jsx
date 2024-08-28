@@ -195,7 +195,7 @@ export default function ClusterConfirm() {
           <dd className="medium-font">
             <span>
               {cluster?.clusterId
-                ? PublicJs.AddressToShow(cluster?.clusterId)
+                ? PublicJs.addressToShow(cluster?.clusterId)
                 : ""}
             </span>
             <CopyToClipboard onCopy={() => Copy()} text={cluster?.clusterId}>

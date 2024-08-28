@@ -353,7 +353,7 @@ export default function SendDOB_detail() {
             <Avatar size={20} address={currentAccountInfo?.address} />
             <div className="name">
               {currentAccountInfo?.address
-                ? PublicJS.AddressToShow(currentAccountInfo?.address)
+                ? PublicJS.addressToShow(currentAccountInfo?.address)
                 : ""}
             </div>
           </AvatarBox>
@@ -363,7 +363,7 @@ export default function SendDOB_detail() {
           <AvatarBox>
             <Avatar size={20} address={params?.to} />
             <div className="name">
-              {params?.to ? PublicJS.AddressToShow(params?.to) : ""}
+              {params?.to ? PublicJS.addressToShow(params?.to) : ""}
             </div>
           </AvatarBox>
         </FirstLine>
@@ -422,7 +422,7 @@ export default function SendDOB_detail() {
               <dt>{t("popup.send.ClusterId")}</dt>
               <dd className="medium-font">
                 <span>
-                  {PublicJs.AddressToShow(dobDetail?.asset?.clusterId)}
+                  {PublicJs.addressToShow(dobDetail?.asset?.clusterId)}
                 </span>
                 <CopyToClipboard
                   onCopy={() => Copy()}
@@ -439,7 +439,7 @@ export default function SendDOB_detail() {
             <dd className="medium-font">
               <span>
                 {dobDetail?.cellOutput?.type?.args
-                  ? PublicJs.AddressToShow(dobDetail?.cellOutput?.type?.args)
+                  ? PublicJs.addressToShow(dobDetail?.cellOutput?.type?.args)
                   : ""}
               </span>
               <CopyToClipboard

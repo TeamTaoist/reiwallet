@@ -33,7 +33,7 @@ export default function PendingItem({ txItem, networkInfo }) {
         <div className="inner">
           <div className="item">
             <div className="medium-font title">
-              {tx ? PublicJs.AddressToShow(tx) : ""}
+              {tx ? PublicJs.addressToShow(tx) : ""}
             </div>
             <div>
               <span className="time">

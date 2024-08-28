@@ -23,7 +23,7 @@ export default function ActivitiesItem({ item, networkInfo }) {
         <div className="inner">
           <div className="item">
             <div className="medium-font title">
-              {item.tx_hash ? PublicJs.AddressToShow(item.tx_hash) : ""}
+              {item.tx_hash ? PublicJs.addressToShow(item.tx_hash) : ""}
             </div>
             <div>
               <span className="time">

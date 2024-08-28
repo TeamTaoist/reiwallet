@@ -254,7 +254,7 @@ export default function DOB_detail() {
             <dl>
               <dt>{t("popup.dob.ClusterId")}</dt>
               <dd className="medium-font">
-                <span>{PublicJs.AddressToShow(dob?.asset.clusterId)}</span>
+                <span>{PublicJs.addressToShow(dob?.asset.clusterId)}</span>
                 <CopyToClipboard
                   onCopy={() => Copy()}
                   text={dob?.asset.clusterId}
@@ -268,7 +268,7 @@ export default function DOB_detail() {
           <dl>
             <dt>{t("popup.dob.TokenID")}</dt>
             <dd className="medium-font">
-              <span>{PublicJs.AddressToShow(dob?.output?.type?.args)}</span>
+              <span>{PublicJs.addressToShow(dob?.output?.type?.args)}</span>
               <CopyToClipboard
                 onCopy={() => Copy()}
                 text={dob?.output?.type?.args}

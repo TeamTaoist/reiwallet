@@ -258,7 +258,7 @@ export default function SendSUDTDetail() {
             <Avatar size={20} address={currentAccountInfo?.address} />
             <div className="name">
               {currentAccountInfo?.address
-                ? PublicJS.AddressToShow(currentAccountInfo?.address)
+                ? PublicJS.addressToShow(currentAccountInfo?.address)
                 : ""}
             </div>
           </AvatarBox>
@@ -268,7 +268,7 @@ export default function SendSUDTDetail() {
           <AvatarBox>
             <Avatar size={20} address={params?.to} />
             <div className="name">
-              {params?.to ? PublicJS.AddressToShow(params?.to) : ""}
+              {params?.to ? PublicJS.addressToShow(params?.to) : ""}
             </div>
           </AvatarBox>
         </FirstLine>
@@ -278,7 +278,7 @@ export default function SendSUDTDetail() {
             <dt>Token</dt>
             <dd>
               <span>
-                {params?.token ? PublicJS.AddressToShow(params?.token, 10) : ""}
+                {params?.token ? PublicJS.addressToShow(params?.token, 10) : ""}
               </span>
               <CopyToClipboard onCopy={() => Copy()} text={params?.token}>
                 <img src={CopyImg} alt="" />

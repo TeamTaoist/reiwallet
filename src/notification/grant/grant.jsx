@@ -208,7 +208,7 @@ export default function Grant() {
           </div>
           <RhtBox>
             <div className="account">{walletName}</div>
-            <div className="address">{PublicJs.AddressToShow(address, 10)}</div>
+            <div className="address">{PublicJs.addressToShow(address, 10)}</div>
           </RhtBox>
         </AccountBox>
       </Content>

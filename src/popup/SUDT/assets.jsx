@@ -146,7 +146,7 @@ export default function Assets() {
                 <FlexLft>
                   <div className="token">token</div>
                   <div className="token">
-                    {PublicJS.AddressToShow(item?.output?.type?.args)}
+                    {PublicJS.addressToShow(item?.output?.type?.args)}
                   </div>
                 </FlexLft>
               </div>

@@ -324,7 +324,7 @@ export default function DOBConfirm() {
           <dl>
             <dt>{t("popup.send.ClusterId")}</dt>
             <dd className="medium-font">
-              <span>{PublicJs.AddressToShow(dob?.clusterId)}</span>
+              <span>{PublicJs.addressToShow(dob?.clusterId)}</span>
               <CopyToClipboard onCopy={() => Copy()} text={dob?.clusterId}>
                 <img src={CopyImg} alt="" />
               </CopyToClipboard>
@@ -335,7 +335,7 @@ export default function DOBConfirm() {
         <dl>
           <dt>{t("popup.send.TokenID")}</dt>
           <dd className="medium-font">
-            <span>{PublicJs.AddressToShow(dob?.output?.type?.args)}</span>
+            <span>{PublicJs.addressToShow(dob?.output?.type?.args)}</span>
             <CopyToClipboard
               onCopy={() => Copy()}
               text={dob?.output?.type?.args}

@@ -251,7 +251,7 @@ export default function AccountHeader() {
         <div>
           <div className="account">{walletName}</div>
           <Tips>
-            <div className="address">{PublicJs.AddressToShow(address)}</div>
+            <div className="address">{PublicJs.addressToShow(address)}</div>
             <ChevronDown size={12} />
           </Tips>
         </div>

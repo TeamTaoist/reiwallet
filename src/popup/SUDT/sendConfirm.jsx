@@ -380,7 +380,7 @@ export default function SendConfirm() {
           <dl>
             <dt>Token</dt>
             <dd>
-              <span>{PublicJS.AddressToShow(sudt.output?.type?.args, 10)}</span>
+              <span>{PublicJS.addressToShow(sudt.output?.type?.args, 10)}</span>
               <CopyToClipboard
                 onCopy={() => Copy()}
                 text={sudt.output?.type?.args}

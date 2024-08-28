@@ -269,7 +269,7 @@ export default function SendXUDTDetail() {
             <Avatar size={20} address={currentAccountInfo?.address} />
             <div className="name">
               {currentAccountInfo?.address
-                ? PublicJS.AddressToShow(currentAccountInfo?.address)
+                ? PublicJS.addressToShow(currentAccountInfo?.address)
                 : ""}
             </div>
           </AvatarBox>
@@ -279,7 +279,7 @@ export default function SendXUDTDetail() {
           <AvatarBox>
             <Avatar size={20} address={params?.to} />
             <div className="name">
-              {params?.to ? PublicJS.AddressToShow(params?.to) : ""}
+              {params?.to ? PublicJS.addressToShow(params?.to) : ""}
             </div>
           </AvatarBox>
         </FirstLine>
@@ -290,7 +290,7 @@ export default function SendXUDTDetail() {
             <dd>
               <span>
                 {params?.typeScript?.args
-                  ? PublicJS.AddressToShow(params?.typeScript?.args, 10)
+                  ? PublicJS.addressToShow(params?.typeScript?.args, 10)
                   : ""}
               </span>
               <CopyToClipboard
@@ -306,7 +306,7 @@ export default function SendXUDTDetail() {
             <dd>
               <span>
                 {params?.typeScript?.code_hash
-                  ? PublicJS.AddressToShow(params?.typeScript?.code_hash, 10)
+                  ? PublicJS.addressToShow(params?.typeScript?.code_hash, 10)
                   : ""}
               </span>
               <CopyToClipboard
