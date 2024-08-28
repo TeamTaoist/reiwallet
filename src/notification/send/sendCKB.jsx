@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "../../popup/button/button";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import BtnLoading from "../../popup/loading/btn_loading";
+import BtnLoading from "../../popup/loading/btnLoading";
 import Avatar from "../../popup/svg/avatar/avatar";
 import PublicJS from "../../utils/publicJS";
 import FromImg from "../../assets/images/fromTo.png";

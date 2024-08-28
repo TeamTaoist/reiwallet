@@ -4,7 +4,7 @@ import useMessage from "../../hooks/useMessage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAccountAddress from "../../hooks/useAccountAddress";
-import BtnLoading from "../loading/btn_loading";
+import BtnLoading from "../loading/btnLoading";
 import Toast from "../modal/toast";
 import { useTranslation } from "react-i18next";
 

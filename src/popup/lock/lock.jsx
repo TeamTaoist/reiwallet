@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Keystore from "../../wallet/keystore";
-import BtnLoading from "../loading/btn_loading";
+import BtnLoading from "../loading/btnLoading";
 import { savePassword, switchPassword } from "../../wallet/password";
 import Toast from "../modal/toast";
 

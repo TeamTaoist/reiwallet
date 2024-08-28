@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import usePendingDetail from "../../hooks/usePendingDetail";
 import PublicJs from "../../utils/publicJS";
-import BtnLoading from "../loading/btn_loading";
+import BtnLoading from "../loading/btnLoading";
 // import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 

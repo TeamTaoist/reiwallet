@@ -12,7 +12,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import CopyImg from "../../assets/images/create/COPY.png";
 import { formatUnit } from "@ckb-lumos/bi";
 import Button from "../../popup/button/button";
-import BtnLoading from "../../popup/loading/btn_loading";
+import BtnLoading from "../../popup/loading/btnLoading";
 import useBalance from "../../hooks/useBalance";
 import Loading from "../../popup/loading/loading";
 import Toast from "../../popup/modal/toast";

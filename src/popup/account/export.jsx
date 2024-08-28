@@ -9,7 +9,7 @@ import Close from "../../assets/images/create/close.png";
 import { useEffect, useState } from "react";
 import Keystore from "../../wallet/keystore";
 import useAccountAddress from "../../hooks/useAccountAddress";
-import BtnLoading from "../loading/btn_loading";
+import BtnLoading from "../loading/btnLoading";
 import { clearPassword, switchPassword } from "../../wallet/password";
 
 const TitleBox = styled.div`
