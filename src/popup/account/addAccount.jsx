@@ -6,7 +6,7 @@ import useWalletList from "../../hooks/useWalletList";
 import useNetwork from "../../hooks/useNetwork";
 import { useNavigate } from "react-router-dom";
 import { useWeb3 } from "../../store/contracts";
-import BtnLoading from "../loading/btnloading";
+import BtnLoading from "../loading/btn_loading";
 import useMessage from "../../hooks/useMessage";
 import { v4 as uuid } from "uuid";
 import Toast from "../modal/toast";

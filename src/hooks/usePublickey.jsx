@@ -6,7 +6,7 @@ import useMessage from "./useMessage";
 export default function usePublickey() {
   const [currentAccount, setCurrentAccount] = useState("");
   const {
-    dispatch,
+    // dispatch,
     state: { refresh_current },
   } = useWeb3();
 

@@ -7,7 +7,7 @@ import useCurrentAccount from "../../hooks/useCurrentAccount";
 import useAccountAddress from "../../hooks/useAccountAddress";
 import AccountSwitch from "./accountSwitch";
 import Button from "../../popup/button/button";
-import BtnLoading from "../../popup/loading/btnloading";
+import BtnLoading from "../../popup/loading/btn_loading";
 import { useTranslation } from "react-i18next";
 
 const Box = styled.div`

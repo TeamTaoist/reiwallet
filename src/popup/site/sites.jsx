@@ -85,7 +85,7 @@ export default function Sites() {
           </dl>
         ))}
 
-        {!list.length && <EmptyBox>{t("popup.sites.Nosites")}</EmptyBox>}
+        {!list.length && <EmptyBox>{t("popup.sites.NoSites")}</EmptyBox>}
       </DlBox>
     </AllModal>
   );

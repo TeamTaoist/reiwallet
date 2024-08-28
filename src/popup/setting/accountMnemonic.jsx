@@ -7,7 +7,7 @@ import Close from "../../assets/images/create/close.png";
 import Open from "../../assets/images/create/open.png";
 import { useState } from "react";
 import Keystore from "../../wallet/keystore";
-import BtnLoading from "../loading/btnloading";
+import BtnLoading from "../loading/btn_loading";
 import { useTranslation } from "react-i18next";
 import { clearPassword, switchPassword } from "../../wallet/password";
 

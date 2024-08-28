@@ -924,7 +924,7 @@ async function signAndSendTransaction(txSkeleton) {
 
 const getTransactionSizeByTx = (tx) => {
   const serializedTx = blockchain.Transaction.pack(tx);
-  // 4 is serialized offset bytesize
+  // 4 is serialized offset byte size
   const size = serializedTx.byteLength + 4;
   return size;
 };

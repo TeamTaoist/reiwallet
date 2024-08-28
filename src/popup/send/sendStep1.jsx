@@ -1,5 +1,5 @@
 import CloseImg from "../../assets/images/close.png";
-import BtnLoading from "../loading/btnloading";
+import BtnLoading from "../loading/btn_loading";
 import Button from "../button/button";
 import { useEffect, useState } from "react";
 import useBalance from "../../hooks/useBalance";

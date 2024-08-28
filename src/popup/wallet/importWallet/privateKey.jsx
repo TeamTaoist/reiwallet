@@ -8,7 +8,7 @@ import { useState } from "react";
 import Wallet from "../../../wallet/wallet";
 import useWalletList from "../../../hooks/useWalletList";
 import Keystore from "../../../wallet/keystore";
-import BtnLoading from "../../loading/btnloading";
+import BtnLoading from "../../loading/btn_loading";
 import { clearPassword, getPassword } from "../../../wallet/password";
 import Toast from "../../modal/toast";
 

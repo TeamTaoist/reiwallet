@@ -9,7 +9,7 @@ import { formatUnit } from "@ckb-lumos/bi";
 import { useEffect, useState } from "react";
 import { BI } from "@ckb-lumos/lumos";
 import { useNavigate } from "react-router-dom";
-import BtnLoading from "../loading/btnloading";
+import BtnLoading from "../loading/btn_loading";
 import { useTranslation } from "react-i18next";
 
 const ContentBox = styled.div`

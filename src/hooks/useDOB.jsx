@@ -51,7 +51,7 @@ export default function useDOB(current) {
   useEffect(() => {
     if (!currentAccountInfo) return;
     setLoadingCL(true);
-    clustertoBackground();
+    clusterToBackground();
   }, [currentAccountInfo]);
 
   const toDIDBackground = () => {
@@ -71,7 +71,7 @@ export default function useDOB(current) {
     setList([]);
     sendMsg(obj);
   };
-  const clustertoBackground = () => {
+  const clusterToBackground = () => {
     let obj = {
       method: "get_Cluster",
       currentAccountInfo,

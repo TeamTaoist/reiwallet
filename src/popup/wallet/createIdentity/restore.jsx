@@ -10,7 +10,7 @@ import TipImg from "../../../assets/images/create/tip.png";
 import { useState } from "react";
 import Wallet from "../../../wallet/wallet";
 import { useWeb3 } from "../../../store/contracts";
-import BtnLoading from "../../loading/btnloading";
+import BtnLoading from "../../loading/btn_loading";
 
 const ContainerContentStyled = styled.div`
   .title {

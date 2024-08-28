@@ -10,7 +10,7 @@ import { config, Indexer } from "@ckb-lumos/lumos";
 import useNetwork from "../../hooks/useNetwork";
 import { useEffect, useState } from "react";
 import useMessage from "../../hooks/useMessage";
-import BtnLoading from "../loading/btnloading";
+import BtnLoading from "../loading/btn_loading";
 import { formatUnit } from "@ckb-lumos/bi";
 import { MainnetInfo, TestnetInfo } from "../../config/constants";
 

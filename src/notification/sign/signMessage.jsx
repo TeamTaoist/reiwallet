@@ -4,7 +4,7 @@ import Button from "../../popup/button/button";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import SignData from "../../wallet/signData";
-import BtnLoading from "../../popup/loading/btnloading";
+import BtnLoading from "../../popup/loading/btn_loading";
 
 const Box = styled.div`
   display: flex;
