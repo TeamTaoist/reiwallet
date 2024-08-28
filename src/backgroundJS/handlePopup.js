@@ -103,6 +103,7 @@ export const handlePopUp = async (requestData) => {
 };
 
 const sendMsg = (data) => {
+  /*global chrome*/
   try {
     chrome.runtime.sendMessage(data, () => {
       if (chrome.runtime.lastError) {

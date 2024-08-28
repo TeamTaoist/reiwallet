@@ -43,6 +43,7 @@ function documentElementCheck() {
 }
 
 document.addEventListener("CKB_REQUEST", function (event) {
+  /*global chrome*/
   try {
     chrome.runtime.sendMessage(
       { type: "CKB_REQUEST_BACKGROUND", data: event.detail },
