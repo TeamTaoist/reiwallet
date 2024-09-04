@@ -7,6 +7,7 @@ import { number, bytes } from "@ckb-lumos/codec";
 import { getXudtDep } from "@nervina-labs/ckb-dex/lib/constants";
 import { getSecp256k1CellDep, MAX_FEE } from "@rgbpp-sdk/ckb";
 import { blockchain } from "@ckb-lumos/base";
+import Wallet from "../wallet/wallet";
 
 // transfer udt
 export const transfer_udt = async (options, network, currentAccount) => {
@@ -39,18 +40,8 @@ const sudt_xudt_buildTransfer = async (options, network) => {
     args: args,
   };
 
-  const CONFIG =
-    network.value === "Mainnet"
-      ? config.predefined.LINA
-      : config.predefined.AGGRON4;
-  const fromScript = helpers.parseAddress(options.currentAccountInfo.address, {
-    config: CONFIG,
-  });
-  // const fromAddress = helpers.encodeToAddress(fromScript, {config: CONFIG});
-
-  const toScript = helpers.parseAddress(options.toAddress, { config: CONFIG });
-  // const toAddress = helpers.encodeToAddress(toScript, {config: CONFIG});
-
+  const fromScript = Wallet.addressToScript(options.currentAccountInfo.address);
+  const toScript = Wallet.addressToScript(options.toAddress);
   let sudt_cellDeps;
   sudt_cellDeps = getXudtDep(network.value === "Mainnet");
 

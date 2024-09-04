@@ -144,7 +144,7 @@ export default class RpcClient {
 
     let totalCapacity = BI.from(0);
     let OcCapacity = BI.from(0);
-    const addressScript = helpers.parseAddress(address);
+    const addressScript = Wallet.addressToScript(address);
 
     const collector = indexer.collector({
       lock: addressScript,
@@ -518,9 +518,7 @@ export default class RpcClient {
     }
 
     let outputCell = JSON.parse(JSON.stringify(sporeCell));
-    outputCell.cellOutput.lock = helpers.parseAddress(toAddress, {
-      config: sporeConfig.lumos,
-    });
+    outputCell.cellOutput.lock = Wallet.addressToScript(toAddress);
 
     let inputCapacity = sporeCell.cellOutput.capacity;
     let inputOccupied = helpers.minimalCellCapacityCompatible(sporeCell);
@@ -928,7 +926,7 @@ export default class RpcClient {
       });
 
       for await (const rgbppLock of rgbppLocks) {
-        const address = helpers.encodeToAddress(rgbppLock.lock);
+        const address = Wallet.scriptToAddress(rgbppLock.lock);
         let rs = await this.get_XUDT(address);
         const xudtList = rs?.objects;
         if (xudtList.length > 0) {
