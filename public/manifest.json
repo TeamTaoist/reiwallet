@@ -7,8 +7,7 @@
   "icons": {
     "128": "logoIcon.png"
   },
-  "permissions": ["storage", "activeTab", "tabs", "webRequest"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": ["storage", "activeTab", "tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

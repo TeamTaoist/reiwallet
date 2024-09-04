@@ -49,30 +49,6 @@ import { createTransactionSkeleton } from "@ckb-lumos/helpers";
 import LeapHelper from "rgbpp-leap-helper/lib";
 
 /*global chrome*/
-chrome.webRequest.onBeforeSendHeaders.addListener(
-  (e) => {
-    let flag = false;
-    for (const header of e.requestHeaders) {
-      if (header.name.toLowerCase() === "origin") {
-        header.value = "https://reiwallet.origin";
-        flag = true;
-      }
-    }
-    if (!flag) {
-      e.requestHeaders.push({
-        name: "Origin",
-        value: "https://reiwallet.origin",
-      });
-    }
-
-    console.log("++++++++++++++ requestHeaders", e.requestHeader);
-
-    return { requestHeaders: e.requestHeaders };
-  },
-  { urls: ["<all_urls>"] },
-  ["requestHeaders", "extraHeaders"],
-);
-
 let jsonRpcId = 0;
 export default class RpcClient {
   constructor(networkInfo) {
