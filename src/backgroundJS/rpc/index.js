@@ -167,8 +167,6 @@ export default class RpcClient {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
     const network = await this.getNetwork();
-
-    console.log(network);
     const url = localServer[network.value];
 
     return await this._request({
@@ -393,9 +391,11 @@ export default class RpcClient {
         ? predefinedSporeConfigs.Mainnet
         : predefinedSporeConfigs.Testnet;
 
+    const versionStr = network.value === "testnet" ? "preview" : "latest";
+
     const clusterType = getSporeScript(clusterConfig, "Cluster", [
       "v2",
-      "preview",
+      versionStr,
     ]);
 
     return await this._request({
