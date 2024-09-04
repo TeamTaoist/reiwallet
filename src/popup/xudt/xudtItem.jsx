@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import useMessage from "../../hooks/useMessage";
 import BtnLoading from "../loading/btnLoading";
 import { formatUnit } from "@ckb-lumos/bi";
-import { MainnetInfo, TestnetInfo } from "../../config/constants";
+import { getUniqueTypeScript } from "@rgbpp-sdk/ckb";
 
 const FlexRht = styled.div`
   display: flex;
@@ -52,9 +52,8 @@ export default function Xudt_item({ item }) {
           transaction: { outputs_data, outputs },
         } = message.data;
         const isMainnet = network === "mainnet";
-        let utS = isMainnet
-          ? MainnetInfo.UniqueTypeScript
-          : TestnetInfo.UniqueTypeScript;
+
+        const utS = getUniqueTypeScript(isMainnet);
         const index = outputs?.findIndex(
           (itemInner) => itemInner?.type?.code_hash === utS.codeHash,
         );
