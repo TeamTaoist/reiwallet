@@ -10,7 +10,7 @@ import {
   // RPC,
 } from "@ckb-lumos/lumos";
 import { parseUnit } from "@ckb-lumos/bi";
-import { formatter } from "./formatParams";
+import { ParamsFormatter as formatter } from "@ckb-lumos/rpc";
 import { blockchain } from "@ckb-lumos/base";
 import { currentInfo } from "../../wallet/getCurrent";
 import {
@@ -32,12 +32,12 @@ import {
   buildRgbppLockArgs,
   genCkbJumpBtcVirtualTx,
   genRgbppLockScript,
+  getSecp256k1CellDep,
 } from "@rgbpp-sdk/ckb";
 import { serializeScript } from "@nervosnetwork/ckb-sdk-utils";
 import { RGBCollector } from "../../utils/newCollectorRGB";
 import {
   DID_CONTRACT,
-  getSecp256k1CellDep,
   localServer,
   mainConfig,
   testConfig,
