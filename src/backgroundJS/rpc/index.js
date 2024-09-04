@@ -448,8 +448,7 @@ export default class RpcClient {
   send_DOB_BTC = async (currentAccountInfo, outPoint, toAddress) => {
     const network = await this.getNetwork();
     const isMainnet = network.value === "mainnet";
-    let rpcURL = network.rpcUrl.node;
-    let indexURL = network.rpcUrl.indexer;
+
     const cfg = isMainnet ? mainConfig : testConfig;
     const rgbppLeapHelper = new LeapHelper(
       isMainnet,
@@ -858,31 +857,7 @@ export default class RpcClient {
   };
 
   signAndSend = async (obj) => {
-    const { txSkeletonObj, type } = obj;
-
-    let txSkeleton;
-    if (type === "transaction_object") {
-      const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj);
-      const fetcher = async (outPoint) => {
-        let rs = await this.getLiveCell(outPoint);
-        let cell = {
-          cellOutput: {
-            capacity: rs.cell?.output.capacity,
-            lock: ResultFormatter.toScript(rs.cell?.output.lock),
-            type: ResultFormatter.toScript(rs.cell?.output.type),
-          },
-          data: rs.cell?.data.content,
-          outPoint: ResultFormatter.toOutPoint(outPoint),
-        };
-        return cell;
-      };
-      txSkeleton = await createTransactionSkeleton(rawTransaction, fetcher);
-    } else {
-      txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj);
-    }
-
-    let signHash = await signAndSendTransaction(txSkeleton);
-
+    let signHash = await this.signRaw(obj);
     const newTx = formatter.toRawTransaction(signHash);
     return await this.transaction_confirm(newTx);
   };
@@ -912,18 +887,7 @@ export default class RpcClient {
     } else {
       txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj);
     }
-
-    const currentAccount = await currentInfo();
-    const { privatekey_show } = currentAccount;
-
-    txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
-
-    let signatures = txSkeleton
-      .get("signingEntries")
-      .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
-      .toArray();
-
-    let rt = helpers.sealTransaction(txSkeleton, signatures);
+    let rt = await signAndSendTransaction(txSkeleton);
     return rt;
   };
 
