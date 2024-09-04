@@ -120,7 +120,7 @@ export default class RpcClient {
 
     let totalCapacity = BI.from(0);
     let OcCapacity = BI.from(0);
-    const addressScript = helpers.parseAddress(address);
+    const addressScript = Wallet.addressToScript(address);
 
     const collector = indexer.collector({
       lock: addressScript,
@@ -143,8 +143,6 @@ export default class RpcClient {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
     const network = await this.getNetwork();
-
-    console.log(network);
     const url = localServer[network.value];
 
     return await this._request({
@@ -369,9 +367,11 @@ export default class RpcClient {
         ? predefinedSporeConfigs.Mainnet
         : predefinedSporeConfigs.Testnet;
 
+    const versionStr = network.value === "testnet" ? "preview" : "latest";
+
     const clusterType = getSporeScript(clusterConfig, "Cluster", [
       "v2",
-      "preview",
+      versionStr,
     ]);
 
     return await this._request({
@@ -424,8 +424,7 @@ export default class RpcClient {
   send_DOB_BTC = async (currentAccountInfo, outPoint, toAddress) => {
     const network = await this.getNetwork();
     const isMainnet = network.value === "mainnet";
-    let rpcURL = network.rpcUrl.node;
-    let indexURL = network.rpcUrl.indexer;
+
     const cfg = isMainnet ? mainConfig : testConfig;
     const rgbppLeapHelper = new LeapHelper(
       isMainnet,
@@ -495,9 +494,7 @@ export default class RpcClient {
     }
 
     let outputCell = JSON.parse(JSON.stringify(sporeCell));
-    outputCell.cellOutput.lock = helpers.parseAddress(toAddress, {
-      config: sporeConfig.lumos,
-    });
+    outputCell.cellOutput.lock = Wallet.addressToScript(toAddress);
 
     let inputCapacity = sporeCell.cellOutput.capacity;
     let inputOccupied = helpers.minimalCellCapacityCompatible(sporeCell);
@@ -834,31 +831,7 @@ export default class RpcClient {
   };
 
   signAndSend = async (obj) => {
-    const { txSkeletonObj, type } = obj;
-
-    let txSkeleton;
-    if (type === "transaction_object") {
-      const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj);
-      const fetcher = async (outPoint) => {
-        let rs = await this.getLiveCell(outPoint);
-        let cell = {
-          cellOutput: {
-            capacity: rs.cell?.output.capacity,
-            lock: ResultFormatter.toScript(rs.cell?.output.lock),
-            type: ResultFormatter.toScript(rs.cell?.output.type),
-          },
-          data: rs.cell?.data.content,
-          outPoint: ResultFormatter.toOutPoint(outPoint),
-        };
-        return cell;
-      };
-      txSkeleton = await createTransactionSkeleton(rawTransaction, fetcher);
-    } else {
-      txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj);
-    }
-
-    let signHash = await signAndSendTransaction(txSkeleton);
-
+    let signHash = await this.signRaw(obj);
     const newTx = formatter.toRawTransaction(signHash);
     return await this.transaction_confirm(newTx);
   };
@@ -888,18 +861,7 @@ export default class RpcClient {
     } else {
       txSkeleton = helpers.objectToTransactionSkeleton(txSkeletonObj);
     }
-
-    const currentAccount = await currentInfo();
-    const { privatekey_show } = currentAccount;
-
-    txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
-
-    let signatures = txSkeleton
-      .get("signingEntries")
-      .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
-      .toArray();
-
-    let rt = helpers.sealTransaction(txSkeleton, signatures);
+    let rt = await signAndSendTransaction(txSkeleton);
     return rt;
   };
 
@@ -940,7 +902,7 @@ export default class RpcClient {
       });
 
       for await (const rgbppLock of rgbppLocks) {
-        const address = helpers.encodeToAddress(rgbppLock.lock);
+        const address = Wallet.scriptToAddress(rgbppLock.lock);
         let rs = await this.get_XUDT(address);
         const xudtList = rs?.objects;
         if (xudtList.length > 0) {
