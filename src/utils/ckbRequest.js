@@ -10,17 +10,7 @@ import { blockchain } from "@ckb-lumos/base";
 import Wallet from "../wallet/wallet";
 
 // transfer udt
-export const transfer_udt = async (options, network, currentAccount) => {
-  const unsigned = await sudt_xudt_buildTransfer(
-    options,
-    network,
-    currentAccount,
-  );
-  return unsigned;
-};
-
-const sudt_xudt_buildTransfer = async (options, network) => {
-  console.log("======options", options);
+export const transfer_udt = async (options, network) => {
   if (network.value === "mainnet") {
     config.initializeConfig(config.predefined.LINA);
   } else {
@@ -31,8 +21,6 @@ const sudt_xudt_buildTransfer = async (options, network) => {
   const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
   let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
   const { code_hash, hash_type, args } = options.typeScript;
-
-  console.log("======options", code_hash, hash_type, args);
 
   const sudtToken = {
     codeHash: code_hash,
@@ -93,8 +81,7 @@ const sudt_xudt_buildTransfer = async (options, network) => {
 
   let outputCapacity = BI.from(0);
 
-  const outputData = number.Uint128LE.pack(amount);
-  const newOutputData = outputData;
+  const newOutputData = number.Uint128LE.pack(amount);
 
   const outputs_sudt = {
     cellOutput: {
@@ -113,8 +100,7 @@ const sudt_xudt_buildTransfer = async (options, network) => {
   const change_amount = sudt_sumAmount.sub(amount);
 
   if (change_amount.gt(0)) {
-    const changeData = number.Uint128LE.pack(change_amount);
-    const newChangeData = changeData;
+    const newChangeData = number.Uint128LE.pack(change_amount);
 
     const outputs_sudt_change = {
       cellOutput: {
