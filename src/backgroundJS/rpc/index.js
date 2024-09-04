@@ -49,40 +49,22 @@ import { createTransactionSkeleton } from "@ckb-lumos/helpers";
 import LeapHelper from "rgbpp-leap-helper/lib";
 
 /*global chrome*/
-const allResourceTypes = Object.values(
-  chrome.declarativeNetRequest.ResourceType,
-);
-
-const rules = [
-  {
-    id: 1,
-    priority: 1,
-    action: {
-      type: chrome.declarativeNetRequest.RuleActionType.MODIFY_HEADERS,
-      requestHeaders: [
-        {
-          operation: chrome.declarativeNetRequest.HeaderOperation.SET,
-          header: "access-control-allow-origin",
-          value: "https://reiwallet.origin",
-        },
-        {
-          operation: chrome.declarativeNetRequest.HeaderOperation.SET,
-          header: "referer",
-          value: "https://reiwallet.origin",
-        },
-      ],
-    },
-    condition: {
-      urlFilter: "||btc-assets-api.testnet.mibao.pro",
-      resourceTypes: allResourceTypes,
-    },
+chrome.webRequest.onBeforeSendHeaders.addListener(
+  (e) => {
+    // for (const header of e.requestHeaders) {
+    //   if (header.name.toLowerCase() === "origin") {
+    //     header.value = "https://reiwallet.origin";
+    //   }
+    // }
+    e.requestHeaders.push({
+      name: "Origin",
+      value: "https://reiwallet.origin",
+    });
+    return { requestHeaders: e.requestHeaders };
   },
-];
-
-chrome.declarativeNetRequest.updateDynamicRules({
-  removeRuleIds: rules.map((rule) => rule.id), // remove existing rules
-  addRules: rules,
-});
+  { urls: ["<all_urls>"] },
+  ["requestHeaders", "extraHeaders"],
+);
 
 let jsonRpcId = 0;
 export default class RpcClient {
