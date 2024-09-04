@@ -307,6 +307,11 @@ module.exports = function (webpackEnv) {
       // https://github.com/facebook/create-react-app/issues/253
       fallback: {
         fs: false,
+        https: false,
+        http: false,
+        tls: false,
+        net: false,
+        zlib: false,
         "process/browser": require.resolve("process/browser"),
         buffer: require.resolve("buffer/"),
         assert: require.resolve("assert/"),

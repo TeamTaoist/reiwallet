@@ -18,6 +18,10 @@ const Box = styled.div`
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  .tipTop {
+    padding-top: 10px;
+    opacity: 0.4;
+  }
 `;
 const Content = styled.div`
   flex-grow: 1;
@@ -108,6 +112,7 @@ const ImageBox = styled.div`
       }
     }
   }
+
   .line {
     background: #f8f8f8;
     width: 100%;
@@ -237,6 +242,7 @@ export default function DOB_detail() {
           <Button primary onClick={() => toGo()}>
             {t("popup.dob.Send")}
           </Button>
+          <div className="tipTop">{t("popup.xudt.xudtTips")}</div>
           {dob.asset.contentType?.indexOf("DID") === -1 && (
             <MeltBox onClick={() => handleShow()}>
               {t("popup.dob.MeltDOB")}

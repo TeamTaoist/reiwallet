@@ -292,3 +292,17 @@ export const localServer = {
   mainnet: "https://ckb-rpc.caboroca.xyz",
   testnet: "https://ckb-rpc.caboroca.xyz/testnet",
 };
+
+export const mainConfig = {
+  BTC_ASSETS_API_URL: "https://api.rgbpp.io",
+  BTC_ASSETS_TOKEN:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIYXN0ZSBQcm8iLCJhdWQiOiJoYXN0ZS5wcm8iLCJqdGkiOiIyYzlkYmM0OS0yMDA1LTQ4YmUtOGI2ZS01YTk0MTBjODY0ZmYiLCJpYXQiOjE3MTQwMzAzMzN9.rHPfzI8Kzns2YgKU6GO7v6dRVuEh9iZkpzvntofcxIE",
+  BTC_ASSETS_ORGIN: "haste.pro",
+};
+
+export const testConfig = {
+  BTC_ASSETS_API_URL: "https://btc-assets-api.testnet.mibao.pro",
+  BTC_ASSETS_TOKEN:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyZWl3YWxsZXQiLCJhdWQiOiJyZWl3YWxsZXQub3JpZ2luIiwianRpIjoiNTMxMzJiMWYtYjdkMS00YmMwLWI1MzEtNzJhZjRlOTIyNTZjIiwiaWF0IjoxNzI1NDI3NDYxfQ.eWScwtlXaHqe4z4app-GbWvSE0KOvbzIiknlA1h1S5E",
+  BTC_ASSETS_ORGIN: "https://reiwallet.origin",
+};

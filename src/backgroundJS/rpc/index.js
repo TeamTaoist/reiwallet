@@ -39,11 +39,14 @@ import {
   DID_CONTRACT,
   getSecp256k1CellDep,
   localServer,
+  mainConfig,
+  testConfig,
 } from "../../config/constants";
 import { networkList } from "../../config/network";
 import { ResultFormatter } from "@ckb-lumos/rpc";
 
 import { createTransactionSkeleton } from "@ckb-lumos/helpers";
+import LeapHelper from "rgbpp-leap-helper/lib";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -400,6 +403,61 @@ export default class RpcClient {
   };
 
   send_DOB = async (
+    currentAccountInfo,
+    outPoint,
+    toAddress,
+    dobType,
+    typeScript,
+  ) => {
+    if (toAddress.startsWith("ck")) {
+      await this.send_DOB_CKB(
+        currentAccountInfo,
+        outPoint,
+        toAddress,
+        dobType,
+        typeScript,
+      );
+    } else if (toAddress.startsWith("tb") || toAddress.startsWith("bc")) {
+      await this.send_DOB_BTC(currentAccountInfo, outPoint, toAddress);
+    }
+  };
+  send_DOB_BTC = async (currentAccountInfo, outPoint, toAddress) => {
+    const network = await this.getNetwork();
+    const isMainnet = network.value === "mainnet";
+    let rpcURL = network.rpcUrl.node;
+    let indexURL = network.rpcUrl.indexer;
+    const cfg = isMainnet ? mainConfig : testConfig;
+    const rgbppLeapHelper = new LeapHelper(
+      isMainnet,
+      cfg.BTC_ASSETS_API_URL,
+      cfg.BTC_ASSETS_TOKEN,
+      cfg.BTC_ASSETS_ORGIN,
+    );
+
+    const { index, tx_hash } = outPoint;
+    let newOutPoint = {
+      txHash: tx_hash,
+      index,
+    };
+    const sporeConfig =
+      network.value === "mainnet"
+        ? predefinedSporeConfigs.Mainnet
+        : predefinedSporeConfigs.Testnet;
+
+    let sporeCell = await getSporeByOutPoint(newOutPoint, sporeConfig);
+
+    const args = sporeCell?.cellOutput?.type?.args;
+
+    const ckbRawTx = await rgbppLeapHelper.spore_leapToBtcCreateCkbTx({
+      ckbAddress: currentAccountInfo?.address,
+      toBtcAddress: toAddress,
+      sporeId: args,
+    });
+
+    console.log("==ckbRawTx===", ckbRawTx);
+  };
+
+  send_DOB_CKB = async (
     currentAccountInfo,
     outPoint,
     toAddress,
