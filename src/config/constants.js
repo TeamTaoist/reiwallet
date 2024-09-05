@@ -29,13 +29,13 @@ export const localServer = {
 export const mainConfig = {
   BTC_ASSETS_API_URL: "https://rgbpp-service-proxy.caboroca.xyz/mainnet",
   BTC_ASSETS_TOKEN:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIYXN0ZSBQcm8iLCJhdWQiOiJoYXN0ZS5wcm8iLCJqdGkiOiIyYzlkYmM0OS0yMDA1LTQ4YmUtOGI2ZS01YTk0MTBjODY0ZmYiLCJpYXQiOjE3MTQwMzAzMzN9.rHPfzI8Kzns2YgKU6GO7v6dRVuEh9iZkpzvntofcxIE",
+    "wX1zG1uA3vS8sO0cG1cL9sE7qG5dG5cB0dH5iX6iM3aT2aW5gK1tX4gZ4xU9nB8q",
   BTC_ASSETS_ORGIN: "haste.pro",
 };
 
 export const testConfig = {
   BTC_ASSETS_API_URL: "https://rgbpp-service-proxy.caboroca.xyz/testnet",
   BTC_ASSETS_TOKEN:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyZWl3YWxsZXQiLCJhdWQiOiJyZWl3YWxsZXQub3JpZ2luIiwianRpIjoiNTMxMzJiMWYtYjdkMS00YmMwLWI1MzEtNzJhZjRlOTIyNTZjIiwiaWF0IjoxNzI1NDI3NDYxfQ.eWScwtlXaHqe4z4app-GbWvSE0KOvbzIiknlA1h1S5E",
+    "wX1zG1uA3vS8sO0cG1cL9sE7qG5dG5cB0dH5iX6iM3aT2aW5gK1tX4gZ4xU9nB8q",
   BTC_ASSETS_ORGIN: "https://reiwallet.origin",
 };
