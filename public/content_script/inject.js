@@ -65,6 +65,7 @@ const ReiWalletOff = (method, callback) => {
   const arr = nextCall[method].filter((item) => item !== callback);
   nextCall[method] = arr;
 };
+
 let injectedCkb = {
   version: "#VERSION#",
   request: ReiWalletRequest,
@@ -74,6 +75,11 @@ let injectedCkb = {
 };
 // window.ckb = Object.freeze(injectedCkb);
 
+/**
+ * Inject ckb object to the webpage.
+ * The injected object is read-only.
+ * TODO: we should use rei as the name of this injected object, since we will have both btc and ckb.
+ */
 if (!window.ckb) {
   window.ckb = new Proxy(injectedCkb, {
     deleteProperty: () => true,

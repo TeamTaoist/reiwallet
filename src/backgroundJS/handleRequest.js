@@ -30,6 +30,8 @@ const recordToTxList = async (txhash) => {
   if (!txhash) return;
   let list = await chrome.storage.local.get(["txList"]);
   let arr = list.txList ? list.txList : [];
+
+  /*global chrome*/
   chrome.storage.local.set({
     txList: [
       {
@@ -46,6 +48,7 @@ export const handleRequest = async (requestData, windowObj) => {
   // const windowObj =  await chrome.windows.getCurrent();
   const windowID = windowObj?.id;
 
+  /*global chrome*/
   const tabs =
     (await chrome.tabs.query({ active: true, windowId: windowID })) ?? [];
   const url = tabs[0]?.url ?? "http://";
@@ -156,6 +159,7 @@ const handleGrant = async (url) => {
       }
       messenger.destroy();
     });
+    /*global browser*/
     browser.windows.onRemoved.addListener((windowId) => {
       if (windowId === notificationWindow.id) {
         messenger.destroy();
@@ -252,6 +256,7 @@ const signData = async (data, windowId, url) => {
       }
       messenger.destroy();
     });
+    /*global browser*/
     browser.windows.onRemoved.addListener((windowId) => {
       if (windowId === notificationWindow.id) {
         messenger.destroy();
@@ -296,6 +301,7 @@ const sendCKBTx = async (data, windowId, url) => {
       }
       messenger.destroy();
     });
+    /*global browser*/
     browser.windows.onRemoved.addListener((windowId) => {
       if (windowId === notificationWindow.id) {
         messenger.destroy();
@@ -316,11 +322,13 @@ const getNetwork = async () => {
 
 const switchNetwork = async (value) => {
   try {
+    /*global chrome*/
     await chrome.storage.local.set({ network: value });
 
     const networkArr = networkList.filter((item) => item.value === value);
 
     let JsonStr = JSON.stringify(networkArr[0]);
+    /*global chrome*/
     chrome.storage.local.set({ networkInfo: JsonStr });
     return {
       type: "Success",
@@ -392,6 +400,7 @@ const sendDOB = async (data, windowId, url) => {
       }
       messenger.destroy();
     });
+    /*global browser*/
     browser.windows.onRemoved.addListener((windowId) => {
       if (windowId === notificationWindow.id) {
         messenger.destroy();
@@ -440,6 +449,7 @@ const sendCluster = async (data, windowId, url) => {
       }
       messenger.destroy();
     });
+    /*global browser*/
     browser.windows.onRemoved.addListener((windowId) => {
       if (windowId === notificationWindow.id) {
         messenger.destroy();
@@ -488,6 +498,7 @@ const sendSUDT = async (data, windowId, url) => {
       }
       messenger.destroy();
     });
+    /*global browser*/
     browser.windows.onRemoved.addListener((windowId) => {
       if (windowId === notificationWindow.id) {
         messenger.destroy();
@@ -536,6 +547,7 @@ const sendXUDT = async (data, windowId, url) => {
       }
       messenger.destroy();
     });
+    /*global browser*/
     browser.windows.onRemoved.addListener((windowId) => {
       if (windowId === notificationWindow.id) {
         messenger.destroy();

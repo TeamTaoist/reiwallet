@@ -7,6 +7,7 @@ const recordToTxList = async (txhash) => {
   if (!txhash) return;
   const currentAccount = await currentInfo();
 
+  /*global chrome*/
   let list = await chrome.storage.local.get(["txList"]);
   let arr = list.txList ? list.txList : [];
   chrome.storage.local.set({
@@ -22,6 +23,7 @@ const recordToTxList = async (txhash) => {
 };
 
 const removeRecord = async (txhash, result) => {
+  /*global chrome*/
   let list = await chrome.storage.local.get(["txList"]);
   let arr = list.txList ? list.txList : [];
   if (!arr.length) return;
@@ -103,8 +105,8 @@ export const handlePopUp = async (requestData) => {
 };
 
 const sendMsg = (data) => {
-  /*global chrome*/
   try {
+    /*global chrome*/
     chrome.runtime.sendMessage(data, () => {
       if (chrome.runtime.lastError) {
         console.log(
@@ -123,6 +125,7 @@ export const createNewWallet = async (obj) => {
   const { index, network, hasMnemonic, name, id, method } = obj;
   const wallet = new Wallet(index, network === "mainnet", hasMnemonic);
   try {
+    /*global chrome*/
     chrome.storage.local.get(["walletList"], async (result) => {
       let list = result.walletList ?? [];
       const sumArr = list.filter((item) => item.type === "create") ?? [];
@@ -136,6 +139,7 @@ export const createNewWallet = async (obj) => {
         account_index: sumArr.length,
       };
       let newList = [...list, item];
+      /*global chrome*/
       chrome.storage.local.set({ walletList: newList });
       sendMsg({ type: "create_account_success", data: { id } });
     });

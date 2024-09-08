@@ -42,6 +42,10 @@ function documentElementCheck() {
   return true;
 }
 
+/**
+ * add event listener to listen for CKB_REQUEST event from webpage,
+ * and fire the message to background script
+ */
 document.addEventListener("CKB_REQUEST", function (event) {
   /*global chrome*/
   try {
@@ -61,6 +65,11 @@ document.addEventListener("CKB_REQUEST", function (event) {
     console.error("Error sending message:", error);
   }
 });
+
+/**
+ * add event listener to listen the message from extension background script or others,
+ * and dispatch the related event to webpage.
+ */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   let requestType = message.type;
   switch (requestType) {
