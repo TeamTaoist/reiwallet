@@ -4,7 +4,6 @@ import isEqual from "lodash.isequal";
 import omit from "lodash.omit";
 import { EventEmitter } from "eventemitter3";
 import { createSessionMessenger } from "./sessionManager";
-import { browserExtensionAdapter } from "./extensionAdapter";
 
 class NotificationManager {
   constructor() {
@@ -49,7 +48,6 @@ class NotificationManager {
   async _createNotificationWindow(payload) {
     this.openCurrentNotification(payload);
     const messenger = createSessionMessenger({
-      adapter: browserExtensionAdapter,
       sessionId: payload.sessionId,
     });
     const lastFocused = await browser.windows.getLastFocused();
