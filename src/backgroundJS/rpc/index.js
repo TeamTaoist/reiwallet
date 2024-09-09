@@ -1,4 +1,11 @@
-import Wallet from "../../wallet/wallet";
+// Description: This file contains the implementation of the RPC client.
+// It is used to send requests to the CKB node and the indexer.
+// The RPC client is used by the background script to interact with the CKB node and the indexer.
+// The RPC client is used to send requests to the CKB node and the indexer.
+
+// Third-party libraries
+
+// Lumos
 import {
   BI,
   // CellCollector,
@@ -12,7 +19,13 @@ import {
 import { parseUnit } from "@ckb-lumos/bi";
 import { ParamsFormatter as formatter } from "@ckb-lumos/rpc";
 import { blockchain } from "@ckb-lumos/base";
-import { getCurNetwork, currentInfo } from "../../wallet/getCurrent";
+import { ResultFormatter } from "@ckb-lumos/rpc";
+import { createTransactionSkeleton } from "@ckb-lumos/helpers";
+
+// CKB SDK
+import { serializeScript } from "@nervosnetwork/ckb-sdk-utils";
+
+// Spore SDK
 import {
   predefinedSporeConfigs,
   transferSpore,
@@ -22,19 +35,26 @@ import {
   getSporeScript,
   getSporeByType,
 } from "@spore-sdk/core";
+
+// CKB DEX
 import {
   getSudtTypeScript,
   getXudtTypeScript,
 } from "@nervina-labs/ckb-dex/lib/constants";
 
-import { transfer_udt } from "../../utils/ckbRequest";
+// RGBPP SDK
 import {
   buildRgbppLockArgs,
   genCkbJumpBtcVirtualTx,
   genRgbppLockScript,
   getSecp256k1CellDep,
 } from "@rgbpp-sdk/ckb";
-import { serializeScript } from "@nervosnetwork/ckb-sdk-utils";
+import LeapHelper from "rgbpp-leap-helper/lib";
+
+// Self-defined functions
+import Wallet from "../../wallet/wallet";
+import { getCurNetwork, currentInfo } from "../../wallet/getCurrent";
+import { transfer_udt } from "../../utils/ckbRequest";
 import { RGBCollector } from "../../utils/newCollectorRGB";
 import {
   DID_CONTRACT,
@@ -42,11 +62,6 @@ import {
   mainConfig,
   testConfig,
 } from "../../config/constants";
-// import { networkList } from "../../config/network";
-import { ResultFormatter } from "@ckb-lumos/rpc";
-
-import { createTransactionSkeleton } from "@ckb-lumos/helpers";
-import LeapHelper from "rgbpp-leap-helper/lib";
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -126,6 +141,7 @@ export default class RpcClient {
       OcCapacity: OcCapacity.toHexString(),
     };
   };
+
   get_transaction_list = async (address) => {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
@@ -150,6 +166,7 @@ export default class RpcClient {
       ],
     });
   };
+
   get_transaction = async (txHash) => {
     const network = await getCurNetwork();
     return await this._request({
@@ -167,6 +184,7 @@ export default class RpcClient {
       params: ["0x65"],
     });
   };
+
   send_transaction = async (to, amt, fee, isMax) => {
     const network = await getCurNetwork();
     const currentAccount = await currentInfo();
@@ -251,6 +269,7 @@ export default class RpcClient {
       outputs: outputArr,
     };
   };
+
   transaction_confirm = async (tx) => {
     const network = await getCurNetwork();
     return await this._request({
@@ -712,7 +731,7 @@ export default class RpcClient {
     const { toAddress, typeScript, amount } = obj;
     const currentAccount = await currentInfo();
 
-    let btcUtxoList = await this.getRgbppAssert(toAddress, network);
+    let btcUtxoList = await this._getRgbppAssert(toAddress, network);
     const { code_hash, hash_type, args } = typeScript;
     let findUtxo = btcUtxoList.filter(
       (utxo) =>
@@ -800,7 +819,7 @@ export default class RpcClient {
     }
   };
 
-  getLiveCell = async (outPoint) => {
+  get_live_cell = async (outPoint) => {
     const network = await getCurNetwork();
 
     const { txHash, index } = outPoint;
@@ -834,7 +853,7 @@ export default class RpcClient {
       const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj);
 
       const fetcher = async (outPoint) => {
-        let rs = await this.getLiveCell(outPoint);
+        let rs = await this.get_live_cell(outPoint);
         let cell = {
           cellOutput: {
             capacity: rs.cell?.output.capacity,
@@ -855,10 +874,10 @@ export default class RpcClient {
     return rt;
   };
 
-  getRgbppAssert = async (address, network) => {
+  _getRgbppAssert = async (address, network) => {
     const isMainnet = network.value === "mainnet";
 
-    const result = await getUtxo(address, isMainnet);
+    const result = await getUTXO(address, isMainnet);
 
     if (network.value === "mainnet") {
       config.initializeConfig(config.predefined.LINA);
@@ -891,6 +910,7 @@ export default class RpcClient {
         };
       });
 
+      // Need Optimization: here it's quite slow to get xudt info for each rgbppLock. [F]
       for await (const rgbppLock of rgbppLocks) {
         const address = Wallet.scriptToAddress(rgbppLock.lock);
         let rs = await this.get_xudt(address);
@@ -949,7 +969,7 @@ const calculateFeeCompatible = (size, feeRate) => {
   return BI.from(fee);
 };
 
-const getUtxo = async (address, isMainnet) => {
+const getUTXO = async (address, isMainnet) => {
   const res = await fetch(
     `https://mempool.space${
       isMainnet ? "" : "/testnet"
