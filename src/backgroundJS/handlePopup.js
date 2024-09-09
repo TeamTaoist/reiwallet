@@ -1,6 +1,6 @@
 /*global chrome*/
 import Wallet from "../wallet/wallet";
-import RpcClient from "./rpc";
+import { ckbRpcClient } from "./rpc";
 import { currentInfo } from "../wallet/getCurrent";
 
 const recordToTxList = async (txhash) => {
@@ -155,7 +155,7 @@ export const createNewWallet = async (obj) => {
 const getCapacity = async (obj) => {
   const { currentAccountInfo } = obj;
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_capacity(currentAccountInfo.address);
     sendMsg({ type: "get_capacity_success", data: rt });
   } catch (e) {
@@ -164,7 +164,7 @@ const getCapacity = async (obj) => {
 };
 const getPublicKey = async (obj) => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_public_key();
     sendMsg({ type: "get_public_key_success", data: rt });
   } catch (e) {
@@ -175,7 +175,7 @@ const getPublicKey = async (obj) => {
 const getTransaction = async (obj) => {
   const { txHash } = obj;
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_transaction(txHash);
     const {
       transaction: { hash },
@@ -194,7 +194,7 @@ const getTransactionHistory = async (obj) => {
   const { currentAccountInfo } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_transaction_list(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -204,7 +204,7 @@ const getTransactionHistory = async (obj) => {
 
 const getFeeRate = async (obj) => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_fee_rate();
     sendMsg({ type: "get_fee_rate_success", data: rt });
   } catch (e) {
@@ -215,7 +215,7 @@ const getFeeRate = async (obj) => {
 const sendTransaction = async (obj) => {
   const { to, amount, fee, isMax } = obj;
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.send_transaction(to, amount, fee, isMax);
     sendMsg({ type: "send_transaction_success", data: rt });
   } catch (e) {
@@ -227,7 +227,7 @@ const sendTransaction = async (obj) => {
 const transactionConfirm = async (obj) => {
   const { tx } = obj;
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.transaction_confirm(tx);
     await recordToTxList(rt);
     sendMsg({ type: "transaction_confirm_success", data: rt });
@@ -241,7 +241,7 @@ const getDOB = async (obj) => {
   const { currentAccountInfo, version } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_dob(currentAccountInfo.address, version);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -252,7 +252,7 @@ const getDID = async (obj) => {
   const { currentAccountInfo } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_did(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -264,7 +264,7 @@ const sendDOB = async (obj) => {
   const { currentAccountInfo, outPoint, toAddress, dobType, typeScript } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.send_dob(
       currentAccountInfo,
       outPoint,
@@ -284,7 +284,7 @@ const meltDOB = async (obj) => {
   const { currentAccountInfo, outPoint } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.melt_dob(currentAccountInfo, outPoint);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
@@ -298,7 +298,7 @@ const getSUDT = async (obj) => {
   const { currentAccountInfo } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_sudt(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -308,7 +308,7 @@ const getSUDT = async (obj) => {
 
 const sendSUDT = async (obj) => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.send_sudt(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
@@ -321,7 +321,7 @@ const getCluster = async (obj) => {
   const { currentAccountInfo } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_cluster(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -331,7 +331,7 @@ const getCluster = async (obj) => {
 
 const sendCluster = async (obj) => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.send_cluster(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
@@ -345,7 +345,7 @@ const meltCluster = async (obj) => {
   const { currentAccountInfo, outPoint } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.melt_cluster(currentAccountInfo, outPoint);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
@@ -359,7 +359,7 @@ const getXUDT = async (obj) => {
   const { currentAccountInfo } = obj;
 
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_xudt(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -369,7 +369,7 @@ const getXUDT = async (obj) => {
 
 const sendXUDT = async (obj) => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.send_xudt(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
@@ -380,7 +380,7 @@ const sendXUDT = async (obj) => {
 
 const signAndSend = async (obj) => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.sign_and_send(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
@@ -390,7 +390,7 @@ const signAndSend = async (obj) => {
 };
 const signRaw = async (obj) => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.sign_raw(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });

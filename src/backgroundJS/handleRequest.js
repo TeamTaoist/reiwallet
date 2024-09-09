@@ -1,4 +1,4 @@
-import RpcClient from "./rpc";
+import { ckbRpcClient } from "./rpc";
 import { NotificationManager } from "./notificationManager";
 import browser from "webextension-polyfill";
 import PublicJS from "../utils/publicJS";
@@ -213,7 +213,7 @@ const getBalance = async (params) => {
     throw new Error(`getBalance: Address cannot be empty`);
   }
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     let rt = await client.get_capacity(addr);
     const { capacity, OcCapacity } = rt;
     return {
@@ -343,7 +343,7 @@ const switchNetwork = async (value) => {
 };
 const getFeeRate = async () => {
   try {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     return await client.get_fee_rate();
   } catch (e) {
     throw new Error(`getFeeRate:${e.message}`);
@@ -569,7 +569,7 @@ const getPublicKey_inner = async (url) => {
   let pwd = await getPassword();
 
   if (pwd) {
-    const client = new RpcClient();
+    const client = new ckbRpcClient();
     return await client.get_public_key();
   } else {
     const { messenger, window: notificationWindow } =
@@ -589,7 +589,7 @@ const getPublicKey_inner = async (url) => {
         const { status } = result;
 
         if (status === "success") {
-          const client = new RpcClient();
+          const client = new ckbRpcClient();
           let publicKey = await client.get_public_key();
           resolve(publicKey);
         } else {

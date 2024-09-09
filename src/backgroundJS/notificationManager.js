@@ -5,7 +5,7 @@ import omit from "lodash.omit";
 import { EventEmitter } from "eventemitter3";
 import { createSessionMessenger } from "./sessionManager";
 
-class NotificationManager {
+export class NotificationManager {
   constructor() {
     this.currentNotification = undefined;
     this.notificationInfoQueue = [];
@@ -126,5 +126,3 @@ class NotificationManager {
     });
   }
 }
-
-export { NotificationManager };

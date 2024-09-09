@@ -49,6 +49,11 @@ document.addEventListener("CKB_ON_RESPONSE", function (event) {
   });
 });
 
+/**
+ * add listener to listen for the event method.
+ * @param {*} method
+ * @param {*} callback
+ */
 const ReiWalletOn = (method, callback) => {
   if (!callback) return;
 
@@ -58,6 +63,11 @@ const ReiWalletOn = (method, callback) => {
   nextCall[method].push(callback);
 };
 
+/**
+ *
+ * @param {*} method
+ * @param {*} callback
+ */
 const ReiWalletOff = (method, callback) => {
   if (!callback) return;
 
