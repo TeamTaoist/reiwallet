@@ -819,12 +819,13 @@ export default class RpcClient {
     });
   };
 
-  signAndSend = async (obj) => {
-    let signHash = await this.signRaw(obj);
+  sign_and_send = async (obj) => {
+    let signHash = await this.sign_raw(obj);
     const newTx = formatter.toRawTransaction(signHash);
     return await this.transaction_confirm(newTx);
   };
-  signRaw = async (obj) => {
+
+  sign_raw = async (obj) => {
     const { txSkeletonObj, type } = obj;
 
     let txSkeleton;
@@ -954,7 +955,7 @@ const getUtxo = async (address, isMainnet) => {
       isMainnet ? "" : "/testnet"
     }/api/address/${address}/utxo`,
     {
-      method: "get",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },

@@ -186,7 +186,7 @@ export default function DOBConfirm() {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "send_DOB_success":
+      case "send_dob_success":
         {
           setError(true);
           setTips("Send Finished");
@@ -196,7 +196,7 @@ export default function DOBConfirm() {
           }, 2000);
         }
         break;
-      case "send_DOB_error":
+      case "send_dob_error":
         {
           setTips("Send Failed:" + message.data);
           setError(true);

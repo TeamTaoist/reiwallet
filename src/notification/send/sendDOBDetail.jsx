@@ -169,7 +169,7 @@ const TextBox = styled.div`
   }
 `;
 
-export default function SendDOB_detail() {
+export default function SendDOBDetail() {
   const messenger = useSessionMessenger();
   const [params, setParams] = useState(null);
   const [url, setUrl] = useState("");
@@ -196,7 +196,7 @@ export default function SendDOB_detail() {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "send_DOB_success":
+      case "send_dob_success":
         {
           setError(true);
           setTips("Send Finished");
@@ -210,7 +210,7 @@ export default function SendDOB_detail() {
           }, 2000);
         }
         break;
-      case "send_DOB_error":
+      case "send_dob_error":
         {
           setTips("Send Failed:" + message.data);
           setError(true);
@@ -226,7 +226,7 @@ export default function SendDOB_detail() {
   };
 
   const handleError = async (error) => {
-    await messenger.send("DOB_transaction_result", {
+    await messenger.send("dob_transaction_result", {
       status: "rejected",
       data: error,
     });
@@ -294,7 +294,7 @@ export default function SendDOB_detail() {
   };
   const getDetail = async () => {
     if (messenger) {
-      let data = await messenger.send("get_DOB_Transaction");
+      let data = await messenger.send("get_dob_transaction");
       setParams(data.rt);
       setUrl(data.url);
     }
@@ -302,13 +302,13 @@ export default function SendDOB_detail() {
 
   const handleSuccess = async (rt) => {
     try {
-      await messenger.send("DOB_transaction_result", {
+      await messenger.send("dob_transaction_result", {
         status: "success",
         data: rt,
       });
     } catch (e) {
       console.error("transaction_result", e);
-      await messenger.send("DOB_transaction_result", {
+      await messenger.send("dob_transaction_result", {
         status: "failed",
         data: e.message,
       });
@@ -334,7 +334,7 @@ export default function SendDOB_detail() {
   };
 
   const handleClose = async () => {
-    await messenger.send("DOB_transaction_result", {
+    await messenger.send("dob_transaction_result", {
       status: "rejected",
       data: "user rejected",
     });

@@ -381,7 +381,7 @@ const sendXUDT = async (obj) => {
 const signAndSend = async (obj) => {
   try {
     const client = new RpcClient();
-    let rt = await client.signAndSend(obj);
+    let rt = await client.sign_and_send(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -391,7 +391,7 @@ const signAndSend = async (obj) => {
 const signRaw = async (obj) => {
   try {
     const client = new RpcClient();
-    let rt = await client.signRaw(obj);
+    let rt = await client.sign_raw(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {

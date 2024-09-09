@@ -156,7 +156,7 @@ const MeltBox = styled.div`
   cursor: pointer;
 `;
 
-export default function DOB_detail() {
+export default function DOBDetail() {
   const { t } = useTranslation();
   const {
     state: { dob },
