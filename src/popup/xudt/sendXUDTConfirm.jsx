@@ -125,6 +125,7 @@ const AmountBox = styled.div`
     color: #34332e;
     line-height: 66px;
     -moz-appearance: textfield;
+    appearance: textfield;
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       -webkit-appearance: none;

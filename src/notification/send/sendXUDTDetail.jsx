@@ -168,7 +168,7 @@ export default function SendXUDTDetail() {
   const { sendMsg } = useMessage(handleEvent, []);
 
   const handleError = async (error) => {
-    await messenger.send("XUDT_transaction_result", {
+    await messenger.send("xudt_transaction_result", {
       status: "rejected",
       data: error,
     });
@@ -219,13 +219,13 @@ export default function SendXUDTDetail() {
 
   const handleSuccess = async (rt) => {
     try {
-      await messenger.send("XUDT_transaction_result", {
+      await messenger.send("xudt_transaction_result", {
         status: "success",
         data: rt,
       });
     } catch (e) {
       console.error("transaction_result", e);
-      await messenger.send("XUDT_transaction_result", {
+      await messenger.send("xudt_transaction_result", {
         status: "failed",
         data: e.message,
       });
@@ -250,7 +250,7 @@ export default function SendXUDTDetail() {
   };
 
   const handleClose = async () => {
-    await messenger.send("XUDT_transaction_result", {
+    await messenger.send("xudt_transaction_result", {
       status: "rejected",
       data: "user rejected",
     });

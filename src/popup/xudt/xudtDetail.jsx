@@ -173,7 +173,7 @@ const TipsBtmBox = styled.div`
   margin-top: 20px;
 `;
 
-export default function XUDT_detail() {
+export default function XUDTDetail() {
   const { t } = useTranslation();
   const {
     state: { xudt },

@@ -157,7 +157,7 @@ const DlBox = styled.div`
 //     cursor: pointer;
 // `
 
-export default function SUDT_detail() {
+export default function SUDTDetail() {
   const {
     state: { sudt },
   } = useWeb3();
