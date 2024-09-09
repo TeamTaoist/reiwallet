@@ -201,7 +201,7 @@ export default function SendCluster_detail() {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "send_Cluster_success":
+      case "send_cluster_success":
         {
           setError(true);
           setTips("Send Finished");
@@ -215,7 +215,7 @@ export default function SendCluster_detail() {
           }, 2000);
         }
         break;
-      case "send_Cluster_error":
+      case "send_cluster_error":
         {
           setTips("Send Failed:" + message.data);
           setError(true);
@@ -304,7 +304,7 @@ export default function SendCluster_detail() {
     setBtnL(true);
     const { index, txHash } = params?.outPoint;
     let obj = {
-      method: "send_Cluster",
+      method: "send_cluster",
       outPoint: {
         index,
         tx_hash: txHash,

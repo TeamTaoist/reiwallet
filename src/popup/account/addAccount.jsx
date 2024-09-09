@@ -96,7 +96,7 @@ export default function AddAccount({ handleCloseNew }) {
         dispatch({ type: "SET_WALLET_LIST", payload: !refresh_wallet_list });
         handleCloseNew();
         break;
-      case "Create_Account_error":
+      case "create_account_error":
         setError(true);
         setLoading(false);
         setTimeout(() => {
@@ -124,7 +124,7 @@ export default function AddAccount({ handleCloseNew }) {
       network,
       name,
       hasMnemonic: true,
-      method: "Create_Account",
+      method: "create_account",
     };
     sendMsg(obj);
   };

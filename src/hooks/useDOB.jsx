@@ -13,19 +13,19 @@ export default function useDOB(current) {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "get_DOB_success":
+      case "get_dob_success":
         {
           setList(message.data?.objects ?? []);
           setLoading(false);
         }
         break;
-      case "get_DID_success":
+      case "get_did_success":
         {
           setDidList(message.data?.objects ?? []);
           setLoading(false);
         }
         break;
-      case "get_Cluster_success":
+      case "get_cluster_success":
         {
           setClusterList(message.data?.objects ?? []);
           setLoadingCL(false);
@@ -56,7 +56,7 @@ export default function useDOB(current) {
 
   const toDIDBackground = () => {
     let obj = {
-      method: "get_DID",
+      method: "get_did",
       currentAccountInfo,
     };
     setList([]);
@@ -65,7 +65,7 @@ export default function useDOB(current) {
 
   const toBackground = () => {
     let obj = {
-      method: "get_DOB",
+      method: "get_dob",
       currentAccountInfo,
     };
     setList([]);
@@ -73,7 +73,7 @@ export default function useDOB(current) {
   };
   const clusterToBackground = () => {
     let obj = {
-      method: "get_Cluster",
+      method: "get_cluster",
       currentAccountInfo,
     };
 

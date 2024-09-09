@@ -235,7 +235,7 @@ export default function DOBConfirm() {
   const submit = () => {
     setLoading(true);
     let obj = {
-      method: "send_DOB",
+      method: "send_dob",
       outPoint: dob.out_point,
       currentAccountInfo,
       id: dob?.output?.type?.args,

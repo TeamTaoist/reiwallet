@@ -321,7 +321,7 @@ export default function SendDOB_detail() {
     setBtnL(true);
     const { index, txHash } = params?.outPoint;
     let obj = {
-      method: "send_DOB",
+      method: "send_dob",
       outPoint: {
         index,
         tx_hash: txHash,

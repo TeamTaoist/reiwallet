@@ -13,7 +13,7 @@ export default function usePublickey() {
   const handleEvent = () => {};
   const toBackground = () => {
     let obj = {
-      method: "get_publicKey",
+      method: "get_public_key",
     };
     sendMsg(obj);
   };

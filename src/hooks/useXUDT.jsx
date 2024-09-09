@@ -9,7 +9,7 @@ export default function useXUDT() {
 
   const handleEvent = (message) => {
     const { type } = message;
-    if (type === "get_XUDT_success") {
+    if (type === "get_xudt_success") {
       setList(message.data?.objects ?? []);
       setLoading(false);
     }
@@ -25,7 +25,7 @@ export default function useXUDT() {
 
   const toBackground = () => {
     let obj = {
-      method: "get_XUDT",
+      method: "get_xudt",
       currentAccountInfo,
     };
     sendMsg(obj);

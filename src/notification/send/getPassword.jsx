@@ -15,7 +15,7 @@ export default function GetPassword() {
   }, [Unlocked]);
 
   const handleLock = async (bl) => {
-    await messenger.send("get_PublicKey_result", { status: "success" });
+    await messenger.send("get_public_key_result", { status: "success" });
     window.close();
 
     setStatus(bl);

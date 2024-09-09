@@ -4,9 +4,10 @@ import { networkList } from "../config/network";
 import { getPassword } from "./password";
 /*global chrome*/
 
-export const getNetwork = async () => {
+export const getCurNetwork = async () => {
   let network;
   let rt = await chrome.storage.local.get(["networkInfo"]);
+  console.log(rt);
   if (rt) {
     network = JSON.parse(rt.networkInfo);
   } else {
@@ -25,7 +26,7 @@ export const currentInfo = async () => {
   const result = await getPassword();
 
   const { type, account_index, privateKey } = currentAccount;
-  const network = await getNetwork();
+  const network = await getCurNetwork();
 
   let privatekey_show;
   if (type === "create") {
@@ -46,5 +47,6 @@ export const currentInfo = async () => {
       network.value === "mainnet"
         ? currentAccount.account.address_main
         : currentAccount.account.address_test,
+    network,
   };
 };

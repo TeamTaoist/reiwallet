@@ -5,6 +5,7 @@ import PublicJS from "../utils/publicJS";
 
 import { getPassword } from "../wallet/password";
 import { networkList } from "../config/network";
+import { getCurNetwork } from "../wallet/getCurrent";
 
 /*global chrome*/
 const toMessage = (data) => {
@@ -313,9 +314,11 @@ const sendCKBTx = async (data, windowId, url) => {
 
 const getNetwork = async () => {
   try {
-    const { network } = await PublicJS.getAccount();
-    return network;
+    const network = await getCurNetwork();
+    console.log("network", network);
+    return network.value;
   } catch (e) {
+    console.error("getNetwork", e);
     throw new Error(`getNetwork:${e.message}`);
   }
 };
@@ -341,7 +344,7 @@ const switchNetwork = async (value) => {
 const getFeeRate = async () => {
   try {
     const client = new RpcClient();
-    return await client.get_feeRate();
+    return await client.get_fee_rate();
   } catch (e) {
     throw new Error(`getFeeRate:${e.message}`);
   }
@@ -385,11 +388,11 @@ const sendDOB = async (data, windowId, url) => {
     );
 
   return new Promise((resolve, reject) => {
-    messenger.register("get_DOB_Transaction", () => {
+    messenger.register("get_dob_transaction", () => {
       return { rt: data, url };
     });
 
-    messenger.register("DOB_transaction_result", (result) => {
+    messenger.register("dob_transaction_result", (result) => {
       const { data, status } = result;
 
       recordToTxList(data);
@@ -436,11 +439,11 @@ const sendCluster = async (data, windowId, url) => {
     );
 
   return new Promise((resolve, reject) => {
-    messenger.register("get_Cluster_Transaction", () => {
+    messenger.register("get_cluster_transaction", () => {
       return { rt: data, url };
     });
 
-    messenger.register("Cluster_transaction_result", (result) => {
+    messenger.register("cluster_transaction_result", (result) => {
       const { data, status } = result;
       if (status === "success") {
         resolve(data);
@@ -485,11 +488,11 @@ const sendSUDT = async (data, windowId, url) => {
     );
 
   return new Promise((resolve, reject) => {
-    messenger.register("get_SUDT_Transaction", () => {
+    messenger.register("get_sudt_transaction", () => {
       return { rt: data, url };
     });
 
-    messenger.register("SUDT_transaction_result", (result) => {
+    messenger.register("sudt_transaction_result", (result) => {
       const { data, status } = result;
       if (status === "success") {
         resolve(data);
@@ -534,11 +537,11 @@ const sendXUDT = async (data, windowId, url) => {
     );
 
   return new Promise((resolve, reject) => {
-    messenger.register("get_XUDT_Transaction", () => {
+    messenger.register("get_xudt_transaction", () => {
       return { rt: data, url };
     });
 
-    messenger.register("XUDT_transaction_result", (result) => {
+    messenger.register("xudt_transaction_result", (result) => {
       const { data, status } = result;
       if (status === "success") {
         resolve(data);
@@ -567,7 +570,7 @@ const getPublicKey_inner = async (url) => {
 
   if (pwd) {
     const client = new RpcClient();
-    return await client.getPublicKey();
+    return await client.get_public_key();
   } else {
     const { messenger, window: notificationWindow } =
       await notificationManager.createNotificationWindow(
@@ -578,16 +581,16 @@ const getPublicKey_inner = async (url) => {
       );
 
     return new Promise((resolve, reject) => {
-      messenger.register("get_PublicKey", () => {
+      messenger.register("get_public_key", () => {
         return { url };
       });
 
-      messenger.register("get_PublicKey_result", async (result) => {
+      messenger.register("get_public_key_result", async (result) => {
         const { status } = result;
 
         if (status === "success") {
           const client = new RpcClient();
-          let publicKey = await client.getPublicKey();
+          let publicKey = await client.get_public_key();
           resolve(publicKey);
         } else {
           reject("Get PublicKey Failed");

@@ -78,7 +78,7 @@ export default function MeltCluster({ handleClose, cluster }) {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "Melt_Cluster_success":
+      case "melt_cluster_success":
         {
           setError(true);
           setTips("Melt Finished");
@@ -89,7 +89,7 @@ export default function MeltCluster({ handleClose, cluster }) {
           }, 2000);
         }
         break;
-      case "Melt_Cluster_error":
+      case "melt_cluster_error":
         {
           setTips("Melt Failed:" + message.data);
           setError(true);
@@ -112,7 +112,7 @@ export default function MeltCluster({ handleClose, cluster }) {
     setLoading(true);
     console.log("cluster", cluster);
     let obj = {
-      method: "Melt_Cluster",
+      method: "melt_cluster",
       outPoint: cluster.out_point,
       currentAccountInfo,
     };

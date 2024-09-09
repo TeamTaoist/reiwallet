@@ -129,14 +129,14 @@ export default function SendSUDTDetail() {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "get_feeRate_success":
+      case "get_fee_rate_success":
         {
           const { median } = message.data;
           let rt = formatUnit(median, "shannon");
           setFee(rt);
         }
         break;
-      case "send_SUDT_success":
+      case "send_sudt_success":
         {
           setError(true);
 
@@ -149,7 +149,7 @@ export default function SendSUDTDetail() {
           }, 2000);
         }
         break;
-      case "send_SUDT_error":
+      case "send_sudt_error":
         {
           setTips("Send Failed:" + message.data);
           setError(true);
@@ -178,7 +178,7 @@ export default function SendSUDTDetail() {
 
   const toBackground = () => {
     let obj = {
-      method: "get_feeRate",
+      method: "get_fee_rate",
     };
     sendMsg(obj);
   };
@@ -193,7 +193,7 @@ export default function SendSUDTDetail() {
 
   const getDetail = async () => {
     if (messenger) {
-      let data = await messenger.send("get_SUDT_Transaction");
+      let data = await messenger.send("get_sudt_Transaction");
 
       const prefix = currentAccountInfo?.address.slice(0, 3);
       const config = prefix === "ckt" ? predefined.AGGRON4 : predefined.LINA;
@@ -227,7 +227,7 @@ export default function SendSUDTDetail() {
   const submit = () => {
     setBtnL(true);
     let obj = {
-      method: "send_SUDT",
+      method: "send_sudt",
       amount: params?.amount,
       currentAccountInfo,
       args: params?.token,

@@ -131,14 +131,14 @@ export default function SendXUDTDetail() {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "get_feeRate_success":
+      case "get_fee_rate_success":
         {
           const { median } = message.data;
           let rt = formatUnit(median, "shannon");
           setFee(rt);
         }
         break;
-      case "send_XUDT_success":
+      case "send_xudt_success":
         {
           setError(true);
 
@@ -151,7 +151,7 @@ export default function SendXUDTDetail() {
           }, 2000);
         }
         break;
-      case "send_XUDT_error":
+      case "send_xudt_error":
         {
           setTips("Send Failed:" + message.data);
           setError(true);
@@ -188,7 +188,7 @@ export default function SendXUDTDetail() {
 
   const toBackground = () => {
     let obj = {
-      method: "get_feeRate",
+      method: "get_fee_rate",
     };
     sendMsg(obj);
   };
@@ -203,7 +203,7 @@ export default function SendXUDTDetail() {
 
   const getDetail = async () => {
     if (messenger) {
-      let data = await messenger.send("get_XUDT_Transaction");
+      let data = await messenger.send("get_xudt_Transaction");
 
       const prefix = currentAccountInfo?.address.slice(0, 3);
       const config = prefix === "ckt" ? predefined.AGGRON4 : predefined.LINA;
@@ -237,7 +237,7 @@ export default function SendXUDTDetail() {
   const submit = () => {
     setBtnL(true);
     let obj = {
-      method: "send_XUDT",
+      method: "send_xudt",
       amount: params?.amount,
       currentAccountInfo,
       args: params?.typeScript.args,

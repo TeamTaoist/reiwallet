@@ -78,7 +78,7 @@ export default function Melt({ handleClose, dob }) {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "Melt_DOB_success":
+      case "melt_dob_success":
         {
           setError(true);
           setTips("Melt Finished");
@@ -89,7 +89,7 @@ export default function Melt({ handleClose, dob }) {
           }, 2000);
         }
         break;
-      case "Melt_DOB_error":
+      case "melt_dob_error":
         {
           setTips("Melt Failed:" + message.data);
           setError(true);
@@ -111,7 +111,7 @@ export default function Melt({ handleClose, dob }) {
   const confirm = () => {
     setLoading(true);
     let obj = {
-      method: "Melt_DOB",
+      method: "melt_dob",
       outPoint: dob.out_point,
       currentAccountInfo,
     };

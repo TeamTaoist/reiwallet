@@ -9,7 +9,7 @@ export default function useSUDT() {
 
   const handleEvent = (message) => {
     const { type } = message;
-    if (type === "get_SUDT_success") {
+    if (type === "get_sudt_success") {
       setList(message.data?.objects ?? []);
       setLoading(false);
     }
@@ -25,7 +25,7 @@ export default function useSUDT() {
 
   const toBackground = () => {
     let obj = {
-      method: "get_SUDT",
+      method: "get_sudt",
       currentAccountInfo,
     };
     sendMsg(obj);

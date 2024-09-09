@@ -15,7 +15,7 @@ export default function useBalance() {
 
   const handleEvent = (message) => {
     const { type } = message;
-    if (type === "get_Capacity_success") {
+    if (type === "get_capacity_success") {
       setLoading(false);
       const { capacity, OcCapacity } = message.data;
       let rt = formatUnit(capacity, "ckb");

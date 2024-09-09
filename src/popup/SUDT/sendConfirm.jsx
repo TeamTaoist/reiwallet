@@ -229,14 +229,14 @@ export default function SendConfirm() {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "get_feeRate_success":
+      case "get_fee_rate_success":
         {
           const { median } = message.data;
           let rt = formatUnit(median, "shannon");
           setFee(rt);
         }
         break;
-      case "send_SUDT_success":
+      case "send_sudt_success":
         {
           setError(true);
           setTips("Send Finished");
@@ -246,7 +246,7 @@ export default function SendConfirm() {
           }, 2000);
         }
         break;
-      case "send_SUDT_error":
+      case "send_sudt_error":
         {
           setTips("Send Failed:" + message.data);
           setError(true);
@@ -275,7 +275,7 @@ export default function SendConfirm() {
 
   const toBackground = () => {
     let obj = {
-      method: "get_feeRate",
+      method: "get_fee_rate",
     };
     sendMsg(obj);
   };
@@ -313,7 +313,7 @@ export default function SendConfirm() {
   const submit = () => {
     setLoading(true);
     let obj = {
-      method: "send_SUDT",
+      method: "send_sudt",
       currentAccountInfo,
       toAddress: address,
       args: sudt.output?.type?.args,

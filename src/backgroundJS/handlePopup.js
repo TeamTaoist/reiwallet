@@ -34,13 +34,13 @@ const removeRecord = async (txhash, result) => {
 
 export const handlePopUp = async (requestData) => {
   switch (requestData.method) {
-    case "Create_Account":
+    case "create_account":
       createNewWallet(requestData);
       break;
     case "get_capacity":
       getCapacity(requestData);
       break;
-    case "get_publicKey":
+    case "get_public_key":
       getPublicKey(requestData);
       break;
     case "get_transaction":
@@ -49,7 +49,7 @@ export const handlePopUp = async (requestData) => {
     case "get_transaction_history":
       getTransactionHistory(requestData);
       break;
-    case "get_feeRate":
+    case "get_fee_rate":
       getFeeRate(requestData);
       break;
     case "send_transaction":
@@ -58,37 +58,37 @@ export const handlePopUp = async (requestData) => {
     case "transaction_confirm":
       transactionConfirm(requestData);
       break;
-    case "get_DOB":
+    case "get_dob":
       getDOB(requestData);
       break;
-    case "get_DID":
+    case "get_did":
       getDID(requestData);
       break;
-    case "get_Cluster":
+    case "get_cluster":
       getCluster(requestData);
       break;
-    case "send_DOB":
+    case "send_dob":
       sendDOB(requestData);
       break;
-    case "send_Cluster":
+    case "send_cluster":
       sendCluster(requestData);
       break;
-    case "Melt_DOB":
+    case "melt_dob":
       meltDOB(requestData);
       break;
-    case "Melt_Cluster":
+    case "melt_cluster":
       meltCluster(requestData);
       break;
-    case "get_SUDT":
+    case "get_sudt":
       getSUDT(requestData);
       break;
-    case "send_SUDT":
+    case "send_sudt":
       sendSUDT(requestData);
       break;
-    case "get_XUDT":
+    case "get_xudt":
       getXUDT(requestData);
       break;
-    case "send_XUDT":
+    case "send_xudt":
       sendXUDT(requestData);
       break;
 
@@ -157,7 +157,7 @@ const getCapacity = async (obj) => {
   try {
     const client = new RpcClient();
     let rt = await client.get_capacity(currentAccountInfo.address);
-    sendMsg({ type: "get_Capacity_success", data: rt });
+    sendMsg({ type: "get_capacity_success", data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
   }
@@ -165,8 +165,8 @@ const getCapacity = async (obj) => {
 const getPublicKey = async (obj) => {
   try {
     const client = new RpcClient();
-    let rt = await client.getPublicKey();
-    sendMsg({ type: "get_publicKey_success", data: rt });
+    let rt = await client.get_public_key();
+    sendMsg({ type: "get_public_key_success", data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
   }
@@ -205,8 +205,8 @@ const getTransactionHistory = async (obj) => {
 const getFeeRate = async (obj) => {
   try {
     const client = new RpcClient();
-    let rt = await client.get_feeRate();
-    sendMsg({ type: "get_feeRate_success", data: rt });
+    let rt = await client.get_fee_rate();
+    sendMsg({ type: "get_fee_rate_success", data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
   }
@@ -242,7 +242,7 @@ const getDOB = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.get_DOB(currentAccountInfo.address, version);
+    let rt = await client.get_dob(currentAccountInfo.address, version);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
@@ -253,7 +253,7 @@ const getDID = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.get_DID(currentAccountInfo.address);
+    let rt = await client.get_did(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
@@ -265,7 +265,7 @@ const sendDOB = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.send_DOB(
+    let rt = await client.send_dob(
       currentAccountInfo,
       outPoint,
       toAddress,
@@ -285,7 +285,7 @@ const meltDOB = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.melt_DOB(currentAccountInfo, outPoint);
+    let rt = await client.melt_dob(currentAccountInfo, outPoint);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -299,7 +299,7 @@ const getSUDT = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.get_SUDT(currentAccountInfo.address);
+    let rt = await client.get_sudt(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
@@ -309,7 +309,7 @@ const getSUDT = async (obj) => {
 const sendSUDT = async (obj) => {
   try {
     const client = new RpcClient();
-    let rt = await client.send_SUDT(obj);
+    let rt = await client.send_sudt(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -322,7 +322,7 @@ const getCluster = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.get_Cluster(currentAccountInfo.address);
+    let rt = await client.get_cluster(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
@@ -332,7 +332,7 @@ const getCluster = async (obj) => {
 const sendCluster = async (obj) => {
   try {
     const client = new RpcClient();
-    let rt = await client.send_Cluster(obj);
+    let rt = await client.send_cluster(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -346,7 +346,7 @@ const meltCluster = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.melt_Cluster(currentAccountInfo, outPoint);
+    let rt = await client.melt_cluster(currentAccountInfo, outPoint);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
@@ -360,7 +360,7 @@ const getXUDT = async (obj) => {
 
   try {
     const client = new RpcClient();
-    let rt = await client.get_XUDT(currentAccountInfo.address);
+    let rt = await client.get_xudt(currentAccountInfo.address);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
     sendMsg({ type: `${obj.method}_error`, data: e.message });
@@ -370,7 +370,7 @@ const getXUDT = async (obj) => {
 const sendXUDT = async (obj) => {
   try {
     const client = new RpcClient();
-    let rt = await client.send_XUDT(obj);
+    let rt = await client.send_xudt(obj);
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {

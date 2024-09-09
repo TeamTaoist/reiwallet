@@ -136,7 +136,7 @@ export default function SendCKB() {
 
   const toBackground = () => {
     let obj = {
-      method: "get_feeRate",
+      method: "get_fee_rate",
     };
     sendMsg(obj);
   };
@@ -163,7 +163,7 @@ export default function SendCKB() {
   const handleEvent = (message) => {
     const { type } = message;
     switch (type) {
-      case "get_feeRate_success":
+      case "get_fee_rate_success":
         {
           const { median } = message.data;
           let rt = formatUnit(median, "shannon");

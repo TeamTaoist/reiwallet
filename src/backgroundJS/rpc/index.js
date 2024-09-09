@@ -12,7 +12,7 @@ import {
 import { parseUnit } from "@ckb-lumos/bi";
 import { ParamsFormatter as formatter } from "@ckb-lumos/rpc";
 import { blockchain } from "@ckb-lumos/base";
-import { currentInfo } from "../../wallet/getCurrent";
+import { getCurNetwork, currentInfo } from "../../wallet/getCurrent";
 import {
   predefinedSporeConfigs,
   transferSpore,
@@ -42,7 +42,7 @@ import {
   mainConfig,
   testConfig,
 } from "../../config/constants";
-import { networkList } from "../../config/network";
+// import { networkList } from "../../config/network";
 import { ResultFormatter } from "@ckb-lumos/rpc";
 
 import { createTransactionSkeleton } from "@ckb-lumos/helpers";
@@ -51,20 +51,7 @@ import LeapHelper from "rgbpp-leap-helper/lib";
 /*global chrome*/
 let jsonRpcId = 0;
 export default class RpcClient {
-  constructor(networkInfo) {
-    this.network = networkInfo;
-  }
-
-  async getNetwork() {
-    if (this.network) return this.network;
-    let rt = await chrome.storage.local.get(["networkInfo"]);
-    if (rt) {
-      this.network = JSON.parse(rt.networkInfo);
-    } else {
-      this.network = networkList[0];
-    }
-    return this.network;
-  }
+  constructor(networkInfo) {}
 
   async _request(obj) {
     ++jsonRpcId;
@@ -88,7 +75,7 @@ export default class RpcClient {
     return rt?.result;
   }
 
-  getPublicKey = async () => {
+  get_public_key = async () => {
     let publicKey;
     const currentObj = await chrome.storage.local.get(["current_address"]);
     const current = currentObj.current_address;
@@ -109,7 +96,7 @@ export default class RpcClient {
   };
 
   get_capacity = async (address) => {
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     if (network.value === "mainnet") {
       config.initializeConfig(config.predefined.LINA);
@@ -142,7 +129,7 @@ export default class RpcClient {
   get_transaction_list = async (address) => {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
     const url = localServer[network.value];
 
     return await this._request({
@@ -164,7 +151,7 @@ export default class RpcClient {
     });
   };
   get_transaction = async (txHash) => {
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
     return await this._request({
       method: "get_transaction",
       url: network.rpcUrl.node,
@@ -172,8 +159,8 @@ export default class RpcClient {
     });
   };
 
-  get_feeRate = async () => {
-    const network = await this.getNetwork();
+  get_fee_rate = async () => {
+    const network = await getCurNetwork();
     return await this._request({
       method: "get_fee_rate_statistics",
       url: network.rpcUrl.node,
@@ -181,7 +168,7 @@ export default class RpcClient {
     });
   };
   send_transaction = async (to, amt, fee, isMax) => {
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
     const currentAccount = await currentInfo();
 
     const { address, privatekey_show } = currentAccount;
@@ -265,7 +252,7 @@ export default class RpcClient {
     };
   };
   transaction_confirm = async (tx) => {
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
     return await this._request({
       method: "send_transaction",
       url: network.rpcUrl.node,
@@ -273,10 +260,10 @@ export default class RpcClient {
     });
   };
 
-  get_DOB = async (address, version = "v2") => {
+  get_dob = async (address, version = "v2") => {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     const sporeConfig =
       network.value === "testnet"
@@ -315,10 +302,11 @@ export default class RpcClient {
       ],
     });
   };
-  get_DID = async (address) => {
+
+  get_did = async (address) => {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     const { CODE_HASH: codeHashDID, HASH_TYPE: hashTypeDID } =
       DID_CONTRACT[network.value];
@@ -357,10 +345,10 @@ export default class RpcClient {
     });
   };
 
-  get_Cluster = async (address) => {
+  get_cluster = async (address) => {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     const clusterConfig =
       network.value === "mainnet"
@@ -402,7 +390,7 @@ export default class RpcClient {
     });
   };
 
-  send_DOB = async (
+  send_dob = async (
     currentAccountInfo,
     outPoint,
     toAddress,
@@ -410,7 +398,7 @@ export default class RpcClient {
     typeScript,
   ) => {
     if (toAddress.startsWith("ck")) {
-      await this.send_DOB_CKB(
+      await this.send_dob_ckb(
         currentAccountInfo,
         outPoint,
         toAddress,
@@ -418,11 +406,12 @@ export default class RpcClient {
         typeScript,
       );
     } else if (toAddress.startsWith("tb") || toAddress.startsWith("bc")) {
-      await this.send_DOB_BTC(currentAccountInfo, outPoint, toAddress);
+      await this.send_dob_btc(currentAccountInfo, outPoint, toAddress);
     }
   };
-  send_DOB_BTC = async (currentAccountInfo, outPoint, toAddress) => {
-    const network = await this.getNetwork();
+
+  send_dob_btc = async (currentAccountInfo, outPoint, toAddress) => {
+    const network = await getCurNetwork();
     const isMainnet = network.value === "mainnet";
 
     const cfg = isMainnet ? mainConfig : testConfig;
@@ -456,16 +445,16 @@ export default class RpcClient {
     console.log("==ckbRawTx===", ckbRawTx);
   };
 
-  send_DOB_CKB = async (
+  send_dob_ckb = async (
     currentAccountInfo,
     outPoint,
     toAddress,
     dobType,
     typeScript,
   ) => {
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
     const addr = Wallet.addressToScript(toAddress);
-    let feeRateRt = await this.get_feeRate();
+    let feeRateRt = await this.get_fee_rate();
 
     let feeRate = BI.from(feeRateRt.median).toString();
 
@@ -534,9 +523,9 @@ export default class RpcClient {
     return await this.transaction_confirm(newTx);
   };
 
-  send_Cluster = async (obj) => {
+  send_cluster = async (obj) => {
     const { currentAccountInfo, outPoint, toAddress } = obj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
     const addr = Wallet.addressToScript(toAddress);
 
     const { index, tx_hash } = outPoint;
@@ -560,8 +549,8 @@ export default class RpcClient {
     return await this.transaction_confirm(newTx);
   };
 
-  melt_DOB = async (currentAccountInfo, outPoint) => {
-    const network = await this.getNetwork();
+  melt_dob = async (currentAccountInfo, outPoint) => {
+    const network = await getCurNetwork();
 
     const { index, tx_hash } = outPoint;
 
@@ -584,10 +573,10 @@ export default class RpcClient {
     return await this.transaction_confirm(newTx);
   };
 
-  get_SUDT = async (address) => {
+  get_sudt = async (address) => {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     const sporeType = getSudtTypeScript(network.value === "mainnet");
 
@@ -619,9 +608,9 @@ export default class RpcClient {
     });
   };
 
-  send_SUDT = async (obj) => {
+  send_sudt = async (obj) => {
     const { currentAccountInfo, toAddress, args, amount, fee } = obj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     if (network.value === "mainnet") {
       config.initializeConfig(config.predefined.LINA);
@@ -659,8 +648,8 @@ export default class RpcClient {
     return await this.transaction_confirm(newTx);
   };
 
-  melt_Cluster = async (currentAccountInfo, outPoint) => {
-    const network = await this.getNetwork();
+  melt_cluster = async (currentAccountInfo, outPoint) => {
+    const network = await getCurNetwork();
 
     const { index, tx_hash } = outPoint;
 
@@ -682,10 +671,10 @@ export default class RpcClient {
     return await this.transaction_confirm(newTx);
   };
 
-  get_XUDT = async (address) => {
+  get_xudt = async (address) => {
     const hashObj = Wallet.addressToScript(address);
     const { codeHash, hashType, args } = hashObj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     const xudtType = getXudtTypeScript(network.value === "mainnet");
 
@@ -718,7 +707,7 @@ export default class RpcClient {
   };
 
   send_ckb2btc_xudt = async (obj) => {
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     const { toAddress, typeScript, amount } = obj;
     const currentAccount = await currentInfo();
@@ -795,9 +784,9 @@ export default class RpcClient {
     return signedTx;
   };
 
-  send_XUDT = async (obj) => {
+  send_xudt = async (obj) => {
     const { toAddress } = obj;
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     if (toAddress.startsWith("ck")) {
       let txSkeleton = await transfer_udt(obj, network);
@@ -812,7 +801,7 @@ export default class RpcClient {
   };
 
   getLiveCell = async (outPoint) => {
-    const network = await this.getNetwork();
+    const network = await getCurNetwork();
 
     const { txHash, index } = outPoint;
 
@@ -903,7 +892,7 @@ export default class RpcClient {
 
       for await (const rgbppLock of rgbppLocks) {
         const address = Wallet.scriptToAddress(rgbppLock.lock);
-        let rs = await this.get_XUDT(address);
+        let rs = await this.get_xudt(address);
         const xudtList = rs?.objects;
         if (xudtList.length > 0) {
           for (let i = 0; i < xudtList.length; i++) {
