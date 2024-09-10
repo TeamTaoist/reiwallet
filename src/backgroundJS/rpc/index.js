@@ -1,4 +1,4 @@
-import * as ckbRpcClient from "./ckbRpcClient";
-import * as btcRpcClient from "./btcRpcClient";
+import ckbRpcClient from "./ckbRpcClient";
+import btcRpcClient from "./btcRpcClient";
 
 export { ckbRpcClient, btcRpcClient };
