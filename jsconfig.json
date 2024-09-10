@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ESNext",
+    "checkJs": true
+  },
+  "typeAcquisition": {
+    "include": ["chrome"]
+  },
+  "include": ["src/**/*"]
+}
