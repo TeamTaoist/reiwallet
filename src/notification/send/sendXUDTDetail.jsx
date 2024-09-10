@@ -203,7 +203,7 @@ export default function SendXUDTDetail() {
 
   const getDetail = async () => {
     if (messenger) {
-      let data = await messenger.send("get_xudt_Transaction");
+      let data = await messenger.send("get_xudt_transaction");
 
       const prefix = currentAccountInfo?.address.slice(0, 3);
       const config = prefix === "ckt" ? predefined.AGGRON4 : predefined.LINA;
