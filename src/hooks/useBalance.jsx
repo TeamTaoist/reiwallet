@@ -25,6 +25,9 @@ export default function useBalance() {
       setBalance(rt);
       setAvailable(formatUnit(av, "ckb"));
       setOccupied(occ);
+    } else if (type === "get_capacity_error") {
+      setLoading(false);
+      // FIXME: handle error [F]
     }
   };
 
