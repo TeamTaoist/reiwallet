@@ -2,7 +2,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ESNext",
-    "checkJs": true
+    "checkJs": true,
+    "jsx": "react-native"
   },
   "typeAcquisition": {
     "include": ["chrome"]
