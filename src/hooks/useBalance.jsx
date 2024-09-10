@@ -1,9 +1,8 @@
 import useNetwork from "./useNetwork";
 import useAccountAddress from "./useAccountAddress";
 import { useEffect, useState } from "react";
-import { formatUnit } from "@ckb-lumos/bi";
+import { formatUnit, BI } from "@ckb-lumos/bi";
 import useMessage from "./useMessage";
-import { BI } from "@ckb-lumos/lumos";
 
 export default function useBalance() {
   const { networkInfo } = useNetwork();
