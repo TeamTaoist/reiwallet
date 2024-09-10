@@ -37,6 +37,7 @@ export const switchPassword = async (password) => {
     .join("");
 };
 
+// FIXME: find a better solution. [F]
 export const getPassword = async () => {
   let rt = await chrome.storage.session.get(["password"]);
   return rt?.password;
