@@ -14,7 +14,7 @@ import {
   hd,
   helpers,
   Indexer,
-  // RPC,
+  RPC,
 } from "@ckb-lumos/lumos";
 import { parseUnit } from "@ckb-lumos/bi";
 import { ParamsFormatter as formatter } from "@ckb-lumos/rpc";
@@ -34,6 +34,8 @@ import {
   getSporeByOutPoint,
   getSporeScript,
   getSporeByType,
+  assembleTransferSporeAction,
+  assembleCobuildWitnessLayout,
 } from "@spore-sdk/core";
 
 // CKB DEX
@@ -62,6 +64,10 @@ import {
   mainConfig,
   testConfig,
 } from "../../config/constants";
+import { predefined } from "@ckb-lumos/config-manager";
+import { bytes } from "@ckb-lumos/codec";
+
+const MAX_FEE = BI.from("20000000");
 
 /*global chrome*/
 let jsonRpcId = 0;
@@ -432,7 +438,7 @@ export default class RpcClient {
   send_dob_btc = async (currentAccountInfo, outPoint, toAddress) => {
     const network = await getCurNetwork();
     const isMainnet = network.value === "mainnet";
-
+    const newConfig = isMainnet ? predefined.LINA : predefined.AGGRON4;
     const cfg = isMainnet ? mainConfig : testConfig;
     const rgbppLeapHelper = new LeapHelper(
       isMainnet,
@@ -460,8 +466,170 @@ export default class RpcClient {
       toBtcAddress: toAddress,
       sporeId: args,
     });
+    const rpcURL = network.rpcUrl.node;
+    const rpc = new RPC(rpcURL);
+    const fetcher = async (outPoint) => {
+      let rt = await rpc.getLiveCell(outPoint, true);
+      const { data, output } = rt.cell;
+      return { data, cellOutput: output, outPoint };
+    };
 
-    console.log("==ckbRawTx===", ckbRawTx);
+    let txSkeleton = await helpers.createTransactionSkeleton(ckbRawTx, fetcher);
+
+    const inputArr = txSkeleton.get("inputs").toArray();
+    const outputArr = txSkeleton.get("outputs").toArray();
+
+    const inputObj = inputArr[0];
+    const { content } = inputObj.data;
+    inputObj.data = content;
+    const outputObj = outputArr[0];
+
+    let inputMin = inputObj.cellOutput.capacity;
+    let inputOccupid = helpers.minimalCellCapacityCompatible(inputObj);
+
+    let newMargin = BI.from(inputMin).sub(inputOccupid);
+
+    let outputMin = helpers
+      .minimalCellCapacityCompatible(outputObj)
+      .add(newMargin);
+    let minBi = outputMin.sub(inputMin.toString());
+
+    let amount;
+
+    if (minBi.gt("0")) {
+      amount = minBi;
+    } else {
+      amount = BI.from("0");
+    }
+    let capcityFormat = BI.from(inputMin);
+
+    txSkeleton = txSkeleton.update("outputs", (outputs) => outputs.clear());
+
+    outputObj.cellOutput.capacity = amount.add(capcityFormat).toHexString();
+    txSkeleton = txSkeleton.update("outputs", (outputs) =>
+      outputs.push(outputObj),
+    );
+
+    const fromScript = Wallet.addressToScript(currentAccountInfo?.address);
+
+    let needCapacity = BI.from(
+      helpers.minimalCellCapacity({
+        cellOutput: {
+          lock: fromScript,
+          capacity: BI.from(0).toHexString(),
+        },
+        data: "0x",
+      }),
+    )
+      .add(MAX_FEE)
+      .add(amount);
+
+    const indexURL = network.rpcUrl.indexer;
+    const indexer = new Indexer(indexURL, rpcURL);
+
+    const collect_ckb = indexer.collector({
+      lock: {
+        script: fromScript,
+        searchMode: "exact",
+      },
+      type: "empty",
+    });
+
+    const inputs_ckb = [];
+    let ckb_sum = BI.from(0);
+    for await (const collect of collect_ckb.collect()) {
+      inputs_ckb.push(collect);
+      ckb_sum = ckb_sum.add(collect.cellOutput.capacity);
+      if (ckb_sum.gte(needCapacity)) {
+        break;
+      }
+    }
+
+    if (ckb_sum.lt(needCapacity)) {
+      throw new Error("Not Enough capacity found");
+    }
+    const { codeHash: myCodeHash, hashType: myHashType } = fromScript;
+    let cellDep_script_lock;
+
+    for (let key in newConfig.SCRIPTS) {
+      let item = newConfig.SCRIPTS[key];
+      if (item.CODE_HASH === myCodeHash && item.HASH_TYPE === myHashType) {
+        cellDep_script_lock = item;
+        break;
+      }
+      throw new Error("script not found");
+    }
+
+    let oldInputs = txSkeleton.get("inputs");
+    txSkeleton = txSkeleton.update("inputs", (inputs) => inputs.clear());
+    txSkeleton = txSkeleton.update("inputs", (inputs) =>
+      inputs.push(...inputs_ckb, ...oldInputs),
+    );
+
+    const outputCapacity = ckb_sum.sub(MAX_FEE).sub(amount);
+
+    txSkeleton = txSkeleton.update("outputs", (outputs) =>
+      outputs.push({
+        cellOutput: {
+          capacity: `0x${outputCapacity.toString(16)}`,
+          lock: fromScript,
+        },
+        data: "0x",
+      }),
+    );
+
+    const {
+      TX_HASH: tx_hash_lock,
+      INDEX: index_lock,
+      DEP_TYPE: dep_type_lock,
+    } = cellDep_script_lock;
+
+    txSkeleton = txSkeleton.update("cellDeps", (cellDeps) =>
+      cellDeps.push({
+        outPoint: {
+          txHash: tx_hash_lock,
+          index: index_lock,
+        },
+        depType: dep_type_lock,
+      }),
+    );
+
+    let sporeCoBuild = generateSporeCoBuild_Single(inputObj, outputObj);
+
+    txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+      witnesses.clear(),
+    );
+
+    txSkeleton = await updateWitness(
+      txSkeleton,
+      fromScript,
+      inputObj.cellOutput.type.codeHash,
+      sporeCoBuild,
+    );
+    const unsignedTx = helpers.createTransactionFromSkeleton(txSkeleton);
+
+    const size = getTransactionSizeByTx(unsignedTx);
+
+    let rt = await this.get_fee_rate();
+    const { median } = rt;
+
+    let fee = BI.from(median);
+
+    const newFee = calculateFeeCompatible(size, fee);
+    const outputCapacityFact = ckb_sum.sub(newFee).sub(amount);
+    let outputs = txSkeleton.get("outputs").toArray();
+    let item = outputs[1];
+    item.cellOutput.capacity = outputCapacityFact.toHexString();
+    txSkeleton = txSkeleton.update("outputs", (outputs) => {
+      outputs.set(1, item);
+      return outputs;
+    });
+
+    const unsignedRawTx = helpers.transactionSkeletonToObject(txSkeleton);
+
+    return await this.sign_and_send({
+      txSkeletonObj: unsignedRawTx,
+    });
   };
 
   send_dob_ckb = async (
@@ -851,7 +1019,6 @@ export default class RpcClient {
 
     if (type === "transaction_object") {
       const rawTransaction = ResultFormatter.toTransaction(txSkeletonObj);
-
       const fetcher = async (outPoint) => {
         let rs = await this.get_live_cell(outPoint);
         let cell = {
@@ -987,4 +1154,86 @@ const getUTXO = async (address, isMainnet) => {
   }
 
   return rt;
+};
+
+const generateSporeCoBuild_Single = (sporeCell, outputCell) => {
+  const { actions } = assembleTransferSporeAction(sporeCell, outputCell);
+  return assembleCobuildWitnessLayout(actions);
+};
+
+const updateWitness = async (
+  txSkeleton,
+  myScript,
+  code_hash_contract_type,
+  sporeCoBuild,
+) => {
+  const inputArr = txSkeleton.get("inputs").toArray();
+  for (let i = 0; i < inputArr.length; i++) {
+    txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+      witnesses.push("0x"),
+    );
+  }
+
+  const firstIndex = txSkeleton
+    .get("inputs")
+    .findIndex((input) =>
+      bytes.equal(
+        blockchain.Script.pack(input.cellOutput.lock),
+        blockchain.Script.pack(myScript),
+      ),
+    );
+  if (firstIndex !== -1) {
+    while (firstIndex >= txSkeleton.get("witnesses").size) {
+      txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+        witnesses.push("0x"),
+      );
+    }
+    let witness = txSkeleton.get("witnesses").get(firstIndex);
+    const newWitnessArgs = {
+      /* 65-byte zeros in hex */
+      lock: "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    };
+    if (witness !== "0x") {
+      const witnessArgs = blockchain.WitnessArgs.unpack(bytes.bytify(witness));
+      const lock = witnessArgs.lock;
+      if (
+        !!lock &&
+        !!newWitnessArgs.lock &&
+        !bytes.equal(lock, newWitnessArgs.lock)
+      ) {
+        throw new Error(
+          "Lock field in first witness is set aside for signature!",
+        );
+      }
+      const inputType = witnessArgs.inputType;
+      if (!!inputType) {
+        newWitnessArgs.inputType = inputType;
+      }
+      const outputType = witnessArgs.outputType;
+      if (!!outputType) {
+        newWitnessArgs.outputType = outputType;
+      }
+    }
+    witness = bytes.hexify(blockchain.WitnessArgs.pack(newWitnessArgs));
+    txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+      witnesses.set(firstIndex, witness),
+    );
+  }
+
+  const contractIndex = txSkeleton
+    .get("inputs")
+    .findIndex(
+      (input) => input.cellOutput.type?.codeHash === code_hash_contract_type,
+    );
+
+  while (contractIndex >= txSkeleton.get("witnesses").size) {
+    txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+      witnesses.push("0x"),
+    );
+  }
+  txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+    witnesses.set(txSkeleton.get("inputs").size, sporeCoBuild),
+  );
+
+  return txSkeleton;
 };
