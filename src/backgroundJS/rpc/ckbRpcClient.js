@@ -137,7 +137,7 @@ export default class RpcClient {
 
     for await (const cell of collector.collect()) {
       totalCapacity = totalCapacity.add(cell.cellOutput.capacity);
-      if (cell.data !== "0x") {
+      if (cell?.cellOutput.type != null) {
         OcCapacity = OcCapacity.add(cell.cellOutput.capacity);
       }
     }
@@ -184,11 +184,15 @@ export default class RpcClient {
 
   get_fee_rate = async () => {
     const network = await getCurNetwork();
-    return await this._request({
+    let result = await this._request({
       method: "get_fee_rate_statistics",
       url: network.rpcUrl.node,
       params: ["0x65"],
     });
+
+    let maxNum = Math.max(parseInt(result.median), 1100).toString(16);
+    result.median = `0x${maxNum}`;
+    return result;
   };
 
   send_transaction = async (to, amt, fee, isMax) => {
