@@ -131,6 +131,7 @@
     "@rgbpp-sdk/btc": "^0.6.0",
     "@rgbpp-sdk/ckb": "^0.6.0",
     "@rgbpp-sdk/service": "^0.6.0",
+    "@sentry/browser": "^8.31.0",
     "@spore-sdk/core": "0.2.0",
     "@svgr/webpack": "^5.5.0",
     "@taoist-labs/dob-decoder": "^0.0.14",

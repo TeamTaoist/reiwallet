@@ -7,7 +7,6 @@ import { getPassword } from "./password";
 export const getCurNetwork = async () => {
   let network;
   let rt = await chrome.storage.local.get(["networkInfo"]);
-  console.log(rt);
   if (rt) {
     network = JSON.parse(rt.networkInfo);
   } else {

@@ -6,6 +6,7 @@ import PublicJS from "../utils/publicJS";
 import { getPassword } from "../wallet/password";
 import { networkList } from "../config/network";
 import { getCurNetwork } from "../wallet/getCurrent";
+import scope from "../utils/sentry";
 
 /*global chrome*/
 const toMessage = (data) => {
@@ -134,6 +135,8 @@ export const handleRequest = async (requestData, windowObj) => {
       id,
       windowID,
     };
+
+    scope.captureException(e);
     toMessage(data);
   }
 };
