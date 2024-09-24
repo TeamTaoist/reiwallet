@@ -1,16 +1,16 @@
-import CKB from '@nervosnetwork/ckb-sdk-core';
-import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils';
+import CKB from "@nervosnetwork/ckb-sdk-core";
+import { hexToBytes } from "@nervosnetwork/ckb-sdk-utils";
 
-import camelcaseKeys from 'camelcase-keys';
-import {BI} from "@ckb-lumos/lumos";
- const toCamelcase = (object) => {
+import camelcaseKeys from "camelcase-keys";
+import { BI } from "@ckb-lumos/lumos";
+const toCamelCase = (object) => {
   try {
     return JSON.parse(
-        JSON.stringify(
-            camelcaseKeys(object, {
-              deep: true,
-            }),
-        ),
+      JSON.stringify(
+        camelcaseKeys(object, {
+          deep: true,
+        }),
+      ),
     );
   } catch (error) {
     console.error(error);
@@ -24,20 +24,18 @@ const parseScript = (script) => ({
   args: script.args,
 });
 
- const MIN_CAPACITY = BI.from(61).toBigInt() * BI.from(10000_0000).toBigInt();
+const MIN_CAPACITY = BI.from(61).toBigInt() * BI.from(10000_0000).toBigInt();
 
 export const append0x = (hex) => {
-  return hex?.startsWith('0x') ? hex : `0x${hex}`;
+  return hex?.startsWith("0x") ? hex : `0x${hex}`;
 };
-
 
 const leToU128 = (leHex) => {
   const bytes = hexToBytes(append0x(leHex));
-  const beHex = `0x${bytes.reduceRight((pre, cur) => pre + cur.toString(16).padStart(2, '0'), '')}`;
+  const beHex = `0x${bytes.reduceRight((pre, cur) => pre + cur.toString(16).padStart(2, "0"), "")}`;
   return BI.from(beHex).toBigInt();
 };
 export class RGBCollector {
-
   constructor({ ckbNodeUrl, ckbIndexerUrl }) {
     this.ckbNodeUrl = ckbNodeUrl;
     this.ckbIndexerUrl = ckbIndexerUrl;
@@ -47,12 +45,9 @@ export class RGBCollector {
     return new CKB(this.ckbNodeUrl);
   }
 
-  async getCells({
-    lock,
-    type,
-  }){
+  async getCells({ lock, type }) {
     let param = {
-      script_search_mode: 'exact',
+      script_search_mode: "exact",
     };
     if (lock) {
       const filter = type
@@ -61,57 +56,49 @@ export class RGBCollector {
           }
         : {
             script: null,
-            output_data_len_range: ['0x0', '0x1'],
+            output_data_len_range: ["0x0", "0x1"],
           };
       param = {
         ...param,
         script: parseScript(lock),
-        script_type: 'lock',
+        script_type: "lock",
         filter,
       };
     } else if (type) {
       param = {
         ...param,
         script: parseScript(type),
-        script_type: 'type',
+        script_type: "type",
       };
     }
     let payload = {
       id: Math.floor(Math.random() * 100000),
-      jsonrpc: '2.0',
-      method: 'get_cells',
-      params: [param, 'asc', '0x3E8'],
+      jsonrpc: "2.0",
+      method: "get_cells",
+      params: [param, "asc", "0x3E8"],
     };
-    const body = JSON.stringify(payload, null, '  ');
-
+    const body = JSON.stringify(payload, null, "  ");
 
     const res = await fetch(this.ckbIndexerUrl, {
-      method: 'POST',
+      method: "POST",
       body: body,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
     const response = await res.json();
     if (response.error) {
       /* istanbul ignore next */
-      throw new Error('Get cells error');
+      throw new Error("Get cells error");
       // return Promise.reject(rt.error);
     } else {
-      return toCamelcase(response.result.objects);
+      return toCamelCase(response.result.objects);
     }
-
   }
 
-  collectInputs(
-    liveCells,
-    needCapacity,
-    fee,
-    minCapacity,
-    errMsg,
-  ) {
+  collectInputs(liveCells, needCapacity, fee, minCapacity, errMsg) {
     const changeCapacity = minCapacity ?? MIN_CAPACITY;
-    let inputs= [];
+    let inputs = [];
     let sumInputsCapacity = BI.from(0).toBigInt();
     for (let cell of liveCells) {
       inputs.push({
@@ -119,7 +106,7 @@ export class RGBCollector {
           txHash: cell.outPoint.txHash,
           index: cell.outPoint.index,
         },
-        since: '0x0',
+        since: "0x0",
       });
       sumInputsCapacity += BI.from(cell.output.capacity).toBigInt();
       if (sumInputsCapacity >= needCapacity + changeCapacity + fee) {
@@ -127,41 +114,46 @@ export class RGBCollector {
       }
     }
     if (sumInputsCapacity < needCapacity + changeCapacity + fee) {
-      const message = errMsg ?? 'Insufficient free CKB balance';
+      const message = errMsg ?? "Insufficient free CKB balance";
       throw new Error(message);
     }
     return { inputs, sumInputsCapacity };
   }
 
   collectUdtInputs(liveCellsA, needAmountAAA) {
-
-    const {liveCells, needAmount} = liveCellsA;
+    const { liveCells, needAmount } = liveCellsA;
 
     let inputs = [];
     let sumInputsCapacity = BI.from(0).toBigInt();
     let sumAmount = BI.from(0).toBigInt();
     // for (let cell of liveCells) {
 
-    for(let i = 0;i<liveCells.length;i++){
-    let cell = liveCells[i];
+    for (let i = 0; i < liveCells.length; i++) {
+      let cell = liveCells[i];
       inputs.push({
         previousOutput: {
           txHash: cell.outPoint.txHash,
           index: cell.outPoint.index,
         },
-        since: '0x0',
+        since: "0x0",
       });
       // sumInputsCapacity = sumInputsCapacity + BI.from(cell.output.capacity).toBigInt();
-      sumInputsCapacity = sumInputsCapacity + BI.from(cell.output.capacity).toBigInt();
+      sumInputsCapacity =
+        sumInputsCapacity + BI.from(cell.output.capacity).toBigInt();
       sumAmount += leToU128(cell.outputData);
       if (sumAmount >= needAmount) {
         break;
       }
     }
     if (sumAmount < needAmount) {
-      throw new Error('Insufficient UDT balance');
+      throw new Error("Insufficient UDT balance");
     }
-    console.log("inputs, sumInputsCapacity, sumAmount",inputs, sumInputsCapacity, sumAmount)
+    console.log(
+      "inputs, sumInputsCapacity, sumAmount",
+      inputs,
+      sumInputsCapacity,
+      sumAmount,
+    );
     return { inputs, sumInputsCapacity, sumAmount };
   }
 

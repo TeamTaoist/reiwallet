@@ -1,30 +1,25 @@
-import Lock from "../../components/lock/lock";
-import useLock from "../../useHook/useLock";
-import {useEffect, useState} from "react";
+import Lock from "../../popup/lock/lock";
+import useLock from "../../hooks/useLock";
+import { useEffect, useState } from "react";
 
 import SignMessage from "./signMessage";
 
+export default function Home() {
+  const Unlocked = useLock();
+  const [status, setStatus] = useState(false);
 
-export default function Home(){
+  useEffect(() => {
+    setStatus(Unlocked);
+  }, [Unlocked]);
 
-    const Unlocked = useLock();
-    const [status,setStatus ] = useState(false)
+  const handleLock = (bl) => {
+    setStatus(bl);
+  };
 
-    useEffect(() => {
-        setStatus(Unlocked)
-    }, [Unlocked]);
-
-    const handleLock = (bl) =>{
-        setStatus(bl)
-    }
-
-
-    return <div>
-        {
-           !status && <Lock isNav={true} handleLock={handleLock} />
-        }
-        {
-            status && <SignMessage />
-        }
+  return (
+    <div>
+      {!status && <Lock isNav={true} handleLock={handleLock} />}
+      {status && <SignMessage />}
     </div>
+  );
 }
