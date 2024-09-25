@@ -9,7 +9,11 @@ body {
   width: 100%;
   height: 100%;
 }
-dl,dt,dd,ul,li{
+dl,
+dt,
+dd,
+ul,
+li {
   padding: 0;
   margin: 0;
   list-style: none;
@@ -18,7 +22,6 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
 
 * {
   box-sizing: border-box;
@@ -30,7 +33,7 @@ a {
 
 /* define the var */
 :root {
-  --text-color: #242F57;
+  --text-color: #242f57;
 }
 
 .medium-font {
@@ -41,31 +44,30 @@ a {
   font-family: "AvenirNext-Regular";
   font-weight: 400;
 }
-.inputBox{
-  background: #FCFEFA;
+.inputBox {
+  background: #fcfefa;
   border-radius: 14px;
   border: 1px solid #000;
   height: 42px;
   overflow: hidden;
 }
-.inputBox input{
+.inputBox input {
   border: 0;
   font-size: 16px;
   font-family: "AvenirNext-Regular";
   font-weight: 400;
-  color: #212F5A;
+  color: #212f5a;
   line-height: 40px;
   margin: 0 20px;
   width: calc(100% - 40px);
 }
-.inputBox input:focus{
+.inputBox input:focus {
   outline: none;
 }
-.inputBox input::placeholder{
+.inputBox input::placeholder {
   font-size: 16px;
   font-family: "AvenirNext-Regular";
   font-weight: 400;
-  color: #9EA8CA;
+  color: #9ea8ca;
   line-height: 22px;
 }
-

@@ -1,30 +1,25 @@
-import Lock from "../../components/lock/lock";
-import useLock from "../../useHook/useLock";
-import {useEffect, useState} from "react";
+import Lock from "../../popup/lock/lock";
+import useLock from "../../hooks/useLock";
+import { useEffect, useState } from "react";
 
-import SignRawDetail from "./signRaw_detail";
+import SignRawDetail from "./signRawDetail";
 
+export default function SignRawTx() {
+  const Unlocked = useLock();
+  const [status, setStatus] = useState(false);
 
-export default function SignRawTx(){
+  useEffect(() => {
+    setStatus(Unlocked);
+  }, [Unlocked]);
 
-    const Unlocked = useLock();
-    const [status,setStatus ] = useState(false)
+  const handleLock = (bl) => {
+    setStatus(bl);
+  };
 
-    useEffect(() => {
-        setStatus(Unlocked)
-    }, [Unlocked]);
-
-    const handleLock = (bl) =>{
-        setStatus(bl)
-    }
-
-
-    return <div>
-        {
-            !status && <Lock isNav={true} handleLock={handleLock} />
-        }
-        {
-            status && <SignRawDetail />
-        }
+  return (
+    <div>
+      {!status && <Lock isNav={true} handleLock={handleLock} />}
+      {status && <SignRawDetail />}
     </div>
+  );
 }
