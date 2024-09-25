@@ -106,16 +106,17 @@ export const handlePopUp = async (requestData) => {
 };
 
 const sendMsg = (data) => {
-  try {
-    if (data.type.indexOf("error") > -1) {
-      try {
-        const message =
-          typeof data.data === "string" ? data.data : JSON.stringify(data.data);
-        scope.captureException(new Error(message));
-      } catch (e) {
-        console.error(e);
-      }
+  if (data.type.indexOf("error") > -1) {
+    try {
+      const message =
+        typeof data.data === "string" ? data.data : JSON.stringify(data.data);
+      scope.captureException(new Error(message));
+    } catch (e) {
+      console.error(e);
     }
+  }
+
+  try {
     /*global chrome*/
     chrome.runtime.sendMessage(data, () => {
       if (chrome.runtime.lastError) {
