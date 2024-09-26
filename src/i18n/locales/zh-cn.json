@@ -59,6 +59,7 @@
       "importBtn": "导入钱包"
     },
     "createTitle": "创建钱包",
+    "Swap": "兑换",
     "step1": {
       "subTitle": "创建钱包",
       "walletName": "钱包名称",

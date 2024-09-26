@@ -59,6 +59,7 @@
       "importBtn": "Import Wallet"
     },
     "createTitle": "Create wallet",
+    "Swap": "Swap",
     "step1": {
       "subTitle": "Create wallet",
       "walletName": "The name of the wallet",

@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import Button from "../button/button";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Loading from "../loading/loading";
 import useBalance from "../../hooks/useBalance";
+import SwapImg from "../../assets/images/exchange.svg";
+import SengImg from "../../assets/images/send.svg";
 
 const BalanceBox = styled.div`
   display: flex;
@@ -47,19 +48,31 @@ const LoadingBox = styled.div`
   margin-top: 20px;
 `;
 
-// const FlexBox = styled.div`
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-//     font-size: 14px;
-//     margin-top: 20px;
-//     text-decoration: underline;
-//     cursor: pointer;
-//     span{
-//         text-transform: uppercase;
-//     }
-//
-// `
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-top: 20px;
+  //text-decoration: underline;
+  cursor: pointer;
+  gap: 30px;
+
+  .btnLink {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border-radius: 5px;
+    text-decoration: none !important;
+    border: 1px solid #eee;
+  }
+  img {
+    width: 25px;
+  }
+`;
 
 export default function Balance() {
   const navigate = useNavigate();
@@ -68,6 +81,10 @@ export default function Balance() {
 
   const toSend = () => {
     navigate("/send");
+  };
+
+  const handleExchange = () => {
+    navigate("/exchange");
   };
 
   return (
@@ -97,9 +114,16 @@ export default function Balance() {
           )}
         </Title>
       )}
-      <Button primary onClick={() => toSend()}>
-        {t("popup.account.send")}
-      </Button>
+      <FlexBox>
+        <div className="btnLink" onClick={() => toSend()}>
+          <img src={SengImg} />
+          <span>{t("popup.account.send")}</span>
+        </div>
+        <div className="btnLink" onClick={() => handleExchange()}>
+          <img src={SwapImg} />
+          <span>{t("popup.Swap")}</span>
+        </div>
+      </FlexBox>
 
       {/*<FlexBox onClick={()=>toHaste()}><span>haste</span>.pro &gt;</FlexBox>*/}
     </BalanceBox>
