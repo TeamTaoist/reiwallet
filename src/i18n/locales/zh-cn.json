@@ -178,7 +178,7 @@
       "MAX": "全部",
       "Capacity": "容量",
       "feeRate": "预估费率",
-      "tips": "注意：转账操作必须在钱包中有至少 61 CKB。",
+      "tips": "注意：转账操作必须在钱包中有至少 {{capacity}} CKB。",
       "cancel": "取消",
       "Next": "下一步",
       "Sending": "发送中",
@@ -191,7 +191,8 @@
       "Assets": "资产",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
-      "occupied": "已占用"
+      "occupied": "已占用",
+      "insufficient": "余额不足"
     },
     "assets": {
       "Assets": "资产"
