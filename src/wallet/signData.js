@@ -1,4 +1,4 @@
-import Blake2b from "./blake2b";
+import { CKBHasher } from "@ckb-lumos/base/lib/utils";
 import { hd } from "@ckb-lumos/lumos";
 import { currentInfo } from "./getCurrent";
 
@@ -12,8 +12,8 @@ export default class SignData {
   };
   static signatureHash(message) {
     const buffer = Buffer.from(message, "utf-8");
-    const blake2b = new Blake2b();
-    blake2b.updateBuffer(buffer);
-    return blake2b.digest();
+    const blake2b = new CKBHasher();
+    blake2b.update(buffer);
+    return blake2b.digestHex();
   }
 }
