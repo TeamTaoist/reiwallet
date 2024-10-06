@@ -132,6 +132,8 @@
     "@rgbpp-sdk/ckb": "^0.6.0",
     "@rgbpp-sdk/service": "^0.6.0",
     "@sentry/browser": "^8.31.0",
+    "@sentry/react": "^8.33.1",
+    "@sentry/webpack-plugin": "^2.22.5",
     "@spore-sdk/core": "0.2.0",
     "@stealthex-io/widget": "^1.0.1",
     "@svgr/webpack": "^5.5.0",
