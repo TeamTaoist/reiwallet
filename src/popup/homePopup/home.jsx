@@ -23,14 +23,9 @@ export default function Home() {
       }
     });
   }, []);
-  const methodDoesNotExist = () => {
-    // console.log("methodDoesNotExist",aaa.toString());
-    throw new Error("Method doesn't exist 333");
-  };
 
   return (
     <Box>
-      <button onClick={() => methodDoesNotExist()}>Break the world</button>
       {!showHome && Unlocked && <WalletHome />}
       {!showHome && !Unlocked && <Lock />}
       {showHome && <CreateRestore />}
