@@ -24,7 +24,7 @@ jobs:
           npm run build
         env:
           CI: false
-          SENTRY_AUTH_TOKEN: '${{ SENTRY_AUTH_TOKEN }}'
+          SENTRY_AUTH_TOKEN: '${{ secrets.SENTRY_AUTH_TOKEN }}'
       
       - name: Zip build artifacts
         uses: montudor/action-zip@v1
