@@ -5,6 +5,7 @@ import Loading from "../loading/loading";
 import useBalance from "../../hooks/useBalance";
 import SwapImg from "../../assets/images/exchange.svg";
 import SengImg from "../../assets/images/send.svg";
+import useNetwork from "../../hooks/useNetwork";
 
 const BalanceBox = styled.div`
   display: flex;
@@ -12,6 +13,10 @@ const BalanceBox = styled.div`
   justify-content: center;
   align-items: center;
   margin: 20px auto;
+  .disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;
 
 const Title = styled.div`
@@ -78,12 +83,14 @@ export default function Balance() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { balance, balanceLoading, available, symbol, occupied } = useBalance();
+  const { network } = useNetwork();
 
   const toSend = () => {
     navigate("/send");
   };
 
   const handleExchange = () => {
+    if (network === "testnet") return;
     navigate("/exchange");
   };
 
@@ -119,7 +126,10 @@ export default function Balance() {
           <img src={SengImg} />
           <span>{t("popup.account.send")}</span>
         </div>
-        <div className="btnLink" onClick={() => handleExchange()}>
+        <div
+          className={network === "testnet" ? "btnLink disabled" : "btnLink"}
+          onClick={() => handleExchange()}
+        >
           <img src={SwapImg} />
           <span>{t("popup.Swap")}</span>
         </div>
