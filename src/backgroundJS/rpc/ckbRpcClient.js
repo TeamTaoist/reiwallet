@@ -237,7 +237,8 @@ export default class RpcClient {
     // let signedTx = helpers.sealTransaction(txSkeleton, signatures);
 
     if (isMax) {
-      const size = getTransactionSizeByTx(signedTx);
+      const transactionTX = helpers.createTransactionFromSkeleton(txSkeleton);
+      const size = getTransactionSizeByTx(transactionTX);
       const newFee = calculateFeeCompatible(size, fee);
       let outputs = txSkeleton.get("outputs").toArray();
       let item = outputs[0];
