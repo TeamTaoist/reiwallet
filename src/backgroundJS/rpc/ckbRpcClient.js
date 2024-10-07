@@ -47,6 +47,7 @@ import {
 // RGBPP SDK
 import {
   buildRgbppLockArgs,
+  Collector,
   genCkbJumpBtcVirtualTx,
   genRgbppLockScript,
   getSecp256k1CellDep,
@@ -57,7 +58,7 @@ import LeapHelper from "rgbpp-leap-helper/lib";
 import Wallet from "../../wallet/wallet";
 import { getCurNetwork, currentInfo } from "../../wallet/getCurrent";
 import { transfer_udt } from "../../utils/ckbRequest";
-import { RGBCollector } from "../../utils/newCollectorRGB";
+
 import {
   DID_CONTRACT,
   localServer,
@@ -223,18 +224,21 @@ export default class RpcClient {
         fee /*fee_rate*/,
       );
     }
+    let signatures;
+    let signedTx;
 
-    txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
-
-    let signatures = txSkeleton
-      .get("signingEntries")
-      .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
-      .toArray();
-
-    let signedTx = helpers.sealTransaction(txSkeleton, signatures);
+    // txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
+    //
+    // let signatures = txSkeleton
+    //   .get("signingEntries")
+    //   .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
+    //   .toArray();
+    //
+    // let signedTx = helpers.sealTransaction(txSkeleton, signatures);
 
     if (isMax) {
-      const size = getTransactionSizeByTx(signedTx);
+      const transactionTX = helpers.createTransactionFromSkeleton(txSkeleton);
+      const size = getTransactionSizeByTx(transactionTX);
       const newFee = calculateFeeCompatible(size, fee);
       let outputs = txSkeleton.get("outputs").toArray();
       let item = outputs[0];
@@ -243,14 +247,14 @@ export default class RpcClient {
         outputs[0] = item;
         return outputs;
       });
-
-      txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
-      signatures = txSkeleton
-        .get("signingEntries")
-        .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
-        .toArray();
-      signedTx = helpers.sealTransaction(txSkeleton, signatures);
     }
+    txSkeleton = commons.common.prepareSigningEntries(txSkeleton);
+    signatures = txSkeleton
+      .get("signingEntries")
+      .map((entry) => hd.key.signRecoverable(entry.message, privatekey_show))
+      .toArray();
+    signedTx = helpers.sealTransaction(txSkeleton, signatures);
+
     const newTx = formatter.toRawTransaction(signedTx);
     let outputs = txSkeleton.get("outputs").toArray();
     const outputArr = outputs.map((item) => {
@@ -939,7 +943,7 @@ export default class RpcClient {
       config.initializeConfig(config.predefined.AGGRON4);
     }
 
-    const collector = new RGBCollector({
+    const collector = new Collector({
       ckbNodeUrl: network.rpcUrl.node,
       ckbIndexerUrl: network.rpcUrl.indexer,
     });

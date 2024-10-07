@@ -318,7 +318,6 @@ const sendCKBTx = async (data, windowId, url) => {
 const getNetwork = async () => {
   try {
     const network = await getCurNetwork();
-    console.log("network", network);
     return network.value;
   } catch (e) {
     console.error("getNetwork", e);

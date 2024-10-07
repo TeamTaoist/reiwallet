@@ -2,6 +2,7 @@ import styled from "styled-components";
 import AccountHeader from "./accountHeader";
 import Balance from "./balance";
 import AccountTabs from "./accountTabs";
+import { useNavigate } from "react-router-dom";
 
 const Box = styled.div`
   display: flex;
@@ -16,6 +17,8 @@ const MainBox = styled.div`
 `;
 
 export default function Account() {
+  const navigate = useNavigate();
+
   return (
     <Box>
       <AccountHeader />
