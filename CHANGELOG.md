@@ -1,3 +1,36 @@
+## [0.3.15](https://github.com/TeamTaoist/reiwallet/compare/v0.3.14...v0.3.15) (2024-09-25)
+
+
+### Bug Fixes
+
+* add error handle ([1c5551c](https://github.com/TeamTaoist/reiwallet/commit/1c5551cdca98ce11bf6913a1f9ee7da79d270782))
+* add missing field ([dba5af2](https://github.com/TeamTaoist/reiwallet/commit/dba5af2c3dd88c0a3ea7e06516044bd4ae60a69f))
+* add try/catch for runtime error; ([31f92f5](https://github.com/TeamTaoist/reiwallet/commit/31f92f50fc3fb2de29aa78a2b9bb40c93934a9a5))
+* adjust typo ([330d386](https://github.com/TeamTaoist/reiwallet/commit/330d3869763119365a247a6a24817ed96a6f5999))
+* adjust typo ([db19174](https://github.com/TeamTaoist/reiwallet/commit/db191740cb077f6779a5f276e06929727237280e))
+* adjust typo ([1699118](https://github.com/TeamTaoist/reiwallet/commit/169911810778859c68a512aa2c8fb0b3fb3c7d1a))
+* adjust typo ([984fb6f](https://github.com/TeamTaoist/reiwallet/commit/984fb6f3fe5641c01dac5fa6de970fd8546f21e7))
+* build error of incorrect letter case ([ee623d8](https://github.com/TeamTaoist/reiwallet/commit/ee623d8914944b1ed7be6bd1d9c3be04fbbc46fb))
+* build error of incorrect letter case ([948813b](https://github.com/TeamTaoist/reiwallet/commit/948813b80948867bac183e4479184008028c7548))
+* fix rgbpp helper use fetch replace mempool ([3415889](https://github.com/TeamTaoist/reiwallet/commit/3415889e9786b7f337aef092d535b71f70b2cd71))
+* import issue ([29df9b2](https://github.com/TeamTaoist/reiwallet/commit/29df9b23eac9419d116528656c21df6807582456))
+* jsconfig jsx check ([490359e](https://github.com/TeamTaoist/reiwallet/commit/490359ea9bfd18266f810930b21fd62f216a405a))
+* remove useless code ([8d7371e](https://github.com/TeamTaoist/reiwallet/commit/8d7371e3091ebdb4e5075f0f4f8c8bebb151df46))
+* rename missings ([f990396](https://github.com/TeamTaoist/reiwallet/commit/f990396111df89f2c4bb5bf7b989bd5260a81bea))
+* rgbpp service use worker proxy ([3d43016](https://github.com/TeamTaoist/reiwallet/commit/3d43016e774bdcacfb29cfeed96ee4564e522a25))
+* rgbpp version ([2d7ab3e](https://github.com/TeamTaoist/reiwallet/commit/2d7ab3e50d00b95b4ab37a831a5a8704a5a606a3))
+* service proxy add auth check ([16d7761](https://github.com/TeamTaoist/reiwallet/commit/16d776180823c17b4936ad3f87d5b49799c956ed))
+* update  "@taoist-labs/dob-decoder" ([8c1e80e](https://github.com/TeamTaoist/reiwallet/commit/8c1e80e947f557589f690fa58a5c44dfcd5933ca))
+* update  sentry in popup ([b874fbb](https://github.com/TeamTaoist/reiwallet/commit/b874fbbbf2cc6b9656268cf9319c874b787fe7f4))
+* update address format ([872028e](https://github.com/TeamTaoist/reiwallet/commit/872028ef54f889d3d421ddf65fd668581726996f))
+* update balance ([d0594de](https://github.com/TeamTaoist/reiwallet/commit/d0594deb1064b84f805d7f3334cf356d6d6a2ca2))
+* update dob ([bd18fab](https://github.com/TeamTaoist/reiwallet/commit/bd18fab77af0b07c19e2a2e6b86b7b345f8edc6b))
+* update params ([2964b79](https://github.com/TeamTaoist/reiwallet/commit/2964b79b67e3451e4306d01812360d88ca6ab0b6))
+* update sentry ([e37f7c5](https://github.com/TeamTaoist/reiwallet/commit/e37f7c54c5875a274946983624863fc27376c69d))
+* update spore leap to btc ([80917b0](https://github.com/TeamTaoist/reiwallet/commit/80917b06f69ed01c857931d310318ec9236f9b99))
+
+
+
 ## [0.3.14](https://github.com/TeamTaoist/reiwallet/compare/v0.3.13...v0.3.14) (2024-08-24)
 
 
