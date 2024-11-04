@@ -90,10 +90,17 @@ let injectedCkb = {
  * The injected object is read-only.
  * TODO: we should use rei as the name of this injected object, since we will have both btc and ckb.
  */
+
+const excludeWebsite = ["google.com"];
+
 if (!window.ckb) {
-  window.ckb = new Proxy(injectedCkb, {
-    deleteProperty: () => true,
-  });
+  let domainStr = window.location.host.split(".").slice(-2).join(".");
+
+  if (!excludeWebsite.includes(domainStr)) {
+    window.ckb = new Proxy(injectedCkb, {
+      deleteProperty: () => true,
+    });
+  }
 }
 
 Object.defineProperty(window, "ckb", {
