@@ -92,20 +92,18 @@ let injectedCkb = {
  */
 
 const excludeWebsite = ["google.com"];
-
-if (!window.ckb) {
-  let domainStr = window.location.host.split(".").slice(-2).join(".");
-
-  if (!excludeWebsite.includes(domainStr)) {
+let domainStr = window.location.host.split(".").slice(-2).join(".");
+if (!excludeWebsite.includes(domainStr)) {
+  if (!window.ckb) {
     window.ckb = new Proxy(injectedCkb, {
       deleteProperty: () => true,
     });
   }
-}
 
-Object.defineProperty(window, "ckb", {
-  value: new Proxy(injectedCkb, {
-    deleteProperty: () => true,
-  }),
-  writable: false,
-});
+  Object.defineProperty(window, "ckb", {
+    value: new Proxy(injectedCkb, {
+      deleteProperty: () => true,
+    }),
+    writable: false,
+  });
+}
