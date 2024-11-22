@@ -247,6 +247,24 @@ export default function DOBConfirm() {
     sendMsg(obj);
   };
 
+  const isDisabled = () => {
+    let iD = true;
+    if (
+      dob.asset.contentType?.indexOf("DID") > -1 &&
+      address.startsWith("ck")
+    ) {
+      iD = false;
+    } else if (
+      dob.asset.contentType?.indexOf("DID") === -1 &&
+      (address.startsWith("tb") ||
+        address.startsWith("bc") ||
+        address.startsWith("ck"))
+    ) {
+      iD = false;
+    }
+    return iD;
+  };
+
   return (
     <ContentBox>
       {loading && <Loading showBg={true} />}
@@ -355,7 +373,7 @@ export default function DOBConfirm() {
         <Button border onClick={() => navigate("/home?tab=1")}>
           {t("popup.send.Reject")}
         </Button>
-        <Button primary onClick={() => submit()}>
+        <Button primary onClick={() => submit()} disabled={isDisabled()}>
           {t("popup.send.Confirm")}
         </Button>
       </BtnGroup>

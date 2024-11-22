@@ -6,8 +6,11 @@ import useBalance from "../../hooks/useBalance";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { parseUnit } from "@ckb-lumos/bi";
+import { formatUnit, parseUnit } from "@ckb-lumos/bi";
 import useAccountAddress from "../../hooks/useAccountAddress";
+import Wallet from "../../wallet/wallet";
+import { minimalScriptCapacity } from "@ckb-lumos/helpers";
+import { BI } from "@ckb-lumos/lumos";
 
 const ContentBox = styled.div`
   flex-grow: 1;
@@ -180,6 +183,7 @@ export default function SendStep1({ toDetail, fee }) {
   const sendTo = search.get("sendTo");
   const navigate = useNavigate();
   const { currentAccountInfo } = useAccountAddress();
+  const [minimal, setMinimal] = useState(0);
 
   useEffect(() => {
     setAddress(sendTo);
@@ -208,6 +212,21 @@ export default function SendStep1({ toDetail, fee }) {
   };
   const handleAmount = (e) => {
     setAmount(e.target.value);
+  };
+  useEffect(() => {
+    if (address) {
+      handleMinimal();
+    }
+  }, [address]);
+
+  const handleMinimal = () => {
+    const toScript = Wallet.addressToScript(address);
+    const minimal = minimalScriptCapacity(toScript);
+
+    const capacityField = parseUnit("8", "ckb");
+    const total = BI.from(minimal.toString()).add(capacityField);
+    const mi = formatUnit(total, "ckb");
+    setMinimal(mi);
   };
   return (
     <ContentBox>
@@ -257,14 +276,18 @@ export default function SendStep1({ toDetail, fee }) {
           </WhiteInput>
         </div>
       </Gas>
-      <Tips>{t("popup.send.tips")}</Tips>
+      <Tips>{t("popup.send.tips", { capacity: minimal })}</Tips>
       <BtnGroup>
         <Button border onClick={() => navigate("/")}>
           {t("popup.send.cancel")}
         </Button>
         <Button
           primary
-          disabled={amount < 61 || !address?.length}
+          disabled={
+            parseFloat(amount) < minimal ||
+            parseFloat(amount) > parseFloat(available) ||
+            !address?.length
+          }
           onClick={() => toDetail(address, amount, isMax)}
         >
           {t("popup.send.Next")}

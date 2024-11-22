@@ -242,7 +242,10 @@ export default function DOBDetail() {
           <Button primary onClick={() => toGo()}>
             {t("popup.dob.Send")}
           </Button>
-          <div className="tipTop">{t("popup.xudt.xudtTips")}</div>
+          {dob.asset.contentType?.indexOf("DID") === -1 && (
+            <div className="tipTop">{t("popup.xudt.xudtTips")}</div>
+          )}
+
           {dob.asset.contentType?.indexOf("DID") === -1 && (
             <MeltBox onClick={() => handleShow()}>
               {t("popup.dob.MeltDOB")}

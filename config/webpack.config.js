@@ -63,7 +63,10 @@ const useTailwind = fs.existsSync(
   path.join(paths.appPath, "tailwind.config.js"),
 );
 
+console.error("process.env.SENTRY_AUTH_TOKEN--", process.env.SENTRY_AUTH_TOKEN);
+
 const tools = require("./tools");
+const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
 // Get the path to the uncompiled service worker (if it exists).
 const swSrc = paths.swSrc;
@@ -195,11 +198,12 @@ module.exports = function (webpackEnv) {
     mode: isEnvProduction ? "production" : isEnvDevelopment && "development",
     // Stop compilation early in production
     bail: isEnvProduction,
-    devtool: isEnvProduction
-      ? shouldUseSourceMap
-        ? "source-map"
-        : false
-      : isEnvDevelopment && "cheap-module-source-map",
+    devtool: "source-map",
+    // devtool: isEnvProduction
+    //   ? shouldUseSourceMap
+    //     ? "source-map"
+    //     : false
+    //   : isEnvDevelopment && "cheap-module-source-map",
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     // entry: paths.appIndexJs,
@@ -591,6 +595,13 @@ module.exports = function (webpackEnv) {
       new webpack.ProvidePlugin({
         Buffer: ["buffer", "Buffer"],
         process: "process/browser",
+      }),
+      sentryWebpackPlugin({
+        org: "taoistlabs",
+        project: "reiwallet",
+
+        // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+        authToken: process.env.SENTRY_AUTH_TOKEN,
       }),
       new webpack.NormalModuleReplacementPlugin(
         /cross-fetch/,

@@ -59,6 +59,7 @@
       "importBtn": "Import Wallet"
     },
     "createTitle": "Create wallet",
+    "Swap": "Swap",
     "step1": {
       "subTitle": "Create wallet",
       "walletName": "The name of the wallet",
@@ -177,7 +178,7 @@
       "MAX": "MAX",
       "Capacity": "Capacity",
       "feeRate": "Estimated Fee Rate",
-      "tips": "Note: The wallet must have a minimum of 61 CKBs for a transfer operation.",
+      "tips": "Note: The wallet must have a minimum of {{capacity}} CKBs for a transfer operation.",
       "cancel": "Cancel",
       "Next": "Next",
       "Sending": "Sending",
@@ -190,7 +191,8 @@
       "Assets": "Assets",
       "ClusterId": "Cluster Id",
       "TokenID": "Token ID",
-      "occupied": "Occupied"
+      "occupied": "Occupied",
+      "insufficient": "Insufficient Capacity"
     },
     "assets": {
       "Assets": "Assets"
