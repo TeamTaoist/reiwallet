@@ -1,4 +1,5 @@
 import PublicJS, {
+  formatNumber,
   parseFixed,
   unSerializeTokenInfo,
 } from "../../utils/publicJS";
@@ -144,8 +145,7 @@ export default function Xudt_item({ item }) {
           <FlexRht>
             {/*<SendBox>Send</SendBox>*/}
             <span>
-              {item?.sum ? formatUnit(item?.sum?.toString(), "ckb") : 0}{" "}
-              {detail?.symbol}
+              {item?.sum ? formatNumber(item?.sum) : 0} {detail?.symbol}
             </span>
 
             <img src={Next} alt="" />

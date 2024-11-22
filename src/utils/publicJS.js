@@ -1,5 +1,6 @@
 import { hexToBytes } from "@nervosnetwork/ckb-sdk-utils";
 import { BI } from "@ckb-lumos/lumos";
+import { formatUnit } from "@ckb-lumos/bi";
 
 /*global chrome*/
 const addressToShow = (address, num = 5) => {
@@ -118,6 +119,18 @@ export const setUtxo = (txSkeleton) => {
   }
 };
 
+export const formatNumber = (sumNum) => {
+  let num = formatUnit(sumNum.toString(), "ckb") ?? 0;
+  if (num >= 1000000000) {
+    return (num / 1000000000).toFixed(1) + "b";
+  } else if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + "m";
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + "k";
+  }
+  return num.toString();
+};
+
 export default {
   addressToShow,
   requestGrant,
@@ -125,5 +138,6 @@ export default {
   parseFixed,
   getUtxoStore,
   setUtxo,
+  formatNumber,
   randomSort,
 };
