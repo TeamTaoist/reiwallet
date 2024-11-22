@@ -1,3 +1,12 @@
+## [0.4.1](https://github.com/TeamTaoist/reiwallet/compare/v0.4.0...v0.4.1) (2024-11-22)
+
+
+### Bug Fixes
+
+* update ui with xudt ([53979c6](https://github.com/TeamTaoist/reiwallet/commit/53979c65c50304fbd2b7623d54bd3d252193477c))
+
+
+
 # [0.4.0](https://github.com/TeamTaoist/reiwallet/compare/v0.3.15...v0.4.0) (2024-11-22)
 
 
