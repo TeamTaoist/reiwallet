@@ -1,3 +1,14 @@
+## [0.4.2](https://github.com/TeamTaoist/reiwallet/compare/v0.4.1...v0.4.2) (2024-11-25)
+
+
+### Bug Fixes
+
+* remove partners ([a97363e](https://github.com/TeamTaoist/reiwallet/commit/a97363e56b4ce818809430efae6dd3fb54d38048))
+* remove stealthEx ([0319df7](https://github.com/TeamTaoist/reiwallet/commit/0319df7057fad8b44c1738132f57ae57dff07f13))
+* update manifest with CSP ([4e7641b](https://github.com/TeamTaoist/reiwallet/commit/4e7641b789ee296af7cd6a1b711cc3ee4cf7ce85))
+
+
+
 ## [0.4.1](https://github.com/TeamTaoist/reiwallet/compare/v0.4.0...v0.4.1) (2024-11-22)
 
 
