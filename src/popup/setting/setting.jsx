@@ -275,7 +275,7 @@ export default function Setting() {
           {/*<img src={Medium} alt=""/>*/}
         </LinkBox>
       </div>
-      <div>
+      {/* <div>
         <Titles className="medium-font">{t("popup.Settings.Friendly")}</Titles>
         <LinkBox2>
           <li>
@@ -287,7 +287,7 @@ export default function Setting() {
             <span>Haste.pro</span>
           </li>
         </LinkBox2>
-      </div>
+      </div> */}
     </Box>
   );
 }

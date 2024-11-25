@@ -91,7 +91,7 @@ export default function Balance() {
 
   const handleExchange = () => {
     if (network === "testnet") return;
-    navigate("/exchange");
+    navigate("/swap");
   };
 
   return (
@@ -126,13 +126,13 @@ export default function Balance() {
           <img src={SengImg} />
           <span>{t("popup.account.send")}</span>
         </div>
-        <div
-          className={network === "testnet" ? "btnLink disabled" : "btnLink"}
-          onClick={() => handleExchange()}
-        >
-          <img src={SwapImg} />
-          <span>{t("popup.Swap")}</span>
-        </div>
+        {/*<div*/}
+        {/*  className={network === "testnet" ? "btnLink disabled" : "btnLink"}*/}
+        {/*  onClick={() => handleExchange()}*/}
+        {/*>*/}
+        {/*  <img src={SwapImg} />*/}
+        {/*  <span>{t("popup.Swap")}</span>*/}
+        {/*</div>*/}
       </FlexBox>
 
       {/*<FlexBox onClick={()=>toHaste()}><span>haste</span>.pro &gt;</FlexBox>*/}
