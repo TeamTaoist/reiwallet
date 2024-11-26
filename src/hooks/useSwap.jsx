@@ -1,10 +1,9 @@
 import useMessage from "./useMessage";
-import { BI, formatUnit } from "@ckb-lumos/bi";
 import { useEffect, useState } from "react";
 import useAccountAddress from "./useAccountAddress";
 import { useWeb3 } from "../store/contracts";
 
-export default function useSwap(from, isRotated) {
+export default function useSwap(from) {
   const { currentAccountInfo } = useAccountAddress();
   const [loading, setLoading] = useState(false);
   const [currencyTo, setCurrencyTo] = useState(null);
@@ -14,7 +13,7 @@ export default function useSwap(from, isRotated) {
 
   const {
     dispatch,
-    state: { stealthex_token, currentToken },
+    state: { stealthex_token, currentToken, isRotated },
   } = useWeb3();
 
   const handleEvent = async (message) => {
@@ -83,13 +82,13 @@ export default function useSwap(from, isRotated) {
 
   useEffect(() => {
     if (!currentAccountInfo || !stealthex_token) return;
-    getCurrency(from, "from");
-  }, [stealthex_token, currentAccountInfo, from]);
+    getCurrency(isRotated ? currentToken : from, "from");
+  }, [stealthex_token, currentAccountInfo, from, isRotated, currentToken]);
 
   useEffect(() => {
     if (!currentAccountInfo || !stealthex_token) return;
-    getCurrency(currentToken, "to");
-  }, [stealthex_token, currentAccountInfo, currentToken]);
+    getCurrency(!isRotated ? currentToken : from, "to");
+  }, [stealthex_token, currentAccountInfo, currentToken, from, isRotated]);
 
   const getCurrency = async (symbol, type) => {
     let obj = {

@@ -42,6 +42,9 @@ const reducer = (state, action) => {
     case "SET_CURRENCY":
       return { ...state, currentToken: action.payload };
 
+    case "SET_ISROTATED":
+      return { ...state, isRotated: action.payload };
+
     // case 'SET_ERROR':
     //     return { ...state, errorTips: action.payload };
 

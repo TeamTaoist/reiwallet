@@ -103,9 +103,9 @@ const SelectBox = styled.div`
       height: 20px;
     }
   }
-`;
-const SelectBox2 = styled(SelectBox)`
-  cursor: pointer;
+  &.curHover {
+    cursor: pointer;
+  }
 `;
 
 const LftBox = styled.div`
@@ -124,18 +124,18 @@ export default function Swap() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [isRotated, setIsRotated] = useState(false);
   const [from] = useState({ symbol: "ckb", network: "mainnet" });
   // const [to] = useState({ symbol: "usdt", network: "trx" });
-  const { currencyTo, currencyFrom, range } = useSwap(from, isRotated);
+  const { currencyTo, currencyFrom, range } = useSwap(from);
   const [fromObj, setFromObj] = useState(null);
   const [toObj, setToObj] = useState(null);
   const [amountFrom, setAmountFrom] = useState("");
   const [amountTo, setAmountTo] = useState("");
+  console.error("range", range);
 
   const {
     dispatch,
-    state: { stealthex_token },
+    state: { stealthex_token, isRotated },
   } = useWeb3();
 
   const handleEvent = async (message) => {
@@ -143,7 +143,6 @@ export default function Swap() {
     switch (type) {
       case "estimated_amount_success":
         {
-          console.log(message.data);
           setAmountTo(message.data.estimated_amount);
         }
         break;
@@ -162,7 +161,7 @@ export default function Swap() {
   }, [currencyFrom]);
 
   const handleClick = () => {
-    setIsRotated(!isRotated);
+    dispatch({ type: "SET_ISROTATED", payload: !isRotated });
     let swapObj = fromObj;
     setFromObj(toObj);
     setToObj(swapObj);
@@ -180,14 +179,12 @@ export default function Swap() {
   const handleChange = useCallback(
     debounce((value) => {
       handleAmountChange(value);
-    }, 1200),
-    [fromObj, toObj],
+    }, 600),
+    [fromObj, toObj, range],
   );
 
   const handleAmountChange = (value) => {
     if (Number(value) < Number(range?.min_amount)) return;
-    console.log("fromObj", fromObj);
-
     let obj = {
       method: "estimated_amount",
       from: fromObj,
@@ -196,6 +193,17 @@ export default function Swap() {
       amount: value,
     };
     sendMsg(obj);
+  };
+
+  const handleNav = (type) => {
+    if ((type === "from" && isRotated) || (type === "to" && !isRotated)) {
+      navigate("/currencyList");
+    }
+  };
+
+  const handleCancel = () => {
+    navigate("/");
+    dispatch({ type: "SET_ISROTATED", payload: false });
   };
 
   return (
@@ -213,7 +221,10 @@ export default function Swap() {
               onChange={(e) => handleInput(e)}
             />
           </LftBox>
-          <SelectBox>
+          <SelectBox
+            className={isRotated && fromObj?.symbol !== "ckb" ? "curHover" : ""}
+            onClick={() => handleNav("from")}
+          >
             <div className="lft">
               <img alt="" src={fromObj?.icon_url} />
               <span> {fromObj?.symbol}</span>
@@ -221,11 +232,12 @@ export default function Swap() {
 
             <ChevronDown size={12} />
           </SelectBox>
-          {!!range?.min_amount && (
+          {!!range?.min_amount && !range?.err && (
             <div className="min">
               The minimum amount: {range?.min_amount} {fromObj?.symbol}
             </div>
           )}
+          {!!range?.err && <div className="min">{range?.err?.details}</div>}
         </WhiteInput>
         <ArrowBox>
           <div className="innerBox" onClick={() => handleClick()}>
@@ -241,17 +253,20 @@ export default function Swap() {
             <div className="textSmall">Get {toObj?.name}</div>
             <input type="text" placeholder="0" name="to" value={amountTo} />
           </LftBox>
-          <SelectBox2 onClick={() => navigate("/currencyList")}>
+          <SelectBox
+            className={!isRotated && toObj?.symbol !== "ckb" ? "curHover" : ""}
+            onClick={() => handleNav("to")}
+          >
             <div className="lft ">
               <img alt="" src={toObj?.icon_url} />
               <span> {toObj?.symbol}</span>
             </div>
 
             <ChevronDown size={12} />
-          </SelectBox2>
+          </SelectBox>
         </WhiteInput>
         <BtnGroup>
-          <Button border onClick={() => navigate("/")}>
+          <Button border onClick={() => handleCancel()}>
             {t("popup.send.cancel")}
           </Button>
           <Button primary disabled={true}>
