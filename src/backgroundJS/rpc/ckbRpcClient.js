@@ -62,6 +62,7 @@ import { transfer_udt } from "../../utils/ckbRequest";
 import {
   DID_CONTRACT,
   localServer,
+  stealthEx_Server,
   mainConfig,
   testConfig,
 } from "../../config/constants";
@@ -95,6 +96,31 @@ export default class RpcClient {
     }
 
     return rt?.result;
+  }
+
+  async _fetch(obj) {
+    const { url, fetch_method, body, token } = obj;
+    let headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const res = await fetch(url, {
+      method: fetch_method,
+      body: JSON.stringify(body),
+      headers,
+    });
+
+    const rt = await res.json();
+    // Abort retrying if the resource doesn't exist
+    if (rt.error) {
+      /* istanbul ignore next */
+      return Promise.reject(rt.error);
+    }
+
+    return rt;
   }
 
   get_public_key = async () => {
@@ -1047,6 +1073,57 @@ export default class RpcClient {
     }
     let rt = await signAndSendTransaction(txSkeleton);
     return rt;
+  };
+
+  stealthex_auth = async (obj) => {
+    const { address } = obj.currentAccountInfo;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/auth/${address}`;
+
+    return await this._fetch({
+      method: "stealthex_auth",
+      fetch_method: "GET",
+      url,
+    });
+  };
+  get_currency = async (obj) => {
+    const { symbol, token } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/currencies/${symbol.symbol}/${symbol.network}`;
+
+    return await this._fetch({
+      method: "get_currency",
+      fetch_method: "GET",
+      url,
+      token,
+    });
+  };
+  get_range = async (obj) => {
+    const { from, to, token } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/rates/range`;
+    const body = {
+      route: {
+        from: {
+          symbol: from.symbol,
+          network: from.network,
+        },
+        to: {
+          symbol: to.symbol,
+          network: to.network,
+        },
+      },
+      estimation: "direct",
+      rate: "floating",
+    };
+
+    return await this._fetch({
+      method: "get_range",
+      fetch_method: "POST",
+      url,
+      body,
+      token,
+    });
   };
 
   _getRgbppAssert = async (address, network) => {

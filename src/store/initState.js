@@ -10,4 +10,5 @@ module.exports = {
   sudt: null,
   xudt: null,
   cluster: null,
+  stealthex_token: null,
 };
