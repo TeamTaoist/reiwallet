@@ -4,8 +4,11 @@ import { useTranslation } from "react-i18next";
 import Button from "../button/button";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useSwap from "../../hooks/useSwap";
+import { useWeb3 } from "../../store/contracts";
+import { debounce } from "lodash";
+import useMessage from "../../hooks/useMessage";
 
 const BoxOuter = styled.div`
   display: flex;
@@ -120,12 +123,34 @@ const LftBox = styled.div`
 export default function Swap() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const [isRotated, setIsRotated] = useState(false);
-  const [from, setFrom] = useState({ symbol: "ckb", network: "mainnet" });
-  const [to, setTo] = useState({ symbol: "usdt", network: "trx" });
-  const { currencyTo, currencyFrom, range } = useSwap(from, to);
+  const [from] = useState({ symbol: "ckb", network: "mainnet" });
+  // const [to] = useState({ symbol: "usdt", network: "trx" });
+  const { currencyTo, currencyFrom, range } = useSwap(from, isRotated);
   const [fromObj, setFromObj] = useState(null);
   const [toObj, setToObj] = useState(null);
+  const [amountFrom, setAmountFrom] = useState("");
+  const [amountTo, setAmountTo] = useState("");
+
+  const {
+    dispatch,
+    state: { stealthex_token },
+  } = useWeb3();
+
+  const handleEvent = async (message) => {
+    const { type } = message;
+    switch (type) {
+      case "estimated_amount_success":
+        {
+          console.log(message.data);
+          setAmountTo(message.data.estimated_amount);
+        }
+        break;
+    }
+  };
+
+  const { sendMsg } = useMessage(handleEvent, []);
 
   useEffect(() => {
     if (!currencyTo) return;
@@ -141,14 +166,37 @@ export default function Swap() {
     let swapObj = fromObj;
     setFromObj(toObj);
     setToObj(swapObj);
+    setAmountFrom("");
+    setAmountTo("");
   };
 
-  useEffect(() => {
-    if (!toObj || !fromObj) return;
-    getRange();
-  }, [toObj, fromObj]);
+  const handleInput = (e) => {
+    const { value } = e.target;
+    setAmountFrom(value);
+    setAmountTo("");
+    handleChange(value);
+  };
 
-  const getRange = () => {};
+  const handleChange = useCallback(
+    debounce((value) => {
+      handleAmountChange(value);
+    }, 1200),
+    [fromObj, toObj],
+  );
+
+  const handleAmountChange = (value) => {
+    if (Number(value) < Number(range?.min_amount)) return;
+    console.log("fromObj", fromObj);
+
+    let obj = {
+      method: "estimated_amount",
+      from: fromObj,
+      to: toObj,
+      token: stealthex_token,
+      amount: value,
+    };
+    sendMsg(obj);
+  };
 
   return (
     <BoxOuter>
@@ -157,7 +205,13 @@ export default function Swap() {
         <WhiteInput>
           <LftBox>
             <div className="textSmall">Send {fromObj?.name}</div>
-            <input type="text" placeholder="0" />
+            <input
+              type="text"
+              placeholder="0"
+              name="from"
+              value={amountFrom}
+              onChange={(e) => handleInput(e)}
+            />
           </LftBox>
           <SelectBox>
             <div className="lft">
@@ -185,7 +239,7 @@ export default function Swap() {
         <WhiteInput>
           <LftBox>
             <div className="textSmall">Get {toObj?.name}</div>
-            <input type="text" placeholder="0" />
+            <input type="text" placeholder="0" name="to" value={amountTo} />
           </LftBox>
           <SelectBox2 onClick={() => navigate("/currencyList")}>
             <div className="lft ">

@@ -36,6 +36,12 @@ const reducer = (state, action) => {
     case "SET_STEALTHEX_TOKEN":
       return { ...state, stealthex_token: action.payload };
 
+    case "SET_EXCHANGE_LIST":
+      return { ...state, exchangeList: action.payload };
+
+    case "SET_CURRENCY":
+      return { ...state, currentToken: action.payload };
+
     // case 'SET_ERROR':
     //     return { ...state, errorTips: action.payload };
 

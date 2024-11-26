@@ -11,4 +11,6 @@ module.exports = {
   xudt: null,
   cluster: null,
   stealthex_token: null,
+  exchangeList: [],
+  currentToken: { symbol: "usdt", network: "trx" },
 };

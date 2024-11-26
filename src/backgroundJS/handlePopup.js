@@ -108,6 +108,9 @@ export const handlePopUp = async (requestData) => {
     case "get_range":
       getRange(requestData);
       break;
+    case "estimated_amount":
+      estimatedAmount(requestData);
+      break;
     default:
       console.error("Unknown request: " + requestData);
       break;
@@ -444,6 +447,18 @@ const getRange = async (obj) => {
   try {
     const client = new ckbRpcClient();
     let rt = await client.get_range(obj);
+
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+
+const estimatedAmount = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.estimated_amount(obj);
+    console.log("estimated_amount", rt);
 
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {

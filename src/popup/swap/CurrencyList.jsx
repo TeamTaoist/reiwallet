@@ -2,6 +2,9 @@ import TokenHeader from "../header/tokenHeader";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { Search } from "lucide-react";
+import { useWeb3 } from "../../store/contracts";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BoxOuter = styled.div`
   display: flex;
@@ -67,11 +70,39 @@ const SearchBox = styled.div`
   input {
     background: transparent;
     border: none;
+    &:focus {
+      outline: none;
+    }
   }
 `;
 
 export default function CurrencyList() {
   const { t } = useTranslation();
+  const {
+    dispatch,
+    state: { exchangeList },
+  } = useWeb3();
+  const navigate = useNavigate();
+
+  const [list, setList] = useState([]);
+  const [keyword, setKeyword] = useState("");
+
+  useEffect(() => {
+    setList(exchangeList);
+  }, [exchangeList]);
+
+  const handleInput = (e) => {
+    setKeyword(e.target.value);
+    const arr = exchangeList.filter(
+      (item) => item.symbol.indexOf(keyword) > -1,
+    );
+    setList(arr ?? []);
+  };
+
+  const handleSelect = (item) => {
+    dispatch({ type: "SET_CURRENCY", payload: item });
+    navigate("/swap");
+  };
 
   return (
     <BoxOuter>
@@ -79,12 +110,17 @@ export default function CurrencyList() {
       <Box>
         <SearchBox>
           <Search size={20} />
-          <input type="text" placeholder="0" />
+          <input
+            type="text"
+            placeholder="Type a currency or ticker"
+            value={keyword}
+            onChange={(e) => handleInput(e)}
+          />
         </SearchBox>
         <div className="titleHeader">Popular currencies</div>
         <UlBox>
-          {[...Array(40)].map((item, index) => (
-            <dl key={index}>
+          {list.map((item, index) => (
+            <dl key={index} onClick={() => handleSelect(item)}>
               <dt>
                 <img
                   src="https://images.stealthex.io/coins-color/629e3ad0de5ae50018e77e5f-ckb_c.svg"
@@ -93,8 +129,8 @@ export default function CurrencyList() {
               </dt>
               <dd>
                 <FlexLine>
-                  <div className="title">USDT</div>
-                  <div className="tag">ETH</div>
+                  <div className="title">{item.symbol}</div>
+                  <div className="tag">{item.network}</div>
                 </FlexLine>
                 <div className="tips">USD Coin</div>
               </dd>

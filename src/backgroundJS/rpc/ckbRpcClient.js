@@ -68,6 +68,7 @@ import {
 } from "../../config/constants";
 import { predefined } from "@ckb-lumos/config-manager";
 import { bytes } from "@ckb-lumos/codec";
+import { withdraw } from "@ckb-lumos/common-scripts/lib/anyone_can_pay";
 
 const MAX_FEE = BI.from("20000000");
 
@@ -1089,7 +1090,7 @@ export default class RpcClient {
   get_currency = async (obj) => {
     const { symbol, token } = obj;
     const network = await getCurNetwork();
-    const url = `${stealthEx_Server[network.value]}/v4/currencies/${symbol.symbol}/${symbol.network}`;
+    const url = `${stealthEx_Server[network.value]}/v4/currencies/${symbol.symbol}/${symbol.network}?include_available_routes=true&available_routes_direction=withdrawal`;
 
     return await this._fetch({
       method: "get_currency",
@@ -1119,6 +1120,35 @@ export default class RpcClient {
 
     return await this._fetch({
       method: "get_range",
+      fetch_method: "POST",
+      url,
+      body,
+      token,
+    });
+  };
+
+  estimated_amount = async (obj) => {
+    const { from, to, token, amount } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/rates/estimated-amount`;
+    const body = {
+      route: {
+        from: {
+          symbol: from.symbol,
+          network: from.network,
+        },
+        to: {
+          symbol: to.symbol,
+          network: to.network,
+        },
+      },
+      estimation: "direct",
+      rate: "floating",
+      amount: Number(amount),
+    };
+
+    return await this._fetch({
+      method: "estimated_amount",
       fetch_method: "POST",
       url,
       body,
