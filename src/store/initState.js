@@ -14,4 +14,5 @@ module.exports = {
   exchangeList: [],
   isRotated: false,
   currentToken: { symbol: "usdt", network: "trx" },
+  exchangeObj: null,
 };

@@ -9,6 +9,8 @@ import useSwap from "../../hooks/useSwap";
 import { useWeb3 } from "../../store/contracts";
 import { debounce } from "lodash";
 import useMessage from "../../hooks/useMessage";
+import Loading from "../loading/loading";
+import useBalance from "../../hooks/useBalance";
 
 const BoxOuter = styled.div`
   display: flex;
@@ -41,8 +43,15 @@ const WhiteInput = styled.div`
     left: 5px;
     bottom: -20px;
     font-size: 10px;
-    color: #f00;
+    color: #009f62;
   }
+  .up {
+    text-transform: uppercase;
+  }
+`;
+
+const WhiteInput2 = styled(WhiteInput)`
+  margin-bottom: 10px;
 `;
 
 const BtnGroup = styled.div`
@@ -94,6 +103,7 @@ const SelectBox = styled.div`
   border-radius: 10px;
   font-size: 16px;
   flex-shrink: 0;
+  text-transform: uppercase;
   .lft {
     display: flex;
     align-items: center;
@@ -120,23 +130,55 @@ const LftBox = styled.div`
   }
 `;
 
+const FlexLine = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+`;
+
+const TagBox = styled.div`
+  padding: 3px 4px;
+  background: #00ff9d;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1em;
+  text-align: center;
+  cursor: pointer;
+  border: 0;
+  &:disabled {
+    opacity: 0.4;
+  }
+`;
+
 export default function Swap() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { available } = useBalance();
 
   const [from] = useState({ symbol: "ckb", network: "mainnet" });
   // const [to] = useState({ symbol: "usdt", network: "trx" });
-  const { currencyTo, currencyFrom, range } = useSwap(from);
+  const { currencyTo, currencyFrom, range, loading } = useSwap(from);
   const [fromObj, setFromObj] = useState(null);
   const [toObj, setToObj] = useState(null);
   const [amountFrom, setAmountFrom] = useState("");
   const [amountTo, setAmountTo] = useState("");
-  console.error("range", range);
-
+  const [loadingEstate, setLoadingEstate] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const [address, setAddress] = useState("");
+  const [isMax, setIsMax] = useState(false);
   const {
     dispatch,
     state: { stealthex_token, isRotated },
   } = useWeb3();
+
+  useEffect(() => {
+    let truncated = Math.floor(available * 100) / 100;
+    setBalance(truncated);
+  }, [available]);
 
   const handleEvent = async (message) => {
     const { type } = message;
@@ -144,8 +186,17 @@ export default function Swap() {
       case "estimated_amount_success":
         {
           setAmountTo(message.data.estimated_amount);
+          setLoadingEstate(false);
         }
         break;
+      //   case "create_exchange_success":
+      //     {
+      //
+      //       const {deposit} = message.data;
+      //       setDepositAddress(deposit.address);
+      //       setLoadingEstate(false)
+      //     }
+      //     break;
     }
   };
 
@@ -162,9 +213,9 @@ export default function Swap() {
 
   const handleClick = () => {
     dispatch({ type: "SET_ISROTATED", payload: !isRotated });
-    let swapObj = fromObj;
-    setFromObj(toObj);
-    setToObj(swapObj);
+    // let swapObj = fromObj;
+    // setFromObj(toObj);
+    // setToObj(swapObj);
     setAmountFrom("");
     setAmountTo("");
   };
@@ -185,6 +236,7 @@ export default function Swap() {
 
   const handleAmountChange = (value) => {
     if (Number(value) < Number(range?.min_amount)) return;
+    setLoadingEstate(true);
     let obj = {
       method: "estimated_amount",
       from: fromObj,
@@ -206,10 +258,36 @@ export default function Swap() {
     dispatch({ type: "SET_ISROTATED", payload: false });
   };
 
+  const handleSubmit = () => {
+    let obj = {
+      from: fromObj,
+      to: toObj,
+      token: stealthex_token,
+      amount: amountFrom,
+      amountTo,
+      address,
+      isMax,
+    };
+
+    dispatch({ type: "SET_EXCHANGE_OBJ", payload: obj });
+    setIsMax(false);
+    navigate("/swapConfirm");
+  };
+
+  const handleMax = () => {
+    setAmountFrom(available);
+    setIsMax(true);
+  };
+
   return (
     <BoxOuter>
+      {(loading || loadingEstate) && <Loading showBg={true} />}
       <TokenHeader title={t("popup.Swap")} />
       <Box>
+        <FlexLine>
+          <div>Available Capacity: {balance} CKB</div>
+          <TagBox onClick={() => handleMax()}>Max</TagBox>
+        </FlexLine>
         <WhiteInput>
           <LftBox>
             <div className="textSmall">Send {fromObj?.name}</div>
@@ -232,23 +310,29 @@ export default function Swap() {
 
             <ChevronDown size={12} />
           </SelectBox>
+
           {!!range?.min_amount && !range?.err && (
             <div className="min">
-              The minimum amount: {range?.min_amount} {fromObj?.symbol}
+              The minimum amount: {range?.min_amount}{" "}
+              <span className="up">{fromObj?.symbol}</span>
             </div>
           )}
           {!!range?.err && <div className="min">{range?.err?.details}</div>}
         </WhiteInput>
         <ArrowBox>
-          <div className="innerBox" onClick={() => handleClick()}>
-            <ArrowUpDown
-              size={18}
-              className={isRotated ? "iconInner" : "iconInner rotated"}
-            />
+          {/*<div className="innerBox" onClick={() => handleClick()}>*/}
+          {/*  <ArrowUpDown*/}
+          {/*    size={18}*/}
+          {/*    className={isRotated ? "iconInner" : "iconInner rotated"}*/}
+          {/*  />*/}
+          {/*</div>*/}
+
+          <div className="innerBox">
+            <ArrowUpDown size={18} className="iconInner" />
           </div>
         </ArrowBox>
 
-        <WhiteInput>
+        <WhiteInput2>
           <LftBox>
             <div className="textSmall">Get {toObj?.name}</div>
             <input type="text" placeholder="0" name="to" value={amountTo} />
@@ -264,14 +348,30 @@ export default function Swap() {
 
             <ChevronDown size={12} />
           </SelectBox>
+        </WhiteInput2>
+        <WhiteInput>
+          <LftBox>
+            <div className="textSmall">Get {toObj?.name}</div>
+            <input
+              type="text"
+              placeholder="Address"
+              name="to"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </LftBox>
         </WhiteInput>
         <BtnGroup>
           <Button border onClick={() => handleCancel()}>
             {t("popup.send.cancel")}
           </Button>
-          <Button primary disabled={true}>
+          <Button primary onClick={() => handleSubmit()}>
             确认
           </Button>
+
+          {/*<Button primary disabled={!!range?.err || !amountFrom || !amountTo || loading ||loadingEstate || Number(amountFrom) > Number(available) || !address}  onClick={() => handleSubmit()}>*/}
+          {/*  确认*/}
+          {/*</Button>*/}
         </BtnGroup>
       </Box>
     </BoxOuter>

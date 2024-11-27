@@ -1156,6 +1156,36 @@ export default class RpcClient {
     });
   };
 
+  create_exchange = async (obj) => {
+    const { from, to, token, amount, address } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/exchanges`;
+    const body = {
+      route: {
+        from: {
+          symbol: from.symbol,
+          network: from.network,
+        },
+        to: {
+          symbol: to.symbol,
+          network: to.network,
+        },
+      },
+      estimation: "direct",
+      rate: "floating",
+      amount: Number(amount),
+      address,
+    };
+
+    return await this._fetch({
+      method: "estimated_amount",
+      fetch_method: "POST",
+      url,
+      body,
+      token,
+    });
+  };
+
   _getRgbppAssert = async (address, network) => {
     const isMainnet = network.value === "mainnet";
 

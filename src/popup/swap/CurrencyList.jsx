@@ -123,7 +123,7 @@ export default function CurrencyList() {
             <dl key={index} onClick={() => handleSelect(item)}>
               <dt>
                 <img
-                  src="https://images.stealthex.io/coins-color/629e3ad0de5ae50018e77e5f-ckb_c.svg"
+                  src={`https://stealthex-icon.caboroca.xyz/image/${item.symbol}/${item.network}`}
                   alt=""
                 />
               </dt>
@@ -132,7 +132,7 @@ export default function CurrencyList() {
                   <div className="title">{item.symbol}</div>
                   <div className="tag">{item.network}</div>
                 </FlexLine>
-                <div className="tips">USD Coin</div>
+                {/*<div className="tips">USD Coin</div>*/}
               </dd>
             </dl>
           ))}

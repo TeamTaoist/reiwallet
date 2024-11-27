@@ -111,6 +111,10 @@ export const handlePopUp = async (requestData) => {
     case "estimated_amount":
       estimatedAmount(requestData);
       break;
+
+    case "create_exchange":
+      createExchange(requestData);
+      break;
     default:
       console.error("Unknown request: " + requestData);
       break;
@@ -458,7 +462,18 @@ const estimatedAmount = async (obj) => {
   try {
     const client = new ckbRpcClient();
     let rt = await client.estimated_amount(obj);
-    console.log("estimated_amount", rt);
+
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+
+const createExchange = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.create_exchange(obj);
+    console.log("create_exchange", rt);
 
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {

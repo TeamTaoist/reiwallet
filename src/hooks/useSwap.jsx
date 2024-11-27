@@ -10,6 +10,7 @@ export default function useSwap(from) {
   const [currencyFrom, setCurrencyFrom] = useState(null);
   const [range, setRange] = useState(null);
   const [time, setTime] = useState(null);
+  const [loadArr, setLoadArr] = useState([...Array(4)].fill(true));
 
   const {
     dispatch,
@@ -21,7 +22,10 @@ export default function useSwap(from) {
     switch (type) {
       case "stealthex_auth_success":
         {
-          setLoading(false);
+          setLoadArr((arr) => {
+            arr[0] = false;
+            return [...arr];
+          });
           /*global chrome*/
           await chrome.storage.local.set({ auth_expire: time });
           dispatch({ type: "SET_STEALTHEX_TOKEN", payload: message.data });
@@ -30,25 +34,38 @@ export default function useSwap(from) {
       case "get_currency_success":
         {
           const { result, type } = message.data;
-          console.error(message.data);
           if (result?.symbol === "ckb") {
             dispatch({
               type: "SET_EXCHANGE_LIST",
               payload: result?.available_routes ?? [],
             });
           }
-
           if (type === "to") {
             setCurrencyTo(result);
           } else {
             setCurrencyFrom(result);
           }
-          setLoading(false);
+
+          setLoadArr((arr) => {
+            if (type === "from") {
+              arr[1] = false;
+            } else {
+              arr[2] = false;
+            }
+            return [...arr];
+          });
+
+          // setLoading(false);
         }
         break;
       case "get_range_success":
         {
           setRange(message.data);
+
+          setLoadArr((arr) => {
+            arr[3] = false;
+            return [...arr];
+          });
         }
         break;
     }
@@ -61,6 +78,11 @@ export default function useSwap(from) {
     toBackground();
   }, [currentAccountInfo]);
 
+  useEffect(() => {
+    const arr = loadArr.filter((item) => item);
+    setLoading(!!arr?.length);
+  }, [loadArr]);
+
   const toBackground = async () => {
     /*global chrome*/
     let expireArr = await chrome.storage.local.get(["auth_expire"]);
@@ -68,7 +90,11 @@ export default function useSwap(from) {
     let expire = new Date().valueOf() - expireFormat;
 
     if (expireFormat && expire > 60 * 60 * 1000 && stealthex_token) return;
-    setLoading(true);
+
+    setLoadArr((arr) => {
+      arr[0] = true;
+      return [...arr];
+    });
 
     let obj = {
       method: "stealthex_auth",
@@ -97,29 +123,39 @@ export default function useSwap(from) {
       token: stealthex_token,
       type,
     };
+    setLoadArr((arr) => {
+      if (type === "from") {
+        arr[1] = true;
+      } else {
+        arr[2] = true;
+      }
+      return [...arr];
+    });
+
     sendMsg(obj);
   };
 
   useEffect(() => {
-    if (!currentToken || !currencyFrom) return;
+    if (
+      !currencyTo ||
+      !currencyFrom ||
+      currencyTo.symbol === currencyFrom.symbol
+    )
+      return;
     getRange();
-  }, [currentToken, currencyFrom, isRotated]);
+  }, [currencyTo, currencyFrom, isRotated]);
 
   const getRange = async () => {
-    let from, to;
-    if (!isRotated) {
-      from = currencyFrom;
-      to = currentToken;
-    } else {
-      from = currentToken;
-      to = currencyFrom;
-    }
     let obj = {
       method: "get_range",
-      from,
-      to,
+      from: currencyFrom,
+      to: currencyTo,
       token: stealthex_token,
     };
+    setLoadArr((arr) => {
+      arr[3] = true;
+      return [...arr];
+    });
     sendMsg(obj);
   };
 
