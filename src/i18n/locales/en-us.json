@@ -267,5 +267,19 @@
     "Gas": "Gas",
     "Owner": "Owner",
     "Type": "Type"
+  },
+  "swap": {
+    "available": "Available",
+    "MAX": "MAX",
+    "send": "Send",
+    "minimum": "The minimum amount",
+    "Confirm": "Confirm",
+    "Estimating": "Estimating",
+    "get": "You Get",
+    "popular": "Popular currencies",
+    "History": "History",
+    "sendY": "You Send",
+    "Amount": "Amount",
+    "Network": "Network"
   }
 }

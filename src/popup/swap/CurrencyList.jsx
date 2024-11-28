@@ -117,7 +117,7 @@ export default function CurrencyList() {
             onChange={(e) => handleInput(e)}
           />
         </SearchBox>
-        <div className="titleHeader">Popular currencies</div>
+        <div className="titleHeader">{t("swap.popular")}</div>
         <UlBox>
           {list.map((item, index) => (
             <dl key={index} onClick={() => handleSelect(item)}>

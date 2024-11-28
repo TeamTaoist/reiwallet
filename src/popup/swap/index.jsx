@@ -11,12 +11,20 @@ import { debounce } from "lodash";
 import useMessage from "../../hooks/useMessage";
 import Loading from "../loading/loading";
 import useBalance from "../../hooks/useBalance";
+import { History } from "lucide-react";
 
 const BoxOuter = styled.div`
   display: flex;
   flex-direction: column;
   background: #f9fafa;
   min-height: 100vh;
+  position: relative;
+  .rhtTop {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+  }
 `;
 
 const Box = styled.div`
@@ -189,14 +197,14 @@ export default function Swap() {
           setLoadingEstate(false);
         }
         break;
-      //   case "create_exchange_success":
-      //     {
+      // case "create_exchange_success":
+      //   {
       //
-      //       const {deposit} = message.data;
-      //       setDepositAddress(deposit.address);
-      //       setLoadingEstate(false)
-      //     }
-      //     break;
+      //     const {deposit} = message.data;
+      //     setDepositAddress(deposit.address);
+      //     setLoadingEstate(false)
+      //   }
+      //   break;
     }
   };
 
@@ -267,6 +275,7 @@ export default function Swap() {
       amountTo,
       address,
       isMax,
+      available,
     };
 
     dispatch({ type: "SET_EXCHANGE_OBJ", payload: obj });
@@ -283,14 +292,21 @@ export default function Swap() {
     <BoxOuter>
       {(loading || loadingEstate) && <Loading showBg={true} />}
       <TokenHeader title={t("popup.Swap")} />
+      <div className="rhtTop" onClick={() => navigate("/swapHistory")}>
+        <History size={18} />
+      </div>
       <Box>
         <FlexLine>
-          <div>Available Capacity: {balance} CKB</div>
-          <TagBox onClick={() => handleMax()}>Max</TagBox>
+          <div>
+            {t("swap.available")} : {balance} CKB
+          </div>
+          <TagBox onClick={() => handleMax()}>{t("swap.MAX")}</TagBox>
         </FlexLine>
         <WhiteInput>
           <LftBox>
-            <div className="textSmall">Send {fromObj?.name}</div>
+            <div className="textSmall">
+              {t("swap.send")} {fromObj?.name}
+            </div>
             <input
               type="text"
               placeholder="0"
@@ -313,7 +329,7 @@ export default function Swap() {
 
           {!!range?.min_amount && !range?.err && (
             <div className="min">
-              The minimum amount: {range?.min_amount}{" "}
+              {t("swap.minimum")}: {range?.min_amount}{" "}
               <span className="up">{fromObj?.symbol}</span>
             </div>
           )}
@@ -365,13 +381,22 @@ export default function Swap() {
           <Button border onClick={() => handleCancel()}>
             {t("popup.send.cancel")}
           </Button>
-          <Button primary onClick={() => handleSubmit()}>
-            确认
-          </Button>
 
-          {/*<Button primary disabled={!!range?.err || !amountFrom || !amountTo || loading ||loadingEstate || Number(amountFrom) > Number(available) || !address}  onClick={() => handleSubmit()}>*/}
-          {/*  确认*/}
-          {/*</Button>*/}
+          <Button
+            primary
+            disabled={
+              !!range?.err ||
+              !amountFrom ||
+              !amountTo ||
+              loading ||
+              loadingEstate ||
+              Number(amountFrom) > Number(available) ||
+              !address
+            }
+            onClick={() => handleSubmit()}
+          >
+            {t("swap.Confirm")}
+          </Button>
         </BtnGroup>
       </Box>
     </BoxOuter>

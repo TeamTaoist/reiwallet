@@ -33,6 +33,7 @@ import Exchange from "../popup/exchange";
 import Swap from "../popup/swap";
 import CurrencyList from "../popup/swap/CurrencyList";
 import SwapConfirm from "../popup/swap/swapConfirm";
+import SwapHistory from "../popup/swap/swapHistory";
 
 function PopupRouterLink() {
   return (
@@ -76,10 +77,12 @@ function PopupRouterLink() {
       <Route path="/sudtDetail" element={<SUDTDetail />} />
       <Route path="/xudtDetail" element={<XUDTDetail />} />
       <Route path="/xudtConfirm" element={<SendXUDTConfirm />} />
-      <Route path="/exchange" element={<Exchange />} />
+
+      {/*<Route path="/exchange" element={<Exchange />} />*/}
       <Route path="/swap" element={<Swap />} />
       <Route path="/swapConfirm" element={<SwapConfirm />} />
       <Route path="/currencyList" element={<CurrencyList />} />
+      <Route path="/swapHistory" element={<SwapHistory />} />
     </Routes>
   );
 }

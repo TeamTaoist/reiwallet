@@ -12,6 +12,9 @@ import useBalance from "../../hooks/useBalance";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BigNumber from "bignumber.js";
+import useMessage from "../../hooks/useMessage";
+import Toast from "../modal/toast";
+import Loading from "../loading/loading";
 
 const Box = styled.div`
   display: flex;
@@ -70,6 +73,7 @@ const FeeBox = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
+  width: 100%;
   .up {
     text-transform: uppercase;
   }
@@ -93,14 +97,21 @@ const AddressBox = styled.div`
   box-sizing: border-box;
   margin: 5px 0;
   font-size: 14px;
+  .flexLine {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const BtnGroup = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 90%;
   box-sizing: border-box;
   padding-bottom: 20px;
+  position: fixed;
+  left: 5%;
+  bottom: 10px;
   button {
     width: 47%;
     display: flex;
@@ -113,7 +124,7 @@ const BtnGroup = styled.div`
 export default function SwapConfirm() {
   const {
     dispatch,
-    state: { stealthex_token, exchangeObj },
+    state: { exchangeObj },
   } = useWeb3();
   const { symbol } = useBalance();
   const navigate = useNavigate();
@@ -122,25 +133,88 @@ export default function SwapConfirm() {
   const fee = 0.001;
 
   const [amount, setAmount] = useState("");
+  const [amountTo, setAmountTo] = useState("");
+  const [error, setError] = useState(false);
+  const [tips, setTips] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!exchangeObj) return;
-    const { amount, isMax } = exchangeObj;
-
+    const { amount, isMax, amountTo } = exchangeObj;
     if (isMax) {
       let av = new BigNumber(Number(amount)).minus(fee);
       setAmount(av.toString());
     } else {
       setAmount(amount);
     }
+    setAmountTo(amountTo);
   }, [exchangeObj]);
 
-  const handleSubmit = () => {};
+  const handleEvent = async (message) => {
+    const { type } = message;
+    switch (type) {
+      case "create_exchange_success":
+        {
+          const { deposit, err } = message.data;
+          if (err) {
+            setError(true);
+            setTips(err?.details);
+            setLoading(false);
+            setTimeout(() => {
+              navigate("/swap");
+            }, 2000);
+          } else {
+            await handleDeposit(deposit.address);
+          }
+        }
+        break;
+      case "send_transaction_Ex_success":
+        {
+          setLoading(false);
+          navigate("/swapHistory");
+        }
+        break;
+      case "send_transaction_Ex_error":
+        {
+          setTips("Send Failed:" + message.data);
+          setError(true);
+          setLoading(false);
+          setTimeout(() => {
+            setError(false);
+          }, 2000);
+        }
+        break;
+    }
+  };
+
+  const { sendMsg } = useMessage(handleEvent, []);
+
+  const handleSubmit = () => {
+    setLoading(true);
+    let obj = {
+      ...exchangeObj,
+      method: "create_exchange",
+      amount,
+    };
+    sendMsg(obj);
+  };
+
+  const handleDeposit = (address) => {
+    let obj = {
+      method: "send_transaction_Ex",
+      to: address,
+      amount: exchangeObj.amount,
+      balance: exchangeObj.available,
+      fee,
+    };
+    sendMsg(obj);
+  };
 
   return (
     <Box>
-      <TokenHeader title="Swap" />
-
+      {loading && <Loading showBg={true} />}
+      <TokenHeader title={t("swap.Confirm")} />
+      <Toast tips={tips} show={error} />
       <ContentBox>
         <FirstLine>
           <AvatarBox>
@@ -151,7 +225,7 @@ export default function SwapConfirm() {
                 : ""}
             </div>
           </AvatarBox>
-          <div>Estimating...</div>
+          <div>{t("swap.Estimating")}...</div>
         </FirstLine>
         <SendBox>
           <div>
@@ -161,13 +235,12 @@ export default function SwapConfirm() {
           <SymbolBox>{symbol}</SymbolBox>
         </SendBox>
         <FeeBox>
-          <TitleBox>You Get</TitleBox>
+          <TitleBox>{t("swap.get")}</TitleBox>
           {exchangeObj?.address && (
             <AddressBox>
               <div>{PublicJS.addressToShow(exchangeObj?.address)}</div>
-              <div>
-                {exchangeObj?.amountTo}{" "}
-                <div className="up">{exchangeObj?.to?.symbol}</div>
+              <div className="flexLine">
+                {amountTo} <div className="up">{exchangeObj?.to?.symbol}</div>
               </div>
             </AddressBox>
           )}
@@ -186,7 +259,11 @@ export default function SwapConfirm() {
           <Button border onClick={() => navigate("/")}>
             {t("popup.send.Reject")}
           </Button>
-          <Button primary disabled={true} onClick={() => handleSubmit()}>
+          <Button
+            primary
+            disabled={!exchangeObj}
+            onClick={() => handleSubmit()}
+          >
             {t("popup.send.Confirm")}
             {/*{loading && <BtnLoading />}*/}
           </Button>

@@ -115,6 +115,13 @@ export const handlePopUp = async (requestData) => {
     case "create_exchange":
       createExchange(requestData);
       break;
+    case "send_transaction_Ex":
+      SendTxEx(requestData);
+      break;
+
+    case "get_history_Ex":
+      getHistory(requestData);
+      break;
     default:
       console.error("Unknown request: " + requestData);
       break;
@@ -473,10 +480,29 @@ const createExchange = async (obj) => {
   try {
     const client = new ckbRpcClient();
     let rt = await client.create_exchange(obj);
-    console.log("create_exchange", rt);
 
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+const SendTxEx = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.send_transaction_Ex(obj);
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    console.error(e);
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+const getHistory = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.get_history(obj);
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    console.error(e);
     sendMsg({ type: `${obj.method}_error`, data: e.message });
   }
 };
