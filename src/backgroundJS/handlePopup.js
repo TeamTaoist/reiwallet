@@ -41,6 +41,9 @@ export const handlePopUp = async (requestData) => {
     case "get_capacity":
       getCapacity(requestData);
       break;
+    case "get_price":
+      getPrice(requestData);
+      break;
     case "get_public_key":
       getPublicKey(requestData);
       break;
@@ -501,6 +504,20 @@ const getHistory = async (obj) => {
     const client = new ckbRpcClient();
     let rt = await client.get_history(obj);
     sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    console.error(e);
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+
+const getPrice = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.get_price();
+    sendMsg({
+      type: `${obj.method}_success`,
+      data: { result: rt, balance: obj.balance },
+    });
   } catch (e) {
     console.error(e);
     sendMsg({ type: `${obj.method}_error`, data: e.message });

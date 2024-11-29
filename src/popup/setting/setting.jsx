@@ -9,6 +9,8 @@ import Next from "../../assets/images/into.png";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import HasteImg from "../../assets/images/setting/haste-logo.png";
+import useMessage from "../../hooks/useMessage";
+import Loading from "../loading/loading";
 
 const Box = styled.div`
   width: 100%;
@@ -85,6 +87,7 @@ const ItemBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
   .rht {
     display: flex;
     align-items: center;
@@ -99,6 +102,7 @@ const ContentBox2 = styled(ContentBox)`
 const ItemBox2 = styled(ItemBox)`
   height: 52px;
   border-bottom: 1px solid rgba(136, 151, 177, 0.2);
+
   &:last-child {
     border-bottom: 0;
   }
@@ -186,6 +190,7 @@ export default function Setting() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [version, setVersion] = useState("");
+  const [loading, setloading] = useState(false);
 
   const toGo = (url) => {
     navigate(url);
@@ -200,9 +205,30 @@ export default function Setting() {
 
   useEffect(() => {
     getVersion();
+
+    /*global chrome*/
+    const button = document.getElementById("openSidePanel");
+    button.addEventListener("click", async () => {
+      let rt = await chrome.storage.local.get(["openSidePanel"]);
+      console.log(rt.openSidePanel);
+
+      let result = rt.openSidePanel ?? false;
+      const windowObj = await chrome.windows.getCurrent();
+      await chrome.sidePanel.setOptions({
+        path: "popup.html",
+        enabled: !result,
+      });
+      await chrome.storage.local.set({ openSidePanel: !result });
+
+      if (!rt.openSidePanel) {
+        await chrome.sidePanel.open({ windowId: windowObj.id });
+        window.close();
+      }
+    });
   }, []);
 
   const getVersion = () => {
+    /*global chrome*/
     const manifest = chrome.runtime.getManifest();
     setVersion(manifest.version);
   };
@@ -214,6 +240,7 @@ export default function Setting() {
 
   return (
     <Box>
+      {loading && <Loading showBg={true} />}
       <TitleBox>
         <img src={CloseImg} alt="" onClick={() => toGo("/")} />
         <div className="title medium-font">{t("popup.Settings.More")}</div>
@@ -236,6 +263,12 @@ export default function Setting() {
             <LftTitle className="medium-font">
               {t("popup.Settings.Security")}
             </LftTitle>
+            <div className="rht">
+              <img src={Next} alt="" />
+            </div>
+          </ItemBox2>
+          <ItemBox2 id="openSidePanel">
+            <LftTitle className="medium-font">侧边栏模式</LftTitle>
             <div className="rht">
               <img src={Next} alt="" />
             </div>

@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import useLock from "../../hooks/useLock";
 
 const Box = styled.div`
-  height: 600px;
+  //height: 600px;
+  height: 100vh;
+  min-height: 600px;
 `;
 
 export default function Home() {

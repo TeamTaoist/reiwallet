@@ -1201,6 +1201,15 @@ export default class RpcClient {
       token,
     });
   };
+  get_price = async () => {
+    const url = `https://api.gateio.ws/api/v4/spot/tickers?currency_pair=CKB_USDT`;
+
+    return await this._fetch({
+      method: "get_price",
+      fetch_method: "GET",
+      url,
+    });
+  };
 
   send_transaction_Ex = async (obj) => {
     const { to, amount, fee, balance } = obj;
