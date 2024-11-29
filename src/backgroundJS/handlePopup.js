@@ -99,6 +99,29 @@ export const handlePopUp = async (requestData) => {
     case "sign_confirm":
       signRaw(requestData);
       break;
+    case "stealthex_auth":
+      stealthexAuth(requestData);
+      break;
+    case "get_currency":
+      getCurrency(requestData);
+      break;
+    case "get_range":
+      getRange(requestData);
+      break;
+    case "estimated_amount":
+      estimatedAmount(requestData);
+      break;
+
+    case "create_exchange":
+      createExchange(requestData);
+      break;
+    case "send_transaction_Ex":
+      SendTxEx(requestData);
+      break;
+
+    case "get_history_Ex":
+      getHistory(requestData);
+      break;
     default:
       console.error("Unknown request: " + requestData);
       break;
@@ -406,6 +429,80 @@ const signRaw = async (obj) => {
     await recordToTxList(rt);
     sendMsg({ type: `${obj.method}_success`, data: rt });
   } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+
+const stealthexAuth = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.stealthex_auth(obj);
+
+    sendMsg({ type: `${obj.method}_success`, data: rt?.data });
+  } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+const getCurrency = async (obj) => {
+  const { type } = obj;
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.get_currency(obj);
+
+    sendMsg({ type: `${obj.method}_success`, data: { result: rt, type } });
+  } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+const getRange = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.get_range(obj);
+
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+
+const estimatedAmount = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.estimated_amount(obj);
+
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+
+const createExchange = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.create_exchange(obj);
+
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+const SendTxEx = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.send_transaction_Ex(obj);
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    console.error(e);
+    sendMsg({ type: `${obj.method}_error`, data: e.message });
+  }
+};
+const getHistory = async (obj) => {
+  try {
+    const client = new ckbRpcClient();
+    let rt = await client.get_history(obj);
+    sendMsg({ type: `${obj.method}_success`, data: rt });
+  } catch (e) {
+    console.error(e);
     sendMsg({ type: `${obj.method}_error`, data: e.message });
   }
 };

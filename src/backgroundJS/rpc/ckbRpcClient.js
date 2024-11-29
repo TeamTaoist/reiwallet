@@ -16,14 +16,17 @@ import {
   Indexer,
   RPC,
 } from "@ckb-lumos/lumos";
-import { parseUnit } from "@ckb-lumos/bi";
+import { formatUnit, parseUnit } from "@ckb-lumos/bi";
 import { ParamsFormatter as formatter } from "@ckb-lumos/rpc";
 import { blockchain } from "@ckb-lumos/base";
 import { ResultFormatter } from "@ckb-lumos/rpc";
 import { createTransactionSkeleton } from "@ckb-lumos/helpers";
 
 // CKB SDK
-import { serializeScript } from "@nervosnetwork/ckb-sdk-utils";
+import {
+  serializeScript,
+  serializeWitnessArgs,
+} from "@nervosnetwork/ckb-sdk-utils";
 
 // Spore SDK
 import {
@@ -62,11 +65,13 @@ import { transfer_udt } from "../../utils/ckbRequest";
 import {
   DID_CONTRACT,
   localServer,
+  stealthEx_Server,
   mainConfig,
   testConfig,
 } from "../../config/constants";
 import { predefined } from "@ckb-lumos/config-manager";
 import { bytes } from "@ckb-lumos/codec";
+import { withdraw } from "@ckb-lumos/common-scripts/lib/anyone_can_pay";
 
 const MAX_FEE = BI.from("20000000");
 
@@ -95,6 +100,31 @@ export default class RpcClient {
     }
 
     return rt?.result;
+  }
+
+  async _fetch(obj) {
+    const { url, fetch_method, body, token } = obj;
+    let headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const res = await fetch(url, {
+      method: fetch_method,
+      body: JSON.stringify(body),
+      headers,
+    });
+
+    const rt = await res.json();
+    // Abort retrying if the resource doesn't exist
+    if (rt.error) {
+      /* istanbul ignore next */
+      return Promise.reject(rt.error);
+    }
+
+    return rt;
   }
 
   get_public_key = async () => {
@@ -1047,6 +1077,315 @@ export default class RpcClient {
     }
     let rt = await signAndSendTransaction(txSkeleton);
     return rt;
+  };
+
+  stealthex_auth = async (obj) => {
+    const { address } = obj.currentAccountInfo;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/auth/${address}`;
+
+    return await this._fetch({
+      method: "stealthex_auth",
+      fetch_method: "GET",
+      url,
+    });
+  };
+  get_currency = async (obj) => {
+    const { symbol, token } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/currencies/${symbol.symbol}/${symbol.network}?include_available_routes=true&available_routes_direction=withdrawal`;
+
+    return await this._fetch({
+      method: "get_currency",
+      fetch_method: "GET",
+      url,
+      token,
+    });
+  };
+  get_range = async (obj) => {
+    const { from, to, token } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/rates/range`;
+    const body = {
+      route: {
+        from: {
+          symbol: from.symbol,
+          network: from.network,
+        },
+        to: {
+          symbol: to.symbol,
+          network: to.network,
+        },
+      },
+      estimation: "direct",
+      rate: "floating",
+    };
+
+    return await this._fetch({
+      method: "get_range",
+      fetch_method: "POST",
+      url,
+      body,
+      token,
+    });
+  };
+
+  estimated_amount = async (obj) => {
+    const { from, to, token, amount } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/rates/estimated-amount`;
+    const body = {
+      route: {
+        from: {
+          symbol: from.symbol,
+          network: from.network,
+        },
+        to: {
+          symbol: to.symbol,
+          network: to.network,
+        },
+      },
+      estimation: "direct",
+      rate: "floating",
+      amount: Number(amount),
+    };
+
+    return await this._fetch({
+      method: "estimated_amount",
+      fetch_method: "POST",
+      url,
+      body,
+      token,
+    });
+  };
+
+  create_exchange = async (obj) => {
+    const { from, to, token, amount, address } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/v4/exchanges`;
+    const body = {
+      route: {
+        from: {
+          symbol: from.symbol,
+          network: from.network,
+        },
+        to: {
+          symbol: to.symbol,
+          network: to.network,
+        },
+      },
+      estimation: "direct",
+      rate: "floating",
+      amount: Number(amount),
+      address,
+    };
+
+    return await this._fetch({
+      method: "create_exchange",
+      fetch_method: "POST",
+      url,
+      body,
+      token,
+    });
+  };
+
+  get_history = async (obj) => {
+    const { page, token } = obj;
+    const network = await getCurNetwork();
+    const url = `${stealthEx_Server[network.value]}/stealthex/history/${page}`;
+
+    return await this._fetch({
+      method: "get_history",
+      fetch_method: "GET",
+      url,
+      token,
+    });
+  };
+
+  send_transaction_Ex = async (obj) => {
+    const { to, amount, fee, balance } = obj;
+    const currentAccount = await currentInfo();
+    const addressScript = Wallet.addressToScript(currentAccount.address);
+    const network = await getCurNetwork();
+    if (network.value === "mainnet") {
+      config.initializeConfig(config.predefined.LINA);
+    } else {
+      config.initializeConfig(config.predefined.AGGRON4);
+    }
+    const indexer = new Indexer(network.rpcUrl.indexer, network.rpcUrl.node);
+    const collect_ckb = indexer.collector({
+      lock: {
+        script: addressScript,
+        searchMode: "exact",
+      },
+      type: "empty",
+    });
+    let newFee = parseUnit(fee.toString(), "ckb");
+    const available = parseUnit(balance.toString(), "ckb");
+    const newAmount = parseUnit(amount.toString(), "ckb");
+    const isMax = BI.from(available).eq(newAmount);
+
+    let needCapacity = BI.from(
+      helpers.minimalCellCapacity({
+        cellOutput: {
+          lock: addressScript,
+          capacity: BI.from(0).toHexString(),
+        },
+        data: "0x",
+      }),
+    )
+      .add(newFee)
+      .add(newAmount);
+
+    const inputs_ckb = [];
+    let ckb_sum = BI.from(0);
+
+    let IsEnough = false;
+
+    for await (const collect of collect_ckb.collect()) {
+      inputs_ckb.push(collect);
+      ckb_sum = ckb_sum.add(collect.cellOutput.capacity);
+      if (!isMax) {
+        if (ckb_sum.gte(needCapacity)) {
+          IsEnough = true;
+          break;
+        }
+      } else {
+        IsEnough = true;
+      }
+    }
+
+    if (!IsEnough) {
+      throw new Error("Not Enough capacity found");
+    }
+
+    let txSkeleton = helpers.TransactionSkeleton({ cellProvider: indexer });
+
+    txSkeleton = txSkeleton.update("inputs", (inputs) =>
+      inputs.push(...inputs_ckb),
+    );
+
+    let outputCapacity;
+    if (isMax) {
+      outputCapacity = ckb_sum.sub(newFee);
+    } else {
+      outputCapacity = BI.from(newAmount);
+    }
+
+    const toScript = Wallet.addressToScript(to);
+    txSkeleton = txSkeleton.update("outputs", (outputs) =>
+      outputs.push({
+        cellOutput: {
+          capacity: `0x${outputCapacity.toString(16)}`,
+          lock: toScript,
+        },
+        data: "0x",
+      }),
+    );
+
+    if (!isMax) {
+      let charge = ckb_sum.sub(newAmount).sub(newFee);
+
+      txSkeleton = txSkeleton.update("outputs", (outputs) =>
+        outputs.push({
+          cellOutput: {
+            capacity: `0x${charge.toString(16)}`,
+            lock: addressScript,
+          },
+          data: "0x",
+        }),
+      );
+    }
+
+    const newConfig =
+      network.value === "testnet" ? predefined.AGGRON4 : predefined.LINA;
+    let cellDep_script_lock;
+    const { codeHash: myCodeHash, hashType: myHashType } = addressScript;
+    for (let key in newConfig.SCRIPTS) {
+      let item = newConfig.SCRIPTS[key];
+      if (item.CODE_HASH === myCodeHash && item.HASH_TYPE === myHashType) {
+        cellDep_script_lock = item;
+        break;
+      }
+      throw new Error("script not found");
+    }
+
+    const {
+      TX_HASH: tx_hash_lock,
+      INDEX: index_lock,
+      DEP_TYPE: dep_type_lock,
+    } = cellDep_script_lock;
+
+    txSkeleton = txSkeleton.update("cellDeps", (cellDeps) =>
+      cellDeps.push({
+        outPoint: {
+          txHash: tx_hash_lock,
+          index: index_lock,
+        },
+        depType: dep_type_lock,
+      }),
+    );
+
+    const inputArr = txSkeleton.get("inputs").toArray();
+    for (let i = 0; i < inputArr.length; i++) {
+      txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+        witnesses.push("0x"),
+      );
+    }
+
+    const firstIndex = txSkeleton
+      .get("inputs")
+      .findIndex((input) =>
+        bytes.equal(
+          blockchain.Script.pack(input.cellOutput.lock),
+          blockchain.Script.pack(addressScript),
+        ),
+      );
+    if (firstIndex !== -1) {
+      while (firstIndex >= txSkeleton.get("witnesses").size) {
+        txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+          witnesses.push("0x"),
+        );
+      }
+      let witness = txSkeleton.get("witnesses").get(firstIndex);
+      const newWitnessArgs = {
+        /* 65-byte zeros in hex */
+        lock: "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      };
+      if (witness !== "0x") {
+        const witnessArgs = blockchain.WitnessArgs.unpack(
+          bytes.bytify(witness),
+        );
+        const lock = witnessArgs.lock;
+        if (
+          !!lock &&
+          !!newWitnessArgs.lock &&
+          !bytes.equal(lock, newWitnessArgs.lock)
+        ) {
+          throw new Error(
+            "Lock field in first witness is set aside for signature!",
+          );
+        }
+        const inputType = witnessArgs.inputType;
+        if (!!inputType) {
+          newWitnessArgs.inputType = inputType;
+        }
+        const outputType = witnessArgs.outputType;
+        if (!!outputType) {
+          newWitnessArgs.outputType = outputType;
+        }
+      }
+      witness = bytes.hexify(blockchain.WitnessArgs.pack(newWitnessArgs));
+      txSkeleton = txSkeleton.update("witnesses", (witnesses) =>
+        witnesses.set(firstIndex, witness),
+      );
+    }
+
+    const unsignedRawTx = helpers.transactionSkeletonToObject(txSkeleton);
+
+    return await this.sign_and_send({
+      txSkeletonObj: unsignedRawTx,
+    });
   };
 
   _getRgbppAssert = async (address, network) => {

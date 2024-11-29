@@ -127,8 +127,10 @@ export const formatNumber = (sumNum) => {
     return (num / 1000000).toFixed(1) + "m";
   } else if (num >= 1000) {
     return (num / 1000).toFixed(1) + "k";
+  } else {
+    return (num / 1).toFixed(2);
   }
-  return num.toString();
+  // return num.toString();
 };
 
 export default {

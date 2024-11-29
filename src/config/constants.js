@@ -39,3 +39,8 @@ export const testConfig = {
     "wX1zG1uA3vS8sO0cG1cL9sE7qG5dG5cB0dH5iX6iM3aT2aW5gK1tX4gZ4xU9nB8q",
   BTC_ASSETS_ORGIN: "https://reiwallet.origin",
 };
+
+export const stealthEx_Server = {
+  mainnet: "https://stealthex-api.caboroca.xyz",
+  testnet: "",
+};
