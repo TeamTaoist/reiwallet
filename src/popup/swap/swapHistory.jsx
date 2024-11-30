@@ -149,14 +149,14 @@ export default function SwapHistory() {
           {list.map((item, index) => (
             <dl key={index}>
               <dt>
-                <div className="up">{item?.withdrawal?.symbol}</div>
+                <div> ID: {item?.id} </div>
                 <div className="date">
                   {dayjs(item.created_at).format("YYYY-MM-DD HH:mm")}
                 </div>
               </dt>
               <dd>
                 <div className="flexLine">
-                  <div>
+                  <div className="up">
                     {item?.withdrawal?.amount} {item?.withdrawal?.symbol}
                   </div>
                   <div>{item?.status}</div>
