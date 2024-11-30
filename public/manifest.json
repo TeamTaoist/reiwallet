@@ -10,7 +10,7 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
   },
-  "permissions": ["storage", "activeTab", "tabs", "sidePanel"],
+  "permissions": ["storage", "activeTab", "tabs", "sidePanel", "contextMenus"],
 
   "action": {
     "default_popup": "popup.html",

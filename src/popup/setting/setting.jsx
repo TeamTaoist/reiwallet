@@ -210,17 +210,17 @@ export default function Setting() {
     const button = document.getElementById("openSidePanel");
     button.addEventListener("click", async () => {
       let rt = await chrome.storage.local.get(["openSidePanel"]);
-      console.log(rt.openSidePanel);
 
       let result = rt.openSidePanel ?? false;
       const windowObj = await chrome.windows.getCurrent();
+      await chrome.storage.local.set({ openSidePanel: !result });
+
       await chrome.sidePanel.setOptions({
         path: "popup.html",
         enabled: !result,
       });
-      await chrome.storage.local.set({ openSidePanel: !result });
 
-      if (!rt.openSidePanel) {
+      if (!result) {
         await chrome.sidePanel.open({ windowId: windowObj.id });
         window.close();
       }
