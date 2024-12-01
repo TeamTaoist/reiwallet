@@ -41,6 +41,10 @@ const WhiteInput = styled.div`
   justify-content: space-between;
   margin-bottom: 30px;
   position: relative;
+  border: 1px solid #fff;
+  &.err {
+    border: 1px solid #f00;
+  }
   .textSmall {
     font-size: 10px;
     opacity: 0.6;
@@ -52,6 +56,9 @@ const WhiteInput = styled.div`
     bottom: -20px;
     font-size: 10px;
     color: #009f62;
+  }
+  .errorCode {
+    color: #f00 !important;
   }
   .up {
     text-transform: uppercase;
@@ -178,6 +185,7 @@ export default function Swap() {
   const [balance, setBalance] = useState(0);
   const [address, setAddress] = useState("");
   const [isMax, setIsMax] = useState(false);
+  const [showError, setShowError] = useState(false);
   const {
     dispatch,
     state: { stealthex_token, isRotated },
@@ -228,8 +236,7 @@ export default function Swap() {
     setAmountTo("");
   };
 
-  const handleInput = (e) => {
-    const { value } = e.target;
+  const handleInput = (value) => {
     setAmountFrom(value);
     setAmountTo("");
     handleChange(value);
@@ -243,8 +250,12 @@ export default function Swap() {
   );
 
   const handleAmountChange = (value) => {
-    if (Number(value) < Number(range?.min_amount)) return;
+    if (Number(value) < Number(range?.min_amount)) {
+      setShowError(true);
+      return;
+    }
     setLoadingEstate(true);
+    setShowError(false);
     let obj = {
       method: "estimated_amount",
       from: fromObj,
@@ -284,7 +295,8 @@ export default function Swap() {
   };
 
   const handleMax = () => {
-    setAmountFrom(available);
+    // setAmountFrom(available);
+    handleInput(available);
     setIsMax(true);
   };
 
@@ -302,7 +314,7 @@ export default function Swap() {
           </div>
           <TagBox onClick={() => handleMax()}>{t("swap.MAX")}</TagBox>
         </FlexLine>
-        <WhiteInput>
+        <WhiteInput className={showError ? "err" : ""}>
           <LftBox>
             <div className="textSmall">
               {t("swap.send")} {fromObj?.name}
@@ -312,7 +324,7 @@ export default function Swap() {
               placeholder="0"
               name="from"
               value={amountFrom}
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInput(e.target.value)}
             />
           </LftBox>
           <SelectBox
@@ -328,7 +340,7 @@ export default function Swap() {
           </SelectBox>
 
           {!!range?.min_amount && !range?.err && (
-            <div className="min">
+            <div className={showError ? "errorCode min" : "min"}>
               {t("swap.minimum")}: {range?.min_amount}{" "}
               <span className="up">{fromObj?.symbol}</span>
             </div>
