@@ -49,6 +49,7 @@ const FlexLine = styled.div`
     font-size: 14px;
     font-weight: bold;
     color: #000000;
+    text-transform: uppercase;
   }
   .tag {
     background: rgb(145, 165, 240);
@@ -94,8 +95,10 @@ export default function CurrencyList() {
   const handleInput = (e) => {
     setKeyword(e.target.value);
     const arr = exchangeList.filter(
-      (item) => item.symbol.indexOf(keyword) > -1,
+      (item) =>
+        item.symbol.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1,
     );
+
     setList(arr ?? []);
   };
 
