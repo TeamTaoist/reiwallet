@@ -50,7 +50,7 @@ async function init() {
   });
 
   chrome.contextMenus.create({
-    title: "切换侧边栏",
+    title: "Toggle Sidebar Mode",
     id: "sep1",
     contexts: ["all"],
   });

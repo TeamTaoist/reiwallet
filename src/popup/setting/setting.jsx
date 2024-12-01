@@ -268,7 +268,9 @@ export default function Setting() {
             </div>
           </ItemBox2>
           <ItemBox2 id="openSidePanel">
-            <LftTitle className="medium-font">侧边栏模式</LftTitle>
+            <LftTitle className="medium-font">
+              {t("popup.Settings.switch")}
+            </LftTitle>
             <div className="rht">
               <img src={Next} alt="" />
             </div>

@@ -167,7 +167,8 @@
       "MnemonicTips": "If you ever change browsers or move computers, you will need this Secret Recovery Phrase to access your accounts. Save them somewhere safe and secret.",
       "password": "Enter password to continue",
       "Cancel": "Cancel",
-      "Next": "Next"
+      "Next": "Next",
+      "switch": "Toggle Sidebar Mode"
     },
     "send": {
       "send": "Send",
