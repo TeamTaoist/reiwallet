@@ -16,6 +16,11 @@ const BoxOuter = styled.div`
   .up {
     text-transform: uppercase;
   }
+  .cursor {
+    cursor: pointer;
+    color: #01774a;
+    text-decoration: underline;
+  }
 `;
 
 const Box = styled.div`
@@ -109,6 +114,8 @@ export default function SwapHistory() {
             }
           });
 
+          console.log(arr);
+
           setList(arr);
           if (totalPage > page) {
             setPage(pageCur + 1);
@@ -174,6 +181,17 @@ export default function SwapHistory() {
                       <span className="name">{t("swap.Network")}</span>
                       <span>{item?.deposit?.network}</span>
                     </div>
+                    <div
+                      className="line"
+                      onClick={() =>
+                        toExplorer(item?.deposit?.address_explorer_url)
+                      }
+                    >
+                      <span className="name">{t("swap.walletAddress")}</span>
+                      <span className="cursor">
+                        {PublicJS.addressToShow(item?.deposit?.address)}
+                      </span>
+                    </div>
                   </li>
                   <li>
                     <div className="title">{t("swap.get")}</div>
@@ -186,6 +204,17 @@ export default function SwapHistory() {
                     <div className="line">
                       <span className="name">{t("swap.Network")}</span>
                       <span>{item?.withdrawal?.network}</span>
+                    </div>
+                    <div
+                      className="line"
+                      onClick={() =>
+                        toExplorer(item?.withdrawal?.address_explorer_url)
+                      }
+                    >
+                      <span className="name">{t("swap.walletAddress")}</span>
+                      <span className="cursor">
+                        {PublicJS.addressToShow(item?.withdrawal?.address)}
+                      </span>
                     </div>
                   </li>
                 </ul>

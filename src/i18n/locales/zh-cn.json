@@ -281,6 +281,7 @@
     "History": "历史记录",
     "sendY": "你发出的",
     "Amount": "数量",
-    "Network": "网络"
+    "Network": "网络",
+    "walletAddress": "接收方地址"
   }
 }
