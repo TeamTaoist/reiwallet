@@ -282,6 +282,7 @@
     "sendY": "你发出的",
     "Amount": "数量",
     "Network": "网络",
+    "Get": "得到",
     "walletAddress": "接收方地址"
   }
 }

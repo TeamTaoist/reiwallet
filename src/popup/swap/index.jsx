@@ -19,11 +19,24 @@ const BoxOuter = styled.div`
   background: #f9fafa;
   min-height: 100vh;
   position: relative;
+
   .rhtTop {
     position: absolute;
     right: 20px;
     top: 20px;
     cursor: pointer;
+  }
+
+  .up {
+    text-transform: uppercase;
+  }
+
+  .network {
+    background: rgb(125, 143, 211);
+    padding: 0 4px;
+    color: #fff;
+    font-size: 10px;
+    border-radius: 2px;
   }
 `;
 
@@ -47,8 +60,10 @@ const WhiteInput = styled.div`
   }
   .textSmall {
     font-size: 10px;
-    opacity: 0.6;
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
   .min {
     position: absolute;
@@ -317,7 +332,9 @@ export default function Swap() {
         <WhiteInput className={showError ? "err" : ""}>
           <LftBox>
             <div className="textSmall">
-              {t("swap.send")} {fromObj?.name}
+              {/*{t("swap.send")} {fromObj?.name}*/}
+              {t("swap.send")} <span className="up">{fromObj?.symbol}</span>
+              <span className="network">{fromObj?.network}</span>
             </div>
             <input
               type="text"
@@ -362,7 +379,11 @@ export default function Swap() {
 
         <WhiteInput2>
           <LftBox>
-            <div className="textSmall">Get {toObj?.name}</div>
+            <div className="textSmall">
+              {/*{t("swap.Get")} {toObj?.name}*/}
+              {t("swap.Get")} <span className="up">{toObj?.symbol}</span>
+              <span className="network">{toObj?.network}</span>
+            </div>
             <input type="text" placeholder="0" name="to" value={amountTo} />
           </LftBox>
           <SelectBox
@@ -379,7 +400,11 @@ export default function Swap() {
         </WhiteInput2>
         <WhiteInput>
           <LftBox>
-            <div className="textSmall">Get {toObj?.name}</div>
+            <div className="textSmall">
+              {/*{t("swap.Get")} {toObj?.name}*/}
+              {t("swap.Get")} <span className="up">{toObj?.symbol}</span>{" "}
+              <span className="network">{toObj?.network}</span>
+            </div>
             <input
               type="text"
               placeholder="Address"

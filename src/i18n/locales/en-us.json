@@ -282,6 +282,7 @@
     "sendY": "You Send",
     "Amount": "Amount",
     "Network": "Network",
+    "Get": "Get",
     "walletAddress": "Recipient Address"
   }
 }
