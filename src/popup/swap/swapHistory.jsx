@@ -192,6 +192,19 @@ export default function SwapHistory() {
                         {PublicJS.addressToShow(item?.deposit?.address)}
                       </span>
                     </div>
+                    {!!item?.deposit?.tx_hash && (
+                      <div
+                        className="line"
+                        onClick={() =>
+                          toExplorer(item?.deposit?.tx_explorer_url)
+                        }
+                      >
+                        <span className="name">Input hash</span>
+                        <span className="cursor">
+                          {PublicJS.addressToShow(item?.deposit?.tx_hash)}
+                        </span>
+                      </div>
+                    )}
                   </li>
                   <li>
                     <div className="title">{t("swap.get")}</div>
@@ -205,6 +218,7 @@ export default function SwapHistory() {
                       <span className="name">{t("swap.Network")}</span>
                       <span>{item?.withdrawal?.network}</span>
                     </div>
+
                     <div
                       className="line"
                       onClick={() =>
@@ -216,6 +230,19 @@ export default function SwapHistory() {
                         {PublicJS.addressToShow(item?.withdrawal?.address)}
                       </span>
                     </div>
+                    {!!item?.withdrawal?.tx_hash && (
+                      <div
+                        className="line"
+                        onClick={() =>
+                          toExplorer(item?.withdrawal?.tx_explorer_url)
+                        }
+                      >
+                        <span className="name">Output Hash</span>
+                        <span className="cursor">
+                          {PublicJS.addressToShow(item?.withdrawal?.tx_hash)}
+                        </span>
+                      </div>
+                    )}
                   </li>
                 </ul>
               </dd>
