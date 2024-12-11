@@ -1,3 +1,29 @@
+# [0.5.0](https://github.com/TeamTaoist/reiwallet/compare/v0.4.2...v0.5.0) (2024-12-11)
+
+
+### Bug Fixes
+
+* add recipient address to swap ([e426662](https://github.com/TeamTaoist/reiwallet/commit/e426662d84451c0b87f0b4fd775cdcb3a29025d7))
+* update hash in swap ([39d5527](https://github.com/TeamTaoist/reiwallet/commit/39d5527d1b1aa3fc2d50b69bf222af55441dc4b3))
+* update id in exchange ([c48b741](https://github.com/TeamTaoist/reiwallet/commit/c48b74193c3215f3f06a78acbc1dbeb88611ab32))
+* update name in swap ([f46ef63](https://github.com/TeamTaoist/reiwallet/commit/f46ef63dda48e98748785094825876368b4d3c67))
+* update search in swap ([c1ba92b](https://github.com/TeamTaoist/reiwallet/commit/c1ba92b6271416441116edf6052c99c017f6aa3e))
+* update tips in swap ([534cf56](https://github.com/TeamTaoist/reiwallet/commit/534cf56ec5cb12092a6a0919c28ed3aa67185536))
+* update translation ([5c042f6](https://github.com/TeamTaoist/reiwallet/commit/5c042f6c468d7fcdafd92966fccc00b4d01471ca))
+
+
+### Features
+
+* add api ([d652a46](https://github.com/TeamTaoist/reiwallet/commit/d652a46d39ba6fd9a2abf026f3740e1b960194e8))
+* add context menu ([0687a81](https://github.com/TeamTaoist/reiwallet/commit/0687a815f9acfc06e284bc04c61977d86adeae40))
+* add side panel & price ([b53962f](https://github.com/TeamTaoist/reiwallet/commit/b53962f3c812497226ad17b90aee6aa83ddd9bd3))
+* add stealthEX UI ([3fe6f28](https://github.com/TeamTaoist/reiwallet/commit/3fe6f28331c9d0cc9990d9b13412503eda039fc2))
+* add swap history & api ([0898744](https://github.com/TeamTaoist/reiwallet/commit/0898744a5387a8b3233e839c0cbf4b540a5dcf37))
+* update confirm ([f6fbf6d](https://github.com/TeamTaoist/reiwallet/commit/f6fbf6dc1623b7ad782b7e30043aada8d5b19306))
+* update list ([0e360d9](https://github.com/TeamTaoist/reiwallet/commit/0e360d9722fcd408c676324dfcf4be0ed3b2b2ba))
+
+
+
 ## [0.4.2](https://github.com/TeamTaoist/reiwallet/compare/v0.4.1...v0.4.2) (2024-11-25)
 
 
