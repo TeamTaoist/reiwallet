@@ -25,6 +25,7 @@ const Title = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
   .total {
     font-size: 28px;
     font-weight: 500;
@@ -44,8 +45,15 @@ const Title = styled.div`
     line-height: 1.5em;
     opacity: 0.4;
   }
+
   .subTitle {
     font-size: 12px;
+  }
+
+  .price {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #01774a;
   }
 `;
 
@@ -82,7 +90,8 @@ const FlexBox = styled.div`
 export default function Balance() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { balance, balanceLoading, available, symbol, occupied } = useBalance();
+  const { balance, balanceLoading, available, symbol, occupied, price } =
+    useBalance();
   const { network } = useNetwork();
 
   const toSend = () => {
@@ -119,6 +128,7 @@ export default function Balance() {
               </div>
             </>
           )}
+          <div className="subTitle price">$ {price}</div>
         </Title>
       )}
       <FlexBox>
@@ -126,13 +136,13 @@ export default function Balance() {
           <img src={SengImg} />
           <span>{t("popup.account.send")}</span>
         </div>
-        {/*<div*/}
-        {/*  className={network === "testnet" ? "btnLink disabled" : "btnLink"}*/}
-        {/*  onClick={() => handleExchange()}*/}
-        {/*>*/}
-        {/*  <img src={SwapImg} />*/}
-        {/*  <span>{t("popup.Swap")}</span>*/}
-        {/*</div>*/}
+        <div
+          className={network === "testnet" ? "btnLink disabled" : "btnLink"}
+          onClick={() => handleExchange()}
+        >
+          <img src={SwapImg} />
+          <span>{t("popup.Swap")}</span>
+        </div>
       </FlexBox>
 
       {/*<FlexBox onClick={()=>toHaste()}><span>haste</span>.pro &gt;</FlexBox>*/}

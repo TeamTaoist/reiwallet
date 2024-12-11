@@ -3,6 +3,7 @@ import useAccountAddress from "./useAccountAddress";
 import { useEffect, useState } from "react";
 import { formatUnit, BI } from "@ckb-lumos/bi";
 import useMessage from "./useMessage";
+import BigNumber from "bignumber.js";
 
 export default function useBalance() {
   const { networkInfo } = useNetwork();
@@ -11,6 +12,7 @@ export default function useBalance() {
   const [balance, setBalance] = useState("--");
   const [occupied, setOccupied] = useState("--");
   const [available, setAvailable] = useState("--");
+  const [price, setPrice] = useState("--");
 
   const handleEvent = (message) => {
     const { type } = message;
@@ -27,6 +29,11 @@ export default function useBalance() {
     } else if (type === "get_capacity_error") {
       setLoading(false);
       // FIXME: handle error [F]
+    } else if (type === "get_price_success") {
+      const { result, balance } = message.data;
+      const price = result[0]?.last;
+      const newPrice = new BigNumber(price).multipliedBy(balance);
+      setPrice(newPrice.toFixed(2));
     }
   };
 
@@ -53,10 +60,33 @@ export default function useBalance() {
     };
     sendMsg(obj);
   };
+
+  useEffect(() => {
+    if (balance === "--") return;
+    getPrice();
+
+    const timer = setInterval(() => {
+      getPrice();
+    }, 10 * 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [balance]);
+
+  const getPrice = () => {
+    let obj = {
+      method: "get_price",
+      balance,
+    };
+    sendMsg(obj);
+  };
+
   return {
     balance,
     occupied,
     available,
+    price,
     balanceLoading: loading,
     symbol: networkInfo?.nativeCurrency?.symbol,
   };

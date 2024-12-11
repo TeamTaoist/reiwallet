@@ -167,7 +167,8 @@
       "MnemonicTips": "如果您更换浏览器或更换电脑，您将需要这个助记词来访问您的账户。请将它们存放在安全而隐秘的地方。",
       "password": "输入密码以继续",
       "Cancel": "取消",
-      "Next": "下一步"
+      "Next": "下一步",
+      "switch": "切换侧边栏模式"
     },
     "send": {
       "send": "发送",
@@ -267,5 +268,21 @@
     "Gas": "Gas",
     "Owner": "Owner",
     "Type": "种类"
+  },
+  "swap": {
+    "available": "可用",
+    "MAX": "全部",
+    "send": "发送",
+    "minimum": "最低金额",
+    "Confirm": "确认",
+    "Estimating": "估算",
+    "get": "你得到的",
+    "popular": "流行货币",
+    "History": "历史记录",
+    "sendY": "你发出的",
+    "Amount": "数量",
+    "Network": "网络",
+    "Get": "得到",
+    "walletAddress": "接收方地址"
   }
 }

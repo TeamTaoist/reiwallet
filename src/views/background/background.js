@@ -45,6 +45,27 @@ async function init() {
   // var open = indexedDB.open(dbName, 1);
 
   /*global chrome*/
+  chrome.windows.onCreated.addListener((e) => {
+    getSide();
+  });
+
+  chrome.contextMenus.create({
+    title: "Toggle Sidebar Mode",
+    id: "sep1",
+    contexts: ["all"],
+  });
+
+  chrome.contextMenus.onClicked.addListener(async (e) => {
+    if (e.menuItemId === "sep1") {
+      let rt = await chrome.storage.local.get(["openSidePanel"]);
+      let result = rt.openSidePanel ?? false;
+
+      await chrome.storage.local.set({ openSidePanel: !result });
+      handleSide(!result);
+    }
+  });
+
+  /*global chrome*/
   chrome.runtime.onInstalled.addListener((e) => {
     console.log("onInstalled", e);
     if (e && e.reason && e.reason === "install") {
@@ -79,3 +100,24 @@ async function init() {
 }
 
 init();
+
+const handleSide = async (result) => {
+  /*global chrome*/
+  await chrome.sidePanel.setOptions({
+    path: "popup.html",
+    enabled: result,
+  });
+
+  chrome.sidePanel
+    .setPanelBehavior({ openPanelOnActionClick: result })
+    .catch((error) => console.error(error));
+};
+
+const getSide = async () => {
+  /*global chrome*/
+  let rt = await chrome.storage.local.get(["openSidePanel"]);
+
+  let result = rt.openSidePanel ?? false;
+
+  await handleSide(result);
+};
