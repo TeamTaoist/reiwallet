@@ -1,3 +1,44 @@
+## [0.4.2](https://github.com/TeamTaoist/reiwallet/compare/v0.4.1...v0.4.2) (2024-11-25)
+
+
+### Bug Fixes
+
+* remove partners ([a97363e](https://github.com/TeamTaoist/reiwallet/commit/a97363e56b4ce818809430efae6dd3fb54d38048))
+* remove stealthEx ([0319df7](https://github.com/TeamTaoist/reiwallet/commit/0319df7057fad8b44c1738132f57ae57dff07f13))
+* update manifest with CSP ([4e7641b](https://github.com/TeamTaoist/reiwallet/commit/4e7641b789ee296af7cd6a1b711cc3ee4cf7ce85))
+
+
+
+## [0.4.1](https://github.com/TeamTaoist/reiwallet/compare/v0.4.0...v0.4.1) (2024-11-22)
+
+
+### Bug Fixes
+
+* update ui with xudt ([53979c6](https://github.com/TeamTaoist/reiwallet/commit/53979c65c50304fbd2b7623d54bd3d252193477c))
+
+
+
+# [0.4.0](https://github.com/TeamTaoist/reiwallet/compare/v0.3.15...v0.4.0) (2024-11-22)
+
+
+### Bug Fixes
+
+* remove test code ([33dbc56](https://github.com/TeamTaoist/reiwallet/commit/33dbc56d876ab27fb111a6e883f2e2b499c9915e))
+* remove useless code ([80cbabd](https://github.com/TeamTaoist/reiwallet/commit/80cbabda02cc7e0085db2dbf9620a49e0c5740e1))
+* update did ([6484378](https://github.com/TeamTaoist/reiwallet/commit/648437852211299ffd4d4534c69d6125c590b504))
+* update inject with google.com ([8c918e7](https://github.com/TeamTaoist/reiwallet/commit/8c918e71affa9a02655d2da26961d0c3bd2ad17f))
+* update inject with google.com ([be5c48f](https://github.com/TeamTaoist/reiwallet/commit/be5c48f9cb280c81d3d90cff7dddb3e1e89486a0))
+* update minimal Capacity ([b98cdff](https://github.com/TeamTaoist/reiwallet/commit/b98cdff6bafde94dd11aba508542b42a562c85ef))
+* update send with max ([902afd1](https://github.com/TeamTaoist/reiwallet/commit/902afd1cca1a6e173013b646f4c38f245007538c))
+* update source map ([68c2530](https://github.com/TeamTaoist/reiwallet/commit/68c2530e3551b291be822c7510078f77a8fc54f9))
+
+
+### Features
+
+* add stealthex ([12e4cbb](https://github.com/TeamTaoist/reiwallet/commit/12e4cbbcee1f7ed005bb5b654babb581ee3a74b0))
+
+
+
 ## [0.3.15](https://github.com/TeamTaoist/reiwallet/compare/v0.3.14...v0.3.15) (2024-09-25)
 
 

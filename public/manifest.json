@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "REI wallet",
   "short_name": "REI wallet",
-  "version": "0.3.15",
+  "version": "0.4.2",
   "description": "Track and manage all your CKB assets effortlessly with REI Wallet – your one-stop solution for convenient CKB asset management.",
   "icons": {
     "128": "logoIcon.png"
@@ -11,7 +11,6 @@
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
   },
   "permissions": ["storage", "activeTab", "tabs", "sidePanel", "contextMenus"],
-
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -20,8 +19,13 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["/content_script/inject.js", "/images/logo.png"],
-      "matches": ["<all_urls>"],
+      "resources": [
+        "/content_script/inject.js",
+        "/images/logo.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ],
       "all_frames": true
     }
   ],
@@ -29,7 +33,9 @@
     {
       "js": [],
       "css": [],
-      "matches": ["<all_urls>"],
+      "matches": [
+        "<all_urls>"
+      ],
       "all_frames": true,
       "run_at": "document_start"
     }
