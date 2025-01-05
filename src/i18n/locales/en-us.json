@@ -254,6 +254,9 @@
       "Description": "Description",
       "Send": "Send",
       "Type": "Type"
+    },
+    "donate": {
+      "donate": "Donate"
     }
   },
   "notification": {

@@ -7,11 +7,13 @@ import NetworkList from "../network/networkList";
 import { useEffect, useState } from "react";
 import useNetwork from "../../hooks/useNetwork";
 import Loading from "../loading/loading";
+import { HandCoins } from "lucide-react";
 
 const HeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
   padding: 10px 20px;
 `;
 const LogoImg = styled.div`
@@ -21,7 +23,7 @@ const LogoImg = styled.div`
   }
 `;
 const InputBox = styled.div`
-  width: 218px;
+  width: 190px;
   box-sizing: border-box;
   padding: 0 13px 0 18px;
   height: 36px;
@@ -32,6 +34,12 @@ const InputBox = styled.div`
   justify-content: space-between;
   cursor: pointer;
   font-size: 14px;
+`;
+
+const RhtBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 const MoreBox = styled.div`
   width: 24px;
@@ -92,9 +100,14 @@ export default function HeaderTop() {
         {netList[current]?.name}
         <img src={DropImg} alt="" />
       </InputBox>
-      <MoreBox>
-        <img src={More} alt="" onClick={() => toSetting()} />
-      </MoreBox>
+      <RhtBox>
+        <div>
+          <HandCoins color="#62ba46" onClick={() => navigate("/donate")} />
+        </div>
+        <MoreBox>
+          <img src={More} alt="" onClick={() => toSetting()} />
+        </MoreBox>
+      </RhtBox>
     </HeaderBox>
   );
 }
