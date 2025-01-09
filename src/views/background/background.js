@@ -49,12 +49,6 @@ async function init() {
     getSide();
   });
 
-  chrome.contextMenus.create({
-    title: "Toggle Sidebar Mode",
-    id: "sep1",
-    contexts: ["all"],
-  });
-
   chrome.contextMenus.onClicked.addListener(async (e) => {
     if (e.menuItemId === "sep1") {
       let rt = await chrome.storage.local.get(["openSidePanel"]);
@@ -68,12 +62,18 @@ async function init() {
   /*global chrome*/
   chrome.runtime.onInstalled.addListener((e) => {
     console.log("onInstalled", e);
+
     if (e && e.reason && e.reason === "install") {
       const privacyUrl = chrome.runtime.getURL("install.html");
       chrome.tabs.create({
         url: privacyUrl,
       });
     }
+    chrome.contextMenus.create({
+      title: "Toggle Sidebar Mode",
+      id: "sep1",
+      contexts: ["all"],
+    });
   });
 
   /*global chrome*/
