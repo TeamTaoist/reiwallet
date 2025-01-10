@@ -254,6 +254,9 @@
       "Description": "描述",
       "Send": "发送",
       "Type": "类型"
+    },
+    "donate": {
+      "donate": "捐赠"
     }
   },
   "notification": {

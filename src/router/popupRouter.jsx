@@ -34,6 +34,7 @@ import Swap from "../popup/swap";
 import CurrencyList from "../popup/swap/CurrencyList";
 import SwapConfirm from "../popup/swap/swapConfirm";
 import SwapHistory from "../popup/swap/swapHistory";
+import Donate from "../popup/donate/donate";
 
 function PopupRouterLink() {
   return (
@@ -83,6 +84,7 @@ function PopupRouterLink() {
       <Route path="/swapConfirm" element={<SwapConfirm />} />
       <Route path="/currencyList" element={<CurrencyList />} />
       <Route path="/swapHistory" element={<SwapHistory />} />
+      <Route path="/donate" element={<Donate />} />
     </Routes>
   );
 }
