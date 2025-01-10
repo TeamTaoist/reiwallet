@@ -10,6 +10,7 @@ import SendStep2 from "../send/sendStep2";
 import Loading from "../loading/loading";
 import Toast from "../modal/toast";
 import DonateStep1 from "./donateStep1";
+import { donateAddress } from "../../config/constants";
 
 const Box = styled.div`
   display: flex;
@@ -24,7 +25,7 @@ export default function Donate() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [amount, setAmount] = useState(0);
-  const address = process.env.REACT_APP_DONATE;
+  const address = donateAddress;
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isMax, setIsMax] = useState(false);

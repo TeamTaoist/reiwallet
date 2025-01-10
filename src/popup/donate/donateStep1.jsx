@@ -11,6 +11,7 @@ import useAccountAddress from "../../hooks/useAccountAddress";
 import Wallet from "../../wallet/wallet";
 import { minimalScriptCapacity } from "@ckb-lumos/helpers";
 import { BI } from "@ckb-lumos/lumos";
+import { donateAddress } from "../../config/constants";
 
 const ContentBox = styled.div`
   flex-grow: 1;
@@ -177,7 +178,7 @@ export default function DonateStep1({ toDetail, fee }) {
   const [amount, setAmount] = useState("");
   const { t } = useTranslation();
   const { available, balanceLoading, symbol } = useBalance();
-  const address = process.env.REACT_APP_DONATE;
+  const address = donateAddress;
   const [isMax, setIsMax] = useState(false);
   const [search] = useSearchParams();
   const sendTo = search.get("sendTo");

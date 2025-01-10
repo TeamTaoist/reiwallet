@@ -44,3 +44,6 @@ export const stealthEx_Server = {
   mainnet: "https://stealthex-api.caboroca.xyz",
   testnet: "",
 };
+
+export const donateAddress =
+  "ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqffhf7ry28ds0aew6u3meft2wxke84yqlsrlystk";
