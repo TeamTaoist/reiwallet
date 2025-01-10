@@ -101,9 +101,12 @@ export default function HeaderTop() {
         <img src={DropImg} alt="" />
       </InputBox>
       <RhtBox>
-        <div>
-          <HandCoins color="#62ba46" onClick={() => navigate("/donate")} />
-        </div>
+        {network !== "testnet" && (
+          <div>
+            <HandCoins color="#62ba46" onClick={() => navigate("/donate")} />
+          </div>
+        )}
+
         <MoreBox>
           <img src={More} alt="" onClick={() => toSetting()} />
         </MoreBox>
