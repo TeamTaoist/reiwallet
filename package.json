@@ -137,7 +137,7 @@
     "@spore-sdk/core": "0.2.0",
     "@stealthex-io/widget": "^1.0.1",
     "@svgr/webpack": "^5.5.0",
-    "@taoist-labs/dob-decoder": "^0.1.8",
+    "@taoist-labs/dob-decoder": "^0.1.9",
     "axios": "^1.7.7",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
